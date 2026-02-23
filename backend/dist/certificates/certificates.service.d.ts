@@ -6,8 +6,8 @@ export declare class CertificatesService {
         id: string;
         tournamentId: string | null;
         teamId: string | null;
-        type: string;
         playerId: string | null;
+        type: string;
         recipientName: string;
         sportName: string | null;
         tournamentName: string | null;
@@ -20,8 +20,8 @@ export declare class CertificatesService {
         id: string;
         tournamentId: string | null;
         teamId: string | null;
-        type: string;
         playerId: string | null;
+        type: string;
         recipientName: string;
         sportName: string | null;
         tournamentName: string | null;
@@ -36,8 +36,8 @@ export declare class CertificatesService {
             id: string;
             tournamentId: string | null;
             teamId: string | null;
-            type: string;
             playerId: string | null;
+            type: string;
             recipientName: string;
             sportName: string | null;
             tournamentName: string | null;
@@ -63,8 +63,8 @@ export declare class CertificatesService {
         id: string;
         tournamentId: string | null;
         teamId: string | null;
-        type: string;
         playerId: string | null;
+        type: string;
         recipientName: string;
         sportName: string | null;
         tournamentName: string | null;
@@ -81,8 +81,8 @@ export declare class CertificatesService {
         id: string;
         tournamentId: string | null;
         teamId: string | null;
-        type: string;
         playerId: string | null;
+        type: string;
         recipientName: string;
         sportName: string | null;
         tournamentName: string | null;

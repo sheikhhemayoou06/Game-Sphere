@@ -312,11 +312,11 @@ export declare class TeamsController {
             updatedAt: Date;
             name: string;
             sportId: string;
-            status: string;
-            level: string;
             organizerId: string;
             description: string | null;
+            level: string;
             format: string;
+            status: string;
             maxTeams: number;
             squadSize: number;
             registrationFee: number;
@@ -370,9 +370,9 @@ export declare class TeamsController {
             id: string;
             seed: number | null;
             status: string;
-            registeredAt: Date;
             tournamentId: string;
             teamId: string;
+            registeredAt: Date;
         })[];
         manager: {
             id: string;

@@ -66,9 +66,9 @@ export declare class TeamsService {
             id: string;
             seed: number | null;
             status: string;
-            registeredAt: Date;
             tournamentId: string;
             teamId: string;
+            registeredAt: Date;
         })[];
         manager: {
             id: string;

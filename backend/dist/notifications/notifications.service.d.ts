@@ -6,9 +6,9 @@ export declare class NotificationsService {
         id: string;
         createdAt: Date;
         userId: string;
+        message: string;
         type: string;
         title: string;
-        message: string;
         link: string | null;
         read: boolean;
         readAt: Date | null;
@@ -18,9 +18,9 @@ export declare class NotificationsService {
         id: string;
         createdAt: Date;
         userId: string;
+        message: string;
         type: string;
         title: string;
-        message: string;
         link: string | null;
         read: boolean;
         readAt: Date | null;
@@ -36,9 +36,9 @@ export declare class NotificationsService {
         id: string;
         createdAt: Date;
         userId: string;
+        message: string;
         type: string;
         title: string;
-        message: string;
         link: string | null;
         read: boolean;
         readAt: Date | null;
@@ -47,9 +47,9 @@ export declare class NotificationsService {
         id: string;
         createdAt: Date;
         userId: string;
+        message: string;
         type: string;
         title: string;
-        message: string;
         link: string | null;
         read: boolean;
         readAt: Date | null;
