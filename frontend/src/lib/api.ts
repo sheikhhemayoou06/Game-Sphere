@@ -31,12 +31,23 @@ export const api = {
         request<any>('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
     login: (data: { email: string; password: string }) =>
         request<any>('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
+    sendOtp: (data: { phone: string }) =>
+        request<any>('/auth/send-otp', { method: 'POST', body: JSON.stringify(data) }),
+    verifyOtp: (data: { phone: string; otp: string }) =>
+        request<any>('/auth/verify-otp', { method: 'POST', body: JSON.stringify(data) }),
     getProfile: () => request<any>('/auth/profile'),
 
     // Sports
     getSports: () => request<any[]>('/sports'),
     getSport: (id: string) => request<any>(`/sports/${id}`),
     seedSports: () => request<any>('/sports/seed', { method: 'POST' }),
+
+    // Search
+    globalSearch: (query: string, sportId?: string) => {
+        const params = new URLSearchParams({ q: query });
+        if (sportId && sportId !== 'ALL') params.append('sportId', sportId);
+        return request<any>(`/search?${params.toString()}`);
+    },
 
     // Tournaments
     getTournaments: (params?: Record<string, string>) => {
@@ -143,12 +154,20 @@ export const api = {
     getTournamentAuction: (id: string) => request<any>(`/tournaments/${id}/auction`),
     createAuction: (id: string, teamBudget?: number) =>
         request<any>(`/tournaments/${id}/auction`, { method: 'POST', body: JSON.stringify({ teamBudget }) }),
-    addAuctionPlayer: (id: string, auctionId: string, body: { playerId: string; basePrice?: number }) =>
-        request<any>(`/tournaments/${id}/auction/${auctionId}/players`, { method: 'POST', body: JSON.stringify(body) }),
-    placeBid: (id: string, auctionPlayerId: string, body: { teamId: string; amount: number }) =>
-        request<any>(`/tournaments/${id}/auction/players/${auctionPlayerId}/bid`, { method: 'PUT', body: JSON.stringify(body) }),
-    sellAuctionPlayer: (id: string, auctionPlayerId: string, body: { teamId: string; soldPrice: number }) =>
-        request<any>(`/tournaments/${id}/auction/players/${auctionPlayerId}/sell`, { method: 'PUT', body: JSON.stringify(body) }),
+    updateAuctionStatus: (auctionId: string, status: string) =>
+        request<any>(`/auctions/${auctionId}/status`, { method: 'PUT', body: JSON.stringify({ status }) }),
+    addAuctionPlayer: (auctionId: string, playerId: string, basePrice?: number) =>
+        request<any>(`/auctions/${auctionId}/players`, { method: 'POST', body: JSON.stringify({ playerId, basePrice }) }),
+    approvePlayer: (auctionPlayerId: string) =>
+        request<any>(`/auctions/players/${auctionPlayerId}/approve`, { method: 'PUT' }),
+    startBidding: (auctionPlayerId: string) =>
+        request<any>(`/auctions/players/${auctionPlayerId}/start`, { method: 'PUT' }),
+    sellPlayer: (auctionPlayerId: string, teamId: string, amount: number) =>
+        request<any>(`/auctions/players/${auctionPlayerId}/sell`, { method: 'PUT', body: JSON.stringify({ teamId, soldPrice: amount }) }),
+    markUnsold: (auctionPlayerId: string) =>
+        request<any>(`/auctions/players/${auctionPlayerId}/unsold`, { method: 'PUT' }),
+    placeBid: (auctionPlayerId: string, teamId: string, amount: number) =>
+        request<any>(`/auctions/players/${auctionPlayerId}/bid`, { method: 'PUT', body: JSON.stringify({ teamId, amount }) }),
 
     // Tournament Chat
     getTournamentChat: (id: string) => request<any[]>(`/tournaments/${id}/chat`),
@@ -159,4 +178,10 @@ export const api = {
     getTournamentMedia: (id: string) => request<any[]>(`/tournaments/${id}/media`),
     addTournamentMedia: (id: string, body: { type: string; title: string; description?: string; url: string }) =>
         request<any>(`/tournaments/${id}/media`, { method: 'POST', body: JSON.stringify(body) }),
+
+    // Player Sports (per-sport IDs)
+    getPlayerSports: (playerId: string) =>
+        request<any[]>(`/players/${playerId}/sports`),
+    registerPlayerSport: (playerId: string, sportId: string) =>
+        request<any>(`/players/${playerId}/sports`, { method: 'POST', body: JSON.stringify({ sportId }) }),
 };

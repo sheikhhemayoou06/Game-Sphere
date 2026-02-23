@@ -2,8 +2,39 @@ import { PrismaService } from '../prisma/prisma.service';
 export declare class AuctionsService {
     private prisma;
     constructor(prisma: PrismaService);
-    getAuction(tournamentId: string): Promise<({
+    getAuction(tournamentId: string): Promise<{
+        teamPurses: {
+            teamId: string;
+            teamName: string;
+            logo: string | null;
+            spent: number;
+            remainingPurse: number;
+            playersBought: number;
+        }[];
         players: ({
+            player: {
+                user: {
+                    firstName: string;
+                    lastName: string;
+                    avatar: string | null;
+                };
+            } & {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                sportsId: string;
+                dateOfBirth: Date | null;
+                gender: string | null;
+                city: string | null;
+                state: string | null;
+                country: string;
+                primarySport: string | null;
+                bio: string | null;
+                totalMatches: number;
+                totalWins: number;
+                careerStats: string | null;
+                userId: string;
+            };
             bids: {
                 id: string;
                 createdAt: Date;
@@ -16,19 +47,18 @@ export declare class AuctionsService {
             createdAt: Date;
             status: string;
             playerId: string;
+            auctionId: string;
             basePrice: number;
             soldPrice: number | null;
             soldToTeamId: string | null;
-            auctionId: string;
         })[];
-    } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
         status: string;
         tournamentId: string;
         teamBudget: number;
-    }) | null>;
+    } | null>;
     createAuction(tournamentId: string, teamBudget?: number): Promise<{
         id: string;
         createdAt: Date;
@@ -50,30 +80,30 @@ export declare class AuctionsService {
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
     approvePlayer(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
     startBidding(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
     placeBid(auctionPlayerId: string, teamId: string, amount: number): Promise<{
         id: string;
@@ -87,19 +117,19 @@ export declare class AuctionsService {
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
     markUnsold(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
 }

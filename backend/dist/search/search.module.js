@@ -6,19 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TeamsModule = void 0;
+exports.SearchModule = void 0;
 const common_1 = require("@nestjs/common");
-const teams_service_1 = require("./teams.service");
-const teams_controller_1 = require("./teams.controller");
-const owner_dashboard_service_1 = require("./owner-dashboard.service");
-let TeamsModule = class TeamsModule {
+const search_service_1 = require("./search.service");
+const search_controller_1 = require("./search.controller");
+const prisma_service_1 = require("../prisma/prisma.service");
+let SearchModule = class SearchModule {
 };
-exports.TeamsModule = TeamsModule;
-exports.TeamsModule = TeamsModule = __decorate([
+exports.SearchModule = SearchModule;
+exports.SearchModule = SearchModule = __decorate([
     (0, common_1.Module)({
-        controllers: [teams_controller_1.TeamsController],
-        providers: [teams_service_1.TeamsService, owner_dashboard_service_1.OwnerDashboardService],
-        exports: [teams_service_1.TeamsService],
+        providers: [search_service_1.SearchService, prisma_service_1.PrismaService],
+        controllers: [search_controller_1.SearchController]
     })
-], TeamsModule);
-//# sourceMappingURL=teams.module.js.map
+], SearchModule);
+//# sourceMappingURL=search.module.js.map

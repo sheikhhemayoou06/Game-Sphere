@@ -20,5 +20,17 @@ export declare class AuthController {
         user: any;
         accessToken: string;
     }>;
+    sendOtp(dto: {
+        phone: string;
+    }): Promise<{
+        message: string;
+    }>;
+    verifyOtp(dto: {
+        phone: string;
+        otp: string;
+    }): Promise<{
+        user: any;
+        accessToken: string;
+    }>;
     getProfile(req: any): Promise<any>;
 }

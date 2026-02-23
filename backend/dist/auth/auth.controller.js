@@ -27,6 +27,12 @@ let AuthController = class AuthController {
     async login(dto) {
         return this.authService.login(dto);
     }
+    async sendOtp(dto) {
+        return this.authService.sendOtp(dto);
+    }
+    async verifyOtp(dto) {
+        return this.authService.verifyOtp(dto);
+    }
     async getProfile(req) {
         return this.authService.getProfile(req.user.sub);
     }
@@ -46,6 +52,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('send-otp'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "sendOtp", null);
+__decorate([
+    (0, common_1.Post)('verify-otp'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "verifyOtp", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('profile'),

@@ -2,8 +2,39 @@ import { AuctionsService } from './auctions.service';
 export declare class AuctionsController {
     private auctionsService;
     constructor(auctionsService: AuctionsService);
-    getAuction(tournamentId: string): Promise<({
+    getAuction(tournamentId: string): Promise<{
+        teamPurses: {
+            teamId: string;
+            teamName: string;
+            logo: string | null;
+            spent: number;
+            remainingPurse: number;
+            playersBought: number;
+        }[];
         players: ({
+            player: {
+                user: {
+                    firstName: string;
+                    lastName: string;
+                    avatar: string | null;
+                };
+            } & {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                sportsId: string;
+                dateOfBirth: Date | null;
+                gender: string | null;
+                city: string | null;
+                state: string | null;
+                country: string;
+                primarySport: string | null;
+                bio: string | null;
+                totalMatches: number;
+                totalWins: number;
+                careerStats: string | null;
+                userId: string;
+            };
             bids: {
                 id: string;
                 createdAt: Date;
@@ -16,19 +47,18 @@ export declare class AuctionsController {
             createdAt: Date;
             status: string;
             playerId: string;
+            auctionId: string;
             basePrice: number;
             soldPrice: number | null;
             soldToTeamId: string | null;
-            auctionId: string;
         })[];
-    } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
         status: string;
         tournamentId: string;
         teamBudget: number;
-    }) | null>;
+    } | null>;
     createAuction(tournamentId: string, teamBudget?: number): Promise<{
         id: string;
         createdAt: Date;
@@ -53,20 +83,20 @@ export declare class AuctionsController {
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
     approvePlayer(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
     placeBid(apId: string, body: {
         teamId: string;
@@ -86,19 +116,19 @@ export declare class AuctionsController {
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
     markUnsold(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
         status: string;
         playerId: string;
+        auctionId: string;
         basePrice: number;
         soldPrice: number | null;
         soldToTeamId: string | null;
-        auctionId: string;
     }>;
 }

@@ -17,7 +17,7 @@ model User {
   firstName     String
   lastName      String
   role          String   @default("PLAYER")
-  phone         String?
+  phone         String?  @unique
   avatar        String?
   isVerified    Boolean  @default(false)
   createdAt     DateTime @default(now())
@@ -49,6 +49,8 @@ model Player {
   user            User     @relation(fields: [userId], references: [id])
   teamPlayers     TeamPlayer[]
   matchScores     MatchPlayerStat[]
+  auctions        AuctionPlayer[]
+  playerSports    PlayerSport[]
 }
 
 model Sport {
@@ -70,6 +72,20 @@ model Sport {
   tournaments     Tournament[]
   matches         Match[]
   teams           Team[]
+  playerSports    PlayerSport[]
+}
+
+model PlayerSport {
+  id        String   @id @default(uuid())
+  playerId  String
+  sportId   String
+  sportCode String   @unique
+  createdAt DateTime @default(now())
+
+  player    Player   @relation(fields: [playerId], references: [id])
+  sport     Sport    @relation(fields: [sportId], references: [id])
+
+  @@unique([playerId, sportId])
 }
 
 model Tournament {
@@ -349,6 +365,7 @@ model AuctionPlayer {
   createdAt       DateTime @default(now())
 
   auction         Auction  @relation(fields: [auctionId], references: [id])
+  player          Player   @relation(fields: [playerId], references: [id])
   bids            AuctionBid[]
 
   @@unique([auctionId, playerId])

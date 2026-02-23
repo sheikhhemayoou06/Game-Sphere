@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { roleLabels, sportIcons, sportColors, formatDate } from '@/lib/utils';
+import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trophy, Medal, IdCard, Siren, Dumbbell, Calendar, MessageSquare, Gavel, CreditCard, Bell, HelpCircle, LayoutGrid, BarChart3, Settings, ShieldCheck, FileText, DollarSign, Upload, Package, Gem, Landmark, Award, ArrowLeftRight, FileCheck, CircleDot, Zap, Pen, Camera, Search as SearchIcon } from 'lucide-react';
+import SportIcon from '@/components/SportIcon';
 
 /* ═══════════════════════════════════════════════════════════════
    SPORT-SPECIFIC MOCK DATA
@@ -199,105 +201,105 @@ function getRoleGroup(role: string): RoleGroup {
 
 // ─── PLAYER: Sports-focused, personal experience ───
 const PLAYER_CARDS = [
-    { href: '/tournaments', label: 'Tournaments', desc: 'Browse & join events', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-    { href: '/leaderboard', label: 'Leaderboard', desc: 'Your rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-    { href: '/profile', label: 'My Profile', desc: 'Universal Sports ID', icon: '🆔', gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
-    { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: '🔴', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
-    { href: '/training', label: 'Training', desc: 'Coaching programs', icon: '🏋️', gradient: 'linear-gradient(135deg, #115e59, #14b8a6)' },
-    { href: '/certificates', label: 'Certificates', desc: 'Your achievements', icon: '🏅', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
-    { href: '/teams', label: 'My Team', desc: 'Roster & teammates', icon: '⚡', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/calendar', label: 'Calendar', desc: 'Upcoming events', icon: '📅', gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
-    { href: '/messages', label: 'Messages', desc: 'Chat with team', icon: '💬', gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
-    { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: '🔨', gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
-    { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: '💳', gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
-    { href: '/notifications', label: 'Notifications', desc: 'Activity alerts', icon: '🔔', gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
-    { href: '/help', label: 'Help & Support', desc: 'FAQ & contact', icon: '🤝', gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
+    { href: '/tournaments', label: 'Tournaments', desc: 'Browse & join events', icon: <Trophy size={36} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+    { href: '/leaderboard', label: 'Leaderboard', desc: 'Your rankings', icon: <Medal size={36} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+    { href: '/profile', label: 'My Profile', desc: 'Universal Sports ID', icon: <IdCard size={36} />, gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
+    { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: <Siren size={36} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+    { href: '/training', label: 'Training', desc: 'Coaching programs', icon: <Dumbbell size={36} />, gradient: 'linear-gradient(135deg, #115e59, #14b8a6)' },
+    { href: '/certificates', label: 'Certificates', desc: 'Your achievements', icon: <Award size={36} />, gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
+    { href: '/teams', label: 'My Team', desc: 'Roster & teammates', icon: <Users size={36} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+    { href: '/calendar', label: 'Calendar', desc: 'Upcoming events', icon: <Calendar size={36} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
+    { href: '/messages', label: 'Messages', desc: 'Chat with team', icon: <MessageSquare size={36} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
+    { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={36} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
+    { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={36} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
+    { href: '/notifications', label: 'Notifications', desc: 'Activity alerts', icon: <Bell size={36} />, gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
+    { href: '/help', label: 'Help & Support', desc: 'FAQ & contact', icon: <HelpCircle size={36} />, gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
 ];
 
 // ─── TEAM MANAGER: Team operations, apply for tournaments (no creation) ───
 const TEAM_MANAGER_CARDS = [
-    { href: '/tournaments', label: 'Tournaments', desc: 'Browse & apply for events', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-    { href: '/teams', label: 'My Team', desc: 'Manage roster & squad', icon: '⚡', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/fixtures', label: 'Fixtures', desc: 'Upcoming matches', icon: '📋', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-    { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: '🔴', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
-    { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: '🔨', gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
-    { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: '💰', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
-    { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: '🔄', gradient: 'linear-gradient(135deg, #14532d, #166534)' },
-    { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-    { href: '/calendar', label: 'Calendar', desc: 'Event schedule', icon: '📅', gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
-    { href: '/messages', label: 'Messages', desc: 'Communication hub', icon: '💬', gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
-    { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: '💳', gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
-    { href: '/help', label: 'Help & Support', desc: 'FAQ & contact', icon: '🤝', gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
+    { href: '/tournaments', label: 'Tournaments', desc: 'Browse & apply for events', icon: <Trophy size={36} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+    { href: '/teams', label: 'My Team', desc: 'Manage roster & squad', icon: <Users size={36} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+    { href: '/fixtures', label: 'Fixtures', desc: 'Upcoming matches', icon: <ClipboardList size={36} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+    { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: <Siren size={36} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+    { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={36} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
+    { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: <DollarSign size={36} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
+    { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: <ArrowLeftRight size={36} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
+    { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: <Medal size={36} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+    { href: '/calendar', label: 'Calendar', desc: 'Event schedule', icon: <Calendar size={36} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
+    { href: '/messages', label: 'Messages', desc: 'Communication hub', icon: <MessageSquare size={36} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
+    { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={36} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
+    { href: '/help', label: 'Help & Support', desc: 'FAQ & contact', icon: <HelpCircle size={36} />, gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
 ];
 
 // ─── ORGANIZER: Event management & tournament creation ───
 const ORGANIZER_CARDS = [
-    { href: '/tournaments', label: 'My Tournaments', desc: 'Create & manage events', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-    { href: '/fixtures', label: 'Fixtures', desc: 'Brackets & scheduling', icon: '📋', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-    { href: '/scoring', label: 'Live Scoring', desc: 'Score ongoing matches', icon: '🔴', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
-    { href: '/teams', label: 'Teams', desc: 'Manage all rosters', icon: '⚡', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/venues', label: 'Venues', desc: 'Stadiums & facilities', icon: '🏟️', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
-    { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: '💰', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
-    { href: '/sponsorships', label: 'Sponsorships', desc: 'Sponsors & ad revenue', icon: '💎', gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
-    { href: '/certificates', label: 'Certificates', desc: 'Award certificates', icon: '🏅', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
-    { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: '🔄', gradient: 'linear-gradient(135deg, #14532d, #166534)' },
-    { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-    { href: '/calendar', label: 'Calendar', desc: 'Event schedule', icon: '📅', gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
-    { href: '/messages', label: 'Messages', desc: 'Communication hub', icon: '💬', gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
-    { href: '/reports', label: 'Match Reports', desc: 'Reports & protests', icon: '📋', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-    { href: '/auction', label: 'Player Auction', desc: 'Run & manage auctions', icon: '🔨', gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
-    { href: '/payments', label: 'Payments', desc: 'Revenue & payouts', icon: '💳', gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
-    { href: '/notifications', label: 'Notifications', desc: 'Activity alerts', icon: '🔔', gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
-    { href: '/help', label: 'Help', desc: 'Support & FAQ', icon: '🤝', gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
+    { href: '/tournaments', label: 'My Tournaments', desc: 'Create & manage events', icon: <Trophy size={36} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+    { href: '/fixtures', label: 'Fixtures', desc: 'Brackets & scheduling', icon: <ClipboardList size={36} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+    { href: '/scoring', label: 'Live Scoring', desc: 'Score ongoing matches', icon: <Siren size={36} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+    { href: '/teams', label: 'Teams', desc: 'Manage all rosters', icon: <Users size={36} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+    { href: '/venues', label: 'Venues', desc: 'Stadiums & facilities', icon: <Landmark size={36} />, gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
+    { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: <DollarSign size={36} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
+    { href: '/sponsorships', label: 'Sponsorships', desc: 'Sponsors & ad revenue', icon: <Gem size={36} />, gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
+    { href: '/certificates', label: 'Certificates', desc: 'Award certificates', icon: <Award size={36} />, gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
+    { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: <ArrowLeftRight size={36} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
+    { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: <Medal size={36} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+    { href: '/calendar', label: 'Calendar', desc: 'Event schedule', icon: <Calendar size={36} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
+    { href: '/messages', label: 'Messages', desc: 'Communication hub', icon: <MessageSquare size={36} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
+    { href: '/reports', label: 'Match Reports', desc: 'Reports & protests', icon: <FileText size={36} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+    { href: '/auction', label: 'Player Auction', desc: 'Run & manage auctions', icon: <Gavel size={36} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
+    { href: '/payments', label: 'Payments', desc: 'Revenue & payouts', icon: <CreditCard size={36} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
+    { href: '/notifications', label: 'Notifications', desc: 'Activity alerts', icon: <Bell size={36} />, gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
+    { href: '/help', label: 'Help', desc: 'Support & FAQ', icon: <HelpCircle size={36} />, gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
 ];
 
 // ─── OFFICIAL / REFEREE: Match management & rules ───
 const OFFICIAL_CARDS = [
-    { href: '/scoring', label: 'Live Scoring', desc: 'Score & officiate matches', icon: '🔴', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
-    { href: '/fixtures', label: 'Fixtures', desc: 'Match assignments', icon: '📋', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-    { href: '/tournaments', label: 'Tournaments', desc: 'Assigned events', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-    { href: '/reports', label: 'Match Reports', desc: 'File reports & decisions', icon: '📝', gradient: 'linear-gradient(135deg, #0f172a, #334155)' },
-    { href: '/grievances', label: 'Grievances', desc: 'Dispute resolution', icon: '⚖️', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
-    { href: '/teams', label: 'Teams', desc: 'View team rosters', icon: '⚡', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/venues', label: 'Venues', desc: 'Match locations', icon: '🏟️', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
-    { href: '/calendar', label: 'Match Schedule', desc: 'Your assignments', icon: '📅', gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
-    { href: '/leaderboard', label: 'Leaderboard', desc: 'Rankings overview', icon: '🥇', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-    { href: '/profile', label: 'My Profile', desc: 'Official profile', icon: '🆔', gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
-    { href: '/payments', label: 'Payments', desc: 'Match fees & payouts', icon: '💳', gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
-    { href: '/messages', label: 'Messages', desc: 'Communication', icon: '💬', gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
-    { href: '/notifications', label: 'Notifications', desc: 'Alerts & updates', icon: '🔔', gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
+    { href: '/scoring', label: 'Live Scoring', desc: 'Score & officiate matches', icon: <Siren size={36} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+    { href: '/fixtures', label: 'Fixtures', desc: 'Match assignments', icon: <ClipboardList size={36} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+    { href: '/tournaments', label: 'Tournaments', desc: 'Assigned events', icon: <Trophy size={36} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+    { href: '/reports', label: 'Match Reports', desc: 'File reports & decisions', icon: <Pen size={36} />, gradient: 'linear-gradient(135deg, #0f172a, #334155)' },
+    { href: '/grievances', label: 'Grievances', desc: 'Dispute resolution', icon: <Scale size={36} />, gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
+    { href: '/teams', label: 'Teams', desc: 'View team rosters', icon: <Users size={36} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+    { href: '/venues', label: 'Venues', desc: 'Match locations', icon: <Landmark size={36} />, gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
+    { href: '/calendar', label: 'Match Schedule', desc: 'Your assignments', icon: <Calendar size={36} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
+    { href: '/leaderboard', label: 'Leaderboard', desc: 'Rankings overview', icon: <Medal size={36} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+    { href: '/profile', label: 'My Profile', desc: 'Official profile', icon: <IdCard size={36} />, gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
+    { href: '/payments', label: 'Payments', desc: 'Match fees & payouts', icon: <CreditCard size={36} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
+    { href: '/messages', label: 'Messages', desc: 'Communication', icon: <MessageSquare size={36} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
+    { href: '/notifications', label: 'Notifications', desc: 'Alerts & updates', icon: <Bell size={36} />, gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
 ];
 
 // ─── ADMIN: Full platform management ───
 const ADMIN_CARDS = [
-    { href: '/analytics', label: 'Analytics', desc: 'Platform insights & metrics', icon: '📊', gradient: 'linear-gradient(135deg, #1e1b4b, #312e81)' },
-    { href: '/admin', label: 'Admin Panel', desc: 'System management', icon: '⚙️', gradient: 'linear-gradient(135deg, #0f172a, #1e293b)' },
-    { href: '/roles', label: 'Roles & Permissions', desc: 'Access control', icon: '🛡️', gradient: 'linear-gradient(135deg, #1e293b, #475569)' },
-    { href: '/tournaments', label: 'Tournaments', desc: 'Manage all events', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-    { href: '/audit', label: 'Audit Log', desc: 'Activity tracking', icon: '📝', gradient: 'linear-gradient(135deg, #0f172a, #334155)' },
-    { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: '💰', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
-    { href: '/exports', label: 'Reports Center', desc: 'Data export & reports', icon: '📤', gradient: 'linear-gradient(135deg, #065f46, #22c55e)' },
-    { href: '/inventory', label: 'Inventory', desc: 'Equipment management', icon: '📦', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-    { href: '/sponsorships', label: 'Sponsorships', desc: 'Sponsors & revenue', icon: '💎', gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
-    { href: '/venues', label: 'Venues', desc: 'Stadiums & facilities', icon: '🏟️', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
-    { href: '/fixtures', label: 'Fixtures', desc: 'Bracket generation', icon: '📋', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-    { href: '/certificates', label: 'Certificates', desc: 'QR-verifiable certs', icon: '🏅', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
-    { href: '/transfers', label: 'Transfers', desc: 'Player movement', icon: '🔄', gradient: 'linear-gradient(135deg, #14532d, #166534)' },
-    { href: '/documents', label: 'Documents', desc: 'Paperless verification', icon: '📄', gradient: 'linear-gradient(135deg, #581c87, #7e22ce)' },
-    { href: '/grievances', label: 'Grievances', desc: 'Dispute resolution', icon: '⚖️', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
-    { href: '/scoring', label: 'Live Scoring', desc: 'Real-time scoring', icon: '🔴', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
-    { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-    { href: '/teams', label: 'All Teams', desc: 'Manage rosters', icon: '⚡', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/training', label: 'Training', desc: 'Coaching programs', icon: '🏋️', gradient: 'linear-gradient(135deg, #115e59, #14b8a6)' },
-    { href: '/messages', label: 'Messages', desc: 'Internal chat', icon: '💬', gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
-    { href: '/reports', label: 'Match Reports', desc: 'Reports & protests', icon: '📋', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-    { href: '/notifications', label: 'Notifications', desc: 'System alerts', icon: '🔔', gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
-    { href: '/calendar', label: 'Calendar', desc: 'All events', icon: '📅', gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
-    { href: '/media', label: 'Media', desc: 'Photos & videos', icon: '📸', gradient: 'linear-gradient(135deg, #9d174d, #ec4899)' },
-    { href: '/auction', label: 'Player Auction', desc: 'Manage all auctions', icon: '🔨', gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
-    { href: '/payments', label: 'Payments', desc: 'All transactions', icon: '💳', gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
-    { href: '/profile', label: 'Player Profiles', desc: 'View any profile', icon: '🆔', gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
-    { href: '/help', label: 'Help', desc: 'Support & FAQ', icon: '🤝', gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
+    { href: '/analytics', label: 'Analytics', desc: 'Platform insights & metrics', icon: <BarChart3 size={36} />, gradient: 'linear-gradient(135deg, #1e1b4b, #312e81)' },
+    { href: '/admin', label: 'Admin Panel', desc: 'System management', icon: <Settings size={36} />, gradient: 'linear-gradient(135deg, #0f172a, #1e293b)' },
+    { href: '/roles', label: 'Roles & Permissions', desc: 'Access control', icon: <ShieldCheck size={36} />, gradient: 'linear-gradient(135deg, #1e293b, #475569)' },
+    { href: '/tournaments', label: 'Tournaments', desc: 'Manage all events', icon: <Trophy size={36} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+    { href: '/audit', label: 'Audit Log', desc: 'Activity tracking', icon: <FileText size={36} />, gradient: 'linear-gradient(135deg, #0f172a, #334155)' },
+    { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: <DollarSign size={36} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
+    { href: '/exports', label: 'Reports Center', desc: 'Data export & reports', icon: <Upload size={36} />, gradient: 'linear-gradient(135deg, #065f46, #22c55e)' },
+    { href: '/inventory', label: 'Inventory', desc: 'Equipment management', icon: <Package size={36} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+    { href: '/sponsorships', label: 'Sponsorships', desc: 'Sponsors & revenue', icon: <Gem size={36} />, gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
+    { href: '/venues', label: 'Venues', desc: 'Stadiums & facilities', icon: <Landmark size={36} />, gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
+    { href: '/fixtures', label: 'Fixtures', desc: 'Bracket generation', icon: <ClipboardList size={36} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+    { href: '/certificates', label: 'Certificates', desc: 'QR-verifiable certs', icon: <Award size={36} />, gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
+    { href: '/transfers', label: 'Transfers', desc: 'Player movement', icon: <ArrowLeftRight size={36} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
+    { href: '/documents', label: 'Documents', desc: 'Paperless verification', icon: <FileCheck size={36} />, gradient: 'linear-gradient(135deg, #581c87, #7e22ce)' },
+    { href: '/grievances', label: 'Grievances', desc: 'Dispute resolution', icon: <Scale size={36} />, gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
+    { href: '/scoring', label: 'Live Scoring', desc: 'Real-time scoring', icon: <Siren size={36} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+    { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: <Medal size={36} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+    { href: '/teams', label: 'All Teams', desc: 'Manage rosters', icon: <Users size={36} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+    { href: '/training', label: 'Training', desc: 'Coaching programs', icon: <Dumbbell size={36} />, gradient: 'linear-gradient(135deg, #115e59, #14b8a6)' },
+    { href: '/messages', label: 'Messages', desc: 'Internal chat', icon: <MessageSquare size={36} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
+    { href: '/reports', label: 'Match Reports', desc: 'Reports & protests', icon: <FileText size={36} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+    { href: '/notifications', label: 'Notifications', desc: 'System alerts', icon: <Bell size={36} />, gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
+    { href: '/calendar', label: 'Calendar', desc: 'All events', icon: <Calendar size={36} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
+    { href: '/media', label: 'Media', desc: 'Photos & videos', icon: <Camera size={36} />, gradient: 'linear-gradient(135deg, #9d174d, #ec4899)' },
+    { href: '/auction', label: 'Player Auction', desc: 'Manage all auctions', icon: <Gavel size={36} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
+    { href: '/payments', label: 'Payments', desc: 'All transactions', icon: <CreditCard size={36} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
+    { href: '/profile', label: 'Player Profiles', desc: 'View any profile', icon: <IdCard size={36} />, gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
+    { href: '/help', label: 'Help', desc: 'Support & FAQ', icon: <HelpCircle size={36} />, gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -521,7 +523,7 @@ export default function DashboardPage() {
                                     (e.currentTarget as HTMLElement).style.transform = 'none';
                                     (e.currentTarget as HTMLElement).style.boxShadow = 'none';
                                 }}>
-                                <span style={{ fontSize: '52px' }}>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
+                                <SportIcon sport={sp.name} size={52} color={accent} />
                                 <span style={{ fontSize: '20px', fontWeight: 800 }}>{sp.name}</span>
                             </button>
                         );
@@ -535,36 +537,45 @@ export default function DashboardPage() {
     }
 
     /* ─── Role-specific stats ─── */
-    const statsMap: Record<RoleGroup, { label: string; value: any; icon: string; color: string }[]> = {
+    const statsMap: Record<RoleGroup, { label: string; value: any; icon: any; color: string }[]> = {
         admin: [
-            { label: 'Admin ID', value: user?.id?.substring(0, 8) || 'N/A', icon: '🆔', color: '#6366f1' },
-            { label: 'Live Matches', value: liveMatches.length, icon: '🔴', color: '#ef4444' },
-            { label: 'Platform Users', value: 12450, icon: '👥', color: '#10b981' }, // Placeholder for future users API
-            { label: 'Admin Level', value: roleLabels[role] || role, icon: '👑', color: '#f59e0b' },
+            { label: 'Admin ID', value: user?.id?.substring(0, 8) || 'N/A', icon: <Fingerprint size={28} />, color: '#6366f1' },
+            { label: 'Live Matches', value: liveMatches.length, icon: <Radio size={28} />, color: '#ef4444' },
+            { label: 'Platform Users', value: 12450, icon: <Users size={28} />, color: '#10b981' },
+            { label: 'Admin Level', value: roleLabels[role] || role, icon: <Shield size={28} />, color: '#f59e0b' },
         ],
         organizer: [
-            { label: 'Organizer ID', value: user?.id?.substring(0, 8) || 'N/A', icon: '🆔', color: '#7c3aed' },
-            { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: '🔴', color: '#ef4444' },
-            { label: 'Active Teams', value: ownerDashData?.teams?.length || 0, icon: '⚡', color: '#10b981' },
-            { label: 'Role', value: roleLabels[role] || role, icon: '🏟️', color: '#6d28d9' },
+            { label: 'Organizer ID', value: user?.id?.substring(0, 8) || 'N/A', icon: <Fingerprint size={28} />, color: '#7c3aed' },
+            { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: <Radio size={28} />, color: '#ef4444' },
+            { label: 'Active Teams', value: ownerDashData?.teams?.length || 0, icon: <Users size={28} />, color: '#10b981' },
+            { label: 'Role', value: roleLabels[role] || role, icon: <Shield size={28} />, color: '#6d28d9' },
         ],
         team_manager: [
-            { label: 'Manager ID', value: user?.id?.substring(0, 8) || 'N/A', icon: '🆔', color: '#7c3aed' },
-            { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: '🔴', color: '#ef4444' },
-            { label: 'My Teams', value: ownerDashData?.teams?.length || 0, icon: '⚡', color: '#10b981' },
-            { label: 'Role', value: roleLabels[role] || role, icon: '⚡', color: '#a855f7' },
+            { label: 'Manager ID', value: user?.id?.substring(0, 8) || 'N/A', icon: <Fingerprint size={28} />, color: '#7c3aed' },
+            { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: <Radio size={28} />, color: '#ef4444' },
+            { label: 'My Teams', value: ownerDashData?.teams?.length || 0, icon: <Users size={28} />, color: '#10b981' },
+            { label: 'Role', value: roleLabels[role] || role, icon: <Shield size={28} />, color: '#a855f7' },
         ],
         official: [
-            { label: 'Official ID', value: user?.id?.substring(0, 8) || 'N/A', icon: '🆔', color: '#16a34a' },
-            { label: 'Live Matches', value: liveMatches.length, icon: '🔴', color: '#ef4444' },
-            { label: 'Matches Reffed', value: 34, icon: '📋', color: '#0d9488' }, // Placeholder
-            { label: 'Role', value: roleLabels[role] || role, icon: '⚖️', color: '#15803d' },
+            { label: 'Official ID', value: user?.id?.substring(0, 8) || 'N/A', icon: <Fingerprint size={28} />, color: '#16a34a' },
+            { label: 'Live Matches', value: liveMatches.length, icon: <Radio size={28} />, color: '#ef4444' },
+            { label: 'Matches Reffed', value: 34, icon: <ClipboardList size={28} />, color: '#0d9488' },
+            { label: 'Role', value: roleLabels[role] || role, icon: <Scale size={28} />, color: '#15803d' },
         ],
         player: [
-            { label: 'Sports ID', value: user?.player?.sportsId || user?.id?.substring(0, 8) || 'USI-Pending', icon: '🆔', color: '#6366f1' },
-            { label: 'Live Matches', value: liveMatches.length, icon: '🔴', color: '#ef4444' },
-            { label: 'Connected Teams', value: 2, icon: '🤝', color: '#10b981' }, // Placeholder based on current mock dashboard visually
-            { label: 'My Role', value: roleLabels[role] || role, icon: '🎮', color: '#f59e0b' },
+            {
+                label: 'Sports ID', value: (() => {
+                    const ps = user?.player?.playerSports;
+                    if (ps && selectedSport) {
+                        const match = ps.find((s: any) => s.sportId === selectedSport.id);
+                        if (match) return match.sportCode;
+                    }
+                    return user?.player?.sportsId ? user.player.sportsId : 'Not Registered';
+                })(), icon: <Fingerprint size={28} />, color: '#6366f1'
+            },
+            { label: 'Live Matches', value: liveMatches.length, icon: <Radio size={28} />, color: '#ef4444' },
+            { label: 'Connected Teams', value: 2, icon: <Users size={28} />, color: '#10b981' },
+            { label: 'My Role', value: roleLabels[role] || role, icon: <Gamepad2 size={28} />, color: '#f59e0b' },
         ],
     };
 
@@ -580,7 +591,7 @@ export default function DashboardPage() {
         organizer: `${sportIcon} ${sportLabel} Tournament Management`,
         team_manager: `${sportIcon} ${sportLabel} Team Management Dashboard`,
         official: `${sportIcon} ${sportLabel} Match Official Dashboard`,
-        player: `${sportIcon} Your ${sportLabel} Dashboard — USI: ${user?.player?.sportsId || 'N/A'}`,
+        player: `${sportIcon} Your ${sportLabel} Dashboard`,
     };
 
     return (
@@ -663,7 +674,7 @@ export default function DashboardPage() {
                                     transition: 'all 0.2s',
                                     whiteSpace: 'nowrap',
                                 }}>
-                                    <span>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
+                                    <SportIcon sport={sp.name} size={18} color={isActive ? 'white' : accent} />
                                     {sp.name}
                                 </button>
                             );
@@ -703,7 +714,7 @@ export default function DashboardPage() {
                                                 }}
                                                     onMouseEnter={(e) => (e.currentTarget.style.background = `${accent}15`)}
                                                     onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
-                                                    <span>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
+                                                    <SportIcon sport={sp.name} size={20} color={accent} />
                                                     {sp.name}
                                                 </button>
                                             );
@@ -729,7 +740,7 @@ export default function DashboardPage() {
                             padding: '24px', borderRadius: '16px',
                             background: theme.cardBg, border: `1px solid ${theme.cardBorder}`,
                         }}>
-                            <div style={{ fontSize: '28px', marginBottom: '8px' }}>{stat.icon}</div>
+                            <div style={{ marginBottom: '8px', color: stat.color }}>{stat.icon}</div>
                             <div style={{ fontSize: '24px', fontWeight: 800, color: stat.color }}>{stat.value}</div>
                             <div style={{ fontSize: '13px', color: theme.textSecondary, marginTop: '4px' }}>{stat.label}</div>
                         </div>
@@ -748,7 +759,17 @@ export default function DashboardPage() {
                                     <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#6366f1'}, ${selectedSport.accentColor || '#6366f1'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{sportIcon}</div>
                                     <div>
                                         <div style={{ fontWeight: 800, fontSize: '16px' }}>{user?.firstName} {user?.lastName}</div>
-                                        <div style={{ fontSize: '12px', color: selectedSport.accentColor || '#6366f1' }}>🆔 {user?.player?.sportsId || 'USI-2026-MH-00421'}</div>
+                                        <div style={{ fontSize: '12px', color: selectedSport.accentColor || '#6366f1', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                            <Fingerprint size={14} />
+                                            {(() => {
+                                                const ps = user?.player?.playerSports;
+                                                if (ps && selectedSport) {
+                                                    const m = ps.find((s: any) => s.sportId === selectedSport.id);
+                                                    if (m) return m.sportCode;
+                                                }
+                                                return user?.player?.sportsId || 'Not Registered';
+                                            })()}
+                                        </div>
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px', fontSize: '12px' }}>
@@ -1156,10 +1177,10 @@ export default function DashboardPage() {
                                 const sportDesc = selectedSport ? item.desc.replace(/Browse &|Browse|Manage|Your|View/i, (m: string) => `${m} ${sportLabel}`.replace(`${m} ${sportLabel}`, `${sportLabel} — ${item.desc.charAt(0).toLowerCase()}${item.desc.slice(1)}`)) : item.desc;
                                 return (
                                     <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} className="card-hover" style={{
-                                        padding: '24px', borderRadius: '16px', background: item.gradient,
+                                        padding: '28px', borderRadius: '16px', background: item.gradient,
                                         textDecoration: 'none', color: 'white', display: 'block', transition: 'transform 0.2s',
                                     }}>
-                                        <div style={{ fontSize: '32px', marginBottom: '12px' }}>{item.icon}</div>
+                                        <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>{item.icon}</div>
                                         <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '4px' }}>{item.label}</div>
                                         <div style={{ fontSize: '12px', opacity: 0.75 }}>{selectedSport ? `${sportLabel} — ${item.desc.toLowerCase()}` : item.desc}</div>
                                     </Link>

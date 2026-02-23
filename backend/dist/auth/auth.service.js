@@ -50,6 +50,7 @@ const prisma_service_1 = require("../prisma/prisma.service");
 let AuthService = class AuthService {
     prisma;
     jwtService;
+    otps = new Map();
     constructor(prisma, jwtService) {
         this.prisma = prisma;
         this.jwtService = jwtService;
@@ -90,6 +91,11 @@ let AuthService = class AuthService {
     async login(dto) {
         const user = await this.prisma.user.findUnique({
             where: { email: dto.email },
+            include: {
+                player: {
+                    include: { playerSports: { include: { sport: true } } }
+                }
+            },
         });
         if (!user) {
             throw new common_1.UnauthorizedException('Invalid credentials');
@@ -104,10 +110,51 @@ let AuthService = class AuthService {
             accessToken: token,
         };
     }
+    async sendOtp({ phone }) {
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        this.otps.set(phone, otp);
+        console.log(`\n======================================`);
+        console.log(`💬 [DEV] SMS MOCK: OTP for ${phone} is ${otp}`);
+        console.log(`======================================\n`);
+        return { message: 'OTP sent successfully' };
+    }
+    async verifyOtp({ phone, otp }) {
+        const storedOtp = this.otps.get(phone);
+        if (!storedOtp || storedOtp !== otp) {
+            throw new common_1.UnauthorizedException('Invalid or expired OTP');
+        }
+        this.otps.delete(phone);
+        let user = await this.prisma.user.findFirst({
+            where: { phone },
+        });
+        if (!user) {
+            const dummyEmail = `${phone}_${Date.now()}@gamesphere.fan`;
+            const dummyPassword = await bcrypt.hash(Math.random().toString(), 10);
+            user = await this.prisma.user.create({
+                data: {
+                    email: dummyEmail,
+                    password: dummyPassword,
+                    firstName: 'Fan',
+                    lastName: '',
+                    phone: phone,
+                    role: 'GENERAL_USER',
+                },
+            });
+        }
+        const token = this.generateToken(user);
+        return {
+            user: this.sanitizeUser(user),
+            accessToken: token,
+        };
+    }
     async getProfile(userId) {
         const user = await this.prisma.user.findUnique({
             where: { id: userId },
-            include: { player: true },
+            include: {
+                player: {
+                    include: { playerSports: { include: { sport: true } } }
+                }
+            },
         });
         if (!user) {
             throw new common_1.UnauthorizedException('User not found');

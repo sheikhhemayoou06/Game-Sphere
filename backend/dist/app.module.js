@@ -22,6 +22,8 @@ const transfers_module_1 = require("./transfers/transfers.module");
 const documents_module_1 = require("./documents/documents.module");
 const notifications_module_1 = require("./notifications/notifications.module");
 const auctions_module_1 = require("./auctions/auctions.module");
+const search_module_1 = require("./search/search.module");
+const player_sports_module_1 = require("./player-sports/player-sports.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -40,6 +42,8 @@ exports.AppModule = AppModule = __decorate([
             documents_module_1.DocumentsModule,
             notifications_module_1.NotificationsModule,
             auctions_module_1.AuctionsModule,
+            search_module_1.SearchModule,
+            player_sports_module_1.PlayerSportsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

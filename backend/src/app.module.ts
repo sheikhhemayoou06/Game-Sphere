@@ -13,6 +13,8 @@ import { TransfersModule } from './transfers/transfers.module';
 import { DocumentsModule } from './documents/documents.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { AuctionsModule } from './auctions/auctions.module';
+import { SearchModule } from './search/search.module';
+import { PlayerSportsModule } from './player-sports/player-sports.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { AuctionsModule } from './auctions/auctions.module';
     DocumentsModule,
     NotificationsModule,
     AuctionsModule,
+    SearchModule,
+    PlayerSportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

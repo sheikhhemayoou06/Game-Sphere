@@ -66,6 +66,17 @@ export default function RegisterPage() {
                     </div>
                 )}
 
+                {/* Fan Notice */}
+                <div style={{ padding: '12px 16px', borderRadius: '12px', background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span style={{ fontSize: '20px' }}>📱</span>
+                    <div>
+                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b' }}>Just here to follow the action?</div>
+                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>
+                            Fans don't need to register. <Link href="/login" style={{ color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>Use Phone Login →</Link>
+                        </div>
+                    </div>
+                </div>
+
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                         <div>

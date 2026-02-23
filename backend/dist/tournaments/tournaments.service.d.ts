@@ -9,9 +9,9 @@ export declare class TournamentsService {
     }): Promise<({
         sport: {
             id: string;
-            name: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             icon: string | null;
             accentColor: string | null;
             teamSize: number;
@@ -23,25 +23,27 @@ export declare class TournamentsService {
             tieBreakerRules: string | null;
             isActive: boolean;
         };
+        _count: {
+            matches: number;
+            teams: number;
+        };
         organizer: {
             id: string;
             email: string;
             firstName: string;
             lastName: string;
         };
-        _count: {
-            teams: number;
-            matches: number;
-        };
     } & {
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -55,15 +57,13 @@ export declare class TournamentsService {
         venue: string | null;
         rules: string | null;
         bannerUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
     })[]>;
     findOne(id: string): Promise<{
         sport: {
             id: string;
-            name: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             icon: string | null;
             accentColor: string | null;
             teamSize: number;
@@ -75,12 +75,57 @@ export declare class TournamentsService {
             tieBreakerRules: string | null;
             isActive: boolean;
         };
-        organizer: {
+        matches: ({
+            homeTeam: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                city: string | null;
+                state: string | null;
+                sportId: string;
+                managerId: string;
+                logo: string | null;
+            } | null;
+            awayTeam: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                city: string | null;
+                state: string | null;
+                sportId: string;
+                managerId: string;
+                logo: string | null;
+            } | null;
+            winnerTeam: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                city: string | null;
+                state: string | null;
+                sportId: string;
+                managerId: string;
+                logo: string | null;
+            } | null;
+        } & {
             id: string;
-            email: string;
-            firstName: string;
-            lastName: string;
-        };
+            createdAt: Date;
+            updatedAt: Date;
+            sportId: string;
+            status: string;
+            venue: string | null;
+            matchNumber: number | null;
+            tournamentId: string;
+            homeTeamId: string | null;
+            awayTeamId: string | null;
+            winnerTeamId: string | null;
+            round: string | null;
+            scheduledAt: Date | null;
+            scoreData: string | null;
+            matchReport: string | null;
+        })[];
         teams: ({
             team: {
                 players: ({
@@ -93,18 +138,18 @@ export declare class TournamentsService {
                         id: string;
                         createdAt: Date;
                         updatedAt: Date;
-                        city: string | null;
-                        state: string | null;
                         sportsId: string;
-                        userId: string;
                         dateOfBirth: Date | null;
                         gender: string | null;
+                        city: string | null;
+                        state: string | null;
                         country: string;
                         primarySport: string | null;
                         bio: string | null;
                         totalMatches: number;
                         totalWins: number;
                         careerStats: string | null;
+                        userId: string;
                     };
                 } & {
                     id: string;
@@ -116,83 +161,40 @@ export declare class TournamentsService {
                 })[];
             } & {
                 id: string;
-                name: string;
-                sportId: string;
                 createdAt: Date;
                 updatedAt: Date;
-                managerId: string;
-                logo: string | null;
+                name: string;
                 city: string | null;
                 state: string | null;
+                sportId: string;
+                managerId: string;
+                logo: string | null;
             };
         } & {
             id: string;
+            seed: number | null;
             status: string;
+            registeredAt: Date;
             tournamentId: string;
             teamId: string;
-            seed: number | null;
-            registeredAt: Date;
         })[];
-        matches: ({
-            homeTeam: {
-                id: string;
-                name: string;
-                sportId: string;
-                createdAt: Date;
-                updatedAt: Date;
-                managerId: string;
-                logo: string | null;
-                city: string | null;
-                state: string | null;
-            } | null;
-            awayTeam: {
-                id: string;
-                name: string;
-                sportId: string;
-                createdAt: Date;
-                updatedAt: Date;
-                managerId: string;
-                logo: string | null;
-                city: string | null;
-                state: string | null;
-            } | null;
-            winnerTeam: {
-                id: string;
-                name: string;
-                sportId: string;
-                createdAt: Date;
-                updatedAt: Date;
-                managerId: string;
-                logo: string | null;
-                city: string | null;
-                state: string | null;
-            } | null;
-        } & {
+        organizer: {
             id: string;
-            sportId: string;
-            status: string;
-            venue: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            matchNumber: number | null;
-            tournamentId: string;
-            homeTeamId: string | null;
-            awayTeamId: string | null;
-            winnerTeamId: string | null;
-            round: string | null;
-            scheduledAt: Date | null;
-            scoreData: string | null;
-            matchReport: string | null;
-        })[];
+            email: string;
+            firstName: string;
+            lastName: string;
+        };
     } & {
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -206,8 +208,6 @@ export declare class TournamentsService {
         venue: string | null;
         rules: string | null;
         bannerUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     create(userId: string, data: {
         name: string;
@@ -229,9 +229,9 @@ export declare class TournamentsService {
     }): Promise<{
         sport: {
             id: string;
-            name: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             icon: string | null;
             accentColor: string | null;
             teamSize: number;
@@ -245,13 +245,15 @@ export declare class TournamentsService {
         };
     } & {
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -265,15 +267,13 @@ export declare class TournamentsService {
         venue: string | null;
         rules: string | null;
         bannerUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     update(id: string, userId: string, data: any): Promise<{
         sport: {
             id: string;
-            name: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             icon: string | null;
             accentColor: string | null;
             teamSize: number;
@@ -287,13 +287,15 @@ export declare class TournamentsService {
         };
     } & {
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -307,18 +309,18 @@ export declare class TournamentsService {
         venue: string | null;
         rules: string | null;
         bannerUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     updateStatus(id: string, status: string): Promise<{
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -332,59 +334,57 @@ export declare class TournamentsService {
         venue: string | null;
         rules: string | null;
         bannerUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     addTeam(tournamentId: string, teamId: string): Promise<{
         team: {
             id: string;
-            name: string;
-            sportId: string;
             createdAt: Date;
             updatedAt: Date;
-            managerId: string;
-            logo: string | null;
+            name: string;
             city: string | null;
             state: string | null;
+            sportId: string;
+            managerId: string;
+            logo: string | null;
         };
     } & {
         id: string;
+        seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        seed: number | null;
-        registeredAt: Date;
     }>;
     approveTeam(tournamentId: string, teamId: string): Promise<{
         id: string;
+        seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        seed: number | null;
-        registeredAt: Date;
     }>;
     rejectTeam(tournamentId: string, teamId: string): Promise<{
         id: string;
+        seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        seed: number | null;
-        registeredAt: Date;
     }>;
     withdrawTeam(tournamentId: string, teamId: string): Promise<{
         id: string;
+        seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        seed: number | null;
-        registeredAt: Date;
     }>;
     generateFixtures(tournamentId: string): Promise<{
         sport: {
             id: string;
-            name: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             icon: string | null;
             accentColor: string | null;
             teamSize: number;
@@ -396,12 +396,57 @@ export declare class TournamentsService {
             tieBreakerRules: string | null;
             isActive: boolean;
         };
-        organizer: {
+        matches: ({
+            homeTeam: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                city: string | null;
+                state: string | null;
+                sportId: string;
+                managerId: string;
+                logo: string | null;
+            } | null;
+            awayTeam: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                city: string | null;
+                state: string | null;
+                sportId: string;
+                managerId: string;
+                logo: string | null;
+            } | null;
+            winnerTeam: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                city: string | null;
+                state: string | null;
+                sportId: string;
+                managerId: string;
+                logo: string | null;
+            } | null;
+        } & {
             id: string;
-            email: string;
-            firstName: string;
-            lastName: string;
-        };
+            createdAt: Date;
+            updatedAt: Date;
+            sportId: string;
+            status: string;
+            venue: string | null;
+            matchNumber: number | null;
+            tournamentId: string;
+            homeTeamId: string | null;
+            awayTeamId: string | null;
+            winnerTeamId: string | null;
+            round: string | null;
+            scheduledAt: Date | null;
+            scoreData: string | null;
+            matchReport: string | null;
+        })[];
         teams: ({
             team: {
                 players: ({
@@ -414,18 +459,18 @@ export declare class TournamentsService {
                         id: string;
                         createdAt: Date;
                         updatedAt: Date;
-                        city: string | null;
-                        state: string | null;
                         sportsId: string;
-                        userId: string;
                         dateOfBirth: Date | null;
                         gender: string | null;
+                        city: string | null;
+                        state: string | null;
                         country: string;
                         primarySport: string | null;
                         bio: string | null;
                         totalMatches: number;
                         totalWins: number;
                         careerStats: string | null;
+                        userId: string;
                     };
                 } & {
                     id: string;
@@ -437,83 +482,40 @@ export declare class TournamentsService {
                 })[];
             } & {
                 id: string;
-                name: string;
-                sportId: string;
                 createdAt: Date;
                 updatedAt: Date;
-                managerId: string;
-                logo: string | null;
+                name: string;
                 city: string | null;
                 state: string | null;
+                sportId: string;
+                managerId: string;
+                logo: string | null;
             };
         } & {
             id: string;
+            seed: number | null;
             status: string;
+            registeredAt: Date;
             tournamentId: string;
             teamId: string;
-            seed: number | null;
-            registeredAt: Date;
         })[];
-        matches: ({
-            homeTeam: {
-                id: string;
-                name: string;
-                sportId: string;
-                createdAt: Date;
-                updatedAt: Date;
-                managerId: string;
-                logo: string | null;
-                city: string | null;
-                state: string | null;
-            } | null;
-            awayTeam: {
-                id: string;
-                name: string;
-                sportId: string;
-                createdAt: Date;
-                updatedAt: Date;
-                managerId: string;
-                logo: string | null;
-                city: string | null;
-                state: string | null;
-            } | null;
-            winnerTeam: {
-                id: string;
-                name: string;
-                sportId: string;
-                createdAt: Date;
-                updatedAt: Date;
-                managerId: string;
-                logo: string | null;
-                city: string | null;
-                state: string | null;
-            } | null;
-        } & {
+        organizer: {
             id: string;
-            sportId: string;
-            status: string;
-            venue: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            matchNumber: number | null;
-            tournamentId: string;
-            homeTeamId: string | null;
-            awayTeamId: string | null;
-            winnerTeamId: string | null;
-            round: string | null;
-            scheduledAt: Date | null;
-            scoreData: string | null;
-            matchReport: string | null;
-        })[];
+            email: string;
+            firstName: string;
+            lastName: string;
+        };
     } & {
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -527,8 +529,6 @@ export declare class TournamentsService {
         venue: string | null;
         rules: string | null;
         bannerUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     getStats(tournamentId: string): Promise<{
         totalTeams: number;
@@ -558,18 +558,18 @@ export declare class TournamentsService {
                     id: string;
                     createdAt: Date;
                     updatedAt: Date;
-                    city: string | null;
-                    state: string | null;
                     sportsId: string;
-                    userId: string;
                     dateOfBirth: Date | null;
                     gender: string | null;
+                    city: string | null;
+                    state: string | null;
                     country: string;
                     primarySport: string | null;
                     bio: string | null;
                     totalMatches: number;
                     totalWins: number;
                     careerStats: string | null;
+                    userId: string;
                 };
             } & {
                 id: string;
@@ -581,22 +581,22 @@ export declare class TournamentsService {
             })[];
         } & {
             id: string;
-            name: string;
-            sportId: string;
             createdAt: Date;
             updatedAt: Date;
-            managerId: string;
-            logo: string | null;
+            name: string;
             city: string | null;
             state: string | null;
+            sportId: string;
+            managerId: string;
+            logo: string | null;
         };
     } & {
         id: string;
+        seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        seed: number | null;
-        registeredAt: Date;
     })[]>;
     getTournamentFinancials(tournamentId: string): Promise<{
         totalRegistrations: number;
@@ -624,26 +624,26 @@ export declare class TournamentsService {
         id: string;
         createdAt: Date;
         tournamentId: string;
-        senderId: string;
-        message: string;
         type: string;
+        message: string;
+        senderId: string;
     }[]>;
     sendChatMessage(tournamentId: string, senderId: string, message: string, type?: string): Promise<{
         id: string;
         createdAt: Date;
         tournamentId: string;
-        senderId: string;
-        message: string;
         type: string;
+        message: string;
+        senderId: string;
     }>;
     getMedia(tournamentId: string): Promise<{
         id: string;
-        description: string | null;
         createdAt: Date;
+        description: string | null;
         tournamentId: string;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         url: string;
     }[]>;
     addMedia(tournamentId: string, uploadedBy: string, data: {
@@ -653,12 +653,12 @@ export declare class TournamentsService {
         url: string;
     }): Promise<{
         id: string;
-        description: string | null;
         createdAt: Date;
+        description: string | null;
         tournamentId: string;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         url: string;
     }>;
 }

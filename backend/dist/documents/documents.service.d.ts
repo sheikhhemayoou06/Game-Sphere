@@ -15,8 +15,8 @@ export declare class DocumentsService {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -32,8 +32,8 @@ export declare class DocumentsService {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -58,8 +58,8 @@ export declare class DocumentsService {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -75,8 +75,8 @@ export declare class DocumentsService {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -92,8 +92,8 @@ export declare class DocumentsService {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -109,8 +109,8 @@ export declare class DocumentsService {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -126,8 +126,8 @@ export declare class DocumentsService {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;

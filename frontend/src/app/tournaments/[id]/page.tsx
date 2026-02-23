@@ -6,6 +6,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons, sportConfig, defaultSportConfig, statusColors, formatDate } from '@/lib/utils';
+import AuctionDashboard from '@/components/AuctionDashboard';
 
 type Tab = 'overview' | 'teams' | 'fixtures' | 'scoring' | 'auction' | 'transfers' | 'financials' | 'leaderboard' | 'media' | 'chat' | 'settings';
 
@@ -329,59 +330,7 @@ export default function TournamentDashboard() {
 
                 {/* ═══════ AUCTION ═══════ */}
                 {tab === 'auction' && (
-                    <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <h2 style={{ color: '#e2e8f0', fontWeight: 800, fontSize: '22px' }}>🔨 Auction</h2>
-                            {isOrganizer && !auction && (
-                                <button onClick={() => api.createAuction(id as string).then(setAuction)}
-                                    style={{ padding: '10px 20px', borderRadius: '10px', border: 'none', background: '#6366f1', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>
-                                    + Create Auction Room
-                                </button>
-                            )}
-                        </div>
-                        {!auction ? (
-                            <div style={{ textAlign: 'center', padding: '48px', color: '#64748b', background: 'rgba(255,255,255,0.03)', borderRadius: '16px' }}>
-                                No auction room created yet. Create one to start the bidding process.
-                            </div>
-                        ) : (
-                            <div>
-                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px' }}>
-                                    <div style={{ padding: '20px', borderRadius: '14px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>STATUS</div>
-                                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#a5b4fc' }}>{auction.status}</div>
-                                    </div>
-                                    <div style={{ padding: '20px', borderRadius: '14px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>TEAM BUDGET</div>
-                                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#22c55e' }}>₹{(auction.teamBudget || 0).toLocaleString()}</div>
-                                    </div>
-                                    <div style={{ padding: '20px', borderRadius: '14px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>PLAYERS</div>
-                                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#f59e0b' }}>{auction.players?.length || 0}</div>
-                                    </div>
-                                </div>
-                                {auction.players && auction.players.length > 0 ? (
-                                    <div style={{ display: 'grid', gap: '8px' }}>
-                                        {auction.players.map((ap: any) => (
-                                            <div key={ap.id} style={{ padding: '14px 18px', borderRadius: '12px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <span style={{ color: '#e2e8f0', fontSize: '13px', fontWeight: 600 }}>Player #{ap.playerId.slice(0, 8)}</span>
-                                                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                                                    <span style={{ color: '#64748b', fontSize: '12px' }}>Base: ₹{ap.basePrice.toLocaleString()}</span>
-                                                    {ap.soldPrice && <span style={{ color: '#22c55e', fontSize: '12px', fontWeight: 700 }}>Sold: ₹{ap.soldPrice.toLocaleString()}</span>}
-                                                    <span style={{
-                                                        padding: '3px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 700,
-                                                        background: ap.status === 'SOLD' ? '#22c55e15' : '#f59e0b15',
-                                                        color: ap.status === 'SOLD' ? '#22c55e' : '#f59e0b',
-                                                    }}>{ap.status}</span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div style={{ textAlign: 'center', padding: '32px', color: '#64748b', fontSize: '13px' }}>No players in auction pool yet.</div>
-                                )}
-                            </div>
-                        )}
-                    </div>
+                    <AuctionDashboard tournamentId={id as string} isOrganizer={isOrganizer} />
                 )}
 
                 {/* ═══════ TRANSFERS ═══════ */}

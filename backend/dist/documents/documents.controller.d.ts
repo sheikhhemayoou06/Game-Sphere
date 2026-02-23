@@ -11,8 +11,8 @@ export declare class DocumentsController {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -28,8 +28,8 @@ export declare class DocumentsController {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -45,8 +45,8 @@ export declare class DocumentsController {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -62,8 +62,8 @@ export declare class DocumentsController {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -79,8 +79,8 @@ export declare class DocumentsController {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -96,8 +96,8 @@ export declare class DocumentsController {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
@@ -113,8 +113,8 @@ export declare class DocumentsController {
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;

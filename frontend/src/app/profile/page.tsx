@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
+import { Fingerprint } from 'lucide-react';
 
 type RoleView = 'owner' | 'player';
 function getProfileRole(role: string): RoleView {
@@ -14,7 +15,7 @@ function getProfileRole(role: string): RoleView {
 /* ═══════ COMPREHENSIVE PLAYER PROFILE DATA ═══════ */
 
 const PLAYER = {
-    name: 'Arjun Patel', sportsId: 'USI-2026-MH-00421', age: 22,
+    name: 'Arjun Patel', sportsId: 'USI-Pending', age: 22,
     phone: '+91 98765 43210', email: 'arjun.patel@gamesphere.in',
     photo: '🧑‍🦱', primarySport: 'Cricket', secondarySport: 'Football',
     district: 'Mumbai', state: 'Maharashtra', country: 'India',
@@ -102,10 +103,16 @@ export default function PlayerProfilePage() {
     const filteredCertificates = selectedSport ? CERTIFICATES.filter(c => c.sport === selectedSport.name) : CERTIFICATES;
     const filteredTransfers = selectedSport ? TRANSFERS.filter(t => t.sport === selectedSport.name) : TRANSFERS;
     const filteredInjuries = selectedSport ? INJURY_HISTORY.filter(i => i.sport === selectedSport.name) : INJURY_HISTORY;
+    const dynamicPlayer = {
+        ...PLAYER,
+        name: user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : PLAYER.name,
+        sportsId: user?.player?.sportsId || 'USI-Pending'
+    };
+
     const [form, setForm] = useState({
-        name: PLAYER.name, phone: PLAYER.phone, email: PLAYER.email,
-        district: PLAYER.district, state: PLAYER.state, height: PLAYER.height,
-        weight: PLAYER.weight, battingStyle: PLAYER.battingStyle, bowlingStyle: PLAYER.bowlingStyle,
+        name: dynamicPlayer.name, phone: dynamicPlayer.phone, email: dynamicPlayer.email,
+        district: dynamicPlayer.district, state: dynamicPlayer.state, height: dynamicPlayer.height,
+        weight: dynamicPlayer.weight, battingStyle: dynamicPlayer.battingStyle, bowlingStyle: dynamicPlayer.bowlingStyle,
     });
 
     const winRate = Math.round((62 / 87) * 100);
@@ -310,19 +317,28 @@ export default function PlayerProfilePage() {
                             ) : (
                                 <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff' }}>{form.name}</h1>
                             )}
-                            {PLAYER.verified && <span style={{ padding: '3px 10px', borderRadius: '6px', background: '#22c55e', color: '#fff', fontSize: '11px', fontWeight: 700 }}>✓ Verified</span>}
+                            {dynamicPlayer.verified && <span style={{ padding: '3px 10px', borderRadius: '6px', background: '#22c55e', color: '#fff', fontSize: '11px', fontWeight: 700 }}>✓ Verified</span>}
                         </div>
-                        <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px' }}>
-                            🆔 {PLAYER.sportsId} • #{PLAYER.jerseyNo} • {PLAYER.position}
+                        <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <Fingerprint size={16} />
+                            {(() => {
+                                const ps = user?.player?.playerSports;
+                                const { selectedSport } = useSportStore.getState();
+                                if (ps && selectedSport) {
+                                    const m = ps.find((s: any) => s.sportId === selectedSport.id);
+                                    if (m) return m.sportCode;
+                                }
+                                return dynamicPlayer.sportsId;
+                            })()} • #{dynamicPlayer.jerseyNo} • {dynamicPlayer.position}
                         </div>
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                             {[
-                                `🏏 ${PLAYER.primarySport}`, `⚽ ${PLAYER.secondarySport}`, `🏟️ ${PLAYER.level} Level`,
-                                `📅 Age ${PLAYER.age}`, `🩸 ${PLAYER.bloodGroup}`,
+                                `🏏 ${dynamicPlayer.primarySport}`, `⚽ ${dynamicPlayer.secondarySport}`, `🏟️ ${dynamicPlayer.level} Level`,
+                                `📅 Age ${dynamicPlayer.age}`, `🩸 ${dynamicPlayer.bloodGroup}`,
                             ].map(tag => (
                                 <span key={tag} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{tag}</span>
                             ))}
-                            <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(99,102,241,0.3)', color: '#a5b4fc', fontSize: '12px', fontWeight: 700 }}>⚡ PI: {PLAYER.performanceIndex}/100</span>
+                            <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(99,102,241,0.3)', color: '#a5b4fc', fontSize: '12px', fontWeight: 700 }}>⚡ PI: {dynamicPlayer.performanceIndex}/100</span>
                         </div>
                     </div>
                     {/* Contact info (editable) */}

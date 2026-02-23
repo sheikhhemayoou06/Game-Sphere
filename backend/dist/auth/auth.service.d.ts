@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export declare class AuthService {
     private prisma;
     private jwtService;
+    private otps;
     constructor(prisma: PrismaService, jwtService: JwtService);
     register(dto: {
         email: string;
@@ -18,6 +19,18 @@ export declare class AuthService {
     login(dto: {
         email: string;
         password: string;
+    }): Promise<{
+        user: any;
+        accessToken: string;
+    }>;
+    sendOtp({ phone }: {
+        phone: string;
+    }): Promise<{
+        message: string;
+    }>;
+    verifyOtp({ phone, otp }: {
+        phone: string;
+        otp: string;
     }): Promise<{
         user: any;
         accessToken: string;

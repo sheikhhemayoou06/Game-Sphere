@@ -15,12 +15,12 @@ export const sportIcons: Record<string, string> = {
     Cricket: '🏏',
     Football: '⚽',
     Basketball: '🏀',
-    Kabaddi: '🤼',
+    Kabaddi: '💪',
     Volleyball: '🏐',
     Badminton: '🏸',
     Hockey: '🏑',
     Tennis: '🎾',
-    Athletics: '🏃',
+    Athletics: '🏅',
 };
 
 export const roleLabels: Record<string, string> = {
@@ -73,7 +73,7 @@ export const sportConfig: Record<string, { positions: string[], stat: string, se
         events: [{ type: 'FOUL', label: 'Foul' }, { type: 'BLOCK', label: 'Block' }, { type: 'SUBSTITUTION', label: 'Sub' }]
     },
     Kabaddi: {
-        positions: ['All', 'Raider', 'Left Cover', 'Right Cover', 'Left Corner', 'Right Corner', 'All-Rounder'], stat: 'Raid Pts', secondaryStat: 'Tackles', emoji: '🤼',
+        positions: ['All', 'Raider', 'Left Cover', 'Right Cover', 'Left Corner', 'Right Corner', 'All-Rounder'], stat: 'Raid Pts', secondaryStat: 'Tackles', emoji: '💪',
         events: [{ type: 'RAID', label: 'Raid' }, { type: 'TACKLE', label: 'Tackle' }, { type: 'YELLOW_CARD', label: 'Warning' }]
     },
     Tennis: {
@@ -85,7 +85,7 @@ export const sportConfig: Record<string, { positions: string[], stat: string, se
         events: [{ type: 'SMASH', label: 'Smash' }, { type: 'ACE', label: 'Service Ace' }]
     },
     Athletics: {
-        positions: ['All', 'Sprinter', 'Long Distance', 'Thrower', 'Jumper'], stat: 'Medals', secondaryStat: 'Records', emoji: '🏃',
+        positions: ['All', 'Sprinter', 'Long Distance', 'Thrower', 'Jumper'], stat: 'Medals', secondaryStat: 'Records', emoji: '🏅',
         events: [{ type: 'ACE', label: 'Record' }, { type: 'YELLOW_CARD', label: 'Warning' }]
     },
     Volleyball: {

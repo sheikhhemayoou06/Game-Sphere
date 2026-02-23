@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { api } from '@/lib/api';
+import SmartSearch from '@/components/SmartSearch';
+import { Sun, Moon } from 'lucide-react';
 
 const sports = [
   { name: 'Cricket', icon: '🏏', color: '#0D9488' },
@@ -15,30 +18,30 @@ const sports = [
   { name: 'Athletics', icon: '🏃', color: '#EAB308' },
 ];
 
-const features = [
-  { title: 'Universal Sports ID', desc: 'Every player gets a verified digital identity — track careers across all sports', icon: '🆔' },
-  { title: 'Multi-Sport Engine', desc: 'Configure any sport dynamically — cricket, football, kabaddi and more', icon: '⚙️' },
-  { title: 'Tournament Lifecycle', desc: 'From registration to certification — fully paperless tournament management', icon: '🏆' },
-  { title: 'Live Scoring', desc: 'Real-time match scoring with offline sync for rural connectivity', icon: '📊' },
-  { title: 'Smart Analytics', desc: 'Performance metrics, rankings, and trend analysis across all levels', icon: '📈' },
-  { title: 'Digital Certificates', desc: 'QR-verifiable, tamper-proof certificates generated automatically', icon: '📜' },
-];
 
-const stats = [
-  { label: 'Sports Supported', value: '10+' },
-  { label: 'Tournament Formats', value: '6' },
-  { label: 'Governance Levels', value: '7' },
-  { label: 'Fully Paperless', value: '100%' },
-];
 
 export default function HomePage() {
   const [dark, setDark] = useState(false);
   const [activeSport, setActiveSport] = useState(0);
+  const [liveMatches, setLiveMatches] = useState<any[]>([]);
 
   useEffect(() => {
+    // Rotating sports text
     const interval = setInterval(() => {
       setActiveSport((prev) => (prev + 1) % sports.length);
     }, 2500);
+
+    // Fetch live matches for the scorecard
+    const fetchMatches = async () => {
+      try {
+        const matches = await api.getLiveMatches();
+        setLiveMatches(matches);
+      } catch (err) {
+        console.error("Failed to load live matches", err);
+      }
+    };
+    fetchMatches();
+
     return () => clearInterval(interval);
   }, []);
 
@@ -64,16 +67,20 @@ export default function HomePage() {
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link href="/about" className="hide-mobile" style={{ padding: '8px 16px', fontSize: '14px', fontWeight: 600, color: dark ? 'rgba(255,255,255,0.9)' : '#475569', textDecoration: 'none' }}>
+            About Us
+          </Link>
           <button
             onClick={() => setDark(!dark)}
             className="hide-mobile"
             style={{
               padding: '8px 12px', borderRadius: '10px', border: 'none',
               background: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-              cursor: 'pointer', fontSize: '18px',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: dark ? '#fcd34d' : '#475569'
             }}
           >
-            {dark ? '☀️' : '🌙'}
+            {dark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <Link href="/login" className="btn-secondary hide-mobile" style={{ padding: '8px 16px', fontSize: '14px' }}>
             Log In
@@ -84,10 +91,9 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero */}
+      {/* Hero with Horizontal Live Scorecard */}
       <section className="gradient-bg mobile-padding" style={{
-        minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '120px 40px 80px', position: 'relative', overflow: 'hidden',
+        padding: '120px 40px 60px', position: 'relative', overflow: 'hidden', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
       }}>
         {/* Floating sport orbs */}
         <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
@@ -105,75 +111,89 @@ export default function HomePage() {
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', maxWidth: '800px', position: 'relative', zIndex: 2 }}>
-          {/* Live sport badge */}
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '10px',
-            padding: '8px 20px', borderRadius: '30px', marginBottom: '28px',
-            background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255,255,255,0.15)',
-          }}>
-            <span style={{
-              fontSize: '28px',
-              transition: 'all 0.5s ease',
-            }}>
-              {sports[activeSport].icon}
-            </span>
-            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14px', fontWeight: 500 }}>
-              Supporting {sports[activeSport].name} & {sports.length - 1} more sports
-            </span>
-          </div>
-
+        <div style={{ textAlign: 'center', position: 'relative', zIndex: 2, marginBottom: '40px' }}>
           <h1 style={{
-            fontSize: 'clamp(36px, 5vw, 68px)', fontWeight: 900, lineHeight: 1.08,
-            color: 'white', marginBottom: '24px', letterSpacing: '-1.5px',
+            fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 900, lineHeight: 1.1,
+            color: 'white', marginBottom: '16px', letterSpacing: '-1px',
           }}>
-            Powering Every Game.
-            <br />
-            <span style={{ color: sports[activeSport].color, transition: 'color 0.5s ease' }}>
-              Everywhere.
-            </span>
+            Powering <span style={{ color: sports[activeSport].color, transition: 'color 0.5s ease-in-out' }}>Every Game</span>.<br />
+            Everywhere.
           </h1>
-
-          <p style={{
-            fontSize: '18px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.7,
-            maxWidth: '600px', margin: '0 auto 40px',
-          }}>
-            India&apos;s National Sports Digital Infrastructure Platform.
-            From school tournaments to international championships — one unified ecosystem.
+          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '18px', maxWidth: '600px', margin: '0 auto' }}>
+            Follow the latest ongoing matches across India instantly.
           </p>
+        </div>
 
-          <div className="btn-stack-mobile" style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-            <Link href="/register" className="btn-primary" style={{
-              padding: '16px 36px', fontSize: '16px', borderRadius: '14px',
-              background: 'linear-gradient(135deg, #6366f1, #a855f7)',
-            }}>
-              🚀 Start Free
-            </Link>
-            <Link href="/tournaments" className="btn-secondary" style={{
-              padding: '16px 36px', fontSize: '16px', borderRadius: '14px',
-              borderColor: 'rgba(255,255,255,0.3)', color: 'white',
-            }}>
-              Browse Tournaments
-            </Link>
-          </div>
-
-          {/* Stats row */}
-          <div className="grid-cols-2-mobile" style={{
-            display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px',
-            marginTop: '60px',
-          }}>
-            {stats.map((stat) => (
-              <div key={stat.label} style={{
-                padding: '16px', borderRadius: '14px',
-                background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
+        {/* Horizontal Scorecard Widget */}
+        <div style={{ width: '100%', maxWidth: '1000px', position: 'relative', zIndex: 2 }}>
+          {liveMatches.length > 0 ? (
+            <Link href="/explore" style={{ textDecoration: 'none', display: 'block' }}>
+              <div className="card-hover" style={{
+                background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)',
+                borderRadius: '16px', padding: '20px 32px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                border: '1px solid rgba(255,255,255,0.2)', color: '#1e1b4b',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap'
               }}>
-                <div style={{ fontSize: '28px', fontWeight: 800, color: 'white' }}>{stat.value}</div>
-                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginTop: '4px' }}>{stat.label}</div>
+                {/* Match Info */}
+                <div style={{ flex: '1', minWidth: '200px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                    <span style={{ color: '#ef4444', fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 6px', background: '#fef2f2', borderRadius: '4px' }}>
+                      Live
+                    </span>
+                    <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>{liveMatches[0].tournament?.name}</span>
+                  </div>
+                  <div style={{ fontSize: '13px', color: '#94a3b8' }}>{liveMatches[0].tournament?.sport?.name || sports[activeSport].name}</div>
+                </div>
+
+                {/* Score Grid (Horizontal) */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '32px', flex: '2', minWidth: '300px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'right' }}>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b' }}>{liveMatches[0].homeTeam?.name}</div>
+                    <div style={{ fontSize: '28px', backgroundColor: '#f1f5f9', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800 }}>
+                      {liveMatches[0].homeScore || 0}
+                    </div>
+                  </div>
+
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: '#94a3b8' }}>VS</div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left' }}>
+                    <div style={{ fontSize: '28px', backgroundColor: '#f1f5f9', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800 }}>
+                      {liveMatches[0].awayScore || 0}
+                    </div>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b' }}>{liveMatches[0].awayTeam?.name}</div>
+                  </div>
+                </div>
+
+                {/* Action */}
+                <div style={{ flex: '1', minWidth: '150px', textAlign: 'right' }}>
+                  <div style={{ fontSize: '14px', color: '#4f46e5', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                    View Details →
+                  </div>
+                  {liveMatches.length > 1 && (
+                    <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px' }}>
+                      +{liveMatches.length - 1} more live
+                    </div>
+                  )}
+                </div>
               </div>
-            ))}
-          </div>
+            </Link>
+          ) : (
+            <div style={{
+              background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)',
+              borderRadius: '16px', padding: '32px', textAlign: 'center',
+              border: '1px solid rgba(255,255,255,0.2)', color: 'white',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '24px'
+            }}>
+              <div style={{ width: '100%', maxWidth: '600px' }}>
+                <SmartSearch placeholder="Search Live Matches, Players, or Teams..." />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px' }}>
+                <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>
+                  No matches currently live
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -204,36 +224,12 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-      </section>
+      </section >
 
-      {/* Features grid */}
-      <section className="mobile-padding" style={{ padding: '80px 40px', maxWidth: '1100px', margin: '0 auto' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '36px', fontWeight: 800, marginBottom: '12px', letterSpacing: '-0.5px' }}>
-          Built for <span className="gradient-text">Scale</span>
-        </h2>
-        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '48px', fontSize: '16px' }}>
-          Everything you need to digitize sports — from grassroots to national level
-        </p>
-        <div className="responsive-grid" style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px',
-        }}>
-          {features.map((feat) => (
-            <div key={feat.title} className="card-hover" style={{
-              padding: '32px', borderRadius: '18px',
-              background: dark ? 'rgba(255,255,255,0.03)' : 'white',
-              border: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : '#f1f5f9'}`,
-              boxShadow: dark ? 'none' : '0 2px 12px rgba(0,0,0,0.04)',
-            }}>
-              <div style={{ fontSize: '36px', marginBottom: '16px' }}>{feat.icon}</div>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>{feat.title}</h3>
-              <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feat.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Removed Features grid via User feedback targeting fan portal explicitly. Info moved to /about */}
 
       {/* CTA */}
-      <section className="gradient-bg" style={{
+      < section className="gradient-bg" style={{
         padding: '80px 40px', textAlign: 'center',
       }}>
         <h2 style={{ fontSize: '36px', fontWeight: 900, color: 'white', marginBottom: '16px', letterSpacing: '-0.5px' }}>
@@ -248,10 +244,10 @@ export default function HomePage() {
         }}>
           🎯 Get Started for Free
         </Link>
-      </section>
+      </section >
 
       {/* Footer */}
-      <footer style={{
+      < footer style={{
         padding: '40px',
         background: dark ? '#080612' : '#1e1b4b',
         color: 'rgba(255,255,255,0.5)',
@@ -264,7 +260,7 @@ export default function HomePage() {
         </div>
         <p>Powering Every Game. Everywhere. — India&apos;s National Sports Digital Infrastructure Platform</p>
         <p style={{ marginTop: '8px', fontSize: '12px' }}>© 2026 Game Sphere. All rights reserved.</p>
-      </footer>
-    </div>
+      </footer >
+    </div >
   );
 }
