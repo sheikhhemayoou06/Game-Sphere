@@ -1169,23 +1169,19 @@ export default function DashboardPage() {
                             {selectedSport ? `${sportIcon} ${sportLabel} — ${theme.sectionTitle}` : theme.sectionTitle}
                         </h2>
                         <p style={{ fontSize: '13px', color: theme.textSecondary, marginBottom: '16px' }}>
-                            {selectedSport ? `${sportLabel} ${theme.quickAccessTitle}` : theme.quickAccessTitle}
+                            {theme.quickAccessTitle}
                         </p>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-                            {quickCards.map((item) => {
-                                // Add sport context to card descriptions
-                                const sportDesc = selectedSport ? item.desc.replace(/Browse &|Browse|Manage|Your|View/i, (m: string) => `${m} ${sportLabel}`.replace(`${m} ${sportLabel}`, `${sportLabel} — ${item.desc.charAt(0).toLowerCase()}${item.desc.slice(1)}`)) : item.desc;
-                                return (
-                                    <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} className="card-hover" style={{
-                                        padding: '28px', borderRadius: '16px', background: item.gradient,
-                                        textDecoration: 'none', color: 'white', display: 'block', transition: 'transform 0.2s',
-                                    }}>
-                                        <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>{item.icon}</div>
-                                        <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '4px' }}>{item.label}</div>
-                                        <div style={{ fontSize: '12px', opacity: 0.75 }}>{selectedSport ? `${sportLabel} — ${item.desc.toLowerCase()}` : item.desc}</div>
-                                    </Link>
-                                );
-                            })}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px' }}>
+                            {quickCards.map((item) => (
+                                <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} className="card-hover" style={{
+                                    padding: '24px', borderRadius: '16px', background: item.gradient,
+                                    textDecoration: 'none', color: 'white', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s',
+                                }}>
+                                    <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>{item.icon}</div>
+                                    <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '6px' }}>{item.label}</div>
+                                    <div style={{ fontSize: '13px', opacity: 0.8, lineHeight: 1.4 }}>{item.desc}</div>
+                                </Link>
+                            ))}
                         </div>
                     </div>
                 )}
