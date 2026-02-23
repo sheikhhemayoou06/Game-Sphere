@@ -112,11 +112,11 @@ export declare class SearchService {
             updatedAt: Date;
             name: string;
             sportId: string;
+            status: string;
+            level: string;
             organizerId: string;
             description: string | null;
-            level: string;
             format: string;
-            status: string;
             maxTeams: number;
             squadSize: number;
             registrationFee: number;

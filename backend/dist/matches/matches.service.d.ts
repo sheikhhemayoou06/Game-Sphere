@@ -157,8 +157,8 @@ export declare class MatchesService {
             };
         } & {
             id: string;
-            playerId: string;
             matchId: string;
+            playerId: string;
             statsData: string | null;
         })[];
     } & {
@@ -307,8 +307,8 @@ export declare class MatchesService {
     }>;
     updatePlayerStats(matchId: string, playerId: string, statsData: any): Promise<{
         id: string;
-        playerId: string;
         matchId: string;
+        playerId: string;
         statsData: string | null;
     }>;
     getLiveMatches(): Promise<({

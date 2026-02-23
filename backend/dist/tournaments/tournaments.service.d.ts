@@ -39,11 +39,11 @@ export declare class TournamentsService {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -174,9 +174,9 @@ export declare class TournamentsService {
             id: string;
             seed: number | null;
             status: string;
+            registeredAt: Date;
             tournamentId: string;
             teamId: string;
-            registeredAt: Date;
         })[];
         organizer: {
             id: string;
@@ -190,11 +190,11 @@ export declare class TournamentsService {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -249,11 +249,11 @@ export declare class TournamentsService {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -291,11 +291,11 @@ export declare class TournamentsService {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -316,11 +316,11 @@ export declare class TournamentsService {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -351,33 +351,33 @@ export declare class TournamentsService {
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     }>;
     approveTeam(tournamentId: string, teamId: string): Promise<{
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     }>;
     rejectTeam(tournamentId: string, teamId: string): Promise<{
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     }>;
     withdrawTeam(tournamentId: string, teamId: string): Promise<{
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     }>;
     generateFixtures(tournamentId: string): Promise<{
         sport: {
@@ -495,9 +495,9 @@ export declare class TournamentsService {
             id: string;
             seed: number | null;
             status: string;
+            registeredAt: Date;
             tournamentId: string;
             teamId: string;
-            registeredAt: Date;
         })[];
         organizer: {
             id: string;
@@ -511,11 +511,11 @@ export declare class TournamentsService {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -594,9 +594,9 @@ export declare class TournamentsService {
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     })[]>;
     getTournamentFinancials(tournamentId: string): Promise<{
         totalRegistrations: number;
@@ -624,17 +624,17 @@ export declare class TournamentsService {
         id: string;
         createdAt: Date;
         tournamentId: string;
-        senderId: string;
-        message: string;
         type: string;
+        message: string;
+        senderId: string;
     }[]>;
     sendChatMessage(tournamentId: string, senderId: string, message: string, type?: string): Promise<{
         id: string;
         createdAt: Date;
         tournamentId: string;
-        senderId: string;
-        message: string;
         type: string;
+        message: string;
+        senderId: string;
     }>;
     getMedia(tournamentId: string): Promise<{
         id: string;
@@ -642,8 +642,8 @@ export declare class TournamentsService {
         description: string | null;
         tournamentId: string;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         url: string;
     }[]>;
     addMedia(tournamentId: string, uploadedBy: string, data: {
@@ -657,8 +657,8 @@ export declare class TournamentsService {
         description: string | null;
         tournamentId: string;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         url: string;
     }>;
 }

@@ -35,11 +35,11 @@ export declare class TournamentsController {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -170,9 +170,9 @@ export declare class TournamentsController {
             id: string;
             seed: number | null;
             status: string;
+            registeredAt: Date;
             tournamentId: string;
             teamId: string;
-            registeredAt: Date;
         })[];
         organizer: {
             id: string;
@@ -186,11 +186,11 @@ export declare class TournamentsController {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -236,11 +236,11 @@ export declare class TournamentsController {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -278,11 +278,11 @@ export declare class TournamentsController {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -303,11 +303,11 @@ export declare class TournamentsController {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -338,17 +338,17 @@ export declare class TournamentsController {
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     }>;
     approveTeam(id: string, teamId: string): Promise<{
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     }>;
     generateFixtures(id: string): Promise<{
         sport: {
@@ -466,9 +466,9 @@ export declare class TournamentsController {
             id: string;
             seed: number | null;
             status: string;
+            registeredAt: Date;
             tournamentId: string;
             teamId: string;
-            registeredAt: Date;
         })[];
         organizer: {
             id: string;
@@ -482,11 +482,11 @@ export declare class TournamentsController {
         updatedAt: Date;
         name: string;
         sportId: string;
+        status: string;
+        level: string;
         organizerId: string;
         description: string | null;
-        level: string;
         format: string;
-        status: string;
         maxTeams: number;
         squadSize: number;
         registrationFee: number;
@@ -557,25 +557,25 @@ export declare class TournamentsController {
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     })[]>;
     withdrawTeam(id: string, teamId: string): Promise<{
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     }>;
     rejectTeam(id: string, teamId: string): Promise<{
         id: string;
         seed: number | null;
         status: string;
+        registeredAt: Date;
         tournamentId: string;
         teamId: string;
-        registeredAt: Date;
     }>;
     getFinancials(id: string): Promise<{
         totalRegistrations: number;
@@ -603,9 +603,9 @@ export declare class TournamentsController {
         id: string;
         createdAt: Date;
         tournamentId: string;
-        senderId: string;
-        message: string;
         type: string;
+        message: string;
+        senderId: string;
     }[]>;
     sendChatMessage(id: string, req: any, body: {
         message: string;
@@ -614,9 +614,9 @@ export declare class TournamentsController {
         id: string;
         createdAt: Date;
         tournamentId: string;
-        senderId: string;
-        message: string;
         type: string;
+        message: string;
+        senderId: string;
     }>;
     getMedia(id: string): Promise<{
         id: string;
@@ -624,8 +624,8 @@ export declare class TournamentsController {
         description: string | null;
         tournamentId: string;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         url: string;
     }[]>;
     addMedia(id: string, req: any, body: any): Promise<{
@@ -634,8 +634,8 @@ export declare class TournamentsController {
         description: string | null;
         tournamentId: string;
         type: string;
-        uploadedBy: string;
         title: string;
+        uploadedBy: string;
         url: string;
     }>;
 }
