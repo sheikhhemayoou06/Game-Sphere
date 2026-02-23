@@ -46,7 +46,7 @@ export default function AuditPage() {
                 <p style={{ color: '#64748b', fontSize: '16px', marginBottom: '28px' }}>Complete activity trail — every action, every user, every timestamp</p>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Total Events', value: ACTIVITIES.length, icon: '📝', color: '#3b82f6' },
                         { label: 'Admin Actions', value: ACTIVITIES.filter(a => a.user.includes('Admin')).length, icon: '🛡️', color: '#f59e0b' },
@@ -62,7 +62,7 @@ export default function AuditPage() {
                 </div>
 
                 {/* Filters */}
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
                     <input value={filter} onChange={e => setFilter(e.target.value)} placeholder="🔍 Search activities..."
                         style={{ flex: 1, padding: '12px 16px', borderRadius: '10px', border: '1px solid #334155', background: '#1e293b', color: '#e2e8f0', fontSize: '14px' }} />
                     <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}

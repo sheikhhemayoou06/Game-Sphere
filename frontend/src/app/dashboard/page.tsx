@@ -493,7 +493,7 @@ export default function DashboardPage() {
                         Select a sport to view your personalized dashboard. You can switch anytime.
                     </p>
                 </div>
-                <div style={{
+                <div className="grid-cols-2-mobile" style={{
                     display: 'grid',
                     gridTemplateColumns: `repeat(${Math.min(availableSports.length, 4)}, 1fr)`,
                     gap: '20px', maxWidth: '900px', width: '100%',
@@ -1016,7 +1016,7 @@ export default function DashboardPage() {
                             {(ownerDashData?.upcomingFixtures || []).length === 0 && (ownerDashData?.matchHistory || []).length === 0 ? (
                                 <div style={{ fontSize: '12px', color: '#94a3b8', padding: '16px 0', textAlign: 'center' }}>No {selectedSport.name} fixtures yet</div>
                             ) : (
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                                     {(ownerDashData?.upcomingFixtures || []).slice(0, 3).map((m: any, i: number) => (
                                         <div key={i} style={{ padding: '14px', borderRadius: '10px', background: '#faf5ff', border: `1px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
                                             <div style={{ fontWeight: 800, fontSize: '14px', color: '#1e1b4b', marginBottom: '4px' }}>
@@ -1093,7 +1093,7 @@ export default function DashboardPage() {
                                     <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select an Active Tournament</h3>
                                     <p style={{ fontSize: '14px', color: theme.textSecondary }}>Choose a tournament to load scoped data and tools.</p>
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
                                     {tournaments.filter(t => t.sport?.id === selectedSport.id).map(t => (
                                         <button key={t.id} onClick={() => useSportStore.getState().setActiveTournament(t)} style={{
                                             padding: '16px', borderRadius: '12px', background: '#faf5ff', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}40`,
@@ -1121,7 +1121,7 @@ export default function DashboardPage() {
                             </div>
                         ) : (
                             <div>
-                                <div style={{ padding: '16px', borderRadius: '12px', background: `${selectedSport.accentColor || '#7c3aed'}10`, border: `1px solid ${selectedSport.accentColor || '#7c3aed'}30`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+                                <div className="flex-wrap-mobile" style={{ padding: '16px', borderRadius: '12px', background: `${selectedSport.accentColor || '#7c3aed'}10`, border: `1px solid ${selectedSport.accentColor || '#7c3aed'}30`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', gap: '12px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                         <div style={{ fontSize: '24px' }}>🔒</div>
                                         <div>
@@ -1133,7 +1133,7 @@ export default function DashboardPage() {
                                         {sportLabel} • {activeTournament.format}
                                     </span>
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
                                     {[
                                         { href: `/tournaments/${activeTournament.id}?tab=overview`, label: 'Overview', desc: 'Stats & Activity', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
                                         { href: `/tournaments/${activeTournament.id}?tab=teams`, label: 'Teams', desc: 'Registrations & Squads', icon: '📝', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },

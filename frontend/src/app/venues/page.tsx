@@ -41,7 +41,7 @@ export default function VenuesPage() {
                 <p style={{ color: '#166534', fontSize: '16px', marginBottom: '28px' }}>Discover stadiums, arenas, and training centres across India</p>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Total Venues', value: filtered.length, icon: '🏟️', color: '#166534' },
                         { label: 'Available', value: filtered.filter(v => v.status === 'AVAILABLE').length, icon: '✅', color: '#22c55e' },
@@ -57,7 +57,7 @@ export default function VenuesPage() {
                 </div>
 
                 {/* Filters */}
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
                     <input value={filter} onChange={e => setFilter(e.target.value)} placeholder="🔍 Search venues..."
                         style={{ flex: 1, padding: '12px 16px', borderRadius: '10px', border: '2px solid #bbf7d0', fontSize: '14px' }} />
                     <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}

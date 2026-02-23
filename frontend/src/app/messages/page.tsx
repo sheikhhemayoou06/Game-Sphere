@@ -202,7 +202,7 @@ export default function MessagesPage() {
 
                     {/* Team Chat */}
                     {ownerTab === 'team' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: '16px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: '16px' }}>
                             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden', display: 'flex', flexDirection: 'column' as const, height: '520px' }}>
                                 {/* Chat Header */}
                                 <div style={{ padding: '14px 20px', background: '#faf5ff', borderBottom: '1px solid #f3e8ff', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -299,7 +299,7 @@ export default function MessagesPage() {
 
                     {/* Player DMs */}
                     {ownerTab === 'dms' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '16px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '16px' }}>
                             {/* Conversation List */}
                             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden', height: '520px', overflowY: 'auto' as const }}>
                                 <div style={{ padding: '14px 16px', borderBottom: '1px solid #f3e8ff', fontSize: '13px', fontWeight: 700, color: '#6d28d9' }}>✉️ DIRECT MESSAGES</div>
@@ -350,7 +350,7 @@ export default function MessagesPage() {
 
                     {/* Staff Chat */}
                     {ownerTab === 'staff' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 240px', gap: '16px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 240px', gap: '16px' }}>
                             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden', display: 'flex', flexDirection: 'column' as const, height: '520px' }}>
                                 <div style={{ padding: '14px 20px', background: '#faf5ff', borderBottom: '1px solid #f3e8ff', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <span style={{ fontSize: '18px' }}>🏢</span>
@@ -413,7 +413,7 @@ export default function MessagesPage() {
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '28px 32px' }}>
                 <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#1e1b4b', marginBottom: '20px' }}>{sportIcon} {selectedSport ? `${sportLabel} Messages` : '💬 Messages'}</h1>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: '16px' }}>
+                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: '16px' }}>
                     {/* Sidebar */}
                     <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden' }}>
                         <div style={{ padding: '14px 16px', borderBottom: '1px solid #f3e8ff', fontSize: '13px', fontWeight: 700, color: '#6d28d9' }}>CONVERSATIONS</div>

@@ -84,7 +84,7 @@ export default function PlayerProfilePage() {
                         </div>
                     )}
 
-                    <div style={{ display: 'flex', gap: '24px', marginTop: '20px', fontSize: '14px', opacity: 0.8 }}>
+                    <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '24px', marginTop: '20px', fontSize: '14px', opacity: 0.8 }}>
                         <span>📍 {profile.city || 'N/A'}, {profile.state || 'N/A'}</span>
                         <span>🏳️ {profile.country || 'India'}</span>
                         <span>🎮 {profile.primarySport || 'Multi-sport'}</span>
@@ -92,7 +92,7 @@ export default function PlayerProfilePage() {
                 </div>
 
                 {/* Career Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '28px' }}>
+                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '28px' }}>
                     {[
                         { label: 'Total Matches', value: profile.totalMatches || 0, icon: '⚔️', color: '#6366f1' },
                         { label: 'Total Wins', value: profile.totalWins || 0, icon: '🏆', color: '#10b981' },

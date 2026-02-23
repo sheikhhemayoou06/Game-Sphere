@@ -64,7 +64,7 @@ export default function SettingsPage() {
                     </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '24px' }}>
+                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '24px' }}>
                     {/* Sidebar tabs */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                         {tabs.map((t) => (
@@ -84,7 +84,7 @@ export default function SettingsPage() {
                         {activeTab === 'profile' && (
                             <div>
                                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Personal Information</h2>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                                     {[
                                         { label: 'First Name', key: 'firstName' as const },
                                         { label: 'Last Name', key: 'lastName' as const },

@@ -81,7 +81,7 @@ export default function CalendarPage() {
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#1e3a8a', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Calendar` : 'Calendar'}</h1>
                 <p style={{ color: '#1e40af', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} match schedules, tournament dates, and events` : 'Match schedules, tournament dates, and event timeline'}</p>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
                     {/* Calendar grid */}
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '24px', boxShadow: '0 4px 24px rgba(30,64,175,0.06)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -90,7 +90,7 @@ export default function CalendarPage() {
                             <button onClick={nextMonth} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #bfdbfe', background: '#fff', cursor: 'pointer', fontWeight: 700, fontSize: '16px', color: '#1e40af' }}>→</button>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px' }}>
+                        <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px' }}>
                             {dayNames.map(d => (
                                 <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: 700, color: '#64748b', padding: '8px 0' }}>{d}</div>
                             ))}

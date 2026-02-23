@@ -46,7 +46,7 @@ export default function ExportsPage() {
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#064e3b', marginBottom: '8px' }}>📤 Reports Center</h1>
                 <p style={{ color: '#065f46', fontSize: '16px', marginBottom: '28px' }}>Generate reports, export data, and download platform insights</p>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Report Templates', value: REPORT_TEMPLATES.length, icon: '📄', color: '#065f46' },
                         { label: 'Recent Exports', value: RECENT_EXPORTS.length, icon: '📤', color: '#3b82f6' },
@@ -61,7 +61,7 @@ export default function ExportsPage() {
                     ))}
                 </div>
 
-                <div style={{ display: 'flex', gap: '4px', background: 'rgba(6,95,70,0.08)', borderRadius: '12px', padding: '4px', marginBottom: '20px', width: 'fit-content' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '4px', background: 'rgba(6,95,70,0.08)', borderRadius: '12px', padding: '4px', marginBottom: '20px', width: 'fit-content' }}>
                     {(['templates', 'history'] as const).map(t => (
                         <button key={t} onClick={() => setTab(t)}
                             style={{ padding: '10px 24px', borderRadius: '10px', border: 'none', background: tab === t ? '#065f46' : 'transparent', color: tab === t ? '#fff' : '#065f46', fontWeight: 700, fontSize: '14px', cursor: 'pointer' }}>
@@ -79,7 +79,7 @@ export default function ExportsPage() {
                                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
                             </select>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                             {filtered.map(r => {
                                 const fmt = FORMAT_COLORS[r.format] || FORMAT_COLORS.PDF;
                                 return (
@@ -104,22 +104,24 @@ export default function ExportsPage() {
                         </div>
                     </>
                 ) : (
-                    <div style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(6,95,70,0.06)' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 80px', padding: '14px 20px', background: '#065f46', color: '#fff', fontSize: '11px', fontWeight: 700, gap: '8px' }}>
-                            <span>FILE</span><span>SIZE</span><span>DATE</span><span>STATUS</span><span></span>
-                        </div>
-                        {RECENT_EXPORTS.map((e, i) => (
-                            <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 80px', padding: '14px 20px', borderBottom: '1px solid #ecfdf5', background: i % 2 === 0 ? '#f0fdf4' : '#fff', fontSize: '13px', gap: '8px', alignItems: 'center' }}>
-                                <div>
-                                    <div style={{ fontWeight: 600, color: '#1e1b4b', fontSize: '13px' }}>{e.name}</div>
-                                    <span style={{ padding: '1px 6px', borderRadius: '3px', fontSize: '10px', fontWeight: 700, background: (FORMAT_COLORS[e.type] || FORMAT_COLORS.PDF).bg, color: (FORMAT_COLORS[e.type] || FORMAT_COLORS.PDF).color }}>{e.type}</span>
-                                </div>
-                                <span style={{ color: '#64748b' }}>{e.size}</span>
-                                <span style={{ color: '#64748b' }}>{e.date}</span>
-                                <span style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: e.status === 'COMPLETED' ? '#ecfdf5' : '#fffbeb', color: e.status === 'COMPLETED' ? '#22c55e' : '#f59e0b', width: 'fit-content' }}>{e.status === 'COMPLETED' ? '✅ Done' : '⏳ Processing'}</span>
-                                <button style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid #a7f3d0', background: '#fff', color: '#065f46', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>↓</button>
+                    <div style={{ background: '#fff', borderRadius: '16px', overflowX: 'auto', boxShadow: '0 4px 24px rgba(6,95,70,0.06)' }}>
+                        <div style={{ minWidth: '800px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 80px', padding: '14px 20px', background: '#065f46', color: '#fff', fontSize: '11px', fontWeight: 700, gap: '8px' }}>
+                                <span>FILE</span><span>SIZE</span><span>DATE</span><span>STATUS</span><span></span>
                             </div>
-                        ))}
+                            {RECENT_EXPORTS.map((e, i) => (
+                                <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 80px', padding: '14px 20px', borderBottom: '1px solid #ecfdf5', background: i % 2 === 0 ? '#f0fdf4' : '#fff', fontSize: '13px', gap: '8px', alignItems: 'center' }}>
+                                    <div>
+                                        <div style={{ fontWeight: 600, color: '#1e1b4b', fontSize: '13px' }}>{e.name}</div>
+                                        <span style={{ padding: '1px 6px', borderRadius: '3px', fontSize: '10px', fontWeight: 700, background: (FORMAT_COLORS[e.type] || FORMAT_COLORS.PDF).bg, color: (FORMAT_COLORS[e.type] || FORMAT_COLORS.PDF).color }}>{e.type}</span>
+                                    </div>
+                                    <span style={{ color: '#64748b' }}>{e.size}</span>
+                                    <span style={{ color: '#64748b' }}>{e.date}</span>
+                                    <span style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: e.status === 'COMPLETED' ? '#ecfdf5' : '#fffbeb', color: e.status === 'COMPLETED' ? '#22c55e' : '#f59e0b', width: 'fit-content' }}>{e.status === 'COMPLETED' ? '✅ Done' : '⏳ Processing'}</span>
+                                    <button style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid #a7f3d0', background: '#fff', color: '#065f46', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>↓</button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>

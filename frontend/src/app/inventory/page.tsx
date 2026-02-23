@@ -47,7 +47,7 @@ export default function InventoryPage() {
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>📦 Inventory & Equipment</h1>
                 <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>Track sports equipment, supplies, and facility assets</p>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Item Types', value: EQUIPMENT.length, icon: '📦', color: '#92400e' },
                         { label: 'Total Stock', value: totalItems, icon: '📊', color: '#3b82f6' },
@@ -62,7 +62,7 @@ export default function InventoryPage() {
                     ))}
                 </div>
 
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
                     <input value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 Search equipment..."
                         style={{ flex: 1, padding: '12px 16px', borderRadius: '10px', border: '2px solid #fde68a', fontSize: '14px' }} />
                     <select value={catFilter} onChange={e => setCatFilter(e.target.value)}
@@ -72,26 +72,28 @@ export default function InventoryPage() {
                     </select>
                 </div>
 
-                <div style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(146,64,14,0.06)' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '48px 2fr 1fr 1fr 1fr 1fr', padding: '14px 20px', background: '#92400e', color: '#fff', fontSize: '11px', fontWeight: 700, gap: '8px' }}>
-                        <span></span><span>ITEM</span><span>QTY</span><span>AVAILABLE</span><span>CONDITION</span><span>VALUE</span>
-                    </div>
-                    {filtered.map((e, i) => {
-                        const cond = CONDITION_COLORS[e.condition] || CONDITION_COLORS.GOOD;
-                        return (
-                            <div key={e.id} style={{ display: 'grid', gridTemplateColumns: '48px 2fr 1fr 1fr 1fr 1fr', padding: '14px 20px', borderBottom: '1px solid #fef3c7', background: i % 2 === 0 ? '#fffbeb' : '#fff', fontSize: '13px', gap: '8px', alignItems: 'center' }}>
-                                <span style={{ fontSize: '24px' }}>{e.icon}</span>
-                                <div>
-                                    <div style={{ fontWeight: 700, color: '#1e1b4b' }}>{e.name}</div>
-                                    <div style={{ fontSize: '11px', color: '#64748b' }}>📍 {e.location} · {e.category}</div>
+                <div style={{ background: '#fff', borderRadius: '16px', overflowX: 'auto', boxShadow: '0 4px 24px rgba(146,64,14,0.06)' }}>
+                    <div style={{ minWidth: '800px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '48px 2fr 1fr 1fr 1fr 1fr', padding: '14px 20px', background: '#92400e', color: '#fff', fontSize: '11px', fontWeight: 700, gap: '8px' }}>
+                            <span></span><span>ITEM</span><span>QTY</span><span>AVAILABLE</span><span>CONDITION</span><span>VALUE</span>
+                        </div>
+                        {filtered.map((e, i) => {
+                            const cond = CONDITION_COLORS[e.condition] || CONDITION_COLORS.GOOD;
+                            return (
+                                <div key={e.id} style={{ display: 'grid', gridTemplateColumns: '48px 2fr 1fr 1fr 1fr 1fr', padding: '14px 20px', borderBottom: '1px solid #fef3c7', background: i % 2 === 0 ? '#fffbeb' : '#fff', fontSize: '13px', gap: '8px', alignItems: 'center' }}>
+                                    <span style={{ fontSize: '24px' }}>{e.icon}</span>
+                                    <div>
+                                        <div style={{ fontWeight: 700, color: '#1e1b4b' }}>{e.name}</div>
+                                        <div style={{ fontSize: '11px', color: '#64748b' }}>📍 {e.location} · {e.category}</div>
+                                    </div>
+                                    <span style={{ fontWeight: 700, color: '#1e1b4b' }}>{e.quantity}</span>
+                                    <span style={{ fontWeight: 700, color: e.available < e.quantity * 0.5 ? '#ef4444' : '#22c55e' }}>{e.available}</span>
+                                    <span style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: cond.bg, color: cond.color, width: 'fit-content' }}>{e.condition}</span>
+                                    <span style={{ fontWeight: 600, color: '#64748b' }}>₹{(e.quantity * e.unitCost / 1000).toFixed(0)}K</span>
                                 </div>
-                                <span style={{ fontWeight: 700, color: '#1e1b4b' }}>{e.quantity}</span>
-                                <span style={{ fontWeight: 700, color: e.available < e.quantity * 0.5 ? '#ef4444' : '#22c55e' }}>{e.available}</span>
-                                <span style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: cond.bg, color: cond.color, width: 'fit-content' }}>{e.condition}</span>
-                                <span style={{ fontWeight: 600, color: '#64748b' }}>₹{(e.quantity * e.unitCost / 1000).toFixed(0)}K</span>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </div>

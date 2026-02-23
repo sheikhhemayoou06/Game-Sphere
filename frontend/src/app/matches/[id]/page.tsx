@@ -85,7 +85,7 @@ export default function MatchDetailPage() {
                         {sportIcons[match.sport?.name] || '🏅'} {match.sport?.name} — {match.tournament?.name}
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
+                    <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
                         {/* Home */}
                         <div style={{ flex: '1', textAlign: 'center' }}>
                             <div style={{
@@ -140,7 +140,7 @@ export default function MatchDetailPage() {
                     border: '1px solid #f1f5f9', marginBottom: '24px',
                 }}>
                     <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px', color: '#1e1b4b' }}>Match Info</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', fontSize: '14px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', fontSize: '14px' }}>
                         <div>
                             <span style={{ color: '#94a3b8' }}>Sport: </span>
                             <span style={{ fontWeight: 600, color: '#1e1b4b' }}>{match.sport?.name}</span>

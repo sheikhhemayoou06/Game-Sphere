@@ -192,7 +192,7 @@ export default function PlayerProfilePage() {
                     </div>
 
                     {/* Owner Tabs */}
-                    <div style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
+                    <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
                         {[
                             { key: 'team' as const, label: '👥 Team Profile' },
                             { key: 'financial' as const, label: '💰 Financial Summary' },
@@ -255,30 +255,32 @@ export default function PlayerProfilePage() {
                     )}
 
                     {ownerTab === 'seasons' && (
-                        <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse' as const }}>
-                                <thead>
-                                    <tr style={{ background: 'rgba(255,255,255,0.08)' }}>
-                                        {['Season', 'P', 'W', 'L', 'D', 'Pts', 'Pos', 'Result'].map(h => (
-                                            <th key={h} style={{ padding: '14px 12px', fontSize: '11px', fontWeight: 700, color: '#94a3b8', textAlign: 'left' as const }}>{h}</th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {SEASON_HISTORY.map((s, i) => (
-                                        <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                                            <td style={{ padding: '14px 12px', fontWeight: 700, fontSize: '14px', color: '#e2e8f0' }}>{s.season}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{s.played}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#22c55e' }}>{s.won}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#ef4444' }}>{s.lost}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{s.drawn}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '15px', fontWeight: 800, color: '#f59e0b' }}>{s.points}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '16px', fontWeight: 800, color: '#8b5cf6' }}>#{s.position}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '13px', fontWeight: 700 }}>{s.result}</td>
+                        <div style={{ borderRadius: '16px', overflowX: 'auto', border: '1px solid rgba(255,255,255,0.1)' }}>
+                            <div style={{ minWidth: '600px' }}>
+                                <table style={{ width: '100%', borderCollapse: 'collapse' as const }}>
+                                    <thead>
+                                        <tr style={{ background: 'rgba(255,255,255,0.08)' }}>
+                                            {['Season', 'P', 'W', 'L', 'D', 'Pts', 'Pos', 'Result'].map(h => (
+                                                <th key={h} style={{ padding: '14px 12px', fontSize: '11px', fontWeight: 700, color: '#94a3b8', textAlign: 'left' as const }}>{h}</th>
+                                            ))}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {SEASON_HISTORY.map((s, i) => (
+                                            <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                                                <td style={{ padding: '14px 12px', fontWeight: 700, fontSize: '14px', color: '#e2e8f0' }}>{s.season}</td>
+                                                <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{s.played}</td>
+                                                <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#22c55e' }}>{s.won}</td>
+                                                <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#ef4444' }}>{s.lost}</td>
+                                                <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{s.drawn}</td>
+                                                <td style={{ padding: '14px 12px', fontSize: '15px', fontWeight: 800, color: '#f59e0b' }}>{s.points}</td>
+                                                <td style={{ padding: '14px 12px', fontSize: '16px', fontWeight: 800, color: '#8b5cf6' }}>#{s.position}</td>
+                                                <td style={{ padding: '14px 12px', fontSize: '13px', fontWeight: 700 }}>{s.result}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -554,10 +556,10 @@ export default function PlayerProfilePage() {
 
                 {/* ═══ FOOTBALL STATS TAB ═══ */}
                 {activeTab === 'football' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                         <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
                             <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>⚽ Football Statistics</h3>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
                                 {[
                                     { label: 'Matches', value: fs.matches, color: '#6366f1' },
                                     { label: 'Goals', value: fs.goals, color: '#22c55e' },
@@ -575,7 +577,7 @@ export default function PlayerProfilePage() {
                         </div>
                         <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
                             <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>🟡 Discipline</h3>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px' }}>
+                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px' }}>
                                 {[
                                     { label: 'Yellow Cards', value: fs.yellowCards, color: '#f59e0b' },
                                     { label: 'Red Cards', value: fs.redCards, color: '#ef4444' },
@@ -592,40 +594,42 @@ export default function PlayerProfilePage() {
 
                 {/* ═══ TOURNAMENT BREAKDOWN TAB ═══ */}
                 {activeTab === 'tournaments' && (
-                    <div style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                            <thead>
-                                <tr style={{ background: 'rgba(255,255,255,0.08)' }}>
-                                    {['Tournament', 'Sport', 'M', 'Runs/Goals', 'Wkts/Ast', 'Catches', 'Best', 'Result'].map(h => (
-                                        <th key={h} style={{ padding: '14px 12px', fontSize: '11px', fontWeight: 700, color: '#94a3b8', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>{h}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredTournaments.map((t, i) => (
-                                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                                        <td style={{ padding: '14px 12px', fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{t.name}</td>
-                                        <td style={{ padding: '14px 12px' }}>
-                                            <span style={{ padding: '2px 8px', borderRadius: '4px', background: t.sport === 'Cricket' ? 'rgba(99,102,241,0.2)' : 'rgba(239,68,68,0.2)', color: t.sport === 'Cricket' ? '#a5b4fc' : '#fca5a5', fontSize: '11px', fontWeight: 600 }}>{t.sport}</span>
-                                        </td>
-                                        <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8', fontWeight: 700 }}>{t.matches}</td>
-                                        <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 800, color: '#22c55e' }}>{t.sport === 'Cricket' ? t.runs : t.bestScore}</td>
-                                        <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#f59e0b' }}>{t.sport === 'Cricket' ? t.wickets : '—'}</td>
-                                        <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{t.sport === 'Cricket' ? t.catches : '—'}</td>
-                                        <td style={{ padding: '14px 12px', fontSize: '13px', fontWeight: 700, color: '#8b5cf6' }}>{t.bestScore}</td>
-                                        <td style={{ padding: '14px 12px' }}>
-                                            <span style={{ fontSize: '12px', fontWeight: 700 }}>{t.result}</span>
-                                        </td>
+                    <div style={{ borderRadius: '20px', overflowX: 'auto', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <div style={{ minWidth: '700px' }}>
+                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                <thead>
+                                    <tr style={{ background: 'rgba(255,255,255,0.08)' }}>
+                                        {['Tournament', 'Sport', 'M', 'Runs/Goals', 'Wkts/Ast', 'Catches', 'Best', 'Result'].map(h => (
+                                            <th key={h} style={{ padding: '14px 12px', fontSize: '11px', fontWeight: 700, color: '#94a3b8', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>{h}</th>
+                                        ))}
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {filteredTournaments.map((t, i) => (
+                                        <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                                            <td style={{ padding: '14px 12px', fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{t.name}</td>
+                                            <td style={{ padding: '14px 12px' }}>
+                                                <span style={{ padding: '2px 8px', borderRadius: '4px', background: t.sport === 'Cricket' ? 'rgba(99,102,241,0.2)' : 'rgba(239,68,68,0.2)', color: t.sport === 'Cricket' ? '#a5b4fc' : '#fca5a5', fontSize: '11px', fontWeight: 600 }}>{t.sport}</span>
+                                            </td>
+                                            <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8', fontWeight: 700 }}>{t.matches}</td>
+                                            <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 800, color: '#22c55e' }}>{t.sport === 'Cricket' ? t.runs : t.bestScore}</td>
+                                            <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#f59e0b' }}>{t.sport === 'Cricket' ? t.wickets : '—'}</td>
+                                            <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{t.sport === 'Cricket' ? t.catches : '—'}</td>
+                                            <td style={{ padding: '14px 12px', fontSize: '13px', fontWeight: 700, color: '#8b5cf6' }}>{t.bestScore}</td>
+                                            <td style={{ padding: '14px 12px' }}>
+                                                <span style={{ fontSize: '12px', fontWeight: 700 }}>{t.result}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
 
                 {/* ═══ HISTORY TAB ═══ */}
                 {activeTab === 'history' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
                         <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
                             <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏅 Certificates</h3>
                             {filteredCertificates.map((c, i) => (

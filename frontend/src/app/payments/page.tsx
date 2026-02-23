@@ -116,7 +116,7 @@ export default function PaymentsPage() {
 
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px' }}>
                     {/* Stats */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '24px' }}>
+                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '24px' }}>
                         {[
                             { label: 'Total Revenue', value: fmt(totalRevenue), icon: '📈', color: '#16a34a' },
                             { label: 'Total Expenses', value: fmt(totalExpenses), icon: '📉', color: '#ef4444' },
@@ -155,20 +155,22 @@ export default function PaymentsPage() {
 
                     {/* Revenue */}
                     {ownerTab === 'revenue' && (
-                        <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden' }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.6fr 0.5fr 0.4fr 0.35fr 0.35fr', padding: '14px 20px', background: '#faf5ff', fontSize: '12px', fontWeight: 700, color: '#6d28d9', textTransform: 'uppercase' as const }}>
-                                <span>ID</span><span>From</span><span>Type</span><span>Amount</span><span>Status</span><span>Date</span>
-                            </div>
-                            {sportRevenue.map((r, i) => (
-                                <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.6fr 0.5fr 0.4fr 0.35fr 0.35fr', padding: '14px 20px', borderTop: '1px solid #f3e8ff', alignItems: 'center' }}>
-                                    <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>{r.id}</span>
-                                    <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{r.from}</span>
-                                    <span style={{ fontSize: '12px', color: '#64748b' }}>{r.type}</span>
-                                    <span style={{ fontSize: '14px', fontWeight: 700, color: '#16a34a' }}>+{fmt(r.amount)}</span>
-                                    <span style={{ padding: '3px 10px', borderRadius: '6px', background: statusStyle(r.status).bg, color: statusStyle(r.status).color, fontSize: '11px', fontWeight: 700, textAlign: 'center' as const }}>{r.status}</span>
-                                    <span style={{ fontSize: '12px', color: '#64748b' }}>{r.date}</span>
+                        <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflowX: 'auto' }}>
+                            <div style={{ minWidth: '800px' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.6fr 0.5fr 0.4fr 0.35fr 0.35fr', padding: '14px 20px', background: '#faf5ff', fontSize: '12px', fontWeight: 700, color: '#6d28d9', textTransform: 'uppercase' as const }}>
+                                    <span>ID</span><span>From</span><span>Type</span><span>Amount</span><span>Status</span><span>Date</span>
                                 </div>
-                            ))}
+                                {sportRevenue.map((r, i) => (
+                                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.6fr 0.5fr 0.4fr 0.35fr 0.35fr', padding: '14px 20px', borderTop: '1px solid #f3e8ff', alignItems: 'center' }}>
+                                        <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>{r.id}</span>
+                                        <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{r.from}</span>
+                                        <span style={{ fontSize: '12px', color: '#64748b' }}>{r.type}</span>
+                                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#16a34a' }}>+{fmt(r.amount)}</span>
+                                        <span style={{ padding: '3px 10px', borderRadius: '6px', background: statusStyle(r.status).bg, color: statusStyle(r.status).color, fontSize: '11px', fontWeight: 700, textAlign: 'center' as const }}>{r.status}</span>
+                                        <span style={{ fontSize: '12px', color: '#64748b' }}>{r.date}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
 
@@ -176,7 +178,7 @@ export default function PaymentsPage() {
                     {ownerTab === 'expenses' && (
                         <div>
                             {/* Category Breakdown */}
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '16px' }}>
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '16px' }}>
                                 {[
                                     { label: 'Player Acquisition', value: fmt(770000), pct: '85%', color: '#ef4444' },
                                     { label: 'Venue Rental', value: fmt(45000), pct: '5%', color: '#7c3aed' },
@@ -190,20 +192,22 @@ export default function PaymentsPage() {
                                     </div>
                                 ))}
                             </div>
-                            <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden' }}>
-                                <div style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.6fr 0.5fr 0.4fr 0.35fr 0.35fr', padding: '14px 20px', background: '#faf5ff', fontSize: '12px', fontWeight: 700, color: '#6d28d9', textTransform: 'uppercase' as const }}>
-                                    <span>ID</span><span>To</span><span>Type</span><span>Amount</span><span>Status</span><span>Date</span>
-                                </div>
-                                {sportExpenses.map((e, i) => (
-                                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.6fr 0.5fr 0.4fr 0.35fr 0.35fr', padding: '14px 20px', borderTop: '1px solid #f3e8ff', alignItems: 'center' }}>
-                                        <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>{e.id}</span>
-                                        <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{e.to}</span>
-                                        <span style={{ fontSize: '12px', color: '#64748b' }}>{e.type}</span>
-                                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#ef4444' }}>-{fmt(e.amount)}</span>
-                                        <span style={{ padding: '3px 10px', borderRadius: '6px', background: statusStyle(e.status).bg, color: statusStyle(e.status).color, fontSize: '11px', fontWeight: 700, textAlign: 'center' as const }}>{e.status}</span>
-                                        <span style={{ fontSize: '12px', color: '#64748b' }}>{e.date}</span>
+                            <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflowX: 'auto' }}>
+                                <div style={{ minWidth: '800px' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.6fr 0.5fr 0.4fr 0.35fr 0.35fr', padding: '14px 20px', background: '#faf5ff', fontSize: '12px', fontWeight: 700, color: '#6d28d9', textTransform: 'uppercase' as const }}>
+                                        <span>ID</span><span>To</span><span>Type</span><span>Amount</span><span>Status</span><span>Date</span>
                                     </div>
-                                ))}
+                                    {sportExpenses.map((e, i) => (
+                                        <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.6fr 0.5fr 0.4fr 0.35fr 0.35fr', padding: '14px 20px', borderTop: '1px solid #f3e8ff', alignItems: 'center' }}>
+                                            <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>{e.id}</span>
+                                            <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{e.to}</span>
+                                            <span style={{ fontSize: '12px', color: '#64748b' }}>{e.type}</span>
+                                            <span style={{ fontSize: '14px', fontWeight: 700, color: '#ef4444' }}>-{fmt(e.amount)}</span>
+                                            <span style={{ padding: '3px 10px', borderRadius: '6px', background: statusStyle(e.status).bg, color: statusStyle(e.status).color, fontSize: '11px', fontWeight: 700, textAlign: 'center' as const }}>{e.status}</span>
+                                            <span style={{ fontSize: '12px', color: '#64748b' }}>{e.date}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     )}
@@ -213,7 +217,7 @@ export default function PaymentsPage() {
                         <div>
                             <div style={{ padding: '24px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff', marginBottom: '20px' }}>
                                 <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#1e1b4b', marginBottom: '16px' }}>🧾 Generate Invoice</h3>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '16px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '16px' }}>
                                     <div>
                                         <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase' as const }}>Recipient</label>
                                         <select style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e9d5ff', fontSize: '14px', outline: 'none' }}>
@@ -238,7 +242,7 @@ export default function PaymentsPage() {
 
                             {/* Invoice Templates */}
                             <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#6d28d9', marginBottom: '10px' }}>📋 Quick Templates</h4>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                                 {INVOICE_TEMPLATES.map((t, i) => (
                                     <div key={i} style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f3e8ff' }}>
                                         <div style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b', marginBottom: '4px' }}>{t.label}</div>
@@ -274,7 +278,7 @@ export default function PaymentsPage() {
                 <p style={{ color: '#64748b', marginBottom: '20px', fontSize: '14px' }}>{selectedSport ? `${sportLabel} payments, receipts, and dues` : 'Track all payments, download receipts, and manage dues'}</p>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '20px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '20px' }}>
                     {[
                         { label: 'Total Paid', value: fmt(sportPayments.filter(p => p.status === 'PAID').reduce((s, p) => s + p.amount, 0)), icon: '✅', color: '#16a34a' },
                         { label: 'Pending', value: fmt(sportPayments.filter(p => p.status === 'PENDING').reduce((s, p) => s + p.amount, 0)), icon: '⏳', color: '#f59e0b' },
@@ -290,7 +294,7 @@ export default function PaymentsPage() {
                 </div>
 
                 {/* Filters */}
-                <div style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
                     {[
                         { key: 'all', label: 'All' },
                         { key: 'tournament', label: '🏆 Tournament' },
@@ -307,32 +311,34 @@ export default function PaymentsPage() {
                 </div>
 
                 {/* Table */}
-                <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f1f5f9', overflow: 'hidden', marginBottom: '16px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.5fr 0.7fr 0.35fr 0.3fr 0.35fr 0.3fr', padding: '12px 18px', background: '#f8fafc', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' as const }}>
-                        <span>ID</span><span>Type</span><span>Description</span><span>Amount</span><span>Status</span><span>Date</span><span>Action</span>
-                    </div>
-                    {filtered.map((p, i) => (
-                        <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.5fr 0.7fr 0.35fr 0.3fr 0.35fr 0.3fr', padding: '12px 18px', borderTop: '1px solid #f1f5f9', alignItems: 'center' }}>
-                            <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>{p.id}</span>
-                            <span style={{ fontSize: '12px', color: '#1e1b4b', fontWeight: 600 }}>{p.type}</span>
-                            <span style={{ fontSize: '12px', color: '#64748b' }}>{p.desc}</span>
-                            <span style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b' }}>{fmt(p.amount)}</span>
-                            <span style={{ padding: '2px 8px', borderRadius: '5px', background: statusStyle(p.status).bg, color: statusStyle(p.status).color, fontSize: '10px', fontWeight: 700, textAlign: 'center' as const }}>{p.status}</span>
-                            <span style={{ fontSize: '12px', color: '#64748b' }}>{p.date}</span>
-                            <div>
-                                {p.status === 'PAID' ? (
-                                    <button onClick={() => setShowReceipt(p.id)} style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #e2e8f0', background: 'white', color: '#14b8a6', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>🧾 Receipt</button>
-                                ) : (
-                                    <button style={{ padding: '4px 10px', borderRadius: '6px', border: 'none', background: p.status === 'OVERDUE' ? '#ef4444' : '#f59e0b', color: 'white', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>Pay Now</button>
-                                )}
-                            </div>
+                <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f1f5f9', overflowX: 'auto', marginBottom: '16px' }}>
+                    <div style={{ minWidth: '800px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.5fr 0.7fr 0.35fr 0.3fr 0.35fr 0.3fr', padding: '12px 18px', background: '#f8fafc', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' as const }}>
+                            <span>ID</span><span>Type</span><span>Description</span><span>Amount</span><span>Status</span><span>Date</span><span>Action</span>
                         </div>
-                    ))}
+                        {filtered.map((p, i) => (
+                            <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.5fr 0.7fr 0.35fr 0.3fr 0.35fr 0.3fr', padding: '12px 18px', borderTop: '1px solid #f1f5f9', alignItems: 'center' }}>
+                                <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>{p.id}</span>
+                                <span style={{ fontSize: '12px', color: '#1e1b4b', fontWeight: 600 }}>{p.type}</span>
+                                <span style={{ fontSize: '12px', color: '#64748b' }}>{p.desc}</span>
+                                <span style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b' }}>{fmt(p.amount)}</span>
+                                <span style={{ padding: '2px 8px', borderRadius: '5px', background: statusStyle(p.status).bg, color: statusStyle(p.status).color, fontSize: '10px', fontWeight: 700, textAlign: 'center' as const }}>{p.status}</span>
+                                <span style={{ fontSize: '12px', color: '#64748b' }}>{p.date}</span>
+                                <div>
+                                    {p.status === 'PAID' ? (
+                                        <button onClick={() => setShowReceipt(p.id)} style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #e2e8f0', background: 'white', color: '#14b8a6', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>🧾 Receipt</button>
+                                    ) : (
+                                        <button style={{ padding: '4px 10px', borderRadius: '6px', border: 'none', background: p.status === 'OVERDUE' ? '#ef4444' : '#f59e0b', color: 'white', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>Pay Now</button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 {/* Payment Methods */}
                 <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', marginBottom: '10px' }}>💳 Payment Methods</h3>
-                <div style={{ display: 'flex', gap: '12px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '12px' }}>
                     {PAYMENT_METHODS.map((m, i) => (
                         <div key={i} style={{ padding: '14px 18px', borderRadius: '12px', background: 'white', border: m.primary ? '2px solid #14b8a6' : '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <span style={{ fontSize: '22px' }}>{m.icon}</span>

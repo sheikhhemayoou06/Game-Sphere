@@ -66,7 +66,7 @@ export default function FinancialPage() {
                 ) : (
                     <>
                         {/* Revenue cards */}
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '32px' }}>
+                        <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '32px' }}>
                             {[
                                 { label: 'Total Revenue', value: `₹${totalRevenue.toLocaleString()}`, icon: '💰', gradient: 'linear-gradient(135deg, #22c55e, #15803d)' },
                                 { label: 'Registration Fees', value: `₹${registrationFees.toLocaleString()}`, icon: '📝', gradient: 'linear-gradient(135deg, #6366f1, #4338ca)' },
@@ -99,7 +99,7 @@ export default function FinancialPage() {
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                             {/* Recent transactions */}
                             <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '20px', padding: '24px', border: '1px solid rgba(255,255,255,0.08)' }}>
                                 <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '16px' }}>🧾 Recent Transactions</h2>

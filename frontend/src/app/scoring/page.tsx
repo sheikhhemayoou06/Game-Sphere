@@ -63,7 +63,7 @@ export default function LiveScoringPage() {
             </nav>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', gap: '16px' }}>
                     <div>
                         <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '4px' }}>{sportIcon} {selectedSport ? `${sportLabel} Live Scoring` : 'Live Scoring'}</h1>
                         <p style={{ color: '#64748b', fontSize: '15px' }}>{selectedSport ? `${sportLabel} real-time match scoring & event tracking` : 'Real-time match scoring & event tracking'}</p>
@@ -97,7 +97,7 @@ export default function LiveScoringPage() {
                             </div>
 
                             {/* Score */}
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
+                            <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
                                 <div style={{ flex: 1, textAlign: 'center' }}>
                                     <div style={{ fontSize: '18px', fontWeight: 800, color: '#e2e8f0', marginBottom: '12px' }}>{selected.homeTeam?.name || 'Home Team'}</div>
                                     <div style={{ fontSize: '72px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{scores.home}</div>

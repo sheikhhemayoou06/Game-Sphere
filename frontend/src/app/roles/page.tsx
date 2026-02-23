@@ -41,7 +41,7 @@ export default function RolesPage() {
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '8px' }}>🛡️ Roles & Permissions</h1>
                 <p style={{ color: '#64748b', fontSize: '16px', marginBottom: '28px' }}>Hierarchical governance — from National to Grassroots level</p>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Total Roles', value: ROLES.length, icon: '🛡️', color: '#7c3aed' },
                         { label: 'Total Users', value: totalUsers.toLocaleString(), icon: '👥', color: '#3b82f6' },
@@ -56,7 +56,7 @@ export default function RolesPage() {
                     ))}
                 </div>
 
-                <div style={{ display: 'flex', gap: '4px', background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '4px', marginBottom: '20px', width: 'fit-content' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '4px', background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '4px', marginBottom: '20px', width: 'fit-content' }}>
                     {(['roles', 'matrix'] as const).map(t => (
                         <button key={t} onClick={() => setTab(t)}
                             style={{ padding: '10px 24px', borderRadius: '10px', border: 'none', background: tab === t ? '#7c3aed' : 'transparent', color: tab === t ? '#fff' : '#94a3b8', fontWeight: 700, fontSize: '14px', cursor: 'pointer' }}>
@@ -68,7 +68,7 @@ export default function RolesPage() {
                 {tab === 'roles' ? (
                     <div style={{ display: 'grid', gap: '10px' }}>
                         {ROLES.map(r => (
-                            <div key={r.id} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '18px 20px', borderRadius: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', borderLeft: `4px solid ${r.color}` }}>
+                            <div key={r.id} className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '18px 20px', borderRadius: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', borderLeft: `4px solid ${r.color}` }}>
                                 <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: `${r.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{r.icon}</div>
                                 <div style={{ flex: 1 }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
@@ -89,19 +89,21 @@ export default function RolesPage() {
                         ))}
                     </div>
                 ) : (
-                    <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '120px repeat(8, 1fr)', padding: '12px 14px', background: 'rgba(124,58,237,0.15)', fontSize: '10px', fontWeight: 700, color: '#c4b5fd', gap: '4px' }}>
-                            <span>Module</span>
-                            {ROLES.map(r => <span key={r.id} style={{ textAlign: 'center' }}>{r.icon}</span>)}
-                        </div>
-                        {PERMISSIONS_GRID.map((p, i) => (
-                            <div key={p.module} style={{ display: 'grid', gridTemplateColumns: '120px repeat(8, 1fr)', padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.03)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)', fontSize: '12px', gap: '4px', alignItems: 'center' }}>
-                                <span style={{ fontWeight: 600, color: '#94a3b8' }}>{p.module}</span>
-                                {[p.super, p.state, p.district, p.tournament, p.coach, p.scorer, p.player, p.viewer].map((v, j) => (
-                                    <span key={j} style={{ textAlign: 'center', fontSize: '14px' }}>{v ? '✅' : '—'}</span>
-                                ))}
+                    <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '16px', overflowX: 'auto', border: '1px solid rgba(255,255,255,0.06)' }}>
+                        <div style={{ minWidth: '800px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '120px repeat(8, 1fr)', padding: '12px 14px', background: 'rgba(124,58,237,0.15)', fontSize: '10px', fontWeight: 700, color: '#c4b5fd', gap: '4px' }}>
+                                <span>Module</span>
+                                {ROLES.map(r => <span key={r.id} style={{ textAlign: 'center' }}>{r.icon}</span>)}
                             </div>
-                        ))}
+                            {PERMISSIONS_GRID.map((p, i) => (
+                                <div key={p.module} style={{ display: 'grid', gridTemplateColumns: '120px repeat(8, 1fr)', padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.03)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)', fontSize: '12px', gap: '4px', alignItems: 'center' }}>
+                                    <span style={{ fontWeight: 600, color: '#94a3b8' }}>{p.module}</span>
+                                    {[p.super, p.state, p.district, p.tournament, p.coach, p.scorer, p.player, p.viewer].map((v, j) => (
+                                        <span key={j} style={{ textAlign: 'center', fontSize: '14px' }}>{v ? '✅' : '—'}</span>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>

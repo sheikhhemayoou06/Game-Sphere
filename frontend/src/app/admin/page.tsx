@@ -108,7 +108,7 @@ export default function AdminPanel() {
                 {/* Overview */}
                 {tab === 'overview' && (
                     <>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '28px' }}>
+                        <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '28px' }}>
                             {[
                                 { label: 'Total Tournaments', value: tournaments.length, icon: '🏆', color: '#6366f1' },
                                 { label: 'Live Now', value: liveMatches.length, icon: '🔴', color: '#ef4444' },
@@ -127,7 +127,7 @@ export default function AdminPanel() {
                         </div>
 
                         {/* Quick chart placeholder */}
-                        <div style={{
+                        <div className="responsive-grid" style={{
                             display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '28px',
                         }}>
                             <div style={{
@@ -226,37 +226,39 @@ export default function AdminPanel() {
                                 <p style={{ color: '#64748b' }}>No tournaments yet</p>
                             </div>
                         ) : (
-                            <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f1f5f9', overflow: 'hidden' }}>
-                                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
-                                    <thead>
-                                        <tr style={{ background: '#f8fafc', borderBottom: '1px solid #f1f5f9' }}>
-                                            <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Tournament</th>
-                                            <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Sport</th>
-                                            <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Status</th>
-                                            <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Teams</th>
-                                            <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {tournaments.map((t: any) => (
-                                            <tr key={t.id} style={{ borderBottom: '1px solid #f8fafc', cursor: 'pointer' }}
-                                                onClick={() => router.push(`/tournaments/${t.id}`)}>
-                                                <td style={{ padding: '14px 18px', fontWeight: 600, color: '#1e1b4b' }}>{t.name}</td>
-                                                <td style={{ padding: '14px 18px' }}>
-                                                    <span>{sportIcons[t.sport?.name] || '🏅'} {t.sport?.name}</span>
-                                                </td>
-                                                <td style={{ padding: '14px 18px' }}>
-                                                    <span className="status-badge" style={{
-                                                        background: `${statusColors[t.status] || '#6366f1'}15`,
-                                                        color: statusColors[t.status] || '#6366f1',
-                                                    }}>{t.status}</span>
-                                                </td>
-                                                <td style={{ padding: '14px 18px', color: '#64748b' }}>{t._count?.teams || 0}</td>
-                                                <td style={{ padding: '14px 18px', color: '#94a3b8' }}>{t.startDate ? formatDate(t.startDate) : '-'}</td>
+                            <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f1f5f9', overflowX: 'auto' }}>
+                                <div style={{ minWidth: '800px' }}>
+                                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+                                        <thead>
+                                            <tr style={{ background: '#f8fafc', borderBottom: '1px solid #f1f5f9' }}>
+                                                <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Tournament</th>
+                                                <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Sport</th>
+                                                <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Status</th>
+                                                <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Teams</th>
+                                                <th style={{ padding: '14px 18px', textAlign: 'left', fontWeight: 600, color: '#64748b' }}>Date</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {tournaments.map((t: any) => (
+                                                <tr key={t.id} style={{ borderBottom: '1px solid #f8fafc', cursor: 'pointer' }}
+                                                    onClick={() => router.push(`/tournaments/${t.id}`)}>
+                                                    <td style={{ padding: '14px 18px', fontWeight: 600, color: '#1e1b4b' }}>{t.name}</td>
+                                                    <td style={{ padding: '14px 18px' }}>
+                                                        <span>{sportIcons[t.sport?.name] || '🏅'} {t.sport?.name}</span>
+                                                    </td>
+                                                    <td style={{ padding: '14px 18px' }}>
+                                                        <span className="status-badge" style={{
+                                                            background: `${statusColors[t.status] || '#6366f1'}15`,
+                                                            color: statusColors[t.status] || '#6366f1',
+                                                        }}>{t.status}</span>
+                                                    </td>
+                                                    <td style={{ padding: '14px 18px', color: '#64748b' }}>{t._count?.teams || 0}</td>
+                                                    <td style={{ padding: '14px 18px', color: '#94a3b8' }}>{t.startDate ? formatDate(t.startDate) : '-'}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         )}
                     </div>

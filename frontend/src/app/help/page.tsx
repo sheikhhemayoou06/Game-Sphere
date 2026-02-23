@@ -51,7 +51,7 @@ export default function HelpPage() {
                 </div>
 
                 {/* Tabs */}
-                <div style={{ display: 'flex', gap: '4px', background: 'rgba(133,77,14,0.08)', borderRadius: '12px', padding: '4px', marginBottom: '24px', width: 'fit-content', margin: '0 auto 24px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '4px', background: 'rgba(133,77,14,0.08)', borderRadius: '12px', padding: '4px', marginBottom: '24px', width: 'fit-content', margin: '0 auto 24px' }}>
                     {(['faq', 'guides', 'contact'] as const).map(t => (
                         <button key={t} onClick={() => setTab(t)}
                             style={{ padding: '10px 24px', borderRadius: '10px', border: 'none', background: tab === t ? '#854d0e' : 'transparent', color: tab === t ? '#fff' : '#854d0e', fontWeight: 700, fontSize: '14px', cursor: 'pointer', textTransform: 'capitalize' }}>
@@ -80,7 +80,7 @@ export default function HelpPage() {
                 )}
 
                 {tab === 'guides' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                         {GUIDES.map((g, i) => (
                             <div key={i} style={{ background: '#fff', borderRadius: '16px', padding: '22px', boxShadow: '0 2px 12px rgba(133,77,14,0.06)', cursor: 'pointer', transition: 'transform 0.2s', borderLeft: `4px solid ${g.color}` }}>
                                 <div style={{ fontSize: '28px', marginBottom: '10px' }}>{g.icon}</div>
@@ -121,7 +121,7 @@ export default function HelpPage() {
                         </div>
                         <button style={{ padding: '12px 28px', borderRadius: '10px', border: 'none', background: '#854d0e', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '14px' }}>Send Message</button>
 
-                        <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid #fef3c7', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+                        <div className="responsive-grid" style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid #fef3c7', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
                             {[
                                 { icon: '📧', label: 'Email', value: 'support@gamesphere.in' },
                                 { icon: '📞', label: 'Phone', value: '+91 1800-SPORT-00' },

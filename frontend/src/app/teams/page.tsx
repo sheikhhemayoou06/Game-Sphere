@@ -305,7 +305,7 @@ export default function TeamsPage() {
             <div style={{ minHeight: '100vh', background: '#faf5ff' }}>
                 {/* Header */}
                 <div style={{ background: 'white', borderBottom: '1px solid #e9d5ff', padding: '16px 32px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: availableSports.length > 1 ? '12px' : '0' }}>
+                    <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: availableSports.length > 1 ? '12px' : '0', gap: '16px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                             <Link href="/dashboard" style={{ color: '#6d28d9', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
                             <span style={{ color: '#d4d4d8' }}>|</span>
@@ -328,7 +328,7 @@ export default function TeamsPage() {
                     </div>
                     {/* Sport Selector Tabs */}
                     {availableSports.length > 1 && (
-                        <div style={{ display: 'flex', gap: '8px' }}>
+                        <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '8px' }}>
                             {availableSports.map((sp: any) => {
                                 const isActive = selectedSport?.id === sp.id;
                                 const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
@@ -355,7 +355,7 @@ export default function TeamsPage() {
                     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px 0' }}>
                         <div style={{ padding: '28px', borderRadius: '16px', background: 'white', border: '2px solid #e9d5ff', marginBottom: '16px' }}>
                             <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>🏅 Create New Team</h3>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                                 <div>
                                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase' as const }}>Team Name *</label>
                                     <input value={newTeamName} onChange={(e) => setNewTeamName(e.target.value)} placeholder="e.g. Thunder Warriors"
@@ -409,7 +409,7 @@ export default function TeamsPage() {
 
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px' }}>
                     {/* Owner Tabs */}
-                    <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+                    <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
                         {[
                             { key: 'roster' as const, label: '📋 Roster', badge: activeRoster.length },
                             { key: 'applications' as const, label: '📨 Applications', badge: filteredApps.length },
@@ -435,7 +435,7 @@ export default function TeamsPage() {
                     {ownerTab === 'roster' && (
                         <div>
                             {/* Stats Bar */}
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginBottom: '20px' }}>
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginBottom: '20px' }}>
                                 {[
                                     { label: 'Total Players', value: activeRoster.length, icon: '👥', color: '#7c3aed' },
                                     { label: 'Max Roster', value: 16, icon: '📋', color: '#64748b' },
@@ -452,33 +452,35 @@ export default function TeamsPage() {
                             </div>
 
                             {/* Roster Table */}
-                            <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden' }}>
-                                <div style={{ display: 'grid', gridTemplateColumns: '0.6fr 0.5fr 0.5fr 0.4fr 0.4fr 0.35fr 0.4fr 0.5fr', padding: '14px 20px', background: '#faf5ff', fontWeight: 700, fontSize: '12px', color: '#6d28d9', textTransform: 'uppercase' as const }}>
-                                    <span>Player</span><span>Position</span><span>Role</span><span>Matches</span><span>{statCol}</span><span>Rating</span><span>Fee</span><span>Actions</span>
-                                </div>
-                                {activeRoster.map((p, i) => (
-                                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.6fr 0.5fr 0.5fr 0.4fr 0.4fr 0.35fr 0.4fr 0.5fr', padding: '14px 20px', borderTop: '1px solid #f3e8ff', alignItems: 'center' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: p.online ? '#22c55e' : '#d4d4d8' }} />
-                                            <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{p.name}</span>
-                                        </div>
-                                        <span style={{ fontSize: '12px', color: '#64748b' }}>{p.position}</span>
-                                        <span style={{ fontSize: '12px', fontWeight: 600, color: p.role === 'Captain' ? '#f59e0b' : p.role === 'Vice-Captain' ? '#7c3aed' : '#64748b' }}>{p.role === 'Captain' ? '👑 ' : p.role === 'Vice-Captain' ? '⭐ ' : ''}{p.role}</span>
-                                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{p.matches}</span>
-                                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{p.runs}</span>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                            <div style={{ width: `${p.rating}%`, height: '6px', borderRadius: '3px', background: p.rating >= 85 ? '#22c55e' : p.rating >= 75 ? '#f59e0b' : '#ef4444', maxWidth: '40px' }} />
-                                            <span style={{ fontSize: '11px', fontWeight: 700, color: '#64748b' }}>{p.rating}</span>
-                                        </div>
-                                        <span style={{ padding: '2px 8px', borderRadius: '4px', background: statusStyle(p.fee).bg, color: statusStyle(p.fee).color, fontSize: '10px', fontWeight: 700, textAlign: 'center' as const }}>{p.fee}</span>
-                                        <div style={{ display: 'flex', gap: '6px' }}>
-                                            {p.role === 'Player' && (
-                                                <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #e9d5ff', background: 'white', color: '#6d28d9', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Make Captain</button>
-                                            )}
-                                            <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #fecaca', background: '#fef2f2', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Release</button>
-                                        </div>
+                            <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflowX: 'auto' }}>
+                                <div style={{ minWidth: '800px' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '0.6fr 0.5fr 0.5fr 0.4fr 0.4fr 0.35fr 0.4fr 0.5fr', padding: '14px 20px', background: '#faf5ff', fontWeight: 700, fontSize: '12px', color: '#6d28d9', textTransform: 'uppercase' as const }}>
+                                        <span>Player</span><span>Position</span><span>Role</span><span>Matches</span><span>{statCol}</span><span>Rating</span><span>Fee</span><span>Actions</span>
                                     </div>
-                                ))}
+                                    {activeRoster.map((p, i) => (
+                                        <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.6fr 0.5fr 0.5fr 0.4fr 0.4fr 0.35fr 0.4fr 0.5fr', padding: '14px 20px', borderTop: '1px solid #f3e8ff', alignItems: 'center' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: p.online ? '#22c55e' : '#d4d4d8' }} />
+                                                <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{p.name}</span>
+                                            </div>
+                                            <span style={{ fontSize: '12px', color: '#64748b' }}>{p.position}</span>
+                                            <span style={{ fontSize: '12px', fontWeight: 600, color: p.role === 'Captain' ? '#f59e0b' : p.role === 'Vice-Captain' ? '#7c3aed' : '#64748b' }}>{p.role === 'Captain' ? '👑 ' : p.role === 'Vice-Captain' ? '⭐ ' : ''}{p.role}</span>
+                                            <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{p.matches}</span>
+                                            <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{p.runs}</span>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                <div style={{ width: `${p.rating}%`, height: '6px', borderRadius: '3px', background: p.rating >= 85 ? '#22c55e' : p.rating >= 75 ? '#f59e0b' : '#ef4444', maxWidth: '40px' }} />
+                                                <span style={{ fontSize: '11px', fontWeight: 700, color: '#64748b' }}>{p.rating}</span>
+                                            </div>
+                                            <span style={{ padding: '2px 8px', borderRadius: '4px', background: statusStyle(p.fee).bg, color: statusStyle(p.fee).color, fontSize: '10px', fontWeight: 700, textAlign: 'center' as const }}>{p.fee}</span>
+                                            <div style={{ display: 'flex', gap: '6px' }}>
+                                                {p.role === 'Player' && (
+                                                    <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #e9d5ff', background: 'white', color: '#6d28d9', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Make Captain</button>
+                                                )}
+                                                <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #fecaca', background: '#fef2f2', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Release</button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     )}
@@ -491,7 +493,7 @@ export default function TeamsPage() {
                             </div>
                             <div style={{ display: 'grid', gap: '12px' }}>
                                 {filteredApps.map((app, i) => (
-                                    <div key={i} style={{ padding: '20px', borderRadius: '14px', background: 'white', border: '1px solid #f3e8ff', display: 'grid', gridTemplateColumns: '1fr auto', gap: '16px', alignItems: 'center' }}>
+                                    <div key={i} className="flex-wrap-mobile" style={{ padding: '20px', borderRadius: '14px', background: 'white', border: '1px solid #f3e8ff', display: 'flex', justifyContent: 'space-between', gap: '16px', alignItems: 'center' }}>
                                         <div>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
                                                 <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #7c3aed, #a855f7)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '16px' }}>{app.name.charAt(0)}</div>
@@ -538,7 +540,7 @@ export default function TeamsPage() {
                                     ))}
                                 </div>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                                 {filteredScout.map((p, i) => (
                                     <div key={i} style={{ padding: '20px', borderRadius: '14px', background: 'white', border: '1px solid #f3e8ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div>
@@ -626,7 +628,7 @@ export default function TeamsPage() {
                 <p style={{ color: '#64748b', marginBottom: '20px' }}>Manage your team, apply to new teams, and handle join requests</p>
 
                 {/* Player Tabs */}
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
                     {[
                         { key: 'my' as const, label: '🏠 My Team' },
                         { key: 'browse' as const, label: '🔍 Browse Teams' },
@@ -653,7 +655,7 @@ export default function TeamsPage() {
                     <div>
                         {/* ─── Multi-Sport Team Selector ─── */}
                         {filteredMyTeams.length > 1 && (
-                            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                            <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
                                 {filteredMyTeams.map((t, idx) => {
                                     const isActive = playerTeamIdx === idx;
                                     return (
@@ -679,7 +681,7 @@ export default function TeamsPage() {
                         {activePlayerTeam ? (
                             <>
                                 <div style={{ padding: '24px', borderRadius: '16px', background: 'white', border: `2px solid ${activePlayerTeam.color}30`, marginBottom: '20px' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                    <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '16px' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                                             <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: `${activePlayerTeam.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>{activePlayerTeam.logo}</div>
                                             <div>
@@ -693,7 +695,7 @@ export default function TeamsPage() {
                                         </div>
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '10px' }}>ROSTER ({activePlayerTeam.roster.length} Players)</div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
+                                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
                                         {activePlayerTeam.roster.map((p: any, i: number) => (
                                             <div key={i} style={{ padding: '10px 14px', borderRadius: '10px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: p.online ? '#22c55e' : '#d4d4d8' }} />
@@ -706,7 +708,7 @@ export default function TeamsPage() {
                                     </div>
                                 </div>
                                 <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '10px' }}>🗓️ UPCOMING {activePlayerTeam.sport.toUpperCase()} MATCHES</div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                                     {activePlayerTeam.upcomingMatches.map((m: any, i: number) => (
                                         <div key={i} style={{ padding: '16px', borderRadius: '12px', background: 'white', border: '1px solid #f3e8ff' }}>
                                             <div style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b' }}>vs {m.opponent}</div>
@@ -729,7 +731,7 @@ export default function TeamsPage() {
                     <div>
                         <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="🔍 Search teams by name or sport..."
                             style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e9d5ff', fontSize: '14px', marginBottom: '16px', outline: 'none' }} />
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                             {filteredBrowseTeams.filter(t => t.name.toLowerCase().includes(search.toLowerCase()) || t.sport.toLowerCase().includes(search.toLowerCase())).map((t) => (
                                 <div key={t.id} style={{ padding: '20px', borderRadius: '14px', background: 'white', border: `2px solid ${t.color}20`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

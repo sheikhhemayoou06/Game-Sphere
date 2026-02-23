@@ -295,12 +295,12 @@ body {
 
   /* Make all default grids collapse to 1 column on mobile */
   .responsive-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   /* Ensure 2-column grids (like stat boxes) can drop to 2 on mobile instead of 4 */
   .grid-cols-2-mobile {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   /* Scale down nav padding */

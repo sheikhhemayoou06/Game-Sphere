@@ -71,7 +71,7 @@ export default function MediaPage() {
                 <p style={{ color: '#9d174d', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} photos and videos` : 'Photos and videos from tournaments, matches, and events'}</p>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Albums', value: filteredAlbums.length, icon: '📁', color: '#ec4899' },
                         { label: 'Photos', value: totalPhotos, icon: '📷', color: '#6366f1' },
@@ -88,7 +88,7 @@ export default function MediaPage() {
 
                 {!selectedAlbum ? (
                     /* Albums grid */
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         {filteredAlbums.length === 0 ? (
                             <div style={{ gridColumn: 'span 2', textAlign: 'center', padding: '48px', background: '#fff', borderRadius: '16px' }}>
                                 <div style={{ fontSize: '48px', marginBottom: '12px' }}>{sportIcon}</div>
@@ -120,7 +120,7 @@ export default function MediaPage() {
                         </button>
                         <h2 style={{ fontSize: '22px', fontWeight: 900, color: '#831843', marginBottom: '4px' }}>{selectedAlbum.title}</h2>
                         <div style={{ fontSize: '13px', color: '#9d174d', marginBottom: '20px' }}>{selectedAlbum.sport} • {selectedAlbum.date} • {selectedAlbum.items.length} items</div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                             {selectedAlbum.items.map((item, i) => (
                                 <div key={i} style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 2px 12px rgba(157,23,77,0.06)' }}>
                                     <div style={{ height: '120px', background: `linear-gradient(135deg, ${GRADIENT_COLORS[i % 4]}40, ${GRADIENT_COLORS[(i + 2) % 4]}40)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '42px', position: 'relative' }}>

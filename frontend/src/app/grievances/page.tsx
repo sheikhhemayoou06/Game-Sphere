@@ -53,7 +53,7 @@ export default function GrievancePage() {
                 </div>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Total Filed', value: GRIEVANCES.length, icon: '📝', color: '#854d0e' },
                         { label: 'Under Review', value: GRIEVANCES.filter(g => g.status === 'UNDER_REVIEW').length, icon: '🔍', color: '#2563eb' },

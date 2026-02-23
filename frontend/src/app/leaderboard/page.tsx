@@ -67,47 +67,49 @@ export default function LeaderboardPage() {
 
             {/* Rankings Table */}
             <div style={{ maxWidth: '900px', margin: '-20px auto 0', padding: '0 24px 48px' }}>
-                <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', backdropFilter: 'blur(20px)' }}>
-                    {/* Table Header */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr 100px 80px 80px 80px 100px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.1)', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#94a3b8' }}>
-                        <span>Rank</span><span>Player / Team</span><span>Points</span><span>W</span><span>L</span><span>D</span><span>Matches</span>
-                    </div>
+                <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto', backdropFilter: 'blur(20px)' }}>
+                    <div style={{ minWidth: '800px' }}>
+                        {/* Table Header */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr 100px 80px 80px 80px 100px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.1)', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#94a3b8' }}>
+                            <span>Rank</span><span>Player / Team</span><span>Points</span><span>W</span><span>L</span><span>D</span><span>Matches</span>
+                        </div>
 
-                    {loading ? (
-                        <div style={{ padding: '60px 20px', textAlign: 'center', color: '#94a3b8' }}>
-                            <div style={{ fontSize: '36px', marginBottom: '12px', animation: 'pulse 1.5s infinite' }}>⏳</div>
-                            Loading rankings...
-                        </div>
-                    ) : rankings.length === 0 ? (
-                        <div style={{ padding: '60px 20px', textAlign: 'center' }}>
-                            <div style={{ fontSize: '48px', marginBottom: '12px' }}>📊</div>
-                            <div style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>No Rankings Yet</div>
-                            <div style={{ color: '#94a3b8', fontSize: '14px' }}>Rankings will appear as matches are played and scored</div>
-                        </div>
-                    ) : (
-                        rankings.map((r, i) => {
-                            const badge = getRankBadge(r.rank || i + 1);
-                            const delta = getRankDelta(r);
-                            return (
-                                <div key={r.id} style={{ display: 'grid', gridTemplateColumns: '70px 1fr 100px 80px 80px 80px 100px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)', alignItems: 'center', transition: 'background 0.2s' }}
-                                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
-                                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', borderRadius: '10px', background: badge.bg, color: badge.color, fontSize: '13px', fontWeight: 800 }}>
-                                            {(r.rank || i + 1) <= 3 ? badge.emoji : r.rank || i + 1}
-                                        </span>
-                                        {delta && <span style={{ fontSize: '10px', color: delta.color, fontWeight: 700 }}>{delta.icon}</span>}
+                        {loading ? (
+                            <div style={{ padding: '60px 20px', textAlign: 'center', color: '#94a3b8' }}>
+                                <div style={{ fontSize: '36px', marginBottom: '12px', animation: 'pulse 1.5s infinite' }}>⏳</div>
+                                Loading rankings...
+                            </div>
+                        ) : rankings.length === 0 ? (
+                            <div style={{ padding: '60px 20px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '48px', marginBottom: '12px' }}>📊</div>
+                                <div style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>No Rankings Yet</div>
+                                <div style={{ color: '#94a3b8', fontSize: '14px' }}>Rankings will appear as matches are played and scored</div>
+                            </div>
+                        ) : (
+                            rankings.map((r, i) => {
+                                const badge = getRankBadge(r.rank || i + 1);
+                                const delta = getRankDelta(r);
+                                return (
+                                    <div key={r.id} style={{ display: 'grid', gridTemplateColumns: '70px 1fr 100px 80px 80px 80px 100px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)', alignItems: 'center', transition: 'background 0.2s' }}
+                                        onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
+                                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', borderRadius: '10px', background: badge.bg, color: badge.color, fontSize: '13px', fontWeight: 800 }}>
+                                                {(r.rank || i + 1) <= 3 ? badge.emoji : r.rank || i + 1}
+                                            </span>
+                                            {delta && <span style={{ fontSize: '10px', color: delta.color, fontWeight: 700 }}>{delta.icon}</span>}
+                                        </div>
+                                        <div style={{ fontWeight: 700, fontSize: '15px' }}>{r.playerId ? `Player ${r.playerId.slice(0, 8)}...` : `Team ${r.teamId?.slice(0, 8)}...`}</div>
+                                        <div style={{ fontWeight: 800, fontSize: '18px', color: '#a78bfa' }}>{r.points}</div>
+                                        <div style={{ color: '#22c55e', fontWeight: 600 }}>{r.wins}</div>
+                                        <div style={{ color: '#ef4444', fontWeight: 600 }}>{r.losses}</div>
+                                        <div style={{ color: '#94a3b8', fontWeight: 600 }}>{r.draws}</div>
+                                        <div style={{ color: '#94a3b8', fontWeight: 600 }}>{r.matchesPlayed}</div>
                                     </div>
-                                    <div style={{ fontWeight: 700, fontSize: '15px' }}>{r.playerId ? `Player ${r.playerId.slice(0, 8)}...` : `Team ${r.teamId?.slice(0, 8)}...`}</div>
-                                    <div style={{ fontWeight: 800, fontSize: '18px', color: '#a78bfa' }}>{r.points}</div>
-                                    <div style={{ color: '#22c55e', fontWeight: 600 }}>{r.wins}</div>
-                                    <div style={{ color: '#ef4444', fontWeight: 600 }}>{r.losses}</div>
-                                    <div style={{ color: '#94a3b8', fontWeight: 600 }}>{r.draws}</div>
-                                    <div style={{ color: '#94a3b8', fontWeight: 600 }}>{r.matchesPlayed}</div>
-                                </div>
-                            );
-                        })
-                    )}
+                                );
+                            })
+                        )}
+                    </div>
                 </div>
 
                 <div style={{ textAlign: 'center', marginTop: '32px' }}>

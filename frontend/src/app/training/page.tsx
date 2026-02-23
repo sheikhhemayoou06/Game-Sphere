@@ -59,7 +59,7 @@ export default function TrainingPage() {
                 <p style={{ color: '#115e59', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} training programs, coaching sessions, and schedule` : 'Training programs, coaching sessions, and weekly schedule'}</p>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Programs', value: filteredPrograms.length, icon: '📋', color: '#14b8a6' },
                         { label: 'Total Enrolled', value: filteredPrograms.reduce((a, p) => a + p.enrolled, 0), icon: '👥', color: '#22c55e' },
@@ -85,7 +85,7 @@ export default function TrainingPage() {
                 </div>
 
                 {tab === 'programs' ? (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         {filteredPrograms.length === 0 ? (
                             <div style={{ gridColumn: 'span 2', textAlign: 'center', padding: '48px', background: '#fff', borderRadius: '16px' }}>
                                 <div style={{ fontSize: '48px', marginBottom: '12px' }}>{sportIcon}</div>
@@ -124,18 +124,20 @@ export default function TrainingPage() {
                         })}
                     </div>
                 ) : (
-                    <div style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(20,184,166,0.06)' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr 2fr', padding: '14px 24px', background: '#115e59', color: '#fff', fontSize: '12px', fontWeight: 700 }}>
-                            <span>Day</span><span>Time</span><span>Program</span><span>Venue</span>
-                        </div>
-                        {filteredSchedule.map((s, i) => (
-                            <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr 2fr', padding: '14px 24px', borderBottom: '1px solid #f0fdfa', background: i % 2 === 0 ? '#f0fdfa' : '#fff', fontSize: '13px' }}>
-                                <span style={{ fontWeight: 700, color: '#134e4a' }}>{s.day}</span>
-                                <span style={{ color: '#14b8a6', fontWeight: 600 }}>{s.time}</span>
-                                <span style={{ color: '#1e1b4b', fontWeight: 600 }}>{s.program}</span>
-                                <span style={{ color: '#64748b' }}>📍 {s.venue}</span>
+                    <div style={{ background: '#fff', borderRadius: '16px', overflowX: 'auto', boxShadow: '0 4px 24px rgba(20,184,166,0.06)' }}>
+                        <div style={{ minWidth: '600px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr 2fr', padding: '14px 24px', background: '#115e59', color: '#fff', fontSize: '12px', fontWeight: 700 }}>
+                                <span>Day</span><span>Time</span><span>Program</span><span>Venue</span>
                             </div>
-                        ))}
+                            {filteredSchedule.map((s, i) => (
+                                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr 2fr', padding: '14px 24px', borderBottom: '1px solid #f0fdfa', background: i % 2 === 0 ? '#f0fdfa' : '#fff', fontSize: '13px' }}>
+                                    <span style={{ fontWeight: 700, color: '#134e4a' }}>{s.day}</span>
+                                    <span style={{ color: '#14b8a6', fontWeight: 600 }}>{s.time}</span>
+                                    <span style={{ color: '#1e1b4b', fontWeight: 600 }}>{s.program}</span>
+                                    <span style={{ color: '#64748b' }}>📍 {s.venue}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>

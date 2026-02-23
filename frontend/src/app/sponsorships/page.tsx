@@ -65,7 +65,7 @@ export default function SponsorshipsPage() {
                 <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>Manage sponsors, ad placements, and monetization</p>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '28px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '28px' }}>
                     {[
                         { label: 'Total Sponsorship', value: `₹${totalSponsorship.toLocaleString()}`, icon: '💰', bg: 'linear-gradient(135deg, #f59e0b, #d97706)' },
                         { label: 'Active Sponsors', value: activeSponsorships, icon: '🤝', bg: 'linear-gradient(135deg, #22c55e, #15803d)' },
@@ -112,20 +112,22 @@ export default function SponsorshipsPage() {
                     <div style={{ padding: '20px 24px', background: '#92400e', color: '#fff' }}>
                         <h2 style={{ fontWeight: 800, fontSize: '16px' }}>📊 Ad Placement Performance</h2>
                     </div>
-                    <div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '12px 24px', background: '#fef3c7', fontSize: '11px', fontWeight: 700, color: '#92400e' }}>
-                            <span>Placement</span><span>Impressions</span><span>Clicks</span><span>CTR</span><span>Revenue</span>
-                        </div>
-                        {filteredAds.length === 0 && <div style={{ color: '#92400e', textAlign: 'center', padding: '20px' }}>No ad placements found for this sport.</div>}
-                        {filteredAds.map((ad, i) => (
-                            <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '14px 24px', borderBottom: '1px solid #fef3c7', fontSize: '13px', background: i % 2 === 0 ? '#fffbeb' : '#fff' }}>
-                                <span style={{ fontWeight: 600, color: '#1e1b4b' }}>{ad.location}</span>
-                                <span style={{ color: '#64748b' }}>{ad.impressions}</span>
-                                <span style={{ color: '#64748b' }}>{ad.clicks}</span>
-                                <span style={{ fontWeight: 700, color: '#22c55e' }}>{ad.ctr}</span>
-                                <span style={{ fontWeight: 700, color: '#78350f' }}>{ad.revenue}</span>
+                    <div style={{ overflowX: 'auto' }}>
+                        <div style={{ minWidth: '600px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '12px 24px', background: '#fef3c7', fontSize: '11px', fontWeight: 700, color: '#92400e' }}>
+                                <span>Placement</span><span>Impressions</span><span>Clicks</span><span>CTR</span><span>Revenue</span>
                             </div>
-                        ))}
+                            {filteredAds.length === 0 && <div style={{ color: '#92400e', textAlign: 'center', padding: '20px' }}>No ad placements found for this sport.</div>}
+                            {filteredAds.map((ad, i) => (
+                                <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '14px 24px', borderBottom: '1px solid #fef3c7', fontSize: '13px', background: i % 2 === 0 ? '#fffbeb' : '#fff' }}>
+                                    <span style={{ fontWeight: 600, color: '#1e1b4b' }}>{ad.location}</span>
+                                    <span style={{ color: '#64748b' }}>{ad.impressions}</span>
+                                    <span style={{ color: '#64748b' }}>{ad.clicks}</span>
+                                    <span style={{ fontWeight: 700, color: '#22c55e' }}>{ad.ctr}</span>
+                                    <span style={{ fontWeight: 700, color: '#78350f' }}>{ad.revenue}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

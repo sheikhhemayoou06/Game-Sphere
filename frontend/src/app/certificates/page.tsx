@@ -51,7 +51,7 @@ export default function CertificatesPage() {
                 <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} QR-verifiable digital certificates` : 'QR-verifiable digital certificates for participation and achievements'}</p>
 
                 {/* Tabs */}
-                <div style={{ display: 'flex', gap: '4px', background: 'rgba(120,53,15,0.08)', borderRadius: '14px', padding: '4px', marginBottom: '28px', width: 'fit-content' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '4px', background: 'rgba(120,53,15,0.08)', borderRadius: '14px', padding: '4px', marginBottom: '28px', width: 'fit-content' }}>
                     {(['browse', 'verify'] as const).map((t) => (
                         <button key={t} onClick={() => setTab(t)}
                             style={{ padding: '10px 24px', borderRadius: '12px', border: 'none', background: tab === t ? '#78350f' : 'transparent', color: tab === t ? '#fff' : '#92400e', fontWeight: 700, fontSize: '14px', cursor: 'pointer', transition: 'all 0.2s', textTransform: 'capitalize' }}>
@@ -64,7 +64,7 @@ export default function CertificatesPage() {
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '36px', boxShadow: '0 4px 24px rgba(120,53,15,0.1)', marginBottom: '28px', border: '2px solid rgba(120,53,15,0.1)' }}>
                         <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#78350f', marginBottom: '16px' }}>Verify Certificate</h2>
                         <p style={{ color: '#92400e', fontSize: '14px', marginBottom: '20px' }}>Enter the verification code or scan QR to verify authenticity</p>
-                        <div style={{ display: 'flex', gap: '12px' }}>
+                        <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '12px' }}>
                             <input value={verifyCode} onChange={(e) => setVerifyCode(e.target.value)} placeholder="Enter verification code..."
                                 style={{ flex: 1, padding: '14px 18px', borderRadius: '12px', border: '2px solid #fbbf24', fontSize: '15px', fontWeight: 600, outline: 'none', fontFamily: 'monospace', background: '#fffbeb' }}
                                 onKeyDown={(e) => e.key === 'Enter' && handleVerify()} />

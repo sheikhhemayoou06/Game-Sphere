@@ -149,22 +149,24 @@ export default function FixturesPage() {
                     </div>
                 ) : (
                     /* Round robin table view */
-                    <div style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(120,53,15,0.08)' }}>
-                        <div style={{ padding: '20px 24px', background: '#92400e', color: '#fff' }}>
-                            <h3 style={{ fontWeight: 800, fontSize: '16px' }}>Round Robin — {fixtures.length} Matches</h3>
-                        </div>
-                        <div style={{ display: 'grid', gap: '0' }}>
-                            {fixtures.map((m, i) => (
-                                <div key={m.id} style={{ display: 'flex', alignItems: 'center', padding: '14px 24px', borderBottom: '1px solid #f5f3ff', background: i % 2 === 0 ? '#fffbeb' : '#fff' }}>
-                                    <div style={{ width: '50px', fontSize: '12px', fontWeight: 700, color: '#92400e' }}>M{m.id}</div>
-                                    <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: '#1e1b4b', textAlign: 'right', paddingRight: '16px' }}>{m.teamA}</div>
-                                    <div style={{ padding: '4px 12px', borderRadius: '6px', background: '#fef3c7', fontSize: '12px', fontWeight: 800, color: '#92400e' }}>VS</div>
-                                    <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: '#1e1b4b', paddingLeft: '16px' }}>{m.teamB}</div>
-                                    <div style={{ width: '80px', textAlign: 'right' }}>
-                                        <span style={{ padding: '4px 10px', borderRadius: '6px', background: '#ecfdf5', color: '#22c55e', fontSize: '11px', fontWeight: 700 }}>Scheduled</span>
+                    <div style={{ background: '#fff', borderRadius: '16px', overflowX: 'auto', boxShadow: '0 4px 24px rgba(120,53,15,0.08)' }}>
+                        <div style={{ minWidth: '600px' }}>
+                            <div style={{ padding: '20px 24px', background: '#92400e', color: '#fff' }}>
+                                <h3 style={{ fontWeight: 800, fontSize: '16px' }}>Round Robin — {fixtures.length} Matches</h3>
+                            </div>
+                            <div style={{ display: 'grid', gap: '0' }}>
+                                {fixtures.map((m, i) => (
+                                    <div key={m.id} style={{ display: 'flex', alignItems: 'center', padding: '14px 24px', borderBottom: '1px solid #f5f3ff', background: i % 2 === 0 ? '#fffbeb' : '#fff' }}>
+                                        <div style={{ width: '50px', fontSize: '12px', fontWeight: 700, color: '#92400e' }}>M{m.id}</div>
+                                        <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: '#1e1b4b', textAlign: 'right', paddingRight: '16px' }}>{m.teamA}</div>
+                                        <div style={{ padding: '4px 12px', borderRadius: '6px', background: '#fef3c7', fontSize: '12px', fontWeight: 800, color: '#92400e' }}>VS</div>
+                                        <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: '#1e1b4b', paddingLeft: '16px' }}>{m.teamB}</div>
+                                        <div style={{ width: '80px', textAlign: 'right' }}>
+                                            <span style={{ padding: '4px 10px', borderRadius: '6px', background: '#ecfdf5', color: '#22c55e', fontSize: '11px', fontWeight: 700 }}>Scheduled</span>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
                 )}

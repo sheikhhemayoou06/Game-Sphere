@@ -91,7 +91,7 @@ export default function MatchReportsPage() {
                 </div>
 
                 {/* Stats cards */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Total Reports', value: filteredReports.length, icon: '📋', color: '#065f46' },
                         { label: 'Pending Review', value: filteredReports.filter((r) => r.status === 'PENDING').length, icon: '⏳', color: '#f59e0b' },
@@ -131,7 +131,7 @@ export default function MatchReportsPage() {
                 )}
 
                 {/* Tabs */}
-                <div style={{ display: 'flex', gap: '4px', background: 'rgba(6,95,70,0.06)', borderRadius: '10px', padding: '4px', marginBottom: '20px', width: 'fit-content' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '4px', background: 'rgba(6,95,70,0.06)', borderRadius: '10px', padding: '4px', marginBottom: '20px', width: 'fit-content' }}>
                     {(['reports', 'protests'] as const).map((t) => (
                         <button key={t} onClick={() => setTab(t)}
                             style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: tab === t ? '#065f46' : 'transparent', color: tab === t ? '#fff' : '#065f46', fontWeight: 600, fontSize: '13px', cursor: 'pointer', textTransform: 'capitalize' }}>

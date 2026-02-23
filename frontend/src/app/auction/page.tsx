@@ -169,7 +169,7 @@ export default function AuctionPage() {
 
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px' }}>
                     {/* Owner Tabs */}
-                    <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+                    <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
                         {[
                             { key: 'live' as const, label: '🔴 Live Bidding' },
                             { key: 'purchases' as const, label: '🛒 My Purchases', badge: filteredPurchases.length },
@@ -208,7 +208,7 @@ export default function AuctionPage() {
                                             </div>
                                         </div>
 
-                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                                             {/* Player Info */}
                                             <div>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
@@ -218,7 +218,7 @@ export default function AuctionPage() {
                                                         <div style={{ fontSize: '13px', color: '#94a3b8' }}>{ActiveBiddingPlayer.position} • Age {ActiveBiddingPlayer.age}</div>
                                                     </div>
                                                 </div>
-                                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
                                                     {[
                                                         { label: 'Matches', value: ActiveBiddingPlayer.matches },
                                                         { label: activeConfig.stat, value: ActiveBiddingPlayer.runs },
@@ -299,7 +299,7 @@ export default function AuctionPage() {
                     {/* My Purchases */}
                     {ownerTab === 'purchases' && (
                         <div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px' }}>
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px' }}>
                                 {[
                                     { label: 'Players Acquired', value: filteredPurchases.length, icon: '👥', color: '#f59e0b' },
                                     { label: 'Total Spent', value: fmt(filteredPurchases.reduce((s, p) => s + p.price, 0)), icon: '💰', color: '#ef4444' },
@@ -312,27 +312,29 @@ export default function AuctionPage() {
                                     </div>
                                 ))}
                             </div>
-                            <div style={{ background: '#1a1a2e', borderRadius: '16px', border: '1px solid #2d2d44', overflow: 'hidden' }}>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 0.7fr 0.7fr 0.5fr 0.7fr', padding: '14px 20px', background: '#0f0f1a', fontSize: '12px', fontWeight: 700, color: '#f59e0b', textTransform: 'uppercase' as const }}>
-                                    <span>Player</span><span>Position</span><span>Price</span><span>Rating</span><span>Status</span>
-                                </div>
-                                {filteredPurchases.length === 0 && <div style={{ color: '#64748b', fontSize: '13px', textAlign: 'center', padding: '20px' }}>No purchases for {sportLabel}.</div>}
-                                {filteredPurchases.map((p, i) => (
-                                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 0.7fr 0.7fr 0.5fr 0.7fr', padding: '14px 20px', borderTop: '1px solid #2d2d44', alignItems: 'center' }}>
-                                        <span style={{ fontWeight: 700, fontSize: '14px', color: 'white' }}>{p.name}</span>
-                                        <span style={{ fontSize: '13px', color: '#94a3b8' }}>{p.position}</span>
-                                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#f59e0b' }}>{fmt(p.price)}</span>
-                                        <span style={{ fontSize: '13px', fontWeight: 700, color: '#4ade80' }}>{p.rating}</span>
-                                        <span style={{ padding: '4px 12px', borderRadius: '6px', background: statusColor(p.status).bg, color: statusColor(p.status).text, fontSize: '11px', fontWeight: 700 }}>{p.status.replace('_', ' ')}</span>
+                            <div style={{ background: '#1a1a2e', borderRadius: '16px', border: '1px solid #2d2d44', overflowX: 'auto' }}>
+                                <div style={{ minWidth: '800px' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 0.7fr 0.7fr 0.5fr 0.7fr', padding: '14px 20px', background: '#0f0f1a', fontSize: '12px', fontWeight: 700, color: '#f59e0b', textTransform: 'uppercase' as const }}>
+                                        <span>Player</span><span>Position</span><span>Price</span><span>Rating</span><span>Status</span>
                                     </div>
-                                ))}
+                                    {filteredPurchases.length === 0 && <div style={{ color: '#64748b', fontSize: '13px', textAlign: 'center', padding: '20px' }}>No purchases for {sportLabel}.</div>}
+                                    {filteredPurchases.map((p, i) => (
+                                        <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 0.7fr 0.7fr 0.5fr 0.7fr', padding: '14px 20px', borderTop: '1px solid #2d2d44', alignItems: 'center' }}>
+                                            <span style={{ fontWeight: 700, fontSize: '14px', color: 'white' }}>{p.name}</span>
+                                            <span style={{ fontSize: '13px', color: '#94a3b8' }}>{p.position}</span>
+                                            <span style={{ fontSize: '14px', fontWeight: 700, color: '#f59e0b' }}>{fmt(p.price)}</span>
+                                            <span style={{ fontSize: '13px', fontWeight: 700, color: '#4ade80' }}>{p.rating}</span>
+                                            <span style={{ padding: '4px 12px', borderRadius: '6px', background: statusColor(p.status).bg, color: statusColor(p.status).text, fontSize: '11px', fontWeight: 700 }}>{p.status.replace('_', ' ')}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     )}
 
                     {/* Team Purse */}
                     {ownerTab === 'purse' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                             {filteredTeamsPurse.length === 0 && <div style={{ color: '#64748b', gridColumn: 'span 2', textAlign: 'center', padding: '20px' }}>No teams found for {sportLabel}.</div>}
                             {filteredTeamsPurse.map((t, i) => {
                                 const total = t.remaining + t.spent;
@@ -409,7 +411,7 @@ export default function AuctionPage() {
 
             <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px' }}>
                 {/* Player Tabs */}
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
                     {[
                         { key: 'status' as const, label: '📊 My Status' },
                         { key: 'apply' as const, label: '📝 Apply for Auction' },
@@ -454,7 +456,7 @@ export default function AuctionPage() {
                                         );
                                     })}
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
                                     <div style={{ padding: '16px', borderRadius: '10px', background: '#0f0f1a', textAlign: 'center' as const }}>
                                         <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px' }}>Status</div>
                                         <span style={{ padding: '4px 12px', borderRadius: '6px', background: statusColor(activeMyStatus.status).bg, color: statusColor(activeMyStatus.status).text, fontSize: '13px', fontWeight: 700 }}>{activeMyStatus.status.replace('_', ' ')}</span>
@@ -519,7 +521,7 @@ export default function AuctionPage() {
 
                 {/* Player — Team Purse */}
                 {playerTab === 'purse' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                         {filteredTeamsPurse.length === 0 && <div style={{ color: '#64748b', gridColumn: 'span 2', textAlign: 'center', padding: '20px' }}>No teams found for {sportLabel}.</div>}
                         {filteredTeamsPurse.map((t, i) => {
                             const total = t.remaining + t.spent;

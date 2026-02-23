@@ -60,7 +60,7 @@ export default function NotificationsPage() {
             </nav>
 
             <div style={{ maxWidth: '700px', margin: '0 auto', padding: '32px 24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', gap: '16px' }}>
                     <div>
                         <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#9f1239', marginBottom: '8px' }}>
                             🔔 Notifications
