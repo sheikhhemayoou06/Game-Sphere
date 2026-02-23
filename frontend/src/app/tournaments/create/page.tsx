@@ -153,7 +153,7 @@ export default function CreateTournamentPage() {
                                 </div>
                             </div>
                         ) : (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
                                 {sports.map((s: any) => (
                                     <button type="button" key={s.id} onClick={() => update('sportId', s.id)} style={{
                                         padding: '12px', borderRadius: '10px', border: `2px solid ${form.sportId === s.id ? (s.accentColor || '#6366f1') : '#e2e8f0'}`,
@@ -172,7 +172,7 @@ export default function CreateTournamentPage() {
                     </div>
 
                     {/* Level + Format */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         <div>
                             <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Level</label>
                             <select value={form.level} onChange={(e) => update('level', e.target.value)}
@@ -190,7 +190,7 @@ export default function CreateTournamentPage() {
                     </div>
 
                     {/* Max Teams, Squad Size, Fee */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
                         <div>
                             <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Max Teams</label>
                             <input type="number" value={form.maxTeams} onChange={(e) => update('maxTeams', e.target.value)}
@@ -211,7 +211,7 @@ export default function CreateTournamentPage() {
                     {/* Registration Controls */}
                     <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(99,102,241,0.05)', border: '1px solid rgba(99,102,241,0.1)' }}>
                         <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#1e1b4b', marginBottom: '16px' }}>📝 Registration Settings</h3>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
                             <div>
                                 <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Approval Mode</label>
                                 <select value={form.approvalMode} onChange={(e) => update('approvalMode', e.target.value)}

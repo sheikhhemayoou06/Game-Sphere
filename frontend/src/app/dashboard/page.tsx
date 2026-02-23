@@ -589,15 +589,15 @@ export default function DashboardPage() {
             <nav style={{
                 padding: '16px 32px', background: theme.navBg,
                 borderBottom: `1px solid ${theme.navBorder}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px'
             }}>
                 <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
                     <span style={{ fontSize: '24px' }}>🌐</span>
                     <span className="gradient-text" style={{ fontSize: '20px', fontWeight: 800 }}>Game Sphere</span>
                 </Link>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'flex-start' }}>
                     {theme.navLinks.map((link) => (
-                        <Link key={link.href} href={link.href} style={{
+                        <Link key={link.href} href={link.href} className="hide-mobile" style={{
                             fontSize: '14px', fontWeight: 500, color: theme.textSecondary, textDecoration: 'none',
                         }}>
                             {link.label}
@@ -623,7 +623,7 @@ export default function DashboardPage() {
                 </div>
             </nav>
 
-            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px' }}>
+            <div className="mobile-padding" style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px' }}>
                 {/* ─── Welcome Banner ─── */}
                 <div style={{
                     padding: '32px', borderRadius: '20px', marginBottom: '32px',
@@ -644,10 +644,10 @@ export default function DashboardPage() {
 
                 {/* ─── Sport Selector Bar (only user's chosen sports) ─── */}
                 {mySports.length > 0 && selectedSport && (
-                    <div style={{
+                    <div className="flex-wrap-mobile" style={{
                         display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px',
                         padding: '12px 16px', borderRadius: '14px',
-                        background: theme.cardBg, border: `1px solid ${theme.cardBorder}`,
+                        background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, justifyContent: 'flex-start'
                     }}>
                         <span style={{ fontSize: '13px', fontWeight: 700, color: theme.textSecondary, marginRight: '4px' }}>🏅 Sport:</span>
                         {mySports.map((sp: any) => {
@@ -661,6 +661,7 @@ export default function DashboardPage() {
                                     background: isActive ? accent : theme.cardBg,
                                     color: isActive ? 'white' : theme.textPrimary,
                                     transition: 'all 0.2s',
+                                    whiteSpace: 'nowrap',
                                 }}>
                                     <span>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
                                     {sp.name}
@@ -676,6 +677,7 @@ export default function DashboardPage() {
                                     border: `1px dashed ${theme.cardBorder}`,
                                     background: theme.cardBg, color: theme.textSecondary,
                                     transition: 'all 0.2s',
+                                    whiteSpace: 'nowrap',
                                 }}>
                                     ➕ Add Sport
                                 </button>
@@ -721,7 +723,7 @@ export default function DashboardPage() {
                 )}
 
                 {/* ─── Stat Cards ─── */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
                     {stats.map((stat) => (
                         <div key={stat.label} className="card-hover" style={{
                             padding: '24px', borderRadius: '16px',
@@ -738,7 +740,7 @@ export default function DashboardPage() {
 
                 {/* ─── Player Dashboard Widgets (Sport-Filtered) ─── */}
                 {roleGroup === 'player' && selectedSport && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '32px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '32px' }}>
                         {/* Profile Summary */}
                         <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `1px solid ${selectedSport.accentColor || '#6366f1'}20`, gridColumn: 'span 1' }}>
                             <Link href="/profile" style={{ textDecoration: 'none', color: '#1e1b4b' }}>
@@ -806,7 +808,7 @@ export default function DashboardPage() {
                                     <div style={{ fontSize: '13px', fontWeight: 700, color: '#ef4444' }}>💳 {sportLabel.toUpperCase()} PAYMENT DUES</div>
                                     <Link href="/payments" style={{ fontSize: '12px', fontWeight: 600, color: selectedSport.accentColor || '#6366f1', textDecoration: 'none' }}>Manage →</Link>
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(currentSportData.payments.length, 3)}, 1fr)`, gap: '12px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(currentSportData.payments.length, 3)}, 1fr)`, gap: '12px' }}>
                                     {currentSportData.payments.map((p, i) => (
                                         <div key={i} style={{ padding: '12px', borderRadius: '10px', background: p.status === 'OVERDUE' ? '#fef2f2' : '#fffbeb' }}>
                                             <div style={{ fontWeight: 700, fontSize: '15px', color: p.status === 'OVERDUE' ? '#ef4444' : '#f59e0b', marginBottom: '4px' }}>{p.amount}</div>
@@ -825,12 +827,12 @@ export default function DashboardPage() {
 
                 {/* ─── ORGANIZER Dashboard Widgets (Tournament-Focused) ─── */}
                 {roleGroup === 'organizer' && !sportLoading && selectedSport && activeTournament && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '32px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '32px' }}>
 
                         {/* Tournament Stats Summary */}
                         <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
                             <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>🏆 TOURNAMENT OVERVIEW</div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                                 {[
                                     { label: 'My Tournaments', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id).length, icon: '🏆' },
                                     { label: 'Live Now', value: liveMatches.filter((m: any) => m.sport?.id === selectedSport.id).length, icon: '🔴' },
@@ -903,7 +905,7 @@ export default function DashboardPage() {
 
                 {/* ─── TEAM MANAGER Dashboard Widgets (Team-Focused) ─── */}
                 {roleGroup === 'team_manager' && !sportLoading && selectedSport && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '32px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '32px' }}>
                         {/* Team Overview — from API data */}
                         {ownerDashData?.teams?.map((team: any) => (
                             <div key={team.id} style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
@@ -914,7 +916,7 @@ export default function DashboardPage() {
                                         <div style={{ fontSize: '12px', color: selectedSport.accentColor || '#6d28d9' }}>{selectedSport.icon || sportIcons[selectedSport.name]} {selectedSport.name}</div>
                                     </div>
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
                                     {[
                                         { label: 'Record', value: `${ownerDashData.stats?.wins || 0}W-${ownerDashData.stats?.losses || 0}L`, color: '#16a34a' },
                                         { label: 'Players', value: team.playerCount, color: selectedSport.accentColor || '#7c3aed' },
@@ -932,7 +934,7 @@ export default function DashboardPage() {
                         {/* Roster Management — from API data */}
                         <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
                             <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>👥 {selectedSport.name?.toUpperCase()} ROSTER</div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
                                 {[
                                     { label: 'Active Players', value: ownerDashData?.stats?.totalPlayers || 0, icon: '🟢' },
                                     { label: 'Total Matches', value: ownerDashData?.stats?.totalMatches || 0, icon: '🏏' },

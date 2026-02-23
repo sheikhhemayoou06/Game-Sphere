@@ -49,7 +49,7 @@ export default function HomePage() {
   return (
     <div style={{ minHeight: '100vh' }}>
       {/* Navbar */}
-      <nav style={{
+      <nav className="mobile-padding" style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
         padding: '16px 40px',
         background: dark ? 'rgba(15, 13, 26, 0.85)' : 'rgba(255, 255, 255, 0.85)',
@@ -57,15 +57,16 @@ export default function HomePage() {
         borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '28px' }}>🌐</span>
           <span style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px' }}>
             <span className="gradient-text">Game Sphere</span>
           </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
             onClick={() => setDark(!dark)}
+            className="hide-mobile"
             style={{
               padding: '8px 12px', borderRadius: '10px', border: 'none',
               background: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
@@ -74,7 +75,7 @@ export default function HomePage() {
           >
             {dark ? '☀️' : '🌙'}
           </button>
-          <Link href="/login" className="btn-secondary" style={{ padding: '10px 22px', fontSize: '14px' }}>
+          <Link href="/login" className="btn-secondary hide-mobile" style={{ padding: '8px 16px', fontSize: '14px' }}>
             Log In
           </Link>
           <Link href="/register" className="btn-primary" style={{ padding: '10px 22px', fontSize: '14px' }}>
@@ -84,7 +85,7 @@ export default function HomePage() {
       </nav>
 
       {/* Hero */}
-      <section className="gradient-bg" style={{
+      <section className="gradient-bg mobile-padding" style={{
         minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '120px 40px 80px', position: 'relative', overflow: 'hidden',
       }}>
@@ -142,7 +143,7 @@ export default function HomePage() {
             From school tournaments to international championships — one unified ecosystem.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <div className="btn-stack-mobile" style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
             <Link href="/register" className="btn-primary" style={{
               padding: '16px 36px', fontSize: '16px', borderRadius: '14px',
               background: 'linear-gradient(135deg, #6366f1, #a855f7)',
@@ -158,8 +159,8 @@ export default function HomePage() {
           </div>
 
           {/* Stats row */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px',
+          <div className="grid-cols-2-mobile" style={{
+            display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px',
             marginTop: '60px',
           }}>
             {stats.map((stat) => (
@@ -177,7 +178,7 @@ export default function HomePage() {
       </section>
 
       {/* Sports carousel */}
-      <section style={{
+      <section className="mobile-padding" style={{
         padding: '80px 40px',
         background: dark ? '#0f0d1a' : '#fafafa',
       }}>
@@ -206,14 +207,14 @@ export default function HomePage() {
       </section>
 
       {/* Features grid */}
-      <section style={{ padding: '80px 40px', maxWidth: '1100px', margin: '0 auto' }}>
+      <section className="mobile-padding" style={{ padding: '80px 40px', maxWidth: '1100px', margin: '0 auto' }}>
         <h2 style={{ textAlign: 'center', fontSize: '36px', fontWeight: 800, marginBottom: '12px', letterSpacing: '-0.5px' }}>
           Built for <span className="gradient-text">Scale</span>
         </h2>
         <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '48px', fontSize: '16px' }}>
           Everything you need to digitize sports — from grassroots to national level
         </p>
-        <div style={{
+        <div className="responsive-grid" style={{
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px',
         }}>
           {features.map((feat) => (

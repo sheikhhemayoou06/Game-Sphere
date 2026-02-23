@@ -255,3 +255,68 @@ body {
   background: var(--surface-dark);
   border-color: rgba(255, 255, 255, 0.1);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE UTILITIES (Mobile & Tablet)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Make flex containers wrap on smaller screens */
+.flex-wrap-mobile {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Hide elements entirely on mobile */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Mobile-friendly container paddings */
+.mobile-padding {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+/* Common Mobile Overrides (Max Width 768px) */
+@media (max-width: 768px) {
+
+  /* Scale down hero text */
+  h1 {
+    font-size: clamp(32px, 8vw, 42px) !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Scale down section titles */
+  h2 {
+    font-size: 28px !important;
+  }
+
+  /* Make all default grids collapse to 1 column on mobile */
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Ensure 2-column grids (like stat boxes) can drop to 2 on mobile instead of 4 */
+  .grid-cols-2-mobile {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Scale down nav padding */
+  nav.mobile-padding {
+    padding: 12px 20px !important;
+  }
+
+  /* Button stacking on small screens */
+  .btn-stack-mobile {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-stack-mobile>a,
+  .btn-stack-mobile>button {
+    width: 100%;
+    justify-content: center;
+  }
+}

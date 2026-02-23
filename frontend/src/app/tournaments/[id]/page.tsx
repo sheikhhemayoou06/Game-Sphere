@@ -133,7 +133,7 @@ export default function TournamentDashboard() {
                 {/* ═══════ OVERVIEW ═══════ */}
                 {tab === 'overview' && (
                     <div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
                             {[
                                 { label: 'Teams', value: stats?.totalTeams || 0, icon: '👥', color: '#6366f1' },
                                 { label: 'Approved', value: stats?.approvedTeams || 0, icon: '✅', color: '#22c55e' },
@@ -178,7 +178,7 @@ export default function TournamentDashboard() {
 
                         {/* Summary Dashboard */}
                         {isOrganizer && (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
+                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
                                 <div style={{ padding: '20px', borderRadius: '14px', background: 'rgba(99,102,241,0.05)', border: '1px solid rgba(99,102,241,0.15)' }}>
                                     <div style={{ fontSize: '12px', color: '#a5b4fc', fontWeight: 600, marginBottom: '4px' }}>TOTAL APPLICATIONS</div>
                                     <div style={{ fontSize: '24px', fontWeight: 800, color: '#e2e8f0' }}>{teams.length}</div>
@@ -345,7 +345,7 @@ export default function TournamentDashboard() {
                             </div>
                         ) : (
                             <div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px' }}>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px' }}>
                                     <div style={{ padding: '20px', borderRadius: '14px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
                                         <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>STATUS</div>
                                         <div style={{ fontSize: '18px', fontWeight: 800, color: '#a5b4fc' }}>{auction.status}</div>
@@ -499,7 +499,7 @@ export default function TournamentDashboard() {
                             }}>
                                 <h3 style={{ color: '#e2e8f0', fontWeight: 800, fontSize: '16px', marginBottom: '16px' }}>Upload New Media</h3>
                                 <form onSubmit={handleMediaUpload} style={{ display: 'grid', gap: '16px' }}>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                                         <div>
                                             <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>Title *</label>
                                             <input type="text" required value={mediaForm.title} onChange={e => setMediaForm({ ...mediaForm, title: e.target.value })}
@@ -542,7 +542,7 @@ export default function TournamentDashboard() {
                                 <p style={{ fontSize: '12px', marginTop: '6px' }}>Upload match photos, highlight videos, and official announcements.</p>
                             </div>
                         ) : (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                                 {media.map((m: any) => (
                                     <div key={m.id} style={{ padding: '16px', borderRadius: '14px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
                                         {m.type === 'PHOTO' && (
@@ -591,7 +591,7 @@ export default function TournamentDashboard() {
                     <div style={{ paddingBottom: '60px' }}>
                         <h2 style={{ color: '#e2e8f0', fontWeight: 800, fontSize: '22px', marginBottom: '20px' }}>⚙️ Tournament Settings</h2>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '24px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '24px' }}>
                             {/* General Info */}
                             <div style={{ padding: '28px', borderRadius: '16px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
                                 <h3 style={{ color: '#e2e8f0', fontWeight: 800, fontSize: '16px', marginBottom: '16px' }}>General Information</h3>

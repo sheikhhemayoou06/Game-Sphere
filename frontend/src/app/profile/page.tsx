@@ -168,7 +168,7 @@ export default function PlayerProfilePage() {
                     </div>
 
                     {/* Stats Row */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', marginBottom: '24px' }}>
                         {[
                             { label: 'Matches', value: tp.wins + tp.losses + tp.draws, color: '#6366f1' },
                             { label: 'Wins', value: tp.wins, color: '#22c55e' },
@@ -200,7 +200,7 @@ export default function PlayerProfilePage() {
                     </div>
 
                     {ownerTab === 'team' && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                             <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
                                 <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏟️ Team Details</h3>
                                 {[{ l: 'Team Name', v: tp.name }, { l: 'Sport', v: tp.sport }, { l: 'Home Ground', v: tp.homeGround }, { l: 'City', v: tp.city }, { l: 'Founded', v: tp.founded }, { l: 'Owner', v: tp.owner }, { l: 'Head Coach', v: tp.coach }].map(r => (
@@ -227,7 +227,7 @@ export default function PlayerProfilePage() {
 
                     {ownerTab === 'financial' && (
                         <div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', marginBottom: '20px' }}>
+                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', marginBottom: '20px' }}>
                                 {FINANCIALS.slice(0, 3).map((f, i) => (
                                     <div key={i} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '20px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
                                         <div style={{ fontSize: '24px', fontWeight: 900, color: f.color }}>{f.value}</div>
@@ -359,7 +359,7 @@ export default function PlayerProfilePage() {
                 </div>
 
                 {/* ─── Career Overview Stats ─── */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
                         { label: 'Matches', value: cs.matches + fs.matches, color: '#6366f1' },
                         { label: 'Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
@@ -397,7 +397,7 @@ export default function PlayerProfilePage() {
 
                 {/* ═══ OVERVIEW TAB ═══ */}
                 {activeTab === 'overview' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                         {/* Achievements */}
                         <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
                             <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏆 Achievements ({filteredAchievements.length})</h3>
@@ -468,11 +468,11 @@ export default function PlayerProfilePage() {
                 {/* ═══ CRICKET STATS TAB ═══ */}
                 {activeTab === 'cricket' && (
                     <div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
+                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
                             {/* Batting */}
                             <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
                                 <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>🏏 Batting Statistics</h3>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
+                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
                                     {[
                                         { label: 'Innings', value: cs.innings, color: '#6366f1' },
                                         { label: 'Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
@@ -495,7 +495,7 @@ export default function PlayerProfilePage() {
                             {/* Bowling */}
                             <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
                                 <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>⚾ Bowling Statistics</h3>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
+                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
                                     {[
                                         { label: 'Wickets', value: cs.wickets, color: '#f59e0b' },
                                         { label: 'Bowl Avg', value: cs.bowlAvg, color: '#22c55e' },
