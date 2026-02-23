@@ -1,0 +1,395 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ========================
+// USER & AUTH
+// ========================
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password      String
+  firstName     String
+  lastName      String
+  role          String   @default("PLAYER")
+  phone         String?
+  avatar        String?
+  isVerified    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  player        Player?
+  managedTeams  Team[]
+  tournaments   Tournament[]
+  payments      Payment[]
+}
+
+model Player {
+  id              String   @id @default(uuid())
+  sportsId        String   @unique
+  userId          String   @unique
+  dateOfBirth     DateTime?
+  gender          String?
+  city            String?
+  state           String?
+  country         String   @default("India")
+  primarySport    String?
+  bio             String?
+  totalMatches    Int      @default(0)
+  totalWins       Int      @default(0)
+  careerStats     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id])
+  teamPlayers     TeamPlayer[]
+  matchScores     MatchPlayerStat[]
+}
+
+model Sport {
+  id              String   @id @default(uuid())
+  name            String   @unique
+  icon            String?
+  accentColor     String?
+  teamSize        Int      @default(11)
+  maxPlayers      Int      @default(15)
+  scoringRules    String?
+  statFields      String?
+  matchDuration   String?
+  pointsSystem    String?
+  tieBreakerRules String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tournaments     Tournament[]
+  matches         Match[]
+  teams           Team[]
+}
+
+model Tournament {
+  id              String   @id @default(uuid())
+  name            String
+  sportId         String
+  organizerId     String
+  description     String?
+  level           String   @default("DISTRICT")
+  format          String   @default("KNOCKOUT")
+  status          String   @default("DRAFT")
+  maxTeams        Int      @default(16)
+  squadSize       Int      @default(15)
+  registrationFee Float    @default(0)
+  prizePool       Float    @default(0)
+  
+  // Registration Controls
+  isRegistrationOpen Boolean  @default(false)
+  registrationEnd    DateTime?
+  approvalMode       String   @default("MANUAL") // "MANUAL" | "AUTOMATIC"
+  
+  // Auction Settings
+  maxPurse        Float    @default(0)
+
+  startDate       DateTime?
+  endDate         DateTime?
+  venue           String?
+  rules           String?
+  bannerUrl       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  sport           Sport    @relation(fields: [sportId], references: [id])
+  organizer       User     @relation(fields: [organizerId], references: [id])
+  teams           TournamentTeam[]
+  matches         Match[]
+  registrations   Registration[]
+  auctions        Auction[]
+  chatMessages    TournamentChat[]
+  media           TournamentMedia[]
+  transfers       Transfer[]
+}
+
+model Team {
+  id              String   @id @default(uuid())
+  name            String
+  managerId       String
+  sportId         String
+  logo            String?
+  city            String?
+  state           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  manager         User     @relation(fields: [managerId], references: [id])
+  sport           Sport    @relation(fields: [sportId], references: [id])
+  players         TeamPlayer[]
+  tournaments     TournamentTeam[]
+  homeMatches     Match[]  @relation("HomeTeam")
+  awayMatches     Match[]  @relation("AwayTeam")
+  wonMatches      Match[]  @relation("WinnerTeam")
+}
+
+model TeamPlayer {
+  id        String   @id @default(uuid())
+  teamId    String
+  playerId  String
+  jersey    Int?
+  role      String?
+  joinedAt  DateTime @default(now())
+
+  team      Team     @relation(fields: [teamId], references: [id])
+  player    Player   @relation(fields: [playerId], references: [id])
+
+  @@unique([teamId, playerId])
+}
+
+model TournamentTeam {
+  id            String   @id @default(uuid())
+  tournamentId  String
+  teamId        String
+  status        String   @default("PENDING")
+  seed          Int?
+  registeredAt  DateTime @default(now())
+
+  tournament    Tournament @relation(fields: [tournamentId], references: [id])
+  team          Team       @relation(fields: [teamId], references: [id])
+
+  @@unique([tournamentId, teamId])
+}
+
+model Match {
+  id              String   @id @default(uuid())
+  tournamentId    String
+  sportId         String
+  homeTeamId      String?
+  awayTeamId      String?
+  winnerTeamId    String?
+  round           String?
+  matchNumber     Int?
+  status          String   @default("SCHEDULED")
+  scheduledAt     DateTime?
+  venue           String?
+  scoreData       String?
+  matchReport     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tournament      Tournament @relation(fields: [tournamentId], references: [id])
+  sport           Sport      @relation(fields: [sportId], references: [id])
+  homeTeam        Team?      @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeam        Team?      @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  winnerTeam      Team?      @relation("WinnerTeam", fields: [winnerTeamId], references: [id])
+  playerStats     MatchPlayerStat[]
+}
+
+model MatchPlayerStat {
+  id        String  @id @default(uuid())
+  matchId   String
+  playerId  String
+  statsData String?
+
+  match     Match   @relation(fields: [matchId], references: [id])
+  player    Player  @relation(fields: [playerId], references: [id])
+
+  @@unique([matchId, playerId])
+}
+
+model Registration {
+  id            String   @id @default(uuid())
+  tournamentId  String
+  teamName      String
+  contactEmail  String
+  contactPhone  String?
+  status        String   @default("PENDING")
+  createdAt     DateTime @default(now())
+
+  tournament    Tournament @relation(fields: [tournamentId], references: [id])
+  payment       Payment?
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  userId          String
+  registrationId  String?  @unique
+  amount          Float
+  currency        String   @default("INR")
+  status          String   @default("PENDING")
+  paymentMethod   String?
+  transactionId   String?
+  createdAt       DateTime @default(now())
+
+  user            User         @relation(fields: [userId], references: [id])
+  registration    Registration? @relation(fields: [registrationId], references: [id])
+}
+
+// ========================
+// PHASE 2: RANKINGS
+// ========================
+model Ranking {
+  id            String   @id @default(uuid())
+  playerId      String?
+  teamId        String?
+  sportId       String
+  level         String   @default("DISTRICT")
+  season        String?
+  points        Float    @default(0)
+  wins          Int      @default(0)
+  losses        Int      @default(0)
+  draws         Int      @default(0)
+  matchesPlayed Int      @default(0)
+  rank          Int?
+  previousRank  Int?
+  statsData     String?
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+
+  @@unique([playerId, sportId, level, season])
+}
+
+// ========================
+// PHASE 2: CERTIFICATES
+// ========================
+model Certificate {
+  id              String   @id @default(uuid())
+  type            String   @default("PARTICIPATION")
+  recipientName   String
+  playerId        String?
+  teamId          String?
+  tournamentId    String?
+  sportName       String?
+  tournamentName  String?
+  position        String?
+  verificationCode String  @unique @default(uuid())
+  issuedAt        DateTime @default(now())
+  metadata        String?
+}
+
+// ========================
+// PHASE 2: TRANSFERS
+// ========================
+model Transfer {
+  id              String   @id @default(uuid())
+  playerId        String
+  fromTeamId      String?
+  toTeamId        String
+  tournamentId    String?
+  status          String   @default("PENDING")
+  transferFee     Float    @default(0)
+  reason          String?
+  approvedBy      String?
+  requestedAt     DateTime @default(now())
+  resolvedAt      DateTime?
+
+  tournament      Tournament? @relation(fields: [tournamentId], references: [id])
+}
+
+// ========================
+// Phase 3: Document Management
+// ========================
+model Document {
+  id              String    @id @default(uuid())
+  type            String    // CONSENT, MEDICAL, ID_VERIFICATION, ELIGIBILITY, APPROVAL, TRANSFER_CERT
+  title           String
+  description     String?
+  playerId        String?
+  tournamentId    String?
+  teamId          String?
+  uploadedBy      String
+  fileUrl         String
+  status          String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  rejectionReason String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+// ========================
+// Phase 3: Notifications
+// ========================
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String
+  type      String    // TRANSFER, MATCH, TOURNAMENT, DOCUMENT, CERTIFICATE, SYSTEM
+  title     String
+  message   String
+  link      String?
+  read      Boolean   @default(false)
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+}
+
+// ========================
+// TOURNAMENT AUCTION
+// ========================
+model Auction {
+  id              String   @id @default(uuid())
+  tournamentId    String
+  status          String   @default("DRAFT") // DRAFT, OPEN, IN_PROGRESS, COMPLETED
+  teamBudget      Float    @default(5000000)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tournament      Tournament     @relation(fields: [tournamentId], references: [id])
+  players         AuctionPlayer[]
+}
+
+model AuctionPlayer {
+  id              String   @id @default(uuid())
+  auctionId       String
+  playerId        String
+  basePrice       Float    @default(50000)
+  soldPrice       Float?
+  soldToTeamId    String?
+  status          String   @default("PENDING") // PENDING, APPROVED, IN_BIDDING, SOLD, UNSOLD
+  createdAt       DateTime @default(now())
+
+  auction         Auction  @relation(fields: [auctionId], references: [id])
+  bids            AuctionBid[]
+
+  @@unique([auctionId, playerId])
+}
+
+model AuctionBid {
+  id                String   @id @default(uuid())
+  auctionPlayerId   String
+  teamId            String
+  amount            Float
+  createdAt         DateTime @default(now())
+
+  auctionPlayer     AuctionPlayer @relation(fields: [auctionPlayerId], references: [id])
+}
+
+// ========================
+// TOURNAMENT CHAT
+// ========================
+model TournamentChat {
+  id              String   @id @default(uuid())
+  tournamentId    String
+  senderId        String
+  message         String
+  type            String   @default("TEXT") // TEXT, ANNOUNCEMENT, SYSTEM
+  createdAt       DateTime @default(now())
+
+  tournament      Tournament @relation(fields: [tournamentId], references: [id])
+}
+
+// ========================
+// TOURNAMENT MEDIA
+// ========================
+model TournamentMedia {
+  id              String   @id @default(uuid())
+  tournamentId    String
+  uploadedBy      String
+  type            String   // PHOTO, VIDEO, ANNOUNCEMENT
+  title           String
+  description     String?
+  url             String
+  createdAt       DateTime @default(now())
+
+  tournament      Tournament @relation(fields: [tournamentId], references: [id])
+}

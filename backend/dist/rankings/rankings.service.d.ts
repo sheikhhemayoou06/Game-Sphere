@@ -1,0 +1,91 @@
+import { PrismaService } from '../prisma/prisma.service';
+export declare class RankingsService {
+    private prisma;
+    constructor(prisma: PrismaService);
+    getLeaderboard(sportId?: string, level?: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        points: number;
+        sportId: string;
+        level: string;
+        teamId: string | null;
+        playerId: string | null;
+        statsData: string | null;
+        season: string | null;
+        wins: number;
+        losses: number;
+        draws: number;
+        matchesPlayed: number;
+        rank: number | null;
+        previousRank: number | null;
+    }[]>;
+    getPlayerRankings(playerId: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        points: number;
+        sportId: string;
+        level: string;
+        teamId: string | null;
+        playerId: string | null;
+        statsData: string | null;
+        season: string | null;
+        wins: number;
+        losses: number;
+        draws: number;
+        matchesPlayed: number;
+        rank: number | null;
+        previousRank: number | null;
+    }[]>;
+    getTeamRankings(teamId: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        points: number;
+        sportId: string;
+        level: string;
+        teamId: string | null;
+        playerId: string | null;
+        statsData: string | null;
+        season: string | null;
+        wins: number;
+        losses: number;
+        draws: number;
+        matchesPlayed: number;
+        rank: number | null;
+        previousRank: number | null;
+    }[]>;
+    upsertRanking(data: {
+        playerId?: string;
+        teamId?: string;
+        sportId: string;
+        level?: string;
+        season?: string;
+        points?: number;
+        wins?: number;
+        losses?: number;
+        draws?: number;
+        matchesPlayed?: number;
+    }): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        points: number;
+        sportId: string;
+        level: string;
+        teamId: string | null;
+        playerId: string | null;
+        statsData: string | null;
+        season: string | null;
+        wins: number;
+        losses: number;
+        draws: number;
+        matchesPlayed: number;
+        rank: number | null;
+        previousRank: number | null;
+    }>;
+    recalculateRanks(sportId: string, level: string): Promise<{
+        updated: number;
+    }>;
+}
