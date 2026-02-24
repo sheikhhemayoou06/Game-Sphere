@@ -90,29 +90,31 @@ export default function CalendarPage() {
                             <button onClick={nextMonth} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #bfdbfe', background: '#fff', cursor: 'pointer', fontWeight: 700, fontSize: '16px', color: '#1e40af' }}>→</button>
                         </div>
 
-                        <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px' }}>
-                            {dayNames.map(d => (
-                                <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: 700, color: '#64748b', padding: '8px 0' }}>{d}</div>
-                            ))}
-                            {calendarDays.map((day, i) => (
-                                <div key={i} style={{
-                                    minHeight: '72px', borderRadius: '10px', padding: '6px', fontSize: '13px',
-                                    background: day && isToday(day) ? '#1e40af' : day ? '#f8fafc' : 'transparent',
-                                    color: day && isToday(day) ? '#fff' : '#1e1b4b',
-                                    border: day && events[day] ? '2px solid #6366f1' : '1px solid transparent',
-                                }}>
-                                    {day && (
-                                        <>
-                                            <div style={{ fontWeight: 700, marginBottom: '4px' }}>{day}</div>
-                                            {events[day]?.map((e, j) => (
-                                                <div key={j} style={{ fontSize: '9px', padding: '2px 4px', borderRadius: '4px', background: `${e.color}20`, color: e.color, fontWeight: 600, marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                    {e.title}
-                                                </div>
-                                            ))}
-                                        </>
-                                    )}
-                                </div>
-                            ))}
+                        <div style={{ overflowX: 'auto', paddingBottom: '8px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', minWidth: '700px' }}>
+                                {dayNames.map(d => (
+                                    <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: 700, color: '#64748b', padding: '8px 0' }}>{d}</div>
+                                ))}
+                                {calendarDays.map((day, i) => (
+                                    <div key={i} style={{
+                                        minHeight: '72px', borderRadius: '10px', padding: '6px', fontSize: '13px',
+                                        background: day && isToday(day) ? '#1e40af' : day ? '#f8fafc' : 'transparent',
+                                        color: day && isToday(day) ? '#fff' : '#1e1b4b',
+                                        border: day && events[day] ? '2px solid #6366f1' : '1px solid transparent',
+                                    }}>
+                                        {day && (
+                                            <>
+                                                <div style={{ fontWeight: 700, marginBottom: '4px' }}>{day}</div>
+                                                {events[day]?.map((e, j) => (
+                                                    <div key={j} style={{ fontSize: '9px', padding: '2px 4px', borderRadius: '4px', background: `${e.color}20`, color: e.color, fontWeight: 600, marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                        {e.title}
+                                                    </div>
+                                                ))}
+                                            </>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
