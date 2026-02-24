@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
@@ -95,6 +95,12 @@ export default function PlayerProfilePage() {
     const defaultTab = selectedSportKey && (selectedSportKey === 'cricket' || selectedSportKey === 'football') ? selectedSportKey : 'overview';
     const [activeTab, setActiveTab] = useState<'overview' | 'cricket' | 'football' | 'tournaments' | 'history'>(defaultTab);
     const [ownerTab, setOwnerTab] = useState<'team' | 'financial' | 'seasons'>('team');
+
+    useEffect(() => {
+        if (selectedSportKey && activeTab !== 'overview' && activeTab !== 'tournaments' && activeTab !== 'history' && activeTab !== selectedSportKey) {
+            setActiveTab('overview');
+        }
+    }, [selectedSportKey, activeTab]);
 
     // Sport filtering
     const filteredTournaments = selectedSport ? TOURNAMENT_BREAKDOWN.filter(t => t.sport === selectedSport.name) : TOURNAMENT_BREAKDOWN;
@@ -289,6 +295,44 @@ export default function PlayerProfilePage() {
     }
 
     /* ═══════ PLAYER VIEW ═══════ */
+    let overviewStats = [];
+    if (selectedSportKey === 'cricket') {
+        overviewStats = [
+            { label: 'Matches', value: cs.matches, color: '#6366f1' },
+            { label: 'Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
+            { label: 'Wickets', value: cs.wickets, color: '#f59e0b' },
+            { label: 'High Score', value: cs.highScore, color: '#ef4444' },
+            { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
+            { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
+        ];
+    } else if (selectedSportKey === 'football') {
+        overviewStats = [
+            { label: 'Matches', value: fs.matches, color: '#6366f1' },
+            { label: 'Goals', value: fs.goals, color: '#22c55e' },
+            { label: 'Assists', value: fs.assists, color: '#f59e0b' },
+            { label: 'SOT', value: fs.shotsOnTarget, color: '#ef4444' },
+            { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
+            { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
+        ];
+    } else {
+        overviewStats = [
+            { label: 'Total Matches', value: cs.matches + fs.matches, color: '#6366f1' },
+            { label: 'Total Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
+            { label: 'Total Goals', value: fs.goals, color: '#ef4444' },
+            { label: 'Total Wickets', value: cs.wickets, color: '#f59e0b' },
+            { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
+            { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
+        ];
+    }
+
+    const profileTabs: { key: 'overview' | 'cricket' | 'football' | 'tournaments' | 'history', label: string }[] = [
+        { key: 'overview', label: '📋 Overview' }
+    ];
+    if (!selectedSportKey || selectedSportKey === 'cricket') profileTabs.push({ key: 'cricket', label: '🏏 Cricket Stats' });
+    if (!selectedSportKey || selectedSportKey === 'football') profileTabs.push({ key: 'football', label: '⚽ Football Stats' });
+    profileTabs.push({ key: 'tournaments', label: '🏆 Tournament Breakdown' });
+    profileTabs.push({ key: 'history', label: '📜 History' });
+
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
@@ -378,14 +422,7 @@ export default function PlayerProfilePage() {
 
                 {/* ─── Career Overview Stats ─── */}
                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', marginBottom: '24px' }}>
-                    {[
-                        { label: 'Matches', value: cs.matches + fs.matches, color: '#6366f1' },
-                        { label: 'Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
-                        { label: 'Wickets', value: cs.wickets, color: '#f59e0b' },
-                        { label: 'Goals', value: fs.goals, color: '#ef4444' },
-                        { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
-                        { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' },
-                    ].map(s => (
+                    {overviewStats.map(s => (
                         <div key={s.label} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '18px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.06)' }}>
                             <div style={{ fontSize: '28px', fontWeight: 900, color: s.color }}>{s.value}</div>
                             <div style={{ fontSize: '11px', color: '#a5b4fc', fontWeight: 600, marginTop: '4px' }}>{s.label}</div>
@@ -395,13 +432,7 @@ export default function PlayerProfilePage() {
 
                 {/* ─── Tabs ─── */}
                 <div style={{ display: 'flex', gap: '6px', marginBottom: '24px', flexWrap: 'wrap' }}>
-                    {[
-                        { key: 'overview' as const, label: '📋 Overview' },
-                        { key: 'cricket' as const, label: '🏏 Cricket Stats' },
-                        { key: 'football' as const, label: '⚽ Football Stats' },
-                        { key: 'tournaments' as const, label: '🏆 Tournament Breakdown' },
-                        { key: 'history' as const, label: '📜 History' },
-                    ].map(tab => (
+                    {profileTabs.map(tab => (
                         <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
                             padding: '10px 18px', borderRadius: '10px', border: 'none', cursor: 'pointer',
                             background: activeTab === tab.key ? '#6366f1' : 'rgba(255,255,255,0.08)',
