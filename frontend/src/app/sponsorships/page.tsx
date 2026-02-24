@@ -15,11 +15,11 @@ export default function SponsorshipsPage() {
     }, []);
 
     const sponsors = [
-        { name: 'SportsTech India', tier: 'TITLE', logo: '🏢', amount: '₹5,00,000', status: 'ACTIVE', sport: 'Cricket', placement: 'Jersey + Banner + Digital', color: "inherit" },
-        { name: 'FitGear Pro', tier: 'GOLD', logo: '🎽', amount: '₹2,50,000', status: 'ACTIVE', sport: 'Football', placement: 'Banner + Digital', color: "inherit" },
-        { name: 'NutriMax', tier: 'SILVER', logo: '🥤', amount: '₹1,00,000', status: 'ACTIVE', sport: 'All Sports', placement: 'Digital Only', color: "inherit" },
-        { name: 'EduSports Foundation', tier: 'PARTNER', logo: '🎓', amount: '₹50,000', status: 'PENDING', sport: 'Athletics', placement: 'Certificate Branding', color: "inherit" },
-        { name: 'HealthPlus', tier: 'SILVER', logo: '💊', amount: '₹75,000', status: 'EXPIRED', sport: 'Kabaddi', placement: 'Banner', color: "inherit" },
+        { name: 'SportsTech India', tier: 'TITLE', logo: '🏢', amount: '₹5,00,000', status: 'ACTIVE', sport: 'Cricket', placement: 'Jersey + Banner + Digital', color: '#f59e0b' },
+        { name: 'FitGear Pro', tier: 'GOLD', logo: '🎽', amount: '₹2,50,000', status: 'ACTIVE', sport: 'Football', placement: 'Banner + Digital', color: '#eab308' },
+        { name: 'NutriMax', tier: 'SILVER', logo: '🥤', amount: '₹1,00,000', status: 'ACTIVE', sport: 'All Sports', placement: 'Digital Only', color: '#94a3b8' },
+        { name: 'EduSports Foundation', tier: 'PARTNER', logo: '🎓', amount: '₹50,000', status: 'PENDING', sport: 'Athletics', placement: 'Certificate Branding', color: '#a78bfa' },
+        { name: 'HealthPlus', tier: 'SILVER', logo: '💊', amount: '₹75,000', status: 'EXPIRED', sport: 'Kabaddi', placement: 'Banner', color: '#94a3b8' },
     ];
 
     const filteredSponsors = selectedSport
@@ -33,9 +33,9 @@ export default function SponsorshipsPage() {
     }, 0);
 
     const STATUS_CONFIG: Record<string, { bg: string; color: string }> = {
-        ACTIVE: { bg: '#ecfdf5', color: "inherit" },
-        PENDING: { bg: '#fffbeb', color: "inherit" },
-        EXPIRED: { bg: '#fef2f2', color: "inherit" },
+        ACTIVE: { bg: '#ecfdf5', color: '#22c55e' },
+        PENDING: { bg: '#fffbeb', color: '#f59e0b' },
+        EXPIRED: { bg: '#fef2f2', color: '#ef4444' },
     };
 
     const adPlacements = [
@@ -56,13 +56,13 @@ export default function SponsorshipsPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
-                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#92400e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/dashboard" style={{ color: '#92400e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>💎 Sponsorships & Ads</h1>
-                <p style={{ color: "inherit", fontSize: '16px', marginBottom: '28px' }}>Manage sponsors, ad placements, and monetization</p>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>💎 Sponsorships & Ads</h1>
+                <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>Manage sponsors, ad placements, and monetization</p>
 
                 {/* Stats */}
                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '28px' }}>
@@ -82,9 +82,9 @@ export default function SponsorshipsPage() {
 
                 {/* Sponsors list */}
                 <div style={{ background: '#fff', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 24px rgba(120,53,15,0.06)', marginBottom: '24px' }}>
-                    <h2 style={{ fontSize: '18px', fontWeight: 800, color: "inherit", marginBottom: '16px' }}>🤝 Sponsors</h2>
+                    <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#78350f', marginBottom: '16px' }}>🤝 Sponsors</h2>
                     <div style={{ display: 'grid', gap: '10px' }}>
-                        {filteredSponsors.length === 0 && <div style={{ color: "inherit", textAlign: 'center', padding: '20px' }}>No sponsors found for this sport.</div>}
+                        {filteredSponsors.length === 0 && <div style={{ color: '#92400e', textAlign: 'center', padding: '20px' }}>No sponsors found for this sport.</div>}
                         {filteredSponsors.map((sp, i) => {
                             const statusCfg = STATUS_CONFIG[sp.status] || STATUS_CONFIG.PENDING;
                             return (
@@ -92,13 +92,13 @@ export default function SponsorshipsPage() {
                                     <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>{sp.logo}</div>
                                     <div style={{ flex: 1, minWidth: 0 }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-                                            <span style={{ fontWeight: 800, fontSize: '15px', color: "inherit" }}>{sp.name}</span>
+                                            <span style={{ fontWeight: 800, fontSize: '15px', color: '#1e1b4b' }}>{sp.name}</span>
                                             <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 700, background: `${sp.color}22`, color: sp.color }}>{sp.tier}</span>
                                         </div>
-                                        <div style={{ fontSize: '12px', color: "inherit" }}>{sp.sport} • {sp.placement}</div>
+                                        <div style={{ fontSize: '12px', color: '#64748b' }}>{sp.sport} • {sp.placement}</div>
                                     </div>
                                     <div style={{ textAlign: 'right' }}>
-                                        <div style={{ fontWeight: 800, fontSize: '15px', color: "inherit" }}>{sp.amount}</div>
+                                        <div style={{ fontWeight: 800, fontSize: '15px', color: '#78350f' }}>{sp.amount}</div>
                                         <span style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 700, background: statusCfg.bg, color: statusCfg.color }}>{sp.status}</span>
                                     </div>
                                 </div>
@@ -114,17 +114,17 @@ export default function SponsorshipsPage() {
                     </div>
                     <div style={{ overflowX: 'auto' }}>
                         <div style={{ minWidth: '600px' }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '12px 24px', background: '#fef3c7', fontSize: '11px', fontWeight: 700, color: "inherit" }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '12px 24px', background: '#fef3c7', fontSize: '11px', fontWeight: 700, color: '#92400e' }}>
                                 <span>Placement</span><span>Impressions</span><span>Clicks</span><span>CTR</span><span>Revenue</span>
                             </div>
-                            {filteredAds.length === 0 && <div style={{ color: "inherit", textAlign: 'center', padding: '20px' }}>No ad placements found for this sport.</div>}
+                            {filteredAds.length === 0 && <div style={{ color: '#92400e', textAlign: 'center', padding: '20px' }}>No ad placements found for this sport.</div>}
                             {filteredAds.map((ad, i) => (
                                 <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '14px 24px', borderBottom: '1px solid #fef3c7', fontSize: '13px', background: i % 2 === 0 ? '#fffbeb' : '#fff' }}>
-                                    <span style={{ fontWeight: 600, color: "inherit" }}>{ad.location}</span>
-                                    <span style={{ color: "inherit" }}>{ad.impressions}</span>
-                                    <span style={{ color: "inherit" }}>{ad.clicks}</span>
-                                    <span style={{ fontWeight: 700, color: "inherit" }}>{ad.ctr}</span>
-                                    <span style={{ fontWeight: 700, color: "inherit" }}>{ad.revenue}</span>
+                                    <span style={{ fontWeight: 600, color: '#1e1b4b' }}>{ad.location}</span>
+                                    <span style={{ color: '#64748b' }}>{ad.impressions}</span>
+                                    <span style={{ color: '#64748b' }}>{ad.clicks}</span>
+                                    <span style={{ fontWeight: 700, color: '#22c55e' }}>{ad.ctr}</span>
+                                    <span style={{ fontWeight: 700, color: '#78350f' }}>{ad.revenue}</span>
                                 </div>
                             ))}
                         </div>

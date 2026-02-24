@@ -28,18 +28,18 @@ export default function LeaderboardPage() {
     }, [sportId, level]);
 
     const getRankBadge = (rank: number) => {
-        if (rank === 1) return { emoji: '🥇', bg: 'linear-gradient(135deg, #fbbf24, #f59e0b)', color: "inherit" };
-        if (rank === 2) return { emoji: '🥈', bg: 'linear-gradient(135deg, #d1d5db, #9ca3af)', color: "inherit" };
+        if (rank === 1) return { emoji: '🥇', bg: 'linear-gradient(135deg, #fbbf24, #f59e0b)', color: '#78350f' };
+        if (rank === 2) return { emoji: '🥈', bg: 'linear-gradient(135deg, #d1d5db, #9ca3af)', color: '#1f2937' };
         if (rank === 3) return { emoji: '🥉', bg: 'linear-gradient(135deg, #f97316, #ea580c)', color: '#fff' };
-        return { emoji: `#${rank}`, bg: '#f1f5f9', color: "inherit" };
+        return { emoji: `#${rank}`, bg: '#f1f5f9', color: '#475569' };
     };
 
     const getRankDelta = (r: any) => {
         if (!r.previousRank || !r.rank) return null;
         const delta = r.previousRank - r.rank;
-        if (delta > 0) return { icon: '▲', text: `+${delta}`, color: "inherit" };
-        if (delta < 0) return { icon: '▼', text: `${delta}`, color: "inherit" };
-        return { icon: '━', text: '0', color: "inherit" };
+        if (delta > 0) return { icon: '▲', text: `+${delta}`, color: '#22c55e' };
+        if (delta < 0) return { icon: '▼', text: `${delta}`, color: '#ef4444' };
+        return { icon: '━', text: '0', color: '#94a3b8' };
     };
 
     return (
@@ -70,12 +70,12 @@ export default function LeaderboardPage() {
                 <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto', backdropFilter: 'blur(20px)' }}>
                     <div style={{ minWidth: '800px' }}>
                         {/* Table Header */}
-                        <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr 100px 80px 80px 80px 100px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.1)', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: "inherit" }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr 100px 80px 80px 80px 100px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.1)', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#94a3b8' }}>
                             <span>Rank</span><span>Player / Team</span><span>Points</span><span>W</span><span>L</span><span>D</span><span>Matches</span>
                         </div>
 
                         {loading ? (
-                            <div style={{ padding: '60px 20px', textAlign: 'center', color: "inherit" }}>
+                            <div style={{ padding: '60px 20px', textAlign: 'center', color: '#94a3b8' }}>
                                 <div style={{ fontSize: '36px', marginBottom: '12px', animation: 'pulse 1.5s infinite' }}>⏳</div>
                                 Loading rankings...
                             </div>
@@ -83,7 +83,7 @@ export default function LeaderboardPage() {
                             <div style={{ padding: '60px 20px', textAlign: 'center' }}>
                                 <div style={{ fontSize: '48px', marginBottom: '12px' }}>📊</div>
                                 <div style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>No Rankings Yet</div>
-                                <div style={{ color: "inherit", fontSize: '14px' }}>Rankings will appear as matches are played and scored</div>
+                                <div style={{ color: '#94a3b8', fontSize: '14px' }}>Rankings will appear as matches are played and scored</div>
                             </div>
                         ) : (
                             rankings.map((r, i) => {
@@ -100,11 +100,11 @@ export default function LeaderboardPage() {
                                             {delta && <span style={{ fontSize: '10px', color: delta.color, fontWeight: 700 }}>{delta.icon}</span>}
                                         </div>
                                         <div style={{ fontWeight: 700, fontSize: '15px' }}>{r.playerId ? `Player ${r.playerId.slice(0, 8)}...` : `Team ${r.teamId?.slice(0, 8)}...`}</div>
-                                        <div style={{ fontWeight: 800, fontSize: '18px', color: "inherit" }}>{r.points}</div>
-                                        <div style={{ color: "inherit", fontWeight: 600 }}>{r.wins}</div>
-                                        <div style={{ color: "inherit", fontWeight: 600 }}>{r.losses}</div>
-                                        <div style={{ color: "inherit", fontWeight: 600 }}>{r.draws}</div>
-                                        <div style={{ color: "inherit", fontWeight: 600 }}>{r.matchesPlayed}</div>
+                                        <div style={{ fontWeight: 800, fontSize: '18px', color: '#a78bfa' }}>{r.points}</div>
+                                        <div style={{ color: '#22c55e', fontWeight: 600 }}>{r.wins}</div>
+                                        <div style={{ color: '#ef4444', fontWeight: 600 }}>{r.losses}</div>
+                                        <div style={{ color: '#94a3b8', fontWeight: 600 }}>{r.draws}</div>
+                                        <div style={{ color: '#94a3b8', fontWeight: 600 }}>{r.matchesPlayed}</div>
                                     </div>
                                 );
                             })
@@ -113,7 +113,7 @@ export default function LeaderboardPage() {
                 </div>
 
                 <div style={{ textAlign: 'center', marginTop: '32px' }}>
-                    <Link href="/dashboard" style={{ color: "inherit", fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>← Back to Dashboard</Link>
+                    <Link href="/dashboard" style={{ color: '#a78bfa', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>← Back to Dashboard</Link>
                 </div>
             </div>
         </div>

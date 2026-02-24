@@ -64,13 +64,12 @@ body {
   box-shadow: 0 0 40px var(--glow);
 }
 
-/* Gradient text matching logo palette (Blue -> Green -> Orange) */
+/* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #0ea5e9, #22c55e, #f97316) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-  display: inline-block;
+  background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Animated gradient bg */

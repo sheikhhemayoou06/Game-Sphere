@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { useSportStore } from '@/lib/store';
 
 const STATUS_CONFIG: Record<string, { color: string; bg: string; icon: string }> = {
-    PENDING: { color: "inherit", bg: '#fffbeb', icon: '⏳' },
-    APPROVED: { color: "inherit", bg: '#ecfdf5', icon: '✅' },
-    REJECTED: { color: "inherit", bg: '#fef2f2', icon: '❌' },
+    PENDING: { color: '#f59e0b', bg: '#fffbeb', icon: '⏳' },
+    APPROVED: { color: '#22c55e', bg: '#ecfdf5', icon: '✅' },
+    REJECTED: { color: '#ef4444', bg: '#fef2f2', icon: '❌' },
 };
 
 export default function TransfersPage() {
@@ -51,15 +51,15 @@ export default function TransfersPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
-                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#166534', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/dashboard" style={{ color: '#166534', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
                     <div>
-                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>🔄 Transfers</h1>
-                        <p style={{ color: "inherit", fontSize: '16px' }}>Player transfer requests and approvals</p>
+                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#14532d', marginBottom: '8px' }}>🔄 Transfers</h1>
+                        <p style={{ color: '#166534', fontSize: '16px' }}>Player transfer requests and approvals</p>
                     </div>
                     <div style={{ display: 'flex', gap: '4px', background: 'rgba(20,83,45,0.08)', borderRadius: '12px', padding: '4px' }}>
                         {['', 'PENDING', 'APPROVED', 'REJECTED'].map((s) => (
@@ -72,14 +72,14 @@ export default function TransfersPage() {
                 </div>
 
                 {loading ? (
-                    <div style={{ textAlign: 'center', padding: '60px', color: "inherit" }}>
+                    <div style={{ textAlign: 'center', padding: '60px', color: '#166534' }}>
                         <div style={{ fontSize: '36px', marginBottom: '12px' }}>⏳</div>Loading transfers...
                     </div>
                 ) : filteredTransfers.length === 0 ? (
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '60px', textAlign: 'center', boxShadow: '0 4px 24px rgba(20,83,45,0.08)' }}>
                         <div style={{ fontSize: '56px', marginBottom: '16px' }}>🔄</div>
-                        <div style={{ fontSize: '22px', fontWeight: 800, color: "inherit", marginBottom: '8px' }}>No Transfer Requests</div>
-                        <div style={{ color: "inherit", fontSize: '14px' }}>Transfer requests will appear when players request team changes</div>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#14532d', marginBottom: '8px' }}>No Transfer Requests</div>
+                        <div style={{ color: '#166534', fontSize: '14px' }}>Transfer requests will appear when players request team changes</div>
                     </div>
                 ) : (
                     <div style={{ display: 'grid', gap: '16px' }}>
@@ -94,8 +94,8 @@ export default function TransfersPage() {
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                             <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #22c55e, #16a34a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>{sportIcon}</div>
                                             <div>
-                                                <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>Player Transfer</div>
-                                                <div style={{ fontSize: '12px', color: "inherit" }}>ID: {t.playerId?.slice(0, 8)}...</div>
+                                                <div style={{ fontWeight: 800, fontSize: '16px', color: '#1c1917' }}>Player Transfer</div>
+                                                <div style={{ fontSize: '12px', color: '#78716c' }}>ID: {t.playerId?.slice(0, 8)}...</div>
                                             </div>
                                         </div>
                                         <div style={{ padding: '6px 14px', borderRadius: '10px', background: config.bg, color: config.color, fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -105,28 +105,28 @@ export default function TransfersPage() {
 
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', background: '#f8fafc', borderRadius: '12px', marginBottom: '16px' }}>
                                         <div style={{ textAlign: 'center', flex: 1 }}>
-                                            <div style={{ fontSize: '12px', color: "inherit", fontWeight: 600, marginBottom: '4px' }}>FROM</div>
-                                            <div style={{ fontWeight: 700, color: "inherit", fontSize: '14px' }}>{t.fromTeamId ? getTeamName(t.fromTeamId) : 'Free Agent'}</div>
+                                            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, marginBottom: '4px' }}>FROM</div>
+                                            <div style={{ fontWeight: 700, color: '#ef4444', fontSize: '14px' }}>{t.fromTeamId ? getTeamName(t.fromTeamId) : 'Free Agent'}</div>
                                         </div>
                                         <div style={{ fontSize: '24px' }}>→</div>
                                         <div style={{ textAlign: 'center', flex: 1 }}>
-                                            <div style={{ fontSize: '12px', color: "inherit", fontWeight: 600, marginBottom: '4px' }}>TO</div>
-                                            <div style={{ fontWeight: 700, color: "inherit", fontSize: '14px' }}>{getTeamName(t.toTeamId)}</div>
+                                            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, marginBottom: '4px' }}>TO</div>
+                                            <div style={{ fontWeight: 700, color: '#22c55e', fontSize: '14px' }}>{getTeamName(t.toTeamId)}</div>
                                         </div>
                                         {t.transferFee > 0 && (
                                             <div style={{ textAlign: 'center', flex: 1 }}>
-                                                <div style={{ fontSize: '12px', color: "inherit", fontWeight: 600, marginBottom: '4px' }}>FEE</div>
-                                                <div style={{ fontWeight: 800, color: "inherit", fontSize: '16px' }}>₹{t.transferFee.toLocaleString()}</div>
+                                                <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, marginBottom: '4px' }}>FEE</div>
+                                                <div style={{ fontWeight: 800, color: '#6366f1', fontSize: '16px' }}>₹{t.transferFee.toLocaleString()}</div>
                                             </div>
                                         )}
                                     </div>
 
-                                    {t.reason && <div style={{ padding: '12px 16px', background: '#fffbeb', borderRadius: '10px', color: "inherit", fontSize: '13px', marginBottom: '16px' }}>💬 {t.reason}</div>}
+                                    {t.reason && <div style={{ padding: '12px 16px', background: '#fffbeb', borderRadius: '10px', color: '#92400e', fontSize: '13px', marginBottom: '16px' }}>💬 {t.reason}</div>}
 
                                     {t.status === 'PENDING' && (
                                         <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                                             <button onClick={() => handleAction(t.id, 'reject')}
-                                                style={{ padding: '10px 20px', borderRadius: '10px', border: '2px solid #ef4444', background: 'transparent', color: "inherit", fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>
+                                                style={{ padding: '10px 20px', borderRadius: '10px', border: '2px solid #ef4444', background: 'transparent', color: '#ef4444', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>
                                                 ❌ Reject
                                             </button>
                                             <button onClick={() => handleAction(t.id, 'approve')}

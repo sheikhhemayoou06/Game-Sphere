@@ -179,14 +179,9 @@ export const api = {
     addTournamentMedia: (id: string, body: { type: string; title: string; description?: string; url: string }) =>
         request<any>(`/tournaments/${id}/media`, { method: 'POST', body: JSON.stringify(body) }),
 
-    // Player Sports
+    // Player Sports (per-sport IDs)
     getPlayerSports: (playerId: string) =>
         request<any[]>(`/players/${playerId}/sports`),
-    addMySport: (sportId: string, metadata?: any) => {
-        const userStr = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
-        const user = userStr ? JSON.parse(userStr) : null;
-        if (!user || (!user.id && !user.player?.id)) throw new Error("User not found");
-        const playerId = user.player?.id || user.id; // Ensure we hit the right endpoint
-        return request<any>(`/players/${playerId}/sports`, { method: 'POST', body: JSON.stringify({ sportId, metadata }) });
-    },
+    registerPlayerSport: (playerId: string, sportId: string) =>
+        request<any>(`/players/${playerId}/sports`, { method: 'POST', body: JSON.stringify({ sportId }) }),
 };

@@ -50,24 +50,24 @@ export default function TournamentsPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             }}>
                 <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-                    <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
+                    <span style={{ fontSize: '24px' }}>🌐</span>
                     <span className="gradient-text" style={{ fontSize: '20px', fontWeight: 800 }}>Game Sphere</span>
                 </Link>
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <Link href="/dashboard" style={{ fontSize: '14px', color: "inherit", textDecoration: 'none', fontWeight: 500 }}>Dashboard</Link>
+                    <Link href="/dashboard" style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none', fontWeight: 500 }}>Dashboard</Link>
                     {canCreate && (
                         <Link href="/tournaments/create" className="btn-primary" style={{ padding: '8px 16px', fontSize: '13px' }}>
                             + Create Tournament
                         </Link>
                     )}
-                    {!user && <Link href="/login" style={{ fontSize: '14px', color: "inherit", textDecoration: 'none', fontWeight: 600 }}>Login</Link>}
+                    {!user && <Link href="/login" style={{ fontSize: '14px', color: '#6366f1', textDecoration: 'none', fontWeight: 600 }}>Login</Link>}
                 </div>
             </nav>
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px' }}>
                 <div style={{ marginBottom: '32px' }}>
-                    <h1 style={{ fontSize: '32px', fontWeight: 800, color: "inherit", letterSpacing: '-0.5px' }}>{sportIcon} {selectedSport ? `${sportLabel} Tournaments` : 'Tournaments'}</h1>
-                    <p style={{ color: "inherit", fontSize: '15px', marginTop: '4px' }}>
+                    <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#1e1b4b', letterSpacing: '-0.5px' }}>{sportIcon} {selectedSport ? `${sportLabel} Tournaments` : 'Tournaments'}</h1>
+                    <p style={{ color: '#64748b', fontSize: '15px', marginTop: '4px' }}>
                         {isTeamManager
                             ? `Browse ${selectedSport ? sportLabel + ' ' : ''}tournaments and apply with your team`
                             : `Browse and discover ${selectedSport ? sportLabel + ' ' : ''}sports tournaments across India`}
@@ -81,7 +81,7 @@ export default function TournamentsPage() {
                             value={filter.sportId}
                             onChange={(e) => setFilter({ ...filter, sportId: e.target.value })}
                             className="input-field"
-                            style={{ width: '200px', padding: '10px 14px', color: "inherit" }}
+                            style={{ width: '200px', padding: '10px 14px', color: '#1e1b4b' }}
                         >
                             <option value="">All Sports</option>
                             {sports.map((s: any) => (
@@ -93,7 +93,7 @@ export default function TournamentsPage() {
                         value={filter.status}
                         onChange={(e) => setFilter({ ...filter, status: e.target.value })}
                         className="input-field"
-                        style={{ width: '200px', padding: '10px 14px', color: "inherit" }}
+                        style={{ width: '200px', padding: '10px 14px', color: '#1e1b4b' }}
                     >
                         <option value="">All Status</option>
                         {['DRAFT', 'REGISTRATION', 'FIXTURES', 'LIVE', 'COMPLETED'].map((s) => (
@@ -111,8 +111,8 @@ export default function TournamentsPage() {
                         border: '1px solid #f1f5f9', textAlign: 'center',
                     }}>
                         <div style={{ fontSize: '56px', marginBottom: '16px' }}>🏟️</div>
-                        <h3 style={{ fontSize: '18px', fontWeight: 700, color: "inherit" }}>No tournaments found</h3>
-                        <p style={{ color: "inherit", fontSize: '14px', marginTop: '8px' }}>
+                        <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1e1b4b' }}>No tournaments found</h3>
+                        <p style={{ color: '#64748b', fontSize: '14px', marginTop: '8px' }}>
                             {isTeamManager
                                 ? 'No tournaments available to apply for yet. Check back soon!'
                                 : 'Try adjusting your filters or create a new tournament'}
@@ -148,13 +148,13 @@ export default function TournamentsPage() {
                                                 {t.status}
                                             </span>
                                         </div>
-                                        <h3 style={{ fontSize: '17px', fontWeight: 700, marginBottom: '6px', color: "inherit" }}>{t.name}</h3>
-                                        <p style={{ fontSize: '13px', color: "inherit", marginBottom: '12px' }}>
+                                        <h3 style={{ fontSize: '17px', fontWeight: 700, marginBottom: '6px', color: '#1e1b4b' }}>{t.name}</h3>
+                                        <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '12px' }}>
                                             {t.sport?.name} • {t.format} • {t.level}
                                         </p>
                                         <div style={{
                                             display: 'flex', gap: '16px', paddingTop: '12px',
-                                            borderTop: '1px solid #f1f5f9', fontSize: '12px', color: "inherit",
+                                            borderTop: '1px solid #f1f5f9', fontSize: '12px', color: '#94a3b8',
                                         }}>
                                             <span>👥 {t._count?.teams || 0} teams</span>
                                             <span>⚔️ {t._count?.matches || 0} matches</span>
@@ -168,7 +168,7 @@ export default function TournamentsPage() {
                                             {hasApplied ? (
                                                 <div style={{
                                                     padding: '10px 16px', borderRadius: '10px',
-                                                    background: '#f0fdf4', color: "inherit",
+                                                    background: '#f0fdf4', color: '#16a34a',
                                                     fontSize: '13px', fontWeight: 700, textAlign: 'center',
                                                 }}>
                                                     ✅ Application Submitted
@@ -188,7 +188,7 @@ export default function TournamentsPage() {
                                             ) : (
                                                 <div style={{
                                                     padding: '10px 16px', borderRadius: '10px',
-                                                    background: '#f1f5f9', color: "inherit",
+                                                    background: '#f1f5f9', color: '#94a3b8',
                                                     fontSize: '13px', fontWeight: 600, textAlign: 'center',
                                                 }}>
                                                     {t.status === 'COMPLETED' ? '🏁 Tournament Ended' :

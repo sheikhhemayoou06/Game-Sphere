@@ -41,10 +41,10 @@ export default function MatchDetailPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             }}>
                 <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-                    <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
+                    <span style={{ fontSize: '24px' }}>🌐</span>
                     <span className="gradient-text" style={{ fontSize: '20px', fontWeight: 800 }}>Game Sphere</span>
                 </Link>
-                <Link href={`/tournaments/${match.tournamentId}`} style={{ fontSize: '14px', color: "inherit", textDecoration: 'none' }}>
+                <Link href={`/tournaments/${match.tournamentId}`} style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none' }}>
                     ← Back to Tournament
                 </Link>
             </nav>
@@ -58,7 +58,7 @@ export default function MatchDetailPage() {
                         display: 'flex', alignItems: 'center', gap: '10px',
                     }}>
                         <span className="live-pulse"></span>
-                        <span style={{ fontWeight: 700, color: "inherit", fontSize: '14px' }}>MATCH IS LIVE</span>
+                        <span style={{ fontWeight: 700, color: '#ef4444', fontSize: '14px' }}>MATCH IS LIVE</span>
                     </div>
                 )}
 
@@ -139,23 +139,23 @@ export default function MatchDetailPage() {
                     padding: '24px', borderRadius: '16px', background: 'white',
                     border: '1px solid #f1f5f9', marginBottom: '24px',
                 }}>
-                    <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px', color: "inherit" }}>Match Info</h3>
+                    <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px', color: '#1e1b4b' }}>Match Info</h3>
                     <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', fontSize: '14px' }}>
                         <div>
-                            <span style={{ color: "inherit" }}>Sport: </span>
-                            <span style={{ fontWeight: 600, color: "inherit" }}>{match.sport?.name}</span>
+                            <span style={{ color: '#94a3b8' }}>Sport: </span>
+                            <span style={{ fontWeight: 600, color: '#1e1b4b' }}>{match.sport?.name}</span>
                         </div>
                         <div>
-                            <span style={{ color: "inherit" }}>Round: </span>
-                            <span style={{ fontWeight: 600, color: "inherit" }}>{match.round || '-'}</span>
+                            <span style={{ color: '#94a3b8' }}>Round: </span>
+                            <span style={{ fontWeight: 600, color: '#1e1b4b' }}>{match.round || '-'}</span>
                         </div>
                         <div>
-                            <span style={{ color: "inherit" }}>Venue: </span>
-                            <span style={{ fontWeight: 600, color: "inherit" }}>{match.venue || '-'}</span>
+                            <span style={{ color: '#94a3b8' }}>Venue: </span>
+                            <span style={{ fontWeight: 600, color: '#1e1b4b' }}>{match.venue || '-'}</span>
                         </div>
                         <div>
-                            <span style={{ color: "inherit" }}>Scheduled: </span>
-                            <span style={{ fontWeight: 600, color: "inherit" }}>
+                            <span style={{ color: '#94a3b8' }}>Scheduled: </span>
+                            <span style={{ fontWeight: 600, color: '#1e1b4b' }}>
                                 {match.scheduledAt ? new Date(match.scheduledAt).toLocaleString() : '-'}
                             </span>
                         </div>
@@ -168,7 +168,7 @@ export default function MatchDetailPage() {
                         padding: '24px', borderRadius: '16px', background: 'white',
                         border: '1px solid #f1f5f9',
                     }}>
-                        <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px', color: "inherit" }}>Player Statistics</h3>
+                        <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px', color: '#1e1b4b' }}>Player Statistics</h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {match.playerStats.map((ps: any) => {
                                 let stats: any = {};
@@ -178,10 +178,10 @@ export default function MatchDetailPage() {
                                         padding: '12px 16px', borderRadius: '10px', background: '#f8fafc',
                                         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                                     }}>
-                                        <span style={{ fontWeight: 600, fontSize: '14px', color: "inherit" }}>
+                                        <span style={{ fontWeight: 600, fontSize: '14px', color: '#1e1b4b' }}>
                                             {ps.player?.user?.firstName} {ps.player?.user?.lastName}
                                         </span>
-                                        <span style={{ fontSize: '13px', color: "inherit" }}>
+                                        <span style={{ fontSize: '13px', color: '#64748b' }}>
                                             {Object.entries(stats).map(([k, v]) => `${k}: ${v}`).join(' • ')}
                                         </span>
                                     </div>

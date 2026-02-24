@@ -55,14 +55,14 @@ export default function NotificationsPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fef2f2 0%, #fff1f2 50%, #ffe4e6 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
-                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#be123c', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/dashboard" style={{ color: '#be123c', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '700px', margin: '0 auto', padding: '32px 24px' }}>
                 <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', gap: '16px' }}>
                     <div>
-                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>
+                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#9f1239', marginBottom: '8px' }}>
                             🔔 Notifications
                             {unreadCount > 0 && (
                                 <span style={{ fontSize: '16px', marginLeft: '12px', padding: '4px 12px', borderRadius: '20px', background: '#ef4444', color: '#fff', fontWeight: 700, verticalAlign: 'middle' }}>
@@ -70,7 +70,7 @@ export default function NotificationsPage() {
                                 </span>
                             )}
                         </h1>
-                        <p style={{ color: "inherit", fontSize: '16px' }}>{selectedSport ? `${sportLabel} activity updates` : 'Stay updated on platform activity'}</p>
+                        <p style={{ color: '#be123c', fontSize: '16px' }}>{selectedSport ? `${sportLabel} activity updates` : 'Stay updated on platform activity'}</p>
                     </div>
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <div style={{ display: 'flex', gap: '4px', background: 'rgba(159,18,57,0.06)', borderRadius: '10px', padding: '4px' }}>
@@ -83,7 +83,7 @@ export default function NotificationsPage() {
                         </div>
                         {unreadCount > 0 && (
                             <button onClick={handleMarkAllRead}
-                                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #fda4af', background: 'transparent', color: "inherit", fontWeight: 600, fontSize: '13px', cursor: 'pointer' }}>
+                                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #fda4af', background: 'transparent', color: '#9f1239', fontWeight: 600, fontSize: '13px', cursor: 'pointer' }}>
                                 ✓ Read All
                             </button>
                         )}
@@ -91,16 +91,16 @@ export default function NotificationsPage() {
                 </div>
 
                 {loading ? (
-                    <div style={{ textAlign: 'center', padding: '60px', color: "inherit" }}>
+                    <div style={{ textAlign: 'center', padding: '60px', color: '#be123c' }}>
                         <div style={{ fontSize: '36px', marginBottom: '12px' }}>⏳</div>Loading notifications...
                     </div>
                 ) : notifications.length === 0 ? (
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '60px', textAlign: 'center', boxShadow: '0 4px 24px rgba(159,18,57,0.08)' }}>
                         <div style={{ fontSize: '56px', marginBottom: '16px' }}>🔔</div>
-                        <div style={{ fontSize: '22px', fontWeight: 800, color: "inherit", marginBottom: '8px' }}>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#9f1239', marginBottom: '8px' }}>
                             {filter === 'unread' ? 'All Caught Up!' : 'No Notifications Yet'}
                         </div>
-                        <div style={{ color: "inherit", fontSize: '14px' }}>
+                        <div style={{ color: '#be123c', fontSize: '14px' }}>
                             {filter === 'unread' ? 'You have read all notifications' : 'Notifications will appear as events occur'}
                         </div>
                     </div>
@@ -125,12 +125,12 @@ export default function NotificationsPage() {
                                 </div>
                                 <div style={{ flex: 1, minWidth: 0 }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                                        <span style={{ fontWeight: n.read ? 600 : 800, fontSize: '14px', color: "inherit" }}>{n.title}</span>
-                                        <span style={{ fontSize: '11px', color: "inherit", fontWeight: 500, flexShrink: 0 }}>{timeAgo(n.createdAt)}</span>
+                                        <span style={{ fontWeight: n.read ? 600 : 800, fontSize: '14px', color: '#1e1b4b' }}>{n.title}</span>
+                                        <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 500, flexShrink: 0 }}>{timeAgo(n.createdAt)}</span>
                                     </div>
-                                    <div style={{ fontSize: '13px', color: "inherit", lineHeight: 1.5 }}>{n.message}</div>
+                                    <div style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5 }}>{n.message}</div>
                                     {n.link && (
-                                        <Link href={n.link} style={{ fontSize: '12px', color: "inherit", fontWeight: 600, textDecoration: 'none', marginTop: '6px', display: 'inline-block' }}>
+                                        <Link href={n.link} style={{ fontSize: '12px', color: '#ef4444', fontWeight: 600, textDecoration: 'none', marginTop: '6px', display: 'inline-block' }}>
                                             View Details →
                                         </Link>
                                     )}
