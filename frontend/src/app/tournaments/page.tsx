@@ -26,6 +26,10 @@ export default function TournamentsPage() {
     }, []);
 
     useEffect(() => {
+        setFilter(prev => ({ ...prev, sportId: selectedSport?.id || '' }));
+    }, [selectedSport]);
+
+    useEffect(() => {
         setLoading(true);
         const params: Record<string, string> = {};
         if (filter.sportId) params.sportId = filter.sportId;
@@ -72,17 +76,19 @@ export default function TournamentsPage() {
 
                 {/* Filters */}
                 <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
-                    <select
-                        value={filter.sportId}
-                        onChange={(e) => setFilter({ ...filter, sportId: e.target.value })}
-                        className="input-field"
-                        style={{ width: '200px', padding: '10px 14px', color: '#1e1b4b' }}
-                    >
-                        <option value="">All Sports</option>
-                        {sports.map((s: any) => (
-                            <option key={s.id} value={s.id}>{s.icon} {s.name}</option>
-                        ))}
-                    </select>
+                    {!selectedSport && (
+                        <select
+                            value={filter.sportId}
+                            onChange={(e) => setFilter({ ...filter, sportId: e.target.value })}
+                            className="input-field"
+                            style={{ width: '200px', padding: '10px 14px', color: '#1e1b4b' }}
+                        >
+                            <option value="">All Sports</option>
+                            {sports.map((s: any) => (
+                                <option key={s.id} value={s.id}>{s.icon} {s.name}</option>
+                            ))}
+                        </select>
+                    )}
                     <select
                         value={filter.status}
                         onChange={(e) => setFilter({ ...filter, status: e.target.value })}
@@ -113,7 +119,7 @@ export default function TournamentsPage() {
                         </p>
                     </div>
                 ) : (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
                         {tournaments.map((t: any) => {
                             const hasApplied = appliedIds.has(t.id);
                             const canApply = isTeamManager && t.status === 'REGISTRATION' && !hasApplied;
