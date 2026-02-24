@@ -424,21 +424,38 @@ export default function DashboardPage() {
             api.getSports().then((allSports) => {
                 setSports(allSports);
                 setAvailableSports(allSports);
-                if (savedMyIds.length > 0) {
+
+                let myIds = savedMyIds;
+
+                // Hydrate from user profile if local storage is empty (keeps from prompting on fresh logins)
+                if (myIds.length === 0 && user?.player?.playerSports) {
+                    myIds = user.player.playerSports.map((ps: any) => ps.sportId);
+                    if (myIds.length > 0) {
+                        myIds.forEach((id: string) => addMySport(id));
+                    }
+                }
+
+                if (myIds.length > 0) {
                     // User already has chosen sports — restore selection
                     const savedId = loadSelectedSport();
                     const saved = allSports.find((s: any) => s.id === savedId);
                     if (saved) setSelectedSport(saved);
                     else {
-                        const firstMy = allSports.find((s: any) => savedMyIds.includes(s.id));
+                        const firstMy = allSports.find((s: any) => myIds.includes(s.id));
                         if (firstMy) setSelectedSport(firstMy);
                     }
+                } else if (isOwnerRole) {
+                    // Try hydrating from owner's governed sports
+                    api.getMySports().then((ownerSports) => {
+                        if (ownerSports && ownerSports.length > 0) {
+                            const newIds = ownerSports.map((s: any) => s.id);
+                            newIds.forEach((id: string) => addMySport(id));
+                            const firstMy = allSports.find((s: any) => newIds.includes(s.id));
+                            if (firstMy) setSelectedSport(firstMy);
+                        }
+                    }).catch(() => { });
                 }
-                // else: no saved sports → picker overlay will show
             }).catch(() => { });
-            if (isOwnerRole) {
-                api.getMySports().catch(() => { });
-            }
         }
     }, [loaded, isAuthenticated, router]);
 
