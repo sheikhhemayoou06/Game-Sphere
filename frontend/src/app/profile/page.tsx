@@ -381,12 +381,24 @@ export default function PlayerProfilePage() {
                             {(() => {
                                 const ps = user?.player?.playerSports;
                                 const { selectedSport } = useSportStore.getState();
+                                let code = dynamicPlayer.sportsId;
+                                let jno = dynamicPlayer.jerseyNo;
+                                let pos = dynamicPlayer.position;
+
                                 if (ps && selectedSport) {
                                     const m = ps.find((s: any) => s.sportId === selectedSport.id);
-                                    if (m) return m.sportCode;
+                                    if (m) {
+                                        code = m.sportCode || code;
+                                        if (m.metadata) {
+                                            const meta = typeof m.metadata === 'string' ? JSON.parse(m.metadata) : m.metadata;
+                                            if (meta.role) pos = meta.role;
+                                            if (meta.Position) pos = meta.Position; // some sports might capitalize
+                                            if (meta.jerseyNo) jno = meta.jerseyNo;
+                                        }
+                                    }
                                 }
-                                return dynamicPlayer.sportsId;
-                            })()} • #{dynamicPlayer.jerseyNo} • {dynamicPlayer.position}
+                                return `${code} • #${jno} • ${pos}`;
+                            })()}
                         </div>
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                             {!selectedSportKey && (
