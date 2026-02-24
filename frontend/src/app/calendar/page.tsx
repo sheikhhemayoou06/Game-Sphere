@@ -90,7 +90,8 @@ export default function CalendarPage() {
                             <button onClick={nextMonth} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #bfdbfe', background: '#fff', cursor: 'pointer', fontWeight: 700, fontSize: '16px', color: '#1e40af' }}>→</button>
                         </div>
 
-                        <div style={{ overflowX: 'auto', paddingBottom: '8px' }}>
+                        {/* ─── DESKTOP VIEW: 7-Day Grid ─── */}
+                        <div className="hide-mobile" style={{ overflowX: 'auto', paddingBottom: '8px' }}>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', minWidth: '700px' }}>
                                 {dayNames.map(d => (
                                     <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: 700, color: '#64748b', padding: '8px 0' }}>{d}</div>
@@ -115,6 +116,48 @@ export default function CalendarPage() {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+
+                        {/* ─── MOBILE VIEW: Vertical Agenda List ─── */}
+                        <div className="show-mobile-block">
+                            {upcomingEvents.length > 0 ? (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                    {Object.entries(events).sort(([a], [b]) => Number(a) - Number(b)).map(([dayStr, evts]) => {
+                                        const day = Number(dayStr);
+                                        return (
+                                            <div key={day} style={{ display: 'flex', gap: '16px', borderBottom: '1px solid #f1f5f9', paddingBottom: '12px' }}>
+                                                {/* Date Block */}
+                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '50px' }}>
+                                                    <div style={{ fontSize: '10px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
+                                                        {monthNames[currentMonth].substring(0, 3)}
+                                                    </div>
+                                                    <div style={{ fontSize: '24px', fontWeight: 900, color: isToday(day) ? '#3b82f6' : '#1e293b', lineHeight: '1' }}>
+                                                        {day}
+                                                    </div>
+                                                    {isToday(day) && <div style={{ fontSize: '9px', color: '#3b82f6', fontWeight: 700, marginTop: '2px' }}>TODAY</div>}
+                                                </div>
+
+                                                {/* Events List for this Day */}
+                                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                                    {evts.map((e, idx) => (
+                                                        <div key={idx} style={{ padding: '10px 12px', borderRadius: '8px', background: `${e.color}10`, borderLeft: `4px solid ${e.color}` }}>
+                                                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e293b' }}>{e.title}</div>
+                                                            <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px', textTransform: 'capitalize' }}>
+                                                                <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: e.color, marginRight: '6px' }}></span>
+                                                                {e.type} • {e.sport}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ) : (
+                                <div style={{ padding: '32px', textAlign: 'center', color: '#94a3b8', fontSize: '14px', background: '#f8fafc', borderRadius: '12px' }}>
+                                    No events scheduled for this month.
+                                </div>
+                            )}
                         </div>
                     </div>
 

@@ -273,6 +273,17 @@ body {
   .hide-mobile {
     display: none !important;
   }
+
+  .show-mobile-block {
+    display: block !important;
+  }
+}
+
+/* Hide elements entirely on desktop */
+@media (min-width: 769px) {
+  .show-mobile-block {
+    display: none !important;
+  }
 }
 
 /* Mobile-friendly container paddings */
