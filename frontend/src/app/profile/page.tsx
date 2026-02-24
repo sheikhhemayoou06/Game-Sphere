@@ -314,13 +314,24 @@ export default function PlayerProfilePage() {
             { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
             { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
         ];
-    } else {
+    } else if (!selectedSportKey) {
+        // All Sports selected
         overviewStats = [
             { label: 'Total Matches', value: cs.matches + fs.matches, color: '#6366f1' },
             { label: 'Total Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
             { label: 'Total Goals', value: fs.goals, color: '#ef4444' },
             { label: 'Total Wickets', value: cs.wickets, color: '#f59e0b' },
             { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
+            { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
+        ];
+    } else {
+        // Specific sport selected but no mock data available (e.g. Kabaddi)
+        overviewStats = [
+            { label: 'Matches', value: 0, color: '#6366f1' },
+            { label: 'Points/Goals', value: 0, color: '#22c55e' },
+            { label: 'Assists/Defenses', value: 0, color: '#f59e0b' },
+            { label: 'Fouls', value: 0, color: '#ef4444' },
+            { label: 'Win Rate', value: '0%', color: '#ec4899' },
             { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
         ];
     }
@@ -378,8 +389,17 @@ export default function PlayerProfilePage() {
                             })()} • #{dynamicPlayer.jerseyNo} • {dynamicPlayer.position}
                         </div>
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            {!selectedSportKey && (
+                                <>
+                                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>🏏 {dynamicPlayer.primarySport}</span>
+                                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>⚽ {dynamicPlayer.secondarySport}</span>
+                                </>
+                            )}
+                            {selectedSportKey && (
+                                <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{sportIcon} {sportLabel}</span>
+                            )}
                             {[
-                                `🏏 ${dynamicPlayer.primarySport}`, `⚽ ${dynamicPlayer.secondarySport}`, `🏟️ ${dynamicPlayer.level} Level`,
+                                `🏟️ ${dynamicPlayer.level} Level`,
                                 `📅 Age ${dynamicPlayer.age}`, `🩸 ${dynamicPlayer.bloodGroup}`,
                             ].map(tag => (
                                 <span key={tag} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{tag}</span>
