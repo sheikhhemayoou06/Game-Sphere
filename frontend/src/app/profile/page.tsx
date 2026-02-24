@@ -394,7 +394,7 @@ export default function PlayerProfilePage() {
                                 const { selectedSport } = useSportStore.getState();
                                 let code = dynamicPlayer.sportsId;
                                 let jno = dynamicPlayer.jerseyNo;
-                                let pos = dynamicPlayer.position;
+                                let pos = selectedSport ? (selectedSport.name === 'Athletics' ? 'Athlete' : 'Player') : dynamicPlayer.position;
 
                                 if (ps && selectedSport) {
                                     const m = ps.find((s: any) => s.sportId === selectedSport.id);
