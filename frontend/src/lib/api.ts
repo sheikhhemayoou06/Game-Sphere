@@ -184,4 +184,6 @@ export const api = {
         request<any[]>(`/players/${playerId}/sports`),
     registerPlayerSport: (playerId: string, sportId: string) =>
         request<any>(`/players/${playerId}/sports`, { method: 'POST', body: JSON.stringify({ sportId }) }),
+    addMySport: (sportId: string, metadata?: any) =>
+        request<any>('/teams/my-sports', { method: 'POST', body: JSON.stringify({ sportId, metadata }) }),
 };
