@@ -82,10 +82,10 @@ export default function HomePage() {
           >
             {dark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <Link href="/login" className="btn-secondary hide-mobile" style={{ padding: '8px 16px', fontSize: '14px' }}>
+          <Link href="/login" className="btn-secondary" style={{ padding: '8px 12px', fontSize: '14px' }}>
             Log In
           </Link>
-          <Link href="/register" className="btn-primary" style={{ padding: '10px 22px', fontSize: '14px' }}>
+          <Link href="/register" className="btn-primary" style={{ padding: '8px 16px', fontSize: '14px' }}>
             Get Started
           </Link>
         </div>
