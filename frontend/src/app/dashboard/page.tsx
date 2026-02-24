@@ -738,7 +738,7 @@ export default function DashboardPage() {
 
 
                 {/* ─── Player Dashboard Widgets (Sport-Filtered) ─── */}
-                {roleGroup === 'player' && selectedSport && (
+                {roleGroup === 'player' && selectedSport && currentSportData && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
 
                         {/* Profile Summary */}
