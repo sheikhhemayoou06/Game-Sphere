@@ -7,15 +7,15 @@ import SmartSearch from '@/components/SmartSearch';
 import { Sun, Moon } from 'lucide-react';
 
 const sports = [
-  { name: 'Cricket', icon: '🏏', color: '#0D9488' },
-  { name: 'Football', icon: '⚽', color: '#16A34A' },
-  { name: 'Basketball', icon: '🏀', color: '#EA580C' },
-  { name: 'Kabaddi', icon: '🤼', color: '#F97316' },
-  { name: 'Volleyball', icon: '🏐', color: '#7C3AED' },
-  { name: 'Badminton', icon: '🏸', color: '#06B6D4' },
-  { name: 'Hockey', icon: '🏑', color: '#2563EB' },
-  { name: 'Tennis', icon: '🎾', color: '#84CC16' },
-  { name: 'Athletics', icon: '🏃', color: '#EAB308' },
+  { name: 'Cricket', icon: '🏏', color: "inherit" },
+  { name: 'Football', icon: '⚽', color: "inherit" },
+  { name: 'Basketball', icon: '🏀', color: "inherit" },
+  { name: 'Kabaddi', icon: '🤼', color: "inherit" },
+  { name: 'Volleyball', icon: '🏐', color: "inherit" },
+  { name: 'Badminton', icon: '🏸', color: "inherit" },
+  { name: 'Hockey', icon: '🏑', color: "inherit" },
+  { name: 'Tennis', icon: '🎾', color: "inherit" },
+  { name: 'Athletics', icon: '🏃', color: "inherit" },
 ];
 
 
@@ -61,7 +61,7 @@ export default function HomePage() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '28px' }}>🌐</span>
+          <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
           <span style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px' }}>
             <span className="gradient-text">Game Sphere</span>
           </span>
@@ -131,46 +131,46 @@ export default function HomePage() {
               <div className="card-hover" style={{
                 background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)',
                 borderRadius: '16px', padding: '20px 32px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255,255,255,0.2)', color: '#1e1b4b',
+                border: '1px solid rgba(255,255,255,0.2)', color: "inherit",
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap'
               }}>
                 {/* Match Info */}
                 <div style={{ flex: '1', minWidth: '200px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <span style={{ color: '#ef4444', fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 6px', background: '#fef2f2', borderRadius: '4px' }}>
+                    <span style={{ color: "inherit", fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 6px', background: '#fef2f2', borderRadius: '4px' }}>
                       Live
                     </span>
-                    <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>{liveMatches[0].tournament?.name}</span>
+                    <span style={{ fontSize: '13px', color: "inherit", fontWeight: 600 }}>{liveMatches[0].tournament?.name}</span>
                   </div>
-                  <div style={{ fontSize: '13px', color: '#94a3b8' }}>{liveMatches[0].tournament?.sport?.name || sports[activeSport].name}</div>
+                  <div style={{ fontSize: '13px', color: "inherit" }}>{liveMatches[0].tournament?.sport?.name || sports[activeSport].name}</div>
                 </div>
 
                 {/* Score Grid (Horizontal) */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '32px', flex: '2', minWidth: '300px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'right' }}>
-                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b' }}>{liveMatches[0].homeTeam?.name}</div>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: "inherit" }}>{liveMatches[0].homeTeam?.name}</div>
                     <div style={{ fontSize: '28px', backgroundColor: '#f1f5f9', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800 }}>
                       {liveMatches[0].homeScore || 0}
                     </div>
                   </div>
 
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: '#94a3b8' }}>VS</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: "inherit" }}>VS</div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left' }}>
                     <div style={{ fontSize: '28px', backgroundColor: '#f1f5f9', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800 }}>
                       {liveMatches[0].awayScore || 0}
                     </div>
-                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b' }}>{liveMatches[0].awayTeam?.name}</div>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: "inherit" }}>{liveMatches[0].awayTeam?.name}</div>
                   </div>
                 </div>
 
                 {/* Action */}
                 <div style={{ flex: '1', minWidth: '150px', textAlign: 'right' }}>
-                  <div style={{ fontSize: '14px', color: '#4f46e5', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '14px', color: "inherit", fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                     View Details →
                   </div>
                   {liveMatches.length > 1 && (
-                    <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px' }}>
+                    <div style={{ fontSize: '12px', color: "inherit", marginTop: '6px' }}>
                       +{liveMatches.length - 1} more live
                     </div>
                   )}
@@ -240,7 +240,7 @@ export default function HomePage() {
         </p>
         <Link href="/register" className="btn-primary" style={{
           padding: '18px 44px', fontSize: '17px', borderRadius: '14px',
-          background: 'white', color: '#4338ca',
+          background: 'white', color: "inherit",
         }}>
           🎯 Get Started for Free
         </Link>
@@ -254,9 +254,9 @@ export default function HomePage() {
         textAlign: 'center',
         fontSize: '14px',
       }}>
-        <div style={{ marginBottom: '8px' }}>
-          <span style={{ fontSize: '20px' }}>🌐</span>{' '}
-          <span style={{ fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>Game Sphere</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
+          <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "60px", height: "auto", objectFit: "contain" }} />
+          <span className="gradient-text" style={{ fontSize: '20px', fontWeight: 700 }}>Game Sphere</span>
         </div>
         <p>Powering Every Game. Everywhere. — India&apos;s National Sports Digital Infrastructure Platform</p>
         <p style={{ marginTop: '8px', fontSize: '12px' }}>© 2026 Game Sphere. All rights reserved.</p>

@@ -74,18 +74,18 @@ export default function FixturesPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 30%, #fbbf24 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#92400e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#92400e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
+                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Fixture Generator` : 'Fixture Generator'}</h1>
-                <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `Auto-generate ${sportLabel} brackets and schedules` : 'Auto-generate tournament brackets and round-robin schedules'}</p>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Fixture Generator` : 'Fixture Generator'}</h1>
+                <p style={{ color: "inherit", fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `Auto-generate ${sportLabel} brackets and schedules` : 'Auto-generate tournament brackets and round-robin schedules'}</p>
 
                 {/* Config panel */}
                 <div style={{ background: '#fff', borderRadius: '16px', padding: '24px', marginBottom: '28px', boxShadow: '0 4px 24px rgba(120,53,15,0.08)', display: 'flex', gap: '16px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1, minWidth: '200px' }}>
-                        <label style={{ fontSize: '13px', fontWeight: 700, color: '#78350f', display: 'block', marginBottom: '6px' }}>Tournament</label>
+                        <label style={{ fontSize: '13px', fontWeight: 700, color: "inherit", display: 'block', marginBottom: '6px' }}>Tournament</label>
                         <select value={selectedTournament?.id || ''} onChange={(e) => setSelectedTournament(tournaments.find(t => t.id === e.target.value))}
                             style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #fde68a', fontSize: '14px', fontWeight: 600 }}>
                             <option value="">Select tournament...</option>
@@ -93,7 +93,7 @@ export default function FixturesPage() {
                         </select>
                     </div>
                     <div>
-                        <label style={{ fontSize: '13px', fontWeight: 700, color: '#78350f', display: 'block', marginBottom: '6px' }}>Format</label>
+                        <label style={{ fontSize: '13px', fontWeight: 700, color: "inherit", display: 'block', marginBottom: '6px' }}>Format</label>
                         <div style={{ display: 'flex', gap: '4px', background: '#fef3c7', borderRadius: '10px', padding: '4px' }}>
                             {(['KNOCKOUT', 'ROUND_ROBIN'] as const).map(f => (
                                 <button key={f} onClick={() => { setFormat(f); setGenerated(false); }}
@@ -112,8 +112,8 @@ export default function FixturesPage() {
                 {!generated ? (
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '60px', textAlign: 'center', boxShadow: '0 4px 24px rgba(120,53,15,0.06)' }}>
                         <div style={{ fontSize: '64px', marginBottom: '16px' }}>🏟️</div>
-                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#78350f', marginBottom: '8px' }}>Ready to Generate</div>
-                        <div style={{ color: '#92400e', fontSize: '14px' }}>Select a tournament and format, then click Generate Fixtures</div>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: "inherit", marginBottom: '8px' }}>Ready to Generate</div>
+                        <div style={{ color: "inherit", fontSize: '14px' }}>Select a tournament and format, then click Generate Fixtures</div>
                     </div>
                 ) : format === 'KNOCKOUT' ? (
                     /* Knockout bracket view */
@@ -121,19 +121,19 @@ export default function FixturesPage() {
                         <div style={{ display: 'flex', gap: '32px', minWidth: '800px', alignItems: 'center' }}>
                             {Object.entries(groupedByRound).map(([round, matches]) => (
                                 <div key={round} style={{ flex: 1 }}>
-                                    <div style={{ textAlign: 'center', marginBottom: '16px', fontSize: '14px', fontWeight: 800, color: '#78350f' }}>
+                                    <div style={{ textAlign: 'center', marginBottom: '16px', fontSize: '14px', fontWeight: 800, color: "inherit" }}>
                                         {roundLabels[Number(round)] || `Round ${Number(round) + 1}`}
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center', minHeight: `${matches.length * 100}px` }}>
                                         {matches.map(m => (
                                             <div key={m.id} style={{ background: '#fff', borderRadius: '14px', padding: '16px', boxShadow: '0 2px 12px rgba(120,53,15,0.08)', border: `2px solid ${Number(round) === 2 ? '#fbbf24' : '#fde68a'}` }}>
-                                                <div style={{ fontSize: '10px', color: '#92400e', fontWeight: 700, marginBottom: '8px' }}>Match {m.id}</div>
+                                                <div style={{ fontSize: '10px', color: "inherit", fontWeight: 700, marginBottom: '8px' }}>Match {m.id}</div>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                                                    <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{m.teamA}</span>
-                                                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8' }}>vs</span>
+                                                    <span style={{ fontWeight: 700, fontSize: '13px', color: "inherit" }}>{m.teamA}</span>
+                                                    <span style={{ fontSize: '12px', fontWeight: 700, color: "inherit" }}>vs</span>
                                                 </div>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                    <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{m.teamB}</span>
+                                                    <span style={{ fontWeight: 700, fontSize: '13px', color: "inherit" }}>{m.teamB}</span>
                                                 </div>
                                             </div>
                                         ))}
@@ -143,7 +143,7 @@ export default function FixturesPage() {
                             {/* Trophy */}
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                                 <div style={{ fontSize: '48px' }}>🏆</div>
-                                <div style={{ fontSize: '13px', fontWeight: 800, color: '#78350f' }}>Champion</div>
+                                <div style={{ fontSize: '13px', fontWeight: 800, color: "inherit" }}>Champion</div>
                             </div>
                         </div>
                     </div>
@@ -157,12 +157,12 @@ export default function FixturesPage() {
                             <div style={{ display: 'grid', gap: '0' }}>
                                 {fixtures.map((m, i) => (
                                     <div key={m.id} style={{ display: 'flex', alignItems: 'center', padding: '14px 24px', borderBottom: '1px solid #f5f3ff', background: i % 2 === 0 ? '#fffbeb' : '#fff' }}>
-                                        <div style={{ width: '50px', fontSize: '12px', fontWeight: 700, color: '#92400e' }}>M{m.id}</div>
-                                        <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: '#1e1b4b', textAlign: 'right', paddingRight: '16px' }}>{m.teamA}</div>
-                                        <div style={{ padding: '4px 12px', borderRadius: '6px', background: '#fef3c7', fontSize: '12px', fontWeight: 800, color: '#92400e' }}>VS</div>
-                                        <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: '#1e1b4b', paddingLeft: '16px' }}>{m.teamB}</div>
+                                        <div style={{ width: '50px', fontSize: '12px', fontWeight: 700, color: "inherit" }}>M{m.id}</div>
+                                        <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: "inherit", textAlign: 'right', paddingRight: '16px' }}>{m.teamA}</div>
+                                        <div style={{ padding: '4px 12px', borderRadius: '6px', background: '#fef3c7', fontSize: '12px', fontWeight: 800, color: "inherit" }}>VS</div>
+                                        <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: "inherit", paddingLeft: '16px' }}>{m.teamB}</div>
                                         <div style={{ width: '80px', textAlign: 'right' }}>
-                                            <span style={{ padding: '4px 10px', borderRadius: '6px', background: '#ecfdf5', color: '#22c55e', fontSize: '11px', fontWeight: 700 }}>Scheduled</span>
+                                            <span style={{ padding: '4px 10px', borderRadius: '6px', background: '#ecfdf5', color: "inherit", fontSize: '11px', fontWeight: 700 }}>Scheduled</span>
                                         </div>
                                     </div>
                                 ))}

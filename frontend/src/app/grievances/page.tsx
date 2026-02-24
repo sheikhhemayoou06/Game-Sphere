@@ -13,17 +13,17 @@ const GRIEVANCES = [
 ];
 
 const PRIORITY_COLORS: Record<string, { bg: string; color: string }> = {
-    CRITICAL: { bg: '#fef2f2', color: '#dc2626' },
-    HIGH: { bg: '#fff7ed', color: '#ea580c' },
-    MEDIUM: { bg: '#fffbeb', color: '#ca8a04' },
-    LOW: { bg: '#f0fdf4', color: '#16a34a' },
+    CRITICAL: { bg: '#fef2f2', color: "inherit" },
+    HIGH: { bg: '#fff7ed', color: "inherit" },
+    MEDIUM: { bg: '#fffbeb', color: "inherit" },
+    LOW: { bg: '#f0fdf4', color: "inherit" },
 };
 
 const STATUS_COLORS: Record<string, { bg: string; color: string; icon: string }> = {
-    ESCALATED: { bg: '#fef2f2', color: '#dc2626', icon: '🚨' },
-    UNDER_REVIEW: { bg: '#eff6ff', color: '#2563eb', icon: '🔍' },
-    IN_PROGRESS: { bg: '#fffbeb', color: '#ca8a04', icon: '⏳' },
-    RESOLVED: { bg: '#f0fdf4', color: '#16a34a', icon: '✅' },
+    ESCALATED: { bg: '#fef2f2', color: "inherit", icon: '🚨' },
+    UNDER_REVIEW: { bg: '#eff6ff', color: "inherit", icon: '🔍' },
+    IN_PROGRESS: { bg: '#fffbeb', color: "inherit", icon: '⏳' },
+    RESOLVED: { bg: '#f0fdf4', color: "inherit", icon: '✅' },
 };
 
 export default function GrievancePage() {
@@ -36,15 +36,15 @@ export default function GrievancePage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fefce8 0%, #fef9c3 50%, #fef08a 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#854d0e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#854d0e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
+                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
                     <div>
-                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#713f12', marginBottom: '8px' }}>⚖️ Grievance Resolution</h1>
-                        <p style={{ color: '#854d0e', fontSize: '16px' }}>File complaints, track disputes, and ensure fair resolution</p>
+                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>⚖️ Grievance Resolution</h1>
+                        <p style={{ color: "inherit", fontSize: '16px' }}>File complaints, track disputes, and ensure fair resolution</p>
                     </div>
                     <button onClick={() => setShowFile(!showFile)}
                         style={{ padding: '12px 24px', borderRadius: '12px', border: 'none', background: '#854d0e', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '14px' }}>
@@ -55,15 +55,15 @@ export default function GrievancePage() {
                 {/* Stats */}
                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
-                        { label: 'Total Filed', value: GRIEVANCES.length, icon: '📝', color: '#854d0e' },
-                        { label: 'Under Review', value: GRIEVANCES.filter(g => g.status === 'UNDER_REVIEW').length, icon: '🔍', color: '#2563eb' },
-                        { label: 'Escalated', value: GRIEVANCES.filter(g => g.status === 'ESCALATED').length, icon: '🚨', color: '#dc2626' },
-                        { label: 'Resolved', value: GRIEVANCES.filter(g => g.status === 'RESOLVED').length, icon: '✅', color: '#16a34a' },
+                        { label: 'Total Filed', value: GRIEVANCES.length, icon: '📝', color: "inherit" },
+                        { label: 'Under Review', value: GRIEVANCES.filter(g => g.status === 'UNDER_REVIEW').length, icon: '🔍', color: "inherit" },
+                        { label: 'Escalated', value: GRIEVANCES.filter(g => g.status === 'ESCALATED').length, icon: '🚨', color: "inherit" },
+                        { label: 'Resolved', value: GRIEVANCES.filter(g => g.status === 'RESOLVED').length, icon: '✅', color: "inherit" },
                     ].map(s => (
                         <div key={s.label} style={{ background: '#fff', borderRadius: '14px', padding: '18px', boxShadow: '0 2px 12px rgba(133,77,14,0.06)' }}>
                             <div style={{ fontSize: '24px', marginBottom: '4px' }}>{s.icon}</div>
                             <div style={{ fontSize: '28px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                            <div style={{ fontSize: '12px', color: '#64748b' }}>{s.label}</div>
+                            <div style={{ fontSize: '12px', color: "inherit" }}>{s.label}</div>
                         </div>
                     ))}
                 </div>
@@ -71,7 +71,7 @@ export default function GrievancePage() {
                 {/* File form */}
                 {showFile && (
                     <div style={{ background: '#fff', borderRadius: '16px', padding: '24px', marginBottom: '20px', boxShadow: '0 4px 24px rgba(133,77,14,0.08)', border: '1px solid #fde68a' }}>
-                        <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#713f12', marginBottom: '14px' }}>File New Grievance</h3>
+                        <h3 style={{ fontSize: '18px', fontWeight: 800, color: "inherit", marginBottom: '14px' }}>File New Grievance</h3>
                         <div style={{ display: 'grid', gap: '12px' }}>
                             <input placeholder="Subject / Title" style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #fde68a', fontSize: '14px' }} />
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -84,7 +84,7 @@ export default function GrievancePage() {
                             </div>
                             <textarea placeholder="Describe the grievance in detail..." style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #fde68a', fontSize: '14px', minHeight: '100px', resize: 'vertical' }} />
                             <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                                <button onClick={() => setShowFile(false)} style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid #fde68a', background: 'transparent', color: '#854d0e', fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+                                <button onClick={() => setShowFile(false)} style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid #fde68a', background: 'transparent', color: "inherit", fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
                                 <button style={{ padding: '10px 20px', borderRadius: '10px', border: 'none', background: '#854d0e', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>Submit</button>
                             </div>
                         </div>
@@ -112,17 +112,17 @@ export default function GrievancePage() {
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px' }}>
                                     <div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-                                            <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>{g.id}</span>
+                                            <span style={{ fontSize: '12px', color: "inherit", fontWeight: 600 }}>{g.id}</span>
                                             <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 700, background: pri.bg, color: pri.color }}>{g.priority}</span>
                                             <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 700, background: st.bg, color: st.color }}>{st.icon} {g.status.replace('_', ' ')}</span>
                                         </div>
-                                        <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#1e1b4b' }}>{g.title}</h3>
+                                        <h3 style={{ fontSize: '15px', fontWeight: 800, color: "inherit" }}>{g.title}</h3>
                                     </div>
-                                    <span style={{ fontSize: '12px', color: '#64748b' }}>🏅 {g.sport}</span>
+                                    <span style={{ fontSize: '12px', color: "inherit" }}>🏅 {g.sport}</span>
                                 </div>
-                                <div style={{ fontSize: '12px', color: '#64748b' }}>Filed by {g.filedBy} • {g.date}</div>
+                                <div style={{ fontSize: '12px', color: "inherit" }}>Filed by {g.filedBy} • {g.date}</div>
                                 {expanded === g.id && (
-                                    <div style={{ marginTop: '12px', padding: '12px', borderRadius: '8px', background: '#fefce8', fontSize: '13px', color: '#713f12', lineHeight: 1.6 }}>
+                                    <div style={{ marginTop: '12px', padding: '12px', borderRadius: '8px', background: '#fefce8', fontSize: '13px', color: "inherit", lineHeight: 1.6 }}>
                                         {g.description}
                                     </div>
                                 )}

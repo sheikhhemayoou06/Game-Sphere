@@ -166,13 +166,13 @@ export default function MessagesPage() {
                 {/* Header */}
                 <div style={{ background: 'white', borderBottom: '1px solid #e9d5ff', padding: '14px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <Link href="/dashboard" style={{ color: '#6d28d9', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
-                        <span style={{ color: '#d4d4d8' }}>|</span>
-                        <span style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{sportIcon} {selectedSport ? `${sportLabel} Communication Hub` : '💬 Communication Hub'}</span>
+                        <Link href="/dashboard" style={{ color: "inherit", textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
+                        <span style={{ color: "inherit" }}>|</span>
+                        <span style={{ fontWeight: 800, fontSize: '18px', color: "inherit" }}>{sportIcon} {selectedSport ? `${sportLabel} Communication Hub` : '💬 Communication Hub'}</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ padding: '4px 12px', borderRadius: '6px', background: '#ede9fe', color: '#6d28d9', fontSize: '12px', fontWeight: 700 }}>⚡ Thunder Warriors</span>
-                        <span style={{ fontSize: '12px', color: '#16a34a', fontWeight: 600 }}>🟢 {teamMembers.filter(m => m.online).length} online</span>
+                        <span style={{ padding: '4px 12px', borderRadius: '6px', background: '#ede9fe', color: "inherit", fontSize: '12px', fontWeight: 700 }}>⚡ Thunder Warriors</span>
+                        <span style={{ fontSize: '12px', color: "inherit", fontWeight: 600 }}>🟢 {teamMembers.filter(m => m.online).length} online</span>
                     </div>
                 </div>
 
@@ -208,8 +208,8 @@ export default function MessagesPage() {
                                 <div style={{ padding: '14px 20px', background: '#faf5ff', borderBottom: '1px solid #f3e8ff', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <span style={{ fontSize: '22px' }}>⚡</span>
                                     <div>
-                                        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>Thunder Warriors — Team Chat</div>
-                                        <div style={{ fontSize: '11px', color: '#64748b' }}>{teamMembers.length} members • {teamMembers.filter(m => m.online).length} online</div>
+                                        <div style={{ fontWeight: 700, fontSize: '14px', color: "inherit" }}>Thunder Warriors — Team Chat</div>
+                                        <div style={{ fontSize: '11px', color: "inherit" }}>{teamMembers.length} members • {teamMembers.filter(m => m.online).length} online</div>
                                     </div>
                                 </div>
                                 {/* Messages */}
@@ -237,13 +237,13 @@ export default function MessagesPage() {
 
                             {/* Members Panel */}
                             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', padding: '16px', height: '520px', overflowY: 'auto' as const }}>
-                                <div style={{ fontSize: '12px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>MEMBERS ({teamMembers.length})</div>
+                                <div style={{ fontSize: '12px', fontWeight: 700, color: "inherit", marginBottom: '12px' }}>MEMBERS ({teamMembers.length})</div>
                                 {teamMembers.sort((a, b) => Number(b.online) - Number(a.online)).map((m, i) => (
                                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 0', borderBottom: i < teamMembers.length - 1 ? '1px solid #f3e8ff' : 'none' }}>
                                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: m.online ? '#22c55e' : '#d4d4d8' }} />
                                         <div>
-                                            <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e1b4b' }}>{m.name}</div>
-                                            <div style={{ fontSize: '10px', color: '#64748b' }}>{m.role}</div>
+                                            <div style={{ fontSize: '12px', fontWeight: 600, color: "inherit" }}>{m.name}</div>
+                                            <div style={{ fontSize: '10px', color: "inherit" }}>{m.role}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -256,40 +256,40 @@ export default function MessagesPage() {
                         <div>
                             {/* Post Announcement */}
                             <div style={{ padding: '20px', borderRadius: '14px', background: 'white', border: '2px solid #e9d5ff', marginBottom: '16px' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '10px' }}>📢 POST ANNOUNCEMENT</div>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: "inherit", marginBottom: '10px' }}>📢 POST ANNOUNCEMENT</div>
                                 <textarea value={announcementInput} onChange={(e) => setAnnouncementInput(e.target.value)} placeholder="Write an announcement for the team..." rows={3}
                                     style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid #e9d5ff', fontSize: '14px', outline: 'none', resize: 'vertical' as const, fontFamily: 'inherit', marginBottom: '10px' }} />
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <button style={{ padding: '10px 24px', borderRadius: '10px', border: 'none', background: '#7c3aed', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>📌 Post & Pin</button>
-                                    <button style={{ padding: '10px 24px', borderRadius: '10px', border: '1px solid #e9d5ff', background: 'white', color: '#6d28d9', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>Post</button>
+                                    <button style={{ padding: '10px 24px', borderRadius: '10px', border: '1px solid #e9d5ff', background: 'white', color: "inherit", fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>Post</button>
                                 </div>
                             </div>
 
                             {/* Broadcast */}
                             <div style={{ padding: '20px', borderRadius: '14px', background: 'white', border: '1px solid #f3e8ff', marginBottom: '16px' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#f59e0b', marginBottom: '10px' }}>📡 BROADCAST MESSAGE</div>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: "inherit", marginBottom: '10px' }}>📡 BROADCAST MESSAGE</div>
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <input value={broadcastInput} onChange={(e) => setBroadcastInput(e.target.value)} placeholder="Send message to all team members..." style={{ flex: 1, padding: '10px 14px', borderRadius: '8px', border: '1px solid #e9d5ff', fontSize: '14px', outline: 'none' }} />
-                                    <button style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: '#f59e0b', color: '#0f0f1a', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>📤 Broadcast</button>
+                                    <button style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: '#f59e0b', color: "inherit", fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>📤 Broadcast</button>
                                 </div>
-                                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '6px' }}>This will send a notification to all {teamMembers.length} team members</div>
+                                <div style={{ fontSize: '11px', color: "inherit", marginTop: '6px' }}>This will send a notification to all {teamMembers.length} team members</div>
                             </div>
 
                             {/* Existing Announcements */}
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '10px' }}>📋 PREVIOUS ANNOUNCEMENTS</div>
+                            <div style={{ fontSize: '13px', fontWeight: 700, color: "inherit", marginBottom: '10px' }}>📋 PREVIOUS ANNOUNCEMENTS</div>
                             <div style={{ display: 'grid', gap: '10px' }}>
                                 {announcements.map((a, i) => (
                                     <div key={i} style={{ padding: '16px', borderRadius: '12px', background: 'white', border: a.pinned ? '2px solid #e9d5ff' : '1px solid #f3e8ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                             {a.pinned && <span style={{ fontSize: '14px' }}>📌</span>}
                                             <div>
-                                                <div style={{ fontSize: '14px', fontWeight: 600, color: '#1e1b4b' }}>{a.text}</div>
-                                                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>{a.date}</div>
+                                                <div style={{ fontSize: '14px', fontWeight: 600, color: "inherit" }}>{a.text}</div>
+                                                <div style={{ fontSize: '11px', color: "inherit", marginTop: '2px' }}>{a.date}</div>
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', gap: '6px' }}>
-                                            <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #e9d5ff', background: 'white', color: '#6d28d9', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>{a.pinned ? 'Unpin' : 'Pin'}</button>
-                                            <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #fecaca', background: '#fef2f2', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Delete</button>
+                                            <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #e9d5ff', background: 'white', color: "inherit", fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>{a.pinned ? 'Unpin' : 'Pin'}</button>
+                                            <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #fecaca', background: '#fef2f2', color: "inherit", fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Delete</button>
                                         </div>
                                     </div>
                                 ))}
@@ -302,7 +302,7 @@ export default function MessagesPage() {
                         <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '16px' }}>
                             {/* Conversation List */}
                             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden', height: '520px', overflowY: 'auto' as const }}>
-                                <div style={{ padding: '14px 16px', borderBottom: '1px solid #f3e8ff', fontSize: '13px', fontWeight: 700, color: '#6d28d9' }}>✉️ DIRECT MESSAGES</div>
+                                <div style={{ padding: '14px 16px', borderBottom: '1px solid #f3e8ff', fontSize: '13px', fontWeight: 700, color: "inherit" }}>✉️ DIRECT MESSAGES</div>
                                 {dmConversations.map((d, i) => (
                                     <div key={i} onClick={() => setSelectedDm(i)} style={{
                                         padding: '12px 16px', cursor: 'pointer', borderBottom: '1px solid #f3e8ff',
@@ -312,13 +312,13 @@ export default function MessagesPage() {
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: d.online ? '#22c55e' : '#d4d4d8' }} />
-                                                <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{d.player}</span>
+                                                <span style={{ fontWeight: 700, fontSize: '13px', color: "inherit" }}>{d.player}</span>
                                             </div>
-                                            <span style={{ fontSize: '10px', color: '#94a3b8' }}>{d.time}</span>
+                                            <span style={{ fontSize: '10px', color: "inherit" }}>{d.time}</span>
                                         </div>
-                                        <div style={{ fontSize: '11px', color: '#64748b' }}>{d.role}</div>
+                                        <div style={{ fontSize: '11px', color: "inherit" }}>{d.role}</div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2px' }}>
-                                            <span style={{ fontSize: '12px', color: '#94a3b8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const, maxWidth: '180px' }}>{d.lastMsg}</span>
+                                            <span style={{ fontSize: '12px', color: "inherit", overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const, maxWidth: '180px' }}>{d.lastMsg}</span>
                                             {d.unread > 0 && <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: '#7c3aed', color: 'white', fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{d.unread}</span>}
                                         </div>
                                     </div>
@@ -330,12 +330,12 @@ export default function MessagesPage() {
                                 <div style={{ padding: '14px 20px', borderBottom: '1px solid #f3e8ff', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: dmConversations[selectedDm]?.online ? '#22c55e' : '#d4d4d8' }} />
                                     <div>
-                                        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>{dmConversations[selectedDm]?.player}</div>
-                                        <div style={{ fontSize: '11px', color: '#64748b' }}>{dmConversations[selectedDm]?.role}</div>
+                                        <div style={{ fontWeight: 700, fontSize: '14px', color: "inherit" }}>{dmConversations[selectedDm]?.player}</div>
+                                        <div style={{ fontSize: '11px', color: "inherit" }}>{dmConversations[selectedDm]?.role}</div>
                                     </div>
                                 </div>
                                 <div style={{ flex: 1, padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <div style={{ textAlign: 'center' as const, color: '#94a3b8' }}>
+                                    <div style={{ textAlign: 'center' as const, color: "inherit" }}>
                                         <div style={{ fontSize: '32px', marginBottom: '8px' }}>💬</div>
                                         <div style={{ fontSize: '13px' }}>Start a conversation with {dmConversations[selectedDm]?.player}</div>
                                     </div>
@@ -355,17 +355,17 @@ export default function MessagesPage() {
                                 <div style={{ padding: '14px 20px', background: '#faf5ff', borderBottom: '1px solid #f3e8ff', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <span style={{ fontSize: '18px' }}>🏢</span>
                                     <div>
-                                        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>Staff Channel</div>
-                                        <div style={{ fontSize: '11px', color: '#64748b' }}>Coach, Physio, Analyst, Trainer</div>
+                                        <div style={{ fontWeight: 700, fontSize: '14px', color: "inherit" }}>Staff Channel</div>
+                                        <div style={{ fontSize: '11px', color: "inherit" }}>Coach, Physio, Analyst, Trainer</div>
                                     </div>
                                 </div>
                                 <div style={{ flex: 1, overflowY: 'auto' as const, padding: '16px 20px' }}>
                                     {staffMessages.map((m, i) => (
                                         <div key={i} style={{ marginBottom: '12px', display: 'flex', gap: '8px' }}>
                                             <div style={{ maxWidth: '75%', padding: '10px 14px', borderRadius: '12px', background: '#faf5ff' }}>
-                                                <div style={{ fontSize: '11px', fontWeight: 700, color: '#6d28d9', marginBottom: '2px' }}>{m.sender}</div>
-                                                <div style={{ fontSize: '13px', color: '#1e1b4b' }}>{m.text}</div>
-                                                <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>{m.time}</div>
+                                                <div style={{ fontSize: '11px', fontWeight: 700, color: "inherit", marginBottom: '2px' }}>{m.sender}</div>
+                                                <div style={{ fontSize: '13px', color: "inherit" }}>{m.text}</div>
+                                                <div style={{ fontSize: '10px', color: "inherit", marginTop: '2px' }}>{m.time}</div>
                                             </div>
                                         </div>
                                     ))}
@@ -378,13 +378,13 @@ export default function MessagesPage() {
 
                             {/* Staff Members */}
                             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', padding: '16px' }}>
-                                <div style={{ fontSize: '12px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>STAFF ({staffMembers.length})</div>
+                                <div style={{ fontSize: '12px', fontWeight: 700, color: "inherit", marginBottom: '12px' }}>STAFF ({staffMembers.length})</div>
                                 {staffMembers.map((s, i) => (
                                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 0', borderBottom: i < staffMembers.length - 1 ? '1px solid #f3e8ff' : 'none' }}>
                                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: s.online ? '#22c55e' : '#d4d4d8' }} />
                                         <div>
-                                            <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e1b4b' }}>{s.name}</div>
-                                            <div style={{ fontSize: '10px', color: '#64748b' }}>{s.role}</div>
+                                            <div style={{ fontSize: '12px', fontWeight: 600, color: "inherit" }}>{s.name}</div>
+                                            <div style={{ fontSize: '10px', color: "inherit" }}>{s.role}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -403,20 +403,20 @@ export default function MessagesPage() {
             <div style={{ background: 'linear-gradient(135deg, #5b21b6, #7c3aed)', padding: '14px 32px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '20px' }}>🌐</span>
-                        <span style={{ color: 'white', fontWeight: 800, fontSize: '18px' }}>Game Sphere</span>
+                        <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
+                        <span className="gradient-text" style={{ fontWeight: 800, fontSize: "18px" }}>Game Sphere</span>
                     </div>
                     <Link href="/dashboard" style={{ color: 'white', textDecoration: 'none', fontSize: '14px', fontWeight: 600 }}>← Dashboard</Link>
                 </div>
             </div>
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '28px 32px' }}>
-                <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#1e1b4b', marginBottom: '20px' }}>{sportIcon} {selectedSport ? `${sportLabel} Messages` : '💬 Messages'}</h1>
+                <h1 style={{ fontSize: '28px', fontWeight: 900, color: "inherit", marginBottom: '20px' }}>{sportIcon} {selectedSport ? `${sportLabel} Messages` : '💬 Messages'}</h1>
 
                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: '16px' }}>
                     {/* Sidebar */}
                     <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflow: 'hidden' }}>
-                        <div style={{ padding: '14px 16px', borderBottom: '1px solid #f3e8ff', fontSize: '13px', fontWeight: 700, color: '#6d28d9' }}>CONVERSATIONS</div>
+                        <div style={{ padding: '14px 16px', borderBottom: '1px solid #f3e8ff', fontSize: '13px', fontWeight: 700, color: "inherit" }}>CONVERSATIONS</div>
                         {playerConversations.map((c, i) => (
                             <div key={i} onClick={() => setPlayerChat(i)} style={{
                                 padding: '14px 16px', cursor: 'pointer', borderBottom: '1px solid #f3e8ff',
@@ -426,12 +426,12 @@ export default function MessagesPage() {
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                         <span style={{ fontSize: '18px' }}>{c.icon}</span>
-                                        <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{c.name}</span>
+                                        <span style={{ fontWeight: 700, fontSize: '13px', color: "inherit" }}>{c.name}</span>
                                     </div>
-                                    <span style={{ fontSize: '10px', color: '#94a3b8' }}>{c.time}</span>
+                                    <span style={{ fontSize: '10px', color: "inherit" }}>{c.time}</span>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span style={{ fontSize: '12px', color: '#94a3b8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const, maxWidth: '220px' }}>{c.lastMsg}</span>
+                                    <span style={{ fontSize: '12px', color: "inherit", overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const, maxWidth: '220px' }}>{c.lastMsg}</span>
                                     {c.unread > 0 && <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: '#7c3aed', color: 'white', fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{c.unread}</span>}
                                 </div>
                             </div>
@@ -443,7 +443,7 @@ export default function MessagesPage() {
                         {/* Header */}
                         <div style={{ padding: '14px 20px', borderBottom: '1px solid #f3e8ff', display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <span style={{ fontSize: '22px' }}>{playerConversations[playerChat]?.icon}</span>
-                            <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>{playerConversations[playerChat]?.name}</div>
+                            <div style={{ fontWeight: 700, fontSize: '14px', color: "inherit" }}>{playerConversations[playerChat]?.name}</div>
                         </div>
 
                         {/* Messages */}
@@ -452,15 +452,15 @@ export default function MessagesPage() {
                                 teamMessages.map((m, i) => (
                                     <div key={i} style={{ marginBottom: '12px' }}>
                                         <div style={{ maxWidth: '70%', padding: '10px 14px', borderRadius: '12px', background: '#faf5ff' }}>
-                                            <div style={{ fontSize: '11px', fontWeight: 700, color: '#6d28d9', marginBottom: '2px' }}>{m.sender}</div>
-                                            <div style={{ fontSize: '13px', color: '#1e1b4b' }}>{m.text}</div>
-                                            <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>{m.time}</div>
+                                            <div style={{ fontSize: '11px', fontWeight: 700, color: "inherit", marginBottom: '2px' }}>{m.sender}</div>
+                                            <div style={{ fontSize: '13px', color: "inherit" }}>{m.text}</div>
+                                            <div style={{ fontSize: '10px', color: "inherit", marginTop: '2px' }}>{m.time}</div>
                                         </div>
                                     </div>
                                 ))
                             ) : (
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                                    <div style={{ textAlign: 'center' as const, color: '#94a3b8' }}>
+                                    <div style={{ textAlign: 'center' as const, color: "inherit" }}>
                                         <div style={{ fontSize: '32px', marginBottom: '8px' }}>💬</div>
                                         <div style={{ fontSize: '13px' }}>Start chatting with {playerConversations[playerChat]?.name}</div>
                                     </div>

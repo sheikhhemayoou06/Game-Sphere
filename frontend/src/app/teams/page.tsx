@@ -24,7 +24,7 @@ function getTeamRole(role: string): RoleView {
 
 const MY_TEAMS = [
     {
-        name: 'Thunder Warriors', sport: 'Cricket', sportIcon: '🏏', logo: '⚡', color: '#f59e0b',
+        name: 'Thunder Warriors', sport: 'Cricket', sportIcon: '🏏', logo: '⚡', color: "inherit",
         captain: 'Vikram Singh', coach: 'Raj Malhotra', wins: 12, losses: 3,
         roster: [
             { name: 'Arjun Patel', role: 'All-Rounder', online: true },
@@ -42,7 +42,7 @@ const MY_TEAMS = [
         ],
     },
     {
-        name: 'Mumbai Strikers', sport: 'Football', sportIcon: '⚽', logo: '🔥', color: '#16a34a',
+        name: 'Mumbai Strikers', sport: 'Football', sportIcon: '⚽', logo: '🔥', color: "inherit",
         captain: 'Rahul Mehta', coach: 'Fernando Silva', wins: 8, losses: 5,
         roster: [
             { name: 'Rahul Mehta', role: 'Captain / Striker', online: true },
@@ -65,23 +65,23 @@ const MY_TEAMS = [
    ═══════════════════════════════════════════════════════════════ */
 
 const BROWSE_TEAMS = [
-    { id: 't1', name: 'Royal Strikers', sport: 'Cricket', logo: '👑', color: '#6366f1', openSlots: 3, members: 9, location: 'Mumbai', rating: 4.5 },
-    { id: 't2', name: 'Blazing Eagles', sport: 'Football', logo: '🦅', color: '#dc2626', openSlots: 5, members: 11, location: 'Pune', rating: 4.2 },
-    { id: 't3', name: 'Golden Lions', sport: 'Cricket', logo: '🦁', color: '#ca8a04', openSlots: 2, members: 10, location: 'Delhi', rating: 4.8 },
-    { id: 't4', name: 'Storm Riders', sport: 'Football', logo: '🌊', color: '#0ea5e9', openSlots: 4, members: 8, location: 'Bangalore', rating: 3.9 },
-    { id: 't5', name: 'Iron Wolves', sport: 'Kabaddi', logo: '🐺', color: '#64748b', openSlots: 6, members: 7, location: 'Jaipur', rating: 4.1 },
-    { id: 't6', name: 'Phoenix Rising', sport: 'Basketball', logo: '🔥', color: '#dc2626', openSlots: 3, members: 10, location: 'Chennai', rating: 4.6 },
+    { id: 't1', name: 'Royal Strikers', sport: 'Cricket', logo: '👑', color: "inherit", openSlots: 3, members: 9, location: 'Mumbai', rating: 4.5 },
+    { id: 't2', name: 'Blazing Eagles', sport: 'Football', logo: '🦅', color: "inherit", openSlots: 5, members: 11, location: 'Pune', rating: 4.2 },
+    { id: 't3', name: 'Golden Lions', sport: 'Cricket', logo: '🦁', color: "inherit", openSlots: 2, members: 10, location: 'Delhi', rating: 4.8 },
+    { id: 't4', name: 'Storm Riders', sport: 'Football', logo: '🌊', color: "inherit", openSlots: 4, members: 8, location: 'Bangalore', rating: 3.9 },
+    { id: 't5', name: 'Iron Wolves', sport: 'Kabaddi', logo: '🐺', color: "inherit", openSlots: 6, members: 7, location: 'Jaipur', rating: 4.1 },
+    { id: 't6', name: 'Phoenix Rising', sport: 'Basketball', logo: '🔥', color: "inherit", openSlots: 3, members: 10, location: 'Chennai', rating: 4.6 },
 ];
 
 const MY_APPLICATIONS = [
-    { team: 'Golden Lions', sport: 'Cricket', status: 'PENDING', date: '2026-02-20', logo: '🦁', color: '#ca8a04' },
-    { team: 'Royal Strikers', sport: 'Cricket', status: 'APPROVED', date: '2026-02-15', logo: '👑', color: '#6366f1' },
-    { team: 'Storm Riders', sport: 'Football', status: 'REJECTED', date: '2026-02-10', logo: '🌊', color: '#0ea5e9' },
+    { team: 'Golden Lions', sport: 'Cricket', status: 'PENDING', date: '2026-02-20', logo: '🦁', color: "inherit" },
+    { team: 'Royal Strikers', sport: 'Cricket', status: 'APPROVED', date: '2026-02-15', logo: '👑', color: "inherit" },
+    { team: 'Storm Riders', sport: 'Football', status: 'REJECTED', date: '2026-02-10', logo: '🌊', color: "inherit" },
 ];
 
 const JOIN_REQUESTS = [
-    { team: 'Phoenix Rising', sport: 'Basketball', owner: 'Rahul Mehta', message: 'We are looking for an athletic all-rounder. Your profile impressed us!', logo: '🔥', color: '#dc2626', date: '2026-02-21' },
-    { team: 'Iron Wolves', sport: 'Kabaddi', owner: 'Suraj Yadav', message: 'Join us for the upcoming state championship. We need your skills!', logo: '🐺', color: '#64748b', date: '2026-02-19' },
+    { team: 'Phoenix Rising', sport: 'Basketball', owner: 'Rahul Mehta', message: 'We are looking for an athletic all-rounder. Your profile impressed us!', logo: '🔥', color: "inherit", date: '2026-02-21' },
+    { team: 'Iron Wolves', sport: 'Kabaddi', owner: 'Suraj Yadav', message: 'Join us for the upcoming state championship. We need your skills!', logo: '🐺', color: "inherit", date: '2026-02-19' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -242,10 +242,10 @@ export default function TeamsPage() {
 
     const statusStyle = (s: string) => {
         switch (s) {
-            case 'PENDING': case 'NEW': case 'REVIEWING': return { bg: '#422006', color: '#fbbf24' };
-            case 'APPROVED': case 'PAID': return { bg: '#052e16', color: '#4ade80' };
-            case 'REJECTED': return { bg: '#450a0a', color: '#fca5a5' };
-            default: return { bg: '#1e293b', color: '#94a3b8' };
+            case 'PENDING': case 'NEW': case 'REVIEWING': return { bg: '#422006', color: "inherit" };
+            case 'APPROVED': case 'PAID': return { bg: '#052e16', color: "inherit" };
+            case 'REJECTED': return { bg: '#450a0a', color: "inherit" };
+            default: return { bg: '#1e293b', color: "inherit" };
         }
     };
 
@@ -265,13 +265,13 @@ export default function TeamsPage() {
                 <div style={{ background: 'white', borderBottom: '1px solid #e9d5ff', padding: '16px 32px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                            <Link href="/dashboard" style={{ color: '#6d28d9', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
-                            <span style={{ color: '#d4d4d8' }}>|</span>
+                            <Link href="/dashboard" style={{ color: "inherit", textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
+                            <span style={{ color: "inherit" }}>|</span>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: `linear-gradient(135deg, #7c3aed, #7c3aed88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>🏟️</div>
                                 <div>
-                                    <span style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>Organiser Hub</span>
-                                    <span style={{ fontSize: '12px', color: '#6d28d9', marginLeft: '8px' }}>Manage Registrations</span>
+                                    <span style={{ fontWeight: 800, fontSize: '18px', color: "inherit" }}>Organiser Hub</span>
+                                    <span style={{ fontSize: '12px', color: "inherit", marginLeft: '8px' }}>Manage Registrations</span>
                                 </div>
                             </div>
                         </div>
@@ -280,8 +280,8 @@ export default function TeamsPage() {
                 <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }}>
                     <div style={{ textAlign: 'center', padding: '64px', borderRadius: '24px', background: 'white', border: '1px solid #f3e8ff', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
                         <div style={{ fontSize: '64px', marginBottom: '20px' }}>🏟️</div>
-                        <h2 style={{ fontSize: '24px', fontWeight: 900, color: '#1e1b4b', marginBottom: '12px' }}>Team Management for Organisers</h2>
-                        <p style={{ fontSize: '15px', color: '#64748b', maxWidth: '500px', margin: '0 auto 32px auto', lineHeight: '1.6' }}>
+                        <h2 style={{ fontSize: '24px', fontWeight: 900, color: "inherit", marginBottom: '12px' }}>Team Management for Organisers</h2>
+                        <p style={{ fontSize: '15px', color: "inherit", maxWidth: '500px', margin: '0 auto 32px auto', lineHeight: '1.6' }}>
                             As a Tournament Organiser, your team management tools (approvals, squads, transfers) are located within each specific Tournament Dashboard to ensure data isolation.
                         </p>
                         <Link href="/tournaments" style={{
@@ -307,12 +307,12 @@ export default function TeamsPage() {
                 <div style={{ background: 'white', borderBottom: '1px solid #e9d5ff', padding: '16px 32px' }}>
                     <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: availableSports.length > 1 ? '12px' : '0', gap: '16px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                            <Link href="/dashboard" style={{ color: '#6d28d9', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
-                            <span style={{ color: '#d4d4d8' }}>|</span>
+                            <Link href="/dashboard" style={{ color: "inherit", textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
+                            <span style={{ color: "inherit" }}>|</span>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: `linear-gradient(135deg, ${selectedSport?.accentColor || sportColors[selectedSport?.name || ''] || '#7c3aed'}, ${selectedSport?.accentColor || '#7c3aed'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>{selectedSport?.icon || sportIcons[selectedSport?.name || ''] || '🏅'}</div>
                                 <div>
-                                    <span style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{myTeams.length > 0 ? myTeams[0].name : 'My Teams'}</span>
+                                    <span style={{ fontWeight: 800, fontSize: '18px', color: "inherit" }}>{myTeams.length > 0 ? myTeams[0].name : 'My Teams'}</span>
                                     <span style={{ fontSize: '12px', color: selectedSport?.accentColor || '#6d28d9', marginLeft: '8px' }}>{selectedSport?.icon || sportIcons[selectedSport?.name || '']} {selectedSport?.name || 'All Sports'}</span>
                                 </div>
                             </div>
@@ -322,8 +322,8 @@ export default function TeamsPage() {
                                 padding: '8px 16px', borderRadius: '8px', border: 'none',
                                 background: '#7c3aed', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '13px',
                             }}>+ Create Team</button>
-                            <span style={{ padding: '4px 12px', borderRadius: '6px', background: '#ede9fe', color: '#6d28d9', fontSize: '12px', fontWeight: 700 }}>👑 Team Owner</span>
-                            <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{myTeams.length} Team{myTeams.length !== 1 ? 's' : ''}</span>
+                            <span style={{ padding: '4px 12px', borderRadius: '6px', background: '#ede9fe', color: "inherit", fontSize: '12px', fontWeight: 700 }}>👑 Team Owner</span>
+                            <span style={{ fontSize: '13px', fontWeight: 600, color: "inherit" }}>{myTeams.length} Team{myTeams.length !== 1 ? 's' : ''}</span>
                         </div>
                     </div>
                     {/* Sport Selector Tabs */}
@@ -354,15 +354,15 @@ export default function TeamsPage() {
                 {showCreateForm && (
                     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px 0' }}>
                         <div style={{ padding: '28px', borderRadius: '16px', background: 'white', border: '2px solid #e9d5ff', marginBottom: '16px' }}>
-                            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>🏅 Create New Team</h3>
+                            <h3 style={{ fontSize: '18px', fontWeight: 800, color: "inherit", marginBottom: '20px' }}>🏅 Create New Team</h3>
                             <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase' as const }}>Team Name *</label>
+                                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: "inherit", marginBottom: '6px', textTransform: 'uppercase' as const }}>Team Name *</label>
                                     <input value={newTeamName} onChange={(e) => setNewTeamName(e.target.value)} placeholder="e.g. Thunder Warriors"
                                         style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e9d5ff', fontSize: '14px', outline: 'none', boxSizing: 'border-box' as const }} />
                                 </div>
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase' as const }}>Sport *</label>
+                                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: "inherit", marginBottom: '6px', textTransform: 'uppercase' as const }}>Sport *</label>
                                     <select value={newTeamSportId} onChange={(e) => setNewTeamSportId(e.target.value)}
                                         style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e9d5ff', fontSize: '14px', outline: 'none', background: 'white', boxSizing: 'border-box' as const }}>
                                         <option value="">Select a sport...</option>
@@ -372,7 +372,7 @@ export default function TeamsPage() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase' as const }}>City</label>
+                                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: "inherit", marginBottom: '6px', textTransform: 'uppercase' as const }}>City</label>
                                     <input value={newTeamCity} onChange={(e) => setNewTeamCity(e.target.value)} placeholder="e.g. Mumbai"
                                         style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e9d5ff', fontSize: '14px', outline: 'none', boxSizing: 'border-box' as const }} />
                                 </div>
@@ -385,7 +385,7 @@ export default function TeamsPage() {
                                 }}>{creating ? '⏳ Creating...' : '🚀 Create Team'}</button>
                                 <button onClick={() => setShowCreateForm(false)} style={{
                                     padding: '10px 24px', borderRadius: '10px', border: '1px solid #e9d5ff',
-                                    background: 'white', color: '#6d28d9', fontWeight: 700, cursor: 'pointer', fontSize: '14px',
+                                    background: 'white', color: "inherit", fontWeight: 700, cursor: 'pointer', fontSize: '14px',
                                 }}>Cancel</button>
                             </div>
                         </div>
@@ -397,8 +397,8 @@ export default function TeamsPage() {
                     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px' }}>
                         <div style={{ padding: '48px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff', textAlign: 'center' }}>
                             <div style={{ fontSize: '48px', marginBottom: '12px' }}>🏅</div>
-                            <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '8px' }}>No teams yet</h2>
-                            <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px' }}>Create your first team to get started with multi-sport management!</p>
+                            <h2 style={{ fontSize: '20px', fontWeight: 800, color: "inherit", marginBottom: '8px' }}>No teams yet</h2>
+                            <p style={{ color: "inherit", fontSize: '14px', marginBottom: '20px' }}>Create your first team to get started with multi-sport management!</p>
                             <button onClick={() => setShowCreateForm(true)} style={{
                                 padding: '12px 28px', borderRadius: '10px', border: 'none',
                                 background: '#7c3aed', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '15px',
@@ -437,16 +437,16 @@ export default function TeamsPage() {
                             {/* Stats Bar */}
                             <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginBottom: '20px' }}>
                                 {[
-                                    { label: 'Total Players', value: activeRoster.length, icon: '👥', color: '#7c3aed' },
-                                    { label: 'Max Roster', value: 16, icon: '📋', color: '#64748b' },
-                                    { label: 'Open Slots', value: 16 - activeRoster.length, icon: '🔓', color: '#16a34a' },
-                                    { label: 'Fees Paid', value: `${activeRoster.filter(p => p.fee === 'PAID').length}/${activeRoster.length}`, icon: '💳', color: '#f59e0b' },
-                                    { label: 'Online Now', value: activeRoster.filter(p => p.online).length, icon: '🟢', color: '#10b981' },
+                                    { label: 'Total Players', value: activeRoster.length, icon: '👥', color: "inherit" },
+                                    { label: 'Max Roster', value: 16, icon: '📋', color: "inherit" },
+                                    { label: 'Open Slots', value: 16 - activeRoster.length, icon: '🔓', color: "inherit" },
+                                    { label: 'Fees Paid', value: `${activeRoster.filter(p => p.fee === 'PAID').length}/${activeRoster.length}`, icon: '💳', color: "inherit" },
+                                    { label: 'Online Now', value: activeRoster.filter(p => p.online).length, icon: '🟢', color: "inherit" },
                                 ].map((s, i) => (
                                     <div key={i} style={{ padding: '14px', borderRadius: '12px', background: 'white', border: '1px solid #f3e8ff', textAlign: 'center' }}>
                                         <div style={{ fontSize: '20px', marginBottom: '4px' }}>{s.icon}</div>
                                         <div style={{ fontSize: '20px', fontWeight: 800, color: s.color }}>{s.value}</div>
-                                        <div style={{ fontSize: '11px', color: '#64748b' }}>{s.label}</div>
+                                        <div style={{ fontSize: '11px', color: "inherit" }}>{s.label}</div>
                                     </div>
                                 ))}
                             </div>
@@ -454,29 +454,29 @@ export default function TeamsPage() {
                             {/* Roster Table */}
                             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #f3e8ff', overflowX: 'auto' }}>
                                 <div style={{ minWidth: '800px' }}>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '0.6fr 0.5fr 0.5fr 0.4fr 0.4fr 0.35fr 0.4fr 0.5fr', padding: '14px 20px', background: '#faf5ff', fontWeight: 700, fontSize: '12px', color: '#6d28d9', textTransform: 'uppercase' as const }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '0.6fr 0.5fr 0.5fr 0.4fr 0.4fr 0.35fr 0.4fr 0.5fr', padding: '14px 20px', background: '#faf5ff', fontWeight: 700, fontSize: '12px', color: "inherit", textTransform: 'uppercase' as const }}>
                                         <span>Player</span><span>Position</span><span>Role</span><span>Matches</span><span>{statCol}</span><span>Rating</span><span>Fee</span><span>Actions</span>
                                     </div>
                                     {activeRoster.map((p, i) => (
                                         <div key={i} style={{ display: 'grid', gridTemplateColumns: '0.6fr 0.5fr 0.5fr 0.4fr 0.4fr 0.35fr 0.4fr 0.5fr', padding: '14px 20px', borderTop: '1px solid #f3e8ff', alignItems: 'center' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: p.online ? '#22c55e' : '#d4d4d8' }} />
-                                                <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{p.name}</span>
+                                                <span style={{ fontWeight: 700, fontSize: '13px', color: "inherit" }}>{p.name}</span>
                                             </div>
-                                            <span style={{ fontSize: '12px', color: '#64748b' }}>{p.position}</span>
+                                            <span style={{ fontSize: '12px', color: "inherit" }}>{p.position}</span>
                                             <span style={{ fontSize: '12px', fontWeight: 600, color: p.role === 'Captain' ? '#f59e0b' : p.role === 'Vice-Captain' ? '#7c3aed' : '#64748b' }}>{p.role === 'Captain' ? '👑 ' : p.role === 'Vice-Captain' ? '⭐ ' : ''}{p.role}</span>
-                                            <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{p.matches}</span>
-                                            <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{p.runs}</span>
+                                            <span style={{ fontSize: '13px', fontWeight: 600, color: "inherit" }}>{p.matches}</span>
+                                            <span style={{ fontSize: '13px', fontWeight: 600, color: "inherit" }}>{p.runs}</span>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                                 <div style={{ width: `${p.rating}%`, height: '6px', borderRadius: '3px', background: p.rating >= 85 ? '#22c55e' : p.rating >= 75 ? '#f59e0b' : '#ef4444', maxWidth: '40px' }} />
-                                                <span style={{ fontSize: '11px', fontWeight: 700, color: '#64748b' }}>{p.rating}</span>
+                                                <span style={{ fontSize: '11px', fontWeight: 700, color: "inherit" }}>{p.rating}</span>
                                             </div>
                                             <span style={{ padding: '2px 8px', borderRadius: '4px', background: statusStyle(p.fee).bg, color: statusStyle(p.fee).color, fontSize: '10px', fontWeight: 700, textAlign: 'center' as const }}>{p.fee}</span>
                                             <div style={{ display: 'flex', gap: '6px' }}>
                                                 {p.role === 'Player' && (
-                                                    <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #e9d5ff', background: 'white', color: '#6d28d9', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Make Captain</button>
+                                                    <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #e9d5ff', background: 'white', color: "inherit", fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Make Captain</button>
                                                 )}
-                                                <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #fecaca', background: '#fef2f2', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Release</button>
+                                                <button style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #fecaca', background: '#fef2f2', color: "inherit", fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Release</button>
                                             </div>
                                         </div>
                                     ))}
@@ -488,7 +488,7 @@ export default function TeamsPage() {
                     {/* ─── Applications Tab ─── */}
                     {ownerTab === 'applications' && (
                         <div>
-                            <div style={{ fontSize: '14px', color: '#64748b', marginBottom: '16px' }}>
+                            <div style={{ fontSize: '14px', color: "inherit", marginBottom: '16px' }}>
                                 {filteredApps.length} player applications pending review
                             </div>
                             <div style={{ display: 'grid', gap: '12px' }}>
@@ -498,12 +498,12 @@ export default function TeamsPage() {
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
                                                 <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #7c3aed, #a855f7)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '16px' }}>{app.name.charAt(0)}</div>
                                                 <div>
-                                                    <div style={{ fontWeight: 800, fontSize: '16px', color: '#1e1b4b' }}>{app.name}</div>
-                                                    <div style={{ fontSize: '12px', color: '#64748b' }}>{app.position} • {app.experience} experience</div>
+                                                    <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{app.name}</div>
+                                                    <div style={{ fontSize: '12px', color: "inherit" }}>{app.position} • {app.experience} experience</div>
                                                 </div>
                                                 <span style={{ padding: '3px 10px', borderRadius: '6px', background: statusStyle(app.status).bg, color: statusStyle(app.status).color, fontSize: '11px', fontWeight: 700 }}>{app.status}</span>
                                             </div>
-                                            <div style={{ display: 'flex', gap: '16px', fontSize: '12px', color: '#64748b' }}>
+                                            <div style={{ display: 'flex', gap: '16px', fontSize: '12px', color: "inherit" }}>
                                                 <span>🏏 {app.matches} matches</span>
                                                 <span>⭐ Rating: {app.rating}</span>
                                                 <span>💰 Base: ₹{(app.basePrice / 1000).toFixed(0)}K</span>
@@ -512,7 +512,7 @@ export default function TeamsPage() {
                                         </div>
                                         <div style={{ display: 'flex', gap: '8px' }}>
                                             <button style={{ padding: '10px 20px', borderRadius: '10px', border: 'none', background: '#16a34a', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>✓ Accept</button>
-                                            <button style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid #fecaca', background: 'white', color: '#ef4444', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>✕ Reject</button>
+                                            <button style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid #fecaca', background: 'white', color: "inherit", fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>✕ Reject</button>
                                         </div>
                                     </div>
                                 ))}
@@ -547,11 +547,11 @@ export default function TeamsPage() {
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
                                                 <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '15px' }}>{p.name.charAt(0)}</div>
                                                 <div>
-                                                    <div style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b' }}>{p.name}</div>
-                                                    <div style={{ fontSize: '12px', color: '#64748b' }}>{p.position} • {p.location}</div>
+                                                    <div style={{ fontWeight: 700, fontSize: '15px', color: "inherit" }}>{p.name}</div>
+                                                    <div style={{ fontSize: '12px', color: "inherit" }}>{p.position} • {p.location}</div>
                                                 </div>
                                             </div>
-                                            <div style={{ display: 'flex', gap: '14px', fontSize: '12px', color: '#64748b', marginTop: '4px' }}>
+                                            <div style={{ display: 'flex', gap: '14px', fontSize: '12px', color: "inherit", marginTop: '4px' }}>
                                                 <span>⭐ {p.rating}</span>
                                                 <span>{activeConfig.emoji} {p.matches} matches</span>
                                                 <span>🏃 {p.runs} {activeConfig.stat.toLowerCase()}</span>
@@ -575,7 +575,7 @@ export default function TeamsPage() {
                     {ownerTab === 'settings' && (
                         <div style={{ maxWidth: '700px' }}>
                             <div style={{ padding: '28px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>⚙️ Team Settings</h3>
+                                <h3 style={{ fontSize: '18px', fontWeight: 800, color: "inherit", marginBottom: '20px' }}>⚙️ Team Settings</h3>
                                 <div style={{ display: 'grid', gap: '16px' }}>
                                     {[
                                         { label: 'Team Name', value: myTeams.length > 0 ? myTeams[0].name : 'My Team', type: 'text' },
@@ -586,7 +586,7 @@ export default function TeamsPage() {
                                         { label: 'Team Bio', value: `Premier ${selectedSport?.name?.toLowerCase() || 'sports'} team competing in state-level tournaments.`, type: 'textarea' },
                                     ].map((f, i) => (
                                         <div key={i}>
-                                            <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase' as const }}>{f.label}</label>
+                                            <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: "inherit", marginBottom: '6px', textTransform: 'uppercase' as const }}>{f.label}</label>
                                             {f.type === 'textarea' ? (
                                                 <textarea defaultValue={f.value} rows={3} style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e9d5ff', fontSize: '14px', outline: 'none', resize: 'vertical' as const, fontFamily: 'inherit' }} />
                                             ) : (
@@ -597,7 +597,7 @@ export default function TeamsPage() {
                                 </div>
                                 <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
                                     <button style={{ padding: '12px 28px', borderRadius: '10px', border: 'none', background: '#7c3aed', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '14px' }}>💾 Save Changes</button>
-                                    <button style={{ padding: '12px 28px', borderRadius: '10px', border: '1px solid #e9d5ff', background: 'white', color: '#6d28d9', fontWeight: 700, cursor: 'pointer', fontSize: '14px' }}>Cancel</button>
+                                    <button style={{ padding: '12px 28px', borderRadius: '10px', border: '1px solid #e9d5ff', background: 'white', color: "inherit", fontWeight: 700, cursor: 'pointer', fontSize: '14px' }}>Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -616,8 +616,8 @@ export default function TeamsPage() {
             <div style={{ background: 'linear-gradient(135deg, #6d28d9, #7c3aed)', padding: '14px 32px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
-                        <span style={{ fontSize: '20px' }}>🌐</span>
-                        <span style={{ color: 'white', fontWeight: 800, fontSize: '18px' }}>Game Sphere</span>
+                        <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
+                        <span className="gradient-text" style={{ fontWeight: 800, fontSize: "18px" }}>Game Sphere</span>
                     </Link>
                     <Link href="/dashboard" style={{ color: 'white', textDecoration: 'none', fontSize: '14px', fontWeight: 600 }}>← Dashboard</Link>
                 </div>
@@ -625,7 +625,7 @@ export default function TeamsPage() {
 
             <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '28px 32px' }}>
                 <h1 style={{ fontSize: '32px', fontWeight: 900, background: 'linear-gradient(135deg, #6d28d9, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '6px' }}>⚡ Teams</h1>
-                <p style={{ color: '#64748b', marginBottom: '20px' }}>Manage your team, apply to new teams, and handle join requests</p>
+                <p style={{ color: "inherit", marginBottom: '20px' }}>Manage your team, apply to new teams, and handle join requests</p>
 
                 {/* Player Tabs */}
                 <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
@@ -672,7 +672,7 @@ export default function TeamsPage() {
                                         </button>
                                     );
                                 })}
-                                <div style={{ marginLeft: 'auto', padding: '8px 14px', borderRadius: '10px', background: '#f3e8ff', color: '#6d28d9', fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <div style={{ marginLeft: 'auto', padding: '8px 14px', borderRadius: '10px', background: '#f3e8ff', color: "inherit", fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
                                     🏅 Playing {filteredMyTeams.length} Teams
                                 </div>
                             </div>
@@ -685,41 +685,41 @@ export default function TeamsPage() {
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                                             <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: `${activePlayerTeam.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>{activePlayerTeam.logo}</div>
                                             <div>
-                                                <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#1e1b4b' }}>{activePlayerTeam.name}</h2>
-                                                <div style={{ fontSize: '13px', color: '#64748b' }}>{activePlayerTeam.sportIcon} {activePlayerTeam.sport} • Captain: {activePlayerTeam.captain} • Coach: {activePlayerTeam.coach}</div>
+                                                <h2 style={{ fontSize: '22px', fontWeight: 800, color: "inherit" }}>{activePlayerTeam.name}</h2>
+                                                <div style={{ fontSize: '13px', color: "inherit" }}>{activePlayerTeam.sportIcon} {activePlayerTeam.sport} • Captain: {activePlayerTeam.captain} • Coach: {activePlayerTeam.coach}</div>
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', gap: '16px', textAlign: 'center' as const }}>
-                                            <div><div style={{ fontSize: '22px', fontWeight: 800, color: '#16a34a' }}>{activePlayerTeam.wins}</div><div style={{ fontSize: '11px', color: '#64748b' }}>Wins</div></div>
-                                            <div><div style={{ fontSize: '22px', fontWeight: 800, color: '#ef4444' }}>{activePlayerTeam.losses}</div><div style={{ fontSize: '11px', color: '#64748b' }}>Losses</div></div>
+                                            <div><div style={{ fontSize: '22px', fontWeight: 800, color: "inherit" }}>{activePlayerTeam.wins}</div><div style={{ fontSize: '11px', color: "inherit" }}>Wins</div></div>
+                                            <div><div style={{ fontSize: '22px', fontWeight: 800, color: "inherit" }}>{activePlayerTeam.losses}</div><div style={{ fontSize: '11px', color: "inherit" }}>Losses</div></div>
                                         </div>
                                     </div>
-                                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '10px' }}>ROSTER ({activePlayerTeam.roster.length} Players)</div>
+                                    <div style={{ fontSize: '13px', fontWeight: 700, color: "inherit", marginBottom: '10px' }}>ROSTER ({activePlayerTeam.roster.length} Players)</div>
                                     <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
                                         {activePlayerTeam.roster.map((p: any, i: number) => (
                                             <div key={i} style={{ padding: '10px 14px', borderRadius: '10px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: p.online ? '#22c55e' : '#d4d4d8' }} />
                                                 <div>
-                                                    <div style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{p.name}</div>
-                                                    <div style={{ fontSize: '11px', color: '#64748b' }}>{p.role}</div>
+                                                    <div style={{ fontWeight: 700, fontSize: '13px', color: "inherit" }}>{p.name}</div>
+                                                    <div style={{ fontSize: '11px', color: "inherit" }}>{p.role}</div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '10px' }}>🗓️ UPCOMING {activePlayerTeam.sport.toUpperCase()} MATCHES</div>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: "inherit", marginBottom: '10px' }}>🗓️ UPCOMING {activePlayerTeam.sport.toUpperCase()} MATCHES</div>
                                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                                     {activePlayerTeam.upcomingMatches.map((m: any, i: number) => (
                                         <div key={i} style={{ padding: '16px', borderRadius: '12px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                            <div style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b' }}>vs {m.opponent}</div>
-                                            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>{activePlayerTeam.sportIcon} {m.date} • ⏰ {m.time}</div>
-                                            <div style={{ fontSize: '12px', color: '#64748b' }}>🏟️ {m.venue}</div>
+                                            <div style={{ fontWeight: 700, fontSize: '15px', color: "inherit" }}>vs {m.opponent}</div>
+                                            <div style={{ fontSize: '12px', color: "inherit", marginTop: '4px' }}>{activePlayerTeam.sportIcon} {m.date} • ⏰ {m.time}</div>
+                                            <div style={{ fontSize: '12px', color: "inherit" }}>🏟️ {m.venue}</div>
                                         </div>
                                     ))}
                                 </div>
                             </>
                         ) : (
-                            <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>
+                            <div style={{ padding: '40px', textAlign: 'center', color: "inherit" }}>
                                 No teams found for {selectedSport?.name || 'this sport'}.
                             </div>
                         )}
@@ -737,9 +737,9 @@ export default function TeamsPage() {
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                         <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: `${t.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{t.logo}</div>
                                         <div>
-                                            <div style={{ fontWeight: 800, fontSize: '16px', color: '#1e1b4b' }}>{t.name}</div>
-                                            <div style={{ fontSize: '12px', color: '#64748b' }}>{t.sport} • {t.location} • ⭐ {t.rating}</div>
-                                            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>👥 {t.members} members  🟢 {t.openSlots} open slots</div>
+                                            <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{t.name}</div>
+                                            <div style={{ fontSize: '12px', color: "inherit" }}>{t.sport} • {t.location} • ⭐ {t.rating}</div>
+                                            <div style={{ fontSize: '12px', color: "inherit", marginTop: '2px' }}>👥 {t.members} members  🟢 {t.openSlots} open slots</div>
                                         </div>
                                     </div>
                                     <button style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: '#7c3aed', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>Apply to Join</button>
@@ -757,8 +757,8 @@ export default function TeamsPage() {
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                     <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: `${a.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{a.logo}</div>
                                     <div>
-                                        <div style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b' }}>{a.team}</div>
-                                        <div style={{ fontSize: '12px', color: '#64748b' }}>{a.sport} • Applied {a.date}</div>
+                                        <div style={{ fontWeight: 700, fontSize: '15px', color: "inherit" }}>{a.team}</div>
+                                        <div style={{ fontSize: '12px', color: "inherit" }}>{a.sport} • Applied {a.date}</div>
                                     </div>
                                 </div>
                                 <span style={{ padding: '6px 16px', borderRadius: '8px', background: statusStyle(a.status).bg, color: statusStyle(a.status).color, fontSize: '12px', fontWeight: 700 }}>{a.status}</span>
@@ -775,14 +775,14 @@ export default function TeamsPage() {
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
                                     <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: `${r.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{r.logo}</div>
                                     <div>
-                                        <div style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b' }}>{r.team}</div>
-                                        <div style={{ fontSize: '12px', color: '#64748b' }}>{r.sport} • From: {r.owner} • {r.date}</div>
+                                        <div style={{ fontWeight: 700, fontSize: '15px', color: "inherit" }}>{r.team}</div>
+                                        <div style={{ fontSize: '12px', color: "inherit" }}>{r.sport} • From: {r.owner} • {r.date}</div>
                                     </div>
                                 </div>
-                                <div style={{ padding: '10px 14px', borderRadius: '8px', background: '#faf5ff', fontSize: '13px', color: '#64748b', marginBottom: '12px', fontStyle: 'italic' }}>"{r.message}"</div>
+                                <div style={{ padding: '10px 14px', borderRadius: '8px', background: '#faf5ff', fontSize: '13px', color: "inherit", marginBottom: '12px', fontStyle: 'italic' }}>"{r.message}"</div>
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <button style={{ padding: '10px 24px', borderRadius: '10px', border: 'none', background: '#16a34a', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>✓ Accept</button>
-                                    <button style={{ padding: '10px 24px', borderRadius: '10px', border: '1px solid #fecaca', background: 'white', color: '#ef4444', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>✕ Decline</button>
+                                    <button style={{ padding: '10px 24px', borderRadius: '10px', border: '1px solid #fecaca', background: 'white', color: "inherit", fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>✕ Decline</button>
                                 </div>
                             </div>
                         ))}

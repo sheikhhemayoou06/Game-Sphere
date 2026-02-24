@@ -38,10 +38,10 @@ export default function PlayerProfilePage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             }}>
                 <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-                    <span style={{ fontSize: '24px' }}>🌐</span>
+                    <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
                     <span className="gradient-text" style={{ fontSize: '20px', fontWeight: 800 }}>Game Sphere</span>
                 </Link>
-                <Link href="/dashboard" style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/dashboard" style={{ fontSize: '14px', color: "inherit", textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '800px', margin: '0 auto', padding: '32px' }}>
@@ -94,9 +94,9 @@ export default function PlayerProfilePage() {
                 {/* Career Stats */}
                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '28px' }}>
                     {[
-                        { label: 'Total Matches', value: profile.totalMatches || 0, icon: '⚔️', color: '#6366f1' },
-                        { label: 'Total Wins', value: profile.totalWins || 0, icon: '🏆', color: '#10b981' },
-                        { label: 'Win Rate', value: profile.totalMatches > 0 ? `${Math.round((profile.totalWins / profile.totalMatches) * 100)}%` : '0%', icon: '📊', color: '#f59e0b' },
+                        { label: 'Total Matches', value: profile.totalMatches || 0, icon: '⚔️', color: "inherit" },
+                        { label: 'Total Wins', value: profile.totalWins || 0, icon: '🏆', color: "inherit" },
+                        { label: 'Win Rate', value: profile.totalMatches > 0 ? `${Math.round((profile.totalWins / profile.totalMatches) * 100)}%` : '0%', icon: '📊', color: "inherit" },
                     ].map((stat) => (
                         <div key={stat.label} className="card-hover" style={{
                             padding: '28px', borderRadius: '18px', background: 'white',
@@ -104,7 +104,7 @@ export default function PlayerProfilePage() {
                         }}>
                             <div style={{ fontSize: '32px', marginBottom: '8px' }}>{stat.icon}</div>
                             <div style={{ fontSize: '28px', fontWeight: 800, color: stat.color }}>{stat.value}</div>
-                            <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>{stat.label}</div>
+                            <div style={{ fontSize: '13px', color: "inherit", marginTop: '4px' }}>{stat.label}</div>
                         </div>
                     ))}
                 </div>
@@ -115,8 +115,8 @@ export default function PlayerProfilePage() {
                         padding: '24px', borderRadius: '16px', background: 'white',
                         border: '1px solid #f1f5f9', marginBottom: '28px',
                     }}>
-                        <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '10px', color: '#1e1b4b' }}>About</h3>
-                        <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.7 }}>{profile.bio}</p>
+                        <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '10px', color: "inherit" }}>About</h3>
+                        <p style={{ fontSize: '14px', color: "inherit", lineHeight: 1.7 }}>{profile.bio}</p>
                     </div>
                 )}
 
@@ -125,11 +125,11 @@ export default function PlayerProfilePage() {
                     padding: '24px', borderRadius: '16px', background: 'white',
                     border: '1px solid #f1f5f9',
                 }}>
-                    <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px', color: '#1e1b4b' }}>Team Memberships</h3>
+                    <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px', color: "inherit" }}>Team Memberships</h3>
                     {(profile.teamPlayers?.length || 0) === 0 ? (
                         <div style={{ padding: '24px', textAlign: 'center' }}>
                             <div style={{ fontSize: '40px', marginBottom: '8px' }}>👤</div>
-                            <p style={{ color: '#94a3b8', fontSize: '14px' }}>Not part of any team yet</p>
+                            <p style={{ color: "inherit", fontSize: '14px' }}>Not part of any team yet</p>
                         </div>
                     ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -139,10 +139,10 @@ export default function PlayerProfilePage() {
                                     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                                 }}>
                                     <div>
-                                        <span style={{ fontWeight: 600, fontSize: '14px', color: '#1e1b4b' }}>{tp.team?.name}</span>
-                                        {tp.role && <span style={{ marginLeft: '8px', fontSize: '12px', color: '#64748b' }}>({tp.role})</span>}
+                                        <span style={{ fontWeight: 600, fontSize: '14px', color: "inherit" }}>{tp.team?.name}</span>
+                                        {tp.role && <span style={{ marginLeft: '8px', fontSize: '12px', color: "inherit" }}>({tp.role})</span>}
                                     </div>
-                                    {tp.jersey && <span style={{ fontSize: '13px', fontWeight: 700, color: '#6366f1' }}>#{tp.jersey}</span>}
+                                    {tp.jersey && <span style={{ fontSize: '13px', fontWeight: 700, color: "inherit" }}>#{tp.jersey}</span>}
                                 </div>
                             ))}
                         </div>

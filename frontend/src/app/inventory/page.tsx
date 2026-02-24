@@ -17,10 +17,10 @@ const EQUIPMENT = [
 ];
 
 const CONDITION_COLORS: Record<string, { bg: string; color: string }> = {
-    EXCELLENT: { bg: '#ecfdf5', color: '#22c55e' },
-    GOOD: { bg: '#eff6ff', color: '#3b82f6' },
-    FAIR: { bg: '#fffbeb', color: '#f59e0b' },
-    POOR: { bg: '#fef2f2', color: '#ef4444' },
+    EXCELLENT: { bg: '#ecfdf5', color: "inherit" },
+    GOOD: { bg: '#eff6ff', color: "inherit" },
+    FAIR: { bg: '#fffbeb', color: "inherit" },
+    POOR: { bg: '#fef2f2', color: "inherit" },
 };
 
 export default function InventoryPage() {
@@ -39,25 +39,25 @@ export default function InventoryPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#92400e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#92400e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
+                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>📦 Inventory & Equipment</h1>
-                <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>Track sports equipment, supplies, and facility assets</p>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>📦 Inventory & Equipment</h1>
+                <p style={{ color: "inherit", fontSize: '16px', marginBottom: '28px' }}>Track sports equipment, supplies, and facility assets</p>
 
                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
-                        { label: 'Item Types', value: EQUIPMENT.length, icon: '📦', color: '#92400e' },
-                        { label: 'Total Stock', value: totalItems, icon: '📊', color: '#3b82f6' },
-                        { label: 'Available', value: totalAvailable, icon: '✅', color: '#22c55e' },
-                        { label: 'Total Value', value: `₹${(totalValue / 100000).toFixed(1)}L`, icon: '💰', color: '#f59e0b' },
+                        { label: 'Item Types', value: EQUIPMENT.length, icon: '📦', color: "inherit" },
+                        { label: 'Total Stock', value: totalItems, icon: '📊', color: "inherit" },
+                        { label: 'Available', value: totalAvailable, icon: '✅', color: "inherit" },
+                        { label: 'Total Value', value: `₹${(totalValue / 100000).toFixed(1)}L`, icon: '💰', color: "inherit" },
                     ].map(s => (
                         <div key={s.label} style={{ background: '#fff', borderRadius: '14px', padding: '18px', boxShadow: '0 2px 12px rgba(146,64,14,0.06)' }}>
                             <div style={{ fontSize: '24px', marginBottom: '4px' }}>{s.icon}</div>
                             <div style={{ fontSize: '28px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                            <div style={{ fontSize: '12px', color: '#64748b' }}>{s.label}</div>
+                            <div style={{ fontSize: '12px', color: "inherit" }}>{s.label}</div>
                         </div>
                     ))}
                 </div>
@@ -83,13 +83,13 @@ export default function InventoryPage() {
                                 <div key={e.id} style={{ display: 'grid', gridTemplateColumns: '48px 2fr 1fr 1fr 1fr 1fr', padding: '14px 20px', borderBottom: '1px solid #fef3c7', background: i % 2 === 0 ? '#fffbeb' : '#fff', fontSize: '13px', gap: '8px', alignItems: 'center' }}>
                                     <span style={{ fontSize: '24px' }}>{e.icon}</span>
                                     <div>
-                                        <div style={{ fontWeight: 700, color: '#1e1b4b' }}>{e.name}</div>
-                                        <div style={{ fontSize: '11px', color: '#64748b' }}>📍 {e.location} · {e.category}</div>
+                                        <div style={{ fontWeight: 700, color: "inherit" }}>{e.name}</div>
+                                        <div style={{ fontSize: '11px', color: "inherit" }}>📍 {e.location} · {e.category}</div>
                                     </div>
-                                    <span style={{ fontWeight: 700, color: '#1e1b4b' }}>{e.quantity}</span>
+                                    <span style={{ fontWeight: 700, color: "inherit" }}>{e.quantity}</span>
                                     <span style={{ fontWeight: 700, color: e.available < e.quantity * 0.5 ? '#ef4444' : '#22c55e' }}>{e.available}</span>
                                     <span style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: cond.bg, color: cond.color, width: 'fit-content' }}>{e.condition}</span>
-                                    <span style={{ fontWeight: 600, color: '#64748b' }}>₹{(e.quantity * e.unitCost / 1000).toFixed(0)}K</span>
+                                    <span style={{ fontWeight: 600, color: "inherit" }}>₹{(e.quantity * e.unitCost / 1000).toFixed(0)}K</span>
                                 </div>
                             );
                         })}
