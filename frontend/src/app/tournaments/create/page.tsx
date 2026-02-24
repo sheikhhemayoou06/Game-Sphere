@@ -96,24 +96,24 @@ export default function CreateTournamentPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             }}>
                 <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-                    <span style={{ fontSize: '24px' }}>🌐</span>
+                    <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
                     <span className="gradient-text" style={{ fontSize: '20px', fontWeight: 800 }}>Game Sphere</span>
                 </Link>
-                <Link href="/dashboard" style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/dashboard" style={{ fontSize: '14px', color: "inherit", textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '700px', margin: '0 auto', padding: '32px' }}>
-                <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#1e1b4b', marginBottom: '8px', letterSpacing: '-0.5px' }}>
+                <h1 style={{ fontSize: '28px', fontWeight: 800, color: "inherit", marginBottom: '8px', letterSpacing: '-0.5px' }}>
                     🏆 Create Tournament
                 </h1>
-                <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '28px' }}>
+                <p style={{ color: "inherit", fontSize: '14px', marginBottom: '28px' }}>
                     Set up a new tournament — configure format, rules, and schedule
                 </p>
 
                 {error && (
                     <div style={{
                         padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
-                        background: '#fef2f2', color: '#dc2626', fontSize: '14px', fontWeight: 500,
+                        background: '#fef2f2', color: "inherit", fontSize: '14px', fontWeight: 500,
                         border: '1px solid #fecaca',
                     }}>
                         {error}
@@ -127,29 +127,29 @@ export default function CreateTournamentPage() {
                 }}>
                     {/* Name */}
                     <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>
                             Tournament Name *
                         </label>
                         <input type="text" value={form.name} onChange={(e) => update('name', e.target.value)}
-                            className="input-field" placeholder="e.g., District Cricket Championship 2026" required style={{ color: '#1e1b4b' }} />
+                            className="input-field" placeholder="e.g., District Cricket Championship 2026" required style={{ color: "inherit" }} />
                     </div>
 
                     {/* Sport */}
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                            <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151' }}>Sport *</label>
-                            {selectedSport && <span style={{ fontSize: '11px', color: '#6366f1', fontWeight: 700, background: '#e0e7ff', padding: '2px 8px', borderRadius: '10px' }}>Locked to Workspace</span>}
+                            <label style={{ fontSize: '13px', fontWeight: 600, color: "inherit" }}>Sport *</label>
+                            {selectedSport && <span style={{ fontSize: '11px', color: "inherit", fontWeight: 700, background: '#e0e7ff', padding: '2px 8px', borderRadius: '10px' }}>Locked to Workspace</span>}
                         </div>
                         {sports.length === 0 ? (
-                            <div style={{ padding: '14px', borderRadius: '12px', background: '#fffbeb', border: '1px solid #fde68a', fontSize: '14px', color: '#92400e' }}>
-                                ⚠️ No sports configured. Go to <Link href="/admin" style={{ color: '#6366f1', fontWeight: 600 }}>Admin Panel</Link> and seed sports first.
+                            <div style={{ padding: '14px', borderRadius: '12px', background: '#fffbeb', border: '1px solid #fde68a', fontSize: '14px', color: "inherit" }}>
+                                ⚠️ No sports configured. Go to <Link href="/admin" style={{ color: "inherit", fontWeight: 600 }}>Admin Panel</Link> and seed sports first.
                             </div>
                         ) : selectedSport ? (
                             <div style={{ padding: '16px', borderRadius: '12px', background: `${selectedSport.accentColor || '#6366f1'}15`, border: `2px solid ${selectedSport.accentColor || '#6366f1'}40`, display: 'flex', alignItems: 'center', gap: '14px' }}>
                                 <div style={{ fontSize: '32px' }}>{selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}</div>
                                 <div>
-                                    <div style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{selectedSport.name}</div>
-                                    <div style={{ fontSize: '12px', color: '#64748b' }}>Creating tournament in current workspace</div>
+                                    <div style={{ fontWeight: 800, fontSize: '18px', color: "inherit" }}>{selectedSport.name}</div>
+                                    <div style={{ fontSize: '12px', color: "inherit" }}>Creating tournament in current workspace</div>
                                 </div>
                             </div>
                         ) : (
@@ -174,16 +174,16 @@ export default function CreateTournamentPage() {
                     {/* Level + Format */}
                     <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Level</label>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Level</label>
                             <select value={form.level} onChange={(e) => update('level', e.target.value)}
-                                className="input-field" style={{ color: '#1e1b4b' }}>
+                                className="input-field" style={{ color: "inherit" }}>
                                 {levels.map((l) => <option key={l} value={l}>{l}</option>)}
                             </select>
                         </div>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Format</label>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Format</label>
                             <select value={form.format} onChange={(e) => update('format', e.target.value)}
-                                className="input-field" style={{ color: '#1e1b4b' }}>
+                                className="input-field" style={{ color: "inherit" }}>
                                 {formats.map((f) => <option key={f} value={f}>{f.replace('_', ' ')}</option>)}
                             </select>
                         </div>
@@ -192,38 +192,38 @@ export default function CreateTournamentPage() {
                     {/* Max Teams, Squad Size, Fee */}
                     <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Max Teams</label>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Max Teams</label>
                             <input type="number" value={form.maxTeams} onChange={(e) => update('maxTeams', e.target.value)}
-                                className="input-field" min="2" max="128" style={{ color: '#1e1b4b' }} />
+                                className="input-field" min="2" max="128" style={{ color: "inherit" }} />
                         </div>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Squad Size (per team)</label>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Squad Size (per team)</label>
                             <input type="number" value={form.squadSize} onChange={(e) => update('squadSize', e.target.value)}
-                                className="input-field" min="5" max="50" style={{ color: '#1e1b4b' }} />
+                                className="input-field" min="5" max="50" style={{ color: "inherit" }} />
                         </div>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Registration Fee (₹)</label>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Registration Fee (₹)</label>
                             <input type="number" value={form.registrationFee} onChange={(e) => update('registrationFee', e.target.value)}
-                                className="input-field" min="0" style={{ color: '#1e1b4b' }} />
+                                className="input-field" min="0" style={{ color: "inherit" }} />
                         </div>
                     </div>
 
                     {/* Registration Controls */}
                     <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(99,102,241,0.05)', border: '1px solid rgba(99,102,241,0.1)' }}>
-                        <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#1e1b4b', marginBottom: '16px' }}>📝 Registration Settings</h3>
+                        <h3 style={{ fontSize: '14px', fontWeight: 800, color: "inherit", marginBottom: '16px' }}>📝 Registration Settings</h3>
                         <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
                             <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Approval Mode</label>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Approval Mode</label>
                                 <select value={form.approvalMode} onChange={(e) => update('approvalMode', e.target.value)}
-                                    className="input-field" style={{ color: '#1e1b4b' }}>
+                                    className="input-field" style={{ color: "inherit" }}>
                                     <option value="MANUAL">Manual Approval</option>
                                     <option value="AUTOMATIC">Automatic Approval</option>
                                 </select>
                             </div>
                             <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Registration Deadline</label>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Registration Deadline</label>
                                 <input type="date" value={form.registrationEnd} onChange={(e) => update('registrationEnd', e.target.value)}
-                                    className="input-field" style={{ color: '#1e1b4b' }} />
+                                    className="input-field" style={{ color: "inherit" }} />
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', paddingTop: '24px' }}>
                                 <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '10px' }}>
@@ -240,12 +240,12 @@ export default function CreateTournamentPage() {
                     {/* Auction Settings */}
                     {['AUCTION'].includes(form.format) ? (
                         <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.1)' }}>
-                            <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#1e1b4b', marginBottom: '16px' }}>🔨 Auction Settings</h3>
+                            <h3 style={{ fontSize: '14px', fontWeight: 800, color: "inherit", marginBottom: '16px' }}>🔨 Auction Settings</h3>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Team Max Purse (₹)</label>
+                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Team Max Purse (₹)</label>
                                     <input type="number" value={form.maxPurse} onChange={(e) => update('maxPurse', e.target.value)}
-                                        className="input-field" min="0" placeholder="e.g., 10000000" style={{ color: '#1e1b4b' }} />
+                                        className="input-field" min="0" placeholder="e.g., 10000000" style={{ color: "inherit" }} />
                                 </div>
                             </div>
                         </div>
@@ -254,29 +254,29 @@ export default function CreateTournamentPage() {
                     {/* Dates */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Start Date</label>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Start Date</label>
                             <input type="date" value={form.startDate} onChange={(e) => update('startDate', e.target.value)}
-                                className="input-field" style={{ color: '#1e1b4b' }} />
+                                className="input-field" style={{ color: "inherit" }} />
                         </div>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>End Date</label>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>End Date</label>
                             <input type="date" value={form.endDate} onChange={(e) => update('endDate', e.target.value)}
-                                className="input-field" style={{ color: '#1e1b4b' }} />
+                                className="input-field" style={{ color: "inherit" }} />
                         </div>
                     </div>
 
                     {/* Venue */}
                     <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Venue</label>
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Venue</label>
                         <input type="text" value={form.venue} onChange={(e) => update('venue', e.target.value)}
-                            className="input-field" placeholder="e.g., Jawaharlal Nehru Stadium, Delhi" style={{ color: '#1e1b4b' }} />
+                            className="input-field" placeholder="e.g., Jawaharlal Nehru Stadium, Delhi" style={{ color: "inherit" }} />
                     </div>
 
                     {/* Description */}
                     <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Description</label>
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Description</label>
                         <textarea value={form.description} onChange={(e) => update('description', e.target.value)}
-                            className="input-field" rows={3} placeholder="Brief description of the tournament..." style={{ color: '#1e1b4b', resize: 'vertical' }} />
+                            className="input-field" rows={3} placeholder="Brief description of the tournament..." style={{ color: "inherit", resize: 'vertical' }} />
                     </div>
 
                     {/* Submit */}

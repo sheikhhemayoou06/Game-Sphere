@@ -18,7 +18,7 @@ export default function ExplorePage() {
         const fetchInitialData = async () => {
             try {
                 const fetchedSports = await api.getSports();
-                setSports([{ id: 'ALL', name: 'All Sports', icon: '🌐' }, ...fetchedSports]);
+                setSports([{ id: 'ALL', name: 'All Sports', icon: '🏅' }, ...fetchedSports]);
 
                 const [tourns, matches] = await Promise.all([
                     api.getTournaments(),
@@ -49,11 +49,11 @@ export default function ExplorePage() {
             <div style={{ background: '#1e1b4b', padding: '24px 40px', color: 'white' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1200px', margin: '0 auto', flexWrap: 'wrap', gap: '20px' }}>
                     <div>
-                        <Link href="/" style={{ color: '#818cf8', fontWeight: 600, textDecoration: 'none', fontSize: '14px', marginBottom: '8px', display: 'inline-block' }}>
+                        <Link href="/" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none', fontSize: '14px', marginBottom: '8px', display: 'inline-block' }}>
                             ← Back to Home
                         </Link>
                         <h1 style={{ fontSize: '32px', fontWeight: 800 }}>Global Fan Portal</h1>
-                        <p style={{ color: '#94a3b8', marginTop: '4px' }}>Explore live scores, tournaments, auctions and player stats across India.</p>
+                        <p style={{ color: "inherit", marginTop: '4px' }}>Explore live scores, tournaments, auctions and player stats across India.</p>
                     </div>
 
                     {/* Universal Search Bar */}
@@ -115,31 +115,31 @@ export default function ExplorePage() {
 
                 {/* Content Area */}
                 {loading ? (
-                    <div style={{ textAlign: 'center', padding: '60px', color: '#64748b' }}>Loading portal data...</div>
+                    <div style={{ textAlign: 'center', padding: '60px', color: "inherit" }}>Loading portal data...</div>
                 ) : (
                     <div>
                         {activeTab === 'LIVE_MATCHES' && (
                             <div>
-                                <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1e1b4b', marginBottom: '24px' }}>Live Matches in Progress</h2>
+                                <h2 style={{ fontSize: '24px', fontWeight: 700, color: "inherit", marginBottom: '24px' }}>Live Matches in Progress</h2>
                                 {filteredLiveMatches.length === 0 ? (
                                     <div style={{ background: 'white', padding: '48px', borderRadius: '16px', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
                                         <div style={{ fontSize: '40px', marginBottom: '16px' }}>🏟️</div>
-                                        <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1e1b4b' }}>No live matches right now</h3>
-                                        <p style={{ color: '#64748b', marginTop: '8px' }}>Check back later or view upcoming fixtures.</p>
+                                        <h3 style={{ fontSize: '18px', fontWeight: 600, color: "inherit" }}>No live matches right now</h3>
+                                        <p style={{ color: "inherit", marginTop: '8px' }}>Check back later or view upcoming fixtures.</p>
                                     </div>
                                 ) : (
                                     <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
                                         {filteredLiveMatches.map(match => (
                                             <div key={match.id} style={{ background: 'white', borderRadius: '16px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0' }}>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#ef4444', background: '#fef2f2', padding: '4px 8px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <span style={{ fontSize: '12px', fontWeight: 700, color: "inherit", background: '#fef2f2', padding: '4px 8px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                         <span className="live-pulse"></span> LIVE
                                                     </span>
-                                                    <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>{match.tournament?.name}</span>
+                                                    <span style={{ fontSize: '12px', color: "inherit", fontWeight: 600 }}>{match.tournament?.name}</span>
                                                 </div>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '18px', fontWeight: 700, color: '#1e1b4b' }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '18px', fontWeight: 700, color: "inherit" }}>
                                                     <div>{match.homeTeam?.name}</div>
-                                                    <div style={{ color: '#64748b' }}>vs</div>
+                                                    <div style={{ color: "inherit" }}>vs</div>
                                                     <div>{match.awayTeam?.name}</div>
                                                 </div>
                                             </div>
@@ -151,18 +151,18 @@ export default function ExplorePage() {
 
                         {activeTab === 'TOURNAMENTS' && (
                             <div>
-                                <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#1e1b4b', marginBottom: '24px' }}>Active & Upcoming Tournaments</h2>
+                                <h2 style={{ fontSize: '24px', fontWeight: 700, color: "inherit", marginBottom: '24px' }}>Active & Upcoming Tournaments</h2>
                                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
                                     {filteredTournaments.map(tournament => (
                                         <div key={tournament.id} className="card-hover" style={{ background: 'white', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
                                                 <span style={{ fontSize: '24px' }}>{sports.find(s => s.id === tournament.sportId)?.icon || '🏆'}</span>
-                                                <span className="status-badge" style={{ background: '#f1f5f9', color: '#475569' }}>{tournament.status}</span>
+                                                <span className="status-badge" style={{ background: '#f1f5f9', color: "inherit" }}>{tournament.status}</span>
                                             </div>
-                                            <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#1e1b4b', marginBottom: '8px' }}>{tournament.name}</h3>
-                                            <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px' }}>{tournament.level} • {tournament.format}</p>
+                                            <h3 style={{ fontSize: '20px', fontWeight: 700, color: "inherit", marginBottom: '8px' }}>{tournament.name}</h3>
+                                            <p style={{ color: "inherit", fontSize: '14px', marginBottom: '20px' }}>{tournament.level} • {tournament.format}</p>
 
-                                            <Link href={`/tournaments/${tournament.id}`} style={{ display: 'block', textAlign: 'center', padding: '12px', background: '#f1f5f9', borderRadius: '10px', color: '#4f46e5', fontWeight: 600, textDecoration: 'none' }}>
+                                            <Link href={`/tournaments/${tournament.id}`} style={{ display: 'block', textAlign: 'center', padding: '12px', background: '#f1f5f9', borderRadius: '10px', color: "inherit", fontWeight: 600, textDecoration: 'none' }}>
                                                 View Details
                                             </Link>
                                         </div>
@@ -174,24 +174,24 @@ export default function ExplorePage() {
                         {activeTab === 'FIXTURES' && (
                             <div style={{ background: 'white', padding: '48px', borderRadius: '16px', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
                                 <div style={{ fontSize: '40px', marginBottom: '16px' }}>📅</div>
-                                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1e1b4b' }}>Upcoming Fixtures List</h3>
-                                <p style={{ color: '#64748b', marginTop: '8px' }}>All upcoming matches across select sports will appear here.</p>
+                                <h3 style={{ fontSize: '18px', fontWeight: 600, color: "inherit" }}>Upcoming Fixtures List</h3>
+                                <p style={{ color: "inherit", marginTop: '8px' }}>All upcoming matches across select sports will appear here.</p>
                             </div>
                         )}
 
                         {activeTab === 'AUCTIONS' && (
                             <div style={{ background: 'white', padding: '48px', borderRadius: '16px', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
                                 <div style={{ fontSize: '40px', marginBottom: '16px' }}>🔨</div>
-                                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1e1b4b' }}>Public Auction Hub</h3>
-                                <p style={{ color: '#64748b', marginTop: '8px' }}>Watch live bidding wars and see top-sold players across tournaments.</p>
+                                <h3 style={{ fontSize: '18px', fontWeight: 600, color: "inherit" }}>Public Auction Hub</h3>
+                                <p style={{ color: "inherit", marginTop: '8px' }}>Watch live bidding wars and see top-sold players across tournaments.</p>
                             </div>
                         )}
 
                         {activeTab === 'PLAYERS' && (
                             <div style={{ background: 'white', padding: '48px', borderRadius: '16px', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
                                 <div style={{ fontSize: '40px', marginBottom: '16px' }}>⭐</div>
-                                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1e1b4b' }}>Global Player Statistics</h3>
-                                <p style={{ color: '#64748b', marginTop: '8px' }}>Search and explore career stats for every verified player on the platform.</p>
+                                <h3 style={{ fontSize: '18px', fontWeight: 600, color: "inherit" }}>Global Player Statistics</h3>
+                                <p style={{ color: "inherit", marginTop: '8px' }}>Search and explore career stats for every verified player on the platform.</p>
                             </div>
                         )}
                     </div>

@@ -16,9 +16,9 @@ const DOC_TYPES = [
 ];
 
 const STATUS_CONFIG: Record<string, { color: string; bg: string; icon: string }> = {
-    PENDING: { color: '#f59e0b', bg: '#fffbeb', icon: '⏳' },
-    APPROVED: { color: '#22c55e', bg: '#ecfdf5', icon: '✅' },
-    REJECTED: { color: '#ef4444', bg: '#fef2f2', icon: '❌' },
+    PENDING: { color: "inherit", bg: '#fffbeb', icon: '⏳' },
+    APPROVED: { color: "inherit", bg: '#ecfdf5', icon: '✅' },
+    REJECTED: { color: "inherit", bg: '#fef2f2', icon: '❌' },
 };
 
 export default function DocumentsPage() {
@@ -62,15 +62,15 @@ export default function DocumentsPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #ede9fe 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#6d28d9', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#6d28d9', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
+                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
                     <div>
-                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#4c1d95', marginBottom: '8px' }}>📄 Documents</h1>
-                        <p style={{ color: '#6d28d9', fontSize: '16px' }}>Paperless document management & verification queue</p>
+                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>📄 Documents</h1>
+                        <p style={{ color: "inherit", fontSize: '16px' }}>Paperless document management & verification queue</p>
                     </div>
                     <button onClick={() => setShowUpload(!showUpload)}
                         style={{ padding: '12px 24px', borderRadius: '12px', border: 'none', background: '#6d28d9', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '14px' }}>
@@ -80,7 +80,7 @@ export default function DocumentsPage() {
 
                 {showUpload && (
                     <div style={{ background: '#fff', borderRadius: '16px', padding: '28px', marginBottom: '24px', boxShadow: '0 4px 24px rgba(109,40,217,0.1)', border: '1px solid #ede9fe' }}>
-                        <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#4c1d95', marginBottom: '16px' }}>Upload New Document</h3>
+                        <h3 style={{ fontSize: '18px', fontWeight: 800, color: "inherit", marginBottom: '16px' }}>Upload New Document</h3>
                         <div style={{ display: 'grid', gap: '14px' }}>
                             <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}
                                 style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #ede9fe', fontSize: '14px', fontWeight: 600 }}>
@@ -91,7 +91,7 @@ export default function DocumentsPage() {
                             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Description (optional)..."
                                 style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #ede9fe', fontSize: '14px', minHeight: '80px', resize: 'vertical' }} />
                             <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                                <button onClick={() => setShowUpload(false)} style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid #d8b4fe', background: 'transparent', color: '#6d28d9', fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+                                <button onClick={() => setShowUpload(false)} style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid #d8b4fe', background: 'transparent', color: "inherit", fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
                                 <button onClick={handleUpload} style={{ padding: '10px 20px', borderRadius: '10px', border: 'none', background: '#6d28d9', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>Submit</button>
                             </div>
                         </div>
@@ -115,14 +115,14 @@ export default function DocumentsPage() {
                 </div>
 
                 {loading ? (
-                    <div style={{ textAlign: 'center', padding: '60px', color: '#6d28d9' }}>
+                    <div style={{ textAlign: 'center', padding: '60px', color: "inherit" }}>
                         <div style={{ fontSize: '36px', marginBottom: '12px' }}>⏳</div>Loading documents...
                     </div>
                 ) : documents.length === 0 ? (
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '60px', textAlign: 'center', boxShadow: '0 4px 24px rgba(109,40,217,0.08)' }}>
                         <div style={{ fontSize: '56px', marginBottom: '16px' }}>📄</div>
-                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#4c1d95', marginBottom: '8px' }}>No Documents</div>
-                        <div style={{ color: '#6d28d9', fontSize: '14px' }}>Upload documents for verification and approval</div>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: "inherit", marginBottom: '8px' }}>No Documents</div>
+                        <div style={{ color: "inherit", fontSize: '14px' }}>Upload documents for verification and approval</div>
                     </div>
                 ) : (
                     <div style={{ display: 'grid', gap: '12px' }}>
@@ -133,16 +133,16 @@ export default function DocumentsPage() {
                                 <div key={doc.id} style={{ background: '#fff', borderRadius: '14px', padding: '20px', boxShadow: '0 2px 12px rgba(109,40,217,0.06)', border: '1px solid #f5f3ff', display: 'flex', alignItems: 'center', gap: '16px' }}>
                                     <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #7c3aed, #6d28d9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>📄</div>
                                     <div style={{ flex: 1, minWidth: 0 }}>
-                                        <div style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b', marginBottom: '2px' }}>{doc.title}</div>
-                                        <div style={{ fontSize: '12px', color: '#7c7c9a' }}>{docType?.label || doc.type} • {new Date(doc.createdAt).toLocaleDateString()}</div>
-                                        {doc.description && <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>{doc.description}</div>}
+                                        <div style={{ fontWeight: 700, fontSize: '15px', color: "inherit", marginBottom: '2px' }}>{doc.title}</div>
+                                        <div style={{ fontSize: '12px', color: "inherit" }}>{docType?.label || doc.type} • {new Date(doc.createdAt).toLocaleDateString()}</div>
+                                        {doc.description && <div style={{ fontSize: '12px', color: "inherit", marginTop: '4px' }}>{doc.description}</div>}
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                         <span style={{ padding: '5px 12px', borderRadius: '8px', background: config.bg, color: config.color, fontSize: '11px', fontWeight: 700 }}>{config.icon} {doc.status}</span>
                                         {doc.status === 'PENDING' && (
                                             <>
                                                 <button onClick={() => handleAction(doc.id, 'approve')} style={{ padding: '6px 12px', borderRadius: '8px', border: 'none', background: '#22c55e', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '11px' }}>✅</button>
-                                                <button onClick={() => handleAction(doc.id, 'reject')} style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid #ef4444', background: 'transparent', color: '#ef4444', fontWeight: 700, cursor: 'pointer', fontSize: '11px' }}>❌</button>
+                                                <button onClick={() => handleAction(doc.id, 'reject')} style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid #ef4444', background: 'transparent', color: "inherit", fontWeight: 700, cursor: 'pointer', fontSize: '11px' }}>❌</button>
                                             </>
                                         )}
                                     </div>
