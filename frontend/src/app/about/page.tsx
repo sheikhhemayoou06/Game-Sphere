@@ -38,7 +38,7 @@ export default function AboutPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
+                    <span style={{ fontSize: '28px' }}>🌐</span>
                     <Link href="/" style={{ textDecoration: 'none' }}>
                         <span style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px' }}>
                             <span className="gradient-text">Game Sphere</span>
@@ -138,7 +138,7 @@ export default function AboutPage() {
                 </p>
                 <Link href="/register" className="btn-primary" style={{
                     padding: '18px 44px', fontSize: '17px', borderRadius: '14px',
-                    background: 'white', color: "inherit", fontWeight: 700, textDecoration: 'none'
+                    background: 'white', color: '#4338ca', fontWeight: 700, textDecoration: 'none'
                 }}>
                     🎯 Get Started for Free
                 </Link>
@@ -152,9 +152,9 @@ export default function AboutPage() {
                 textAlign: 'center',
                 fontSize: '14px',
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "60px", height: "auto", objectFit: "contain" }} />
-                    <span className="gradient-text" style={{ fontSize: '20px', fontWeight: 700 }}>Game Sphere</span>
+                <div style={{ marginBottom: '8px' }}>
+                    <span style={{ fontSize: '20px' }}>🌐</span>{' '}
+                    <span style={{ fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>Game Sphere</span>
                 </div>
                 <p>Powering Every Game. Everywhere. — India&apos;s National Sports Digital Infrastructure Platform</p>
                 <p style={{ marginTop: '8px', fontSize: '12px' }}>© 2026 Game Sphere. All rights reserved.</p>

@@ -35,22 +35,22 @@ export default function CalendarPage() {
 
     // Demo events on specific days — each tagged with sport
     const allEvents: Record<number, { type: string; title: string; color: string; sport: string }[]> = {
-        3: [{ type: 'match', title: 'Cricket Semi-Final', color: "inherit", sport: 'Cricket' }],
-        5: [{ type: 'match', title: 'Football League Match', color: "inherit", sport: 'Football' }],
-        7: [{ type: 'tournament', title: 'District Football Cup', color: "inherit", sport: 'Football' }],
-        8: [{ type: 'training', title: 'Cricket Net Practice', color: "inherit", sport: 'Cricket' }],
-        10: [{ type: 'match', title: 'Kabaddi Quarter-Final', color: "inherit", sport: 'Kabaddi' }],
-        12: [{ type: 'match', title: 'Basketball Pool Stage', color: "inherit", sport: 'Basketball' }],
-        14: [{ type: 'deadline', title: 'Cricket Registration Closes', color: "inherit", sport: 'Cricket' }, { type: 'deadline', title: 'Football Registration Closes', color: "inherit", sport: 'Football' }],
-        16: [{ type: 'training', title: 'Football Training Camp', color: "inherit", sport: 'Football' }],
-        18: [{ type: 'match', title: 'Basketball Finals', color: "inherit", sport: 'Basketball' }, { type: 'training', title: 'Cricket Team Practice', color: "inherit", sport: 'Cricket' }],
-        20: [{ type: 'match', title: 'Hockey Quarter-Final', color: "inherit", sport: 'Hockey' }],
-        21: [{ type: 'tournament', title: 'State Athletics Meet', color: "inherit", sport: 'Athletics' }],
-        22: [{ type: 'match', title: 'Cricket T20 Final', color: "inherit", sport: 'Cricket' }],
-        24: [{ type: 'tournament', title: 'Tennis Open', color: "inherit", sport: 'Tennis' }],
-        25: [{ type: 'match', title: 'Hockey League Day 1', color: "inherit", sport: 'Hockey' }],
-        27: [{ type: 'match', title: 'Badminton Doubles Final', color: "inherit", sport: 'Badminton' }],
-        28: [{ type: 'ceremony', title: 'Cricket Award Ceremony', color: "inherit", sport: 'Cricket' }, { type: 'ceremony', title: 'Football Award Night', color: "inherit", sport: 'Football' }],
+        3: [{ type: 'match', title: 'Cricket Semi-Final', color: '#22c55e', sport: 'Cricket' }],
+        5: [{ type: 'match', title: 'Football League Match', color: '#22c55e', sport: 'Football' }],
+        7: [{ type: 'tournament', title: 'District Football Cup', color: '#6366f1', sport: 'Football' }],
+        8: [{ type: 'training', title: 'Cricket Net Practice', color: '#f59e0b', sport: 'Cricket' }],
+        10: [{ type: 'match', title: 'Kabaddi Quarter-Final', color: '#22c55e', sport: 'Kabaddi' }],
+        12: [{ type: 'match', title: 'Basketball Pool Stage', color: '#22c55e', sport: 'Basketball' }],
+        14: [{ type: 'deadline', title: 'Cricket Registration Closes', color: '#ef4444', sport: 'Cricket' }, { type: 'deadline', title: 'Football Registration Closes', color: '#ef4444', sport: 'Football' }],
+        16: [{ type: 'training', title: 'Football Training Camp', color: '#f59e0b', sport: 'Football' }],
+        18: [{ type: 'match', title: 'Basketball Finals', color: '#22c55e', sport: 'Basketball' }, { type: 'training', title: 'Cricket Team Practice', color: '#f59e0b', sport: 'Cricket' }],
+        20: [{ type: 'match', title: 'Hockey Quarter-Final', color: '#22c55e', sport: 'Hockey' }],
+        21: [{ type: 'tournament', title: 'State Athletics Meet', color: '#6366f1', sport: 'Athletics' }],
+        22: [{ type: 'match', title: 'Cricket T20 Final', color: '#22c55e', sport: 'Cricket' }],
+        24: [{ type: 'tournament', title: 'Tennis Open', color: '#6366f1', sport: 'Tennis' }],
+        25: [{ type: 'match', title: 'Hockey League Day 1', color: '#22c55e', sport: 'Hockey' }],
+        27: [{ type: 'match', title: 'Badminton Doubles Final', color: '#22c55e', sport: 'Badminton' }],
+        28: [{ type: 'ceremony', title: 'Cricket Award Ceremony', color: '#ec4899', sport: 'Cricket' }, { type: 'ceremony', title: 'Football Award Night', color: '#ec4899', sport: 'Football' }],
     };
 
     // Filter events by selected sport
@@ -73,28 +73,28 @@ export default function CalendarPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
-                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#1e40af', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/dashboard" style={{ color: '#1e40af', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Calendar` : 'Calendar'}</h1>
-                <p style={{ color: "inherit", fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} match schedules, tournament dates, and events` : 'Match schedules, tournament dates, and event timeline'}</p>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#1e3a8a', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Calendar` : 'Calendar'}</h1>
+                <p style={{ color: '#1e40af', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} match schedules, tournament dates, and events` : 'Match schedules, tournament dates, and event timeline'}</p>
 
                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
                     {/* Calendar grid */}
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '24px', boxShadow: '0 4px 24px rgba(30,64,175,0.06)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <button onClick={prevMonth} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #bfdbfe', background: '#fff', cursor: 'pointer', fontWeight: 700, fontSize: '16px', color: "inherit" }}>←</button>
-                            <h2 style={{ fontSize: '20px', fontWeight: 900, color: "inherit" }}>{monthNames[currentMonth]} {currentYear}</h2>
-                            <button onClick={nextMonth} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #bfdbfe', background: '#fff', cursor: 'pointer', fontWeight: 700, fontSize: '16px', color: "inherit" }}>→</button>
+                            <button onClick={prevMonth} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #bfdbfe', background: '#fff', cursor: 'pointer', fontWeight: 700, fontSize: '16px', color: '#1e40af' }}>←</button>
+                            <h2 style={{ fontSize: '20px', fontWeight: 900, color: '#1e3a8a' }}>{monthNames[currentMonth]} {currentYear}</h2>
+                            <button onClick={nextMonth} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #bfdbfe', background: '#fff', cursor: 'pointer', fontWeight: 700, fontSize: '16px', color: '#1e40af' }}>→</button>
                         </div>
 
                         {/* ─── DESKTOP VIEW: 7-Day Grid ─── */}
                         <div className="hide-mobile" style={{ overflowX: 'auto', paddingBottom: '8px' }}>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', minWidth: '700px' }}>
                                 {dayNames.map(d => (
-                                    <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: 700, color: "inherit", padding: '8px 0' }}>{d}</div>
+                                    <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: 700, color: '#64748b', padding: '8px 0' }}>{d}</div>
                                 ))}
                                 {calendarDays.map((day, i) => (
                                     <div key={i} style={{
@@ -128,21 +128,21 @@ export default function CalendarPage() {
                                             <div key={day} style={{ display: 'flex', gap: '16px', borderBottom: '1px solid #f1f5f9', paddingBottom: '12px' }}>
                                                 {/* Date Block */}
                                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '50px' }}>
-                                                    <div style={{ fontSize: '10px', fontWeight: 700, color: "inherit", textTransform: 'uppercase' }}>
+                                                    <div style={{ fontSize: '10px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
                                                         {monthNames[currentMonth].substring(0, 3)}
                                                     </div>
                                                     <div style={{ fontSize: '24px', fontWeight: 900, color: isToday(day) ? '#3b82f6' : '#1e293b', lineHeight: '1' }}>
                                                         {day}
                                                     </div>
-                                                    {isToday(day) && <div style={{ fontSize: '9px', color: "inherit", fontWeight: 700, marginTop: '2px' }}>TODAY</div>}
+                                                    {isToday(day) && <div style={{ fontSize: '9px', color: '#3b82f6', fontWeight: 700, marginTop: '2px' }}>TODAY</div>}
                                                 </div>
 
                                                 {/* Events List for this Day */}
                                                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                                     {evts.map((e, idx) => (
                                                         <div key={idx} style={{ padding: '10px 12px', borderRadius: '8px', background: `${e.color}10`, borderLeft: `4px solid ${e.color}` }}>
-                                                            <div style={{ fontSize: '14px', fontWeight: 700, color: "inherit" }}>{e.title}</div>
-                                                            <div style={{ fontSize: '11px', color: "inherit", marginTop: '4px', textTransform: 'capitalize' }}>
+                                                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e293b' }}>{e.title}</div>
+                                                            <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px', textTransform: 'capitalize' }}>
                                                                 <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: e.color, marginRight: '6px' }}></span>
                                                                 {e.type} • {e.sport}
                                                             </div>
@@ -154,7 +154,7 @@ export default function CalendarPage() {
                                     })}
                                 </div>
                             ) : (
-                                <div style={{ padding: '32px', textAlign: 'center', color: "inherit", fontSize: '14px', background: '#f8fafc', borderRadius: '12px' }}>
+                                <div style={{ padding: '32px', textAlign: 'center', color: '#94a3b8', fontSize: '14px', background: '#f8fafc', borderRadius: '12px' }}>
                                     No events scheduled for this month.
                                 </div>
                             )}
@@ -163,12 +163,12 @@ export default function CalendarPage() {
 
                     {/* Upcoming events sidebar */}
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '24px', boxShadow: '0 4px 24px rgba(30,64,175,0.06)' }}>
-                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: "inherit", marginBottom: '16px' }}>📋 Upcoming Events</h3>
+                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#1e3a8a', marginBottom: '16px' }}>📋 Upcoming Events</h3>
                         <div style={{ display: 'grid', gap: '10px' }}>
                             {upcomingEvents.map((ev, i) => (
                                 <div key={i} style={{ padding: '12px', borderRadius: '10px', background: '#f8fafc', borderLeft: `3px solid ${ev.color}` }}>
-                                    <div style={{ fontWeight: 700, fontSize: '13px', color: "inherit", marginBottom: '2px' }}>{ev.title}</div>
-                                    <div style={{ fontSize: '11px', color: "inherit" }}>{ev.date}</div>
+                                    <div style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b', marginBottom: '2px' }}>{ev.title}</div>
+                                    <div style={{ fontSize: '11px', color: '#64748b' }}>{ev.date}</div>
                                     <span style={{ display: 'inline-block', marginTop: '4px', padding: '2px 6px', borderRadius: '4px', fontSize: '10px', fontWeight: 600, background: `${ev.color}15`, color: ev.color, textTransform: 'capitalize' }}>{ev.type}</span>
                                 </div>
                             ))}

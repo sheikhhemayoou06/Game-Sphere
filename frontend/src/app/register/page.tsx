@@ -23,11 +23,6 @@ export default function RegisterPage() {
         setError('');
         setLoading(true);
         try {
-            // Force wipe any leftover local storage from previous test accounts
-            localStorage.removeItem('selectedSportId');
-            localStorage.removeItem('mySportIds');
-            localStorage.removeItem('activeTournament');
-
             const res = await api.register(form);
             setAuth(res.user, res.accessToken);
             router.push('/dashboard');
@@ -52,11 +47,11 @@ export default function RegisterPage() {
                 boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                    <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
-                    <h1 style={{ fontSize: '28px', fontWeight: 800, marginTop: '12px', color: "inherit", letterSpacing: '-0.5px' }}>
+                    <span style={{ fontSize: '40px' }}>🌐</span>
+                    <h1 style={{ fontSize: '28px', fontWeight: 800, marginTop: '12px', color: '#1e1b4b', letterSpacing: '-0.5px' }}>
                         Join Game Sphere
                     </h1>
-                    <p style={{ color: "inherit", fontSize: '14px', marginTop: '6px' }}>
+                    <p style={{ color: '#64748b', fontSize: '14px', marginTop: '6px' }}>
                         Create your Universal Sports Identity
                     </p>
                 </div>
@@ -64,7 +59,7 @@ export default function RegisterPage() {
                 {error && (
                     <div style={{
                         padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
-                        background: '#fef2f2', color: "inherit", fontSize: '14px', fontWeight: 500,
+                        background: '#fef2f2', color: '#dc2626', fontSize: '14px', fontWeight: 500,
                         border: '1px solid #fecaca',
                     }}>
                         {error}
@@ -75,9 +70,9 @@ export default function RegisterPage() {
                 <div style={{ padding: '12px 16px', borderRadius: '12px', background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <span style={{ fontSize: '20px' }}>📱</span>
                     <div>
-                        <div style={{ fontSize: '13px', fontWeight: 700, color: "inherit" }}>Just here to follow the action?</div>
-                        <div style={{ fontSize: '12px', color: "inherit", marginTop: '2px' }}>
-                            Fans don't need to register. <Link href="/login" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>Use Phone Login →</Link>
+                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b' }}>Just here to follow the action?</div>
+                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>
+                            Fans don't need to register. <Link href="/login" style={{ color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>Use Phone Login →</Link>
                         </div>
                     </div>
                 </div>
@@ -85,28 +80,28 @@ export default function RegisterPage() {
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
                                 First Name
                             </label>
-                            <input type="text" value={form.firstName} onChange={(e) => update('firstName', e.target.value)} className="input-field" placeholder="John" required style={{ color: "inherit" }} />
+                            <input type="text" value={form.firstName} onChange={(e) => update('firstName', e.target.value)} className="input-field" placeholder="John" required style={{ color: '#1e1b4b' }} />
                         </div>
                         <div>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>
+                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
                                 Last Name
                             </label>
-                            <input type="text" value={form.lastName} onChange={(e) => update('lastName', e.target.value)} className="input-field" placeholder="Doe" required style={{ color: "inherit" }} />
+                            <input type="text" value={form.lastName} onChange={(e) => update('lastName', e.target.value)} className="input-field" placeholder="Doe" required style={{ color: '#1e1b4b' }} />
                         </div>
                     </div>
                     <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Email</label>
-                        <input type="email" value={form.email} onChange={(e) => update('email', e.target.value)} className="input-field" placeholder="you@example.com" required style={{ color: "inherit" }} />
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Email</label>
+                        <input type="email" value={form.email} onChange={(e) => update('email', e.target.value)} className="input-field" placeholder="you@example.com" required style={{ color: '#1e1b4b' }} />
                     </div>
                     <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Password</label>
-                        <input type="password" value={form.password} onChange={(e) => update('password', e.target.value)} className="input-field" placeholder="Min 6 characters" required style={{ color: "inherit" }} />
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Password</label>
+                        <input type="password" value={form.password} onChange={(e) => update('password', e.target.value)} className="input-field" placeholder="Min 6 characters" required style={{ color: '#1e1b4b' }} />
                     </div>
                     <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>Role</label>
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Role</label>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                             {roles.map((r) => (
                                 <button type="button" key={r} onClick={() => update('role', r)} style={{
@@ -129,9 +124,9 @@ export default function RegisterPage() {
                     </button>
                 </form>
 
-                <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '14px', color: "inherit" }}>
+                <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '14px', color: '#64748b' }}>
                     Already have an account?{' '}
-                    <Link href="/login" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>
+                    <Link href="/login" style={{ color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>
                         Sign In
                     </Link>
                 </p>

@@ -53,16 +53,16 @@ export default function FinancialPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
-                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '8px' }}>💰 Financial Dashboard</h1>
-                <p style={{ color: "inherit", fontSize: '16px', marginBottom: '32px' }}>Revenue tracking, payments, and financial reporting</p>
+                <p style={{ color: '#a5b4fc', fontSize: '16px', marginBottom: '32px' }}>Revenue tracking, payments, and financial reporting</p>
 
                 {loading ? (
-                    <div style={{ textAlign: 'center', padding: '60px', color: "inherit" }}>⏳ Loading financial data...</div>
+                    <div style={{ textAlign: 'center', padding: '60px', color: '#a5b4fc' }}>⏳ Loading financial data...</div>
                 ) : (
                     <>
                         {/* Revenue cards */}
@@ -87,13 +87,13 @@ export default function FinancialPage() {
                             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px', height: '180px' }}>
                                 {monthlyData.map((d) => (
                                     <div key={d.month} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                                        <div style={{ fontSize: '11px', color: "inherit", fontWeight: 600 }}>₹{(d.amount / 1000).toFixed(0)}K</div>
+                                        <div style={{ fontSize: '11px', color: '#a5b4fc', fontWeight: 600 }}>₹{(d.amount / 1000).toFixed(0)}K</div>
                                         <div style={{
                                             width: '100%', borderRadius: '8px 8px 0 0', transition: 'height 0.5s',
                                             height: `${(d.amount / maxAmount) * 140}px`,
                                             background: d.month === 'Feb' ? 'linear-gradient(to top, #22c55e, #4ade80)' : 'linear-gradient(to top, #4338ca, #6366f1)',
                                         }} />
-                                        <div style={{ fontSize: '12px', color: "inherit", fontWeight: 600 }}>{d.month}</div>
+                                        <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600 }}>{d.month}</div>
                                     </div>
                                 ))}
                             </div>
@@ -107,8 +107,8 @@ export default function FinancialPage() {
                                     {filteredTxns.map((tx) => (
                                         <div key={tx.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)' }}>
                                             <div style={{ flex: 1, minWidth: 0 }}>
-                                                <div style={{ fontSize: '13px', fontWeight: 600, color: "inherit", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{tx.desc}</div>
-                                                <div style={{ fontSize: '11px', color: "inherit" }}>{tx.id} • {tx.date}</div>
+                                                <div style={{ fontSize: '13px', fontWeight: 600, color: '#e2e8f0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{tx.desc}</div>
+                                                <div style={{ fontSize: '11px', color: '#64748b' }}>{tx.id} • {tx.date}</div>
                                             </div>
                                             <div style={{ fontWeight: 800, fontSize: '14px', color: tx.amount > 0 ? '#4ade80' : '#f87171', flexShrink: 0, marginLeft: '12px' }}>
                                                 {tx.amount > 0 ? '+' : ''}₹{Math.abs(tx.amount).toLocaleString()}
@@ -122,13 +122,13 @@ export default function FinancialPage() {
                             <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '20px', padding: '24px', border: '1px solid rgba(255,255,255,0.08)' }}>
                                 <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '16px' }}>💳 Payment Breakdown</h2>
                                 {[
-                                    { label: 'Registration Fees', pct: 40, color: "inherit" },
-                                    { label: 'Tournament Fees', pct: 30, color: "inherit" },
-                                    { label: 'Sponsorships', pct: 20, color: "inherit" },
-                                    { label: 'Other Income', pct: 10, color: "inherit" },
+                                    { label: 'Registration Fees', pct: 40, color: '#6366f1' },
+                                    { label: 'Tournament Fees', pct: 30, color: '#f59e0b' },
+                                    { label: 'Sponsorships', pct: 20, color: '#22c55e' },
+                                    { label: 'Other Income', pct: 10, color: '#a78bfa' },
                                 ].map((item) => (
                                     <div key={item.label} style={{ marginBottom: '14px' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: "inherit", fontWeight: 600, marginBottom: '6px' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#e2e8f0', fontWeight: 600, marginBottom: '6px' }}>
                                             <span>{item.label}</span><span>{item.pct}%</span>
                                         </div>
                                         <div style={{ height: '8px', borderRadius: '4px', background: 'rgba(255,255,255,0.1)' }}>

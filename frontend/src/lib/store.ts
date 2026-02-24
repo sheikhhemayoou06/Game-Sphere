@@ -25,13 +25,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     setAuth: (user, token) => {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
-        // Clear cached sport data to prevent inheriting previous user's state
-        localStorage.removeItem('selectedSportId');
-        localStorage.removeItem('mySportIds');
-        localStorage.removeItem('activeTournament');
-        // Reset local sport store if it exists in the active window
-        useSportStore.getState().setAvailableSports([]);
-        useSportStore.setState({ selectedSport: null, mySportIds: [], activeTournament: null });
         set({ user, token, isAuthenticated: true });
     },
     logout: () => {

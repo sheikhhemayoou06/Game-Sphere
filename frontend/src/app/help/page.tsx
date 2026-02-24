@@ -17,12 +17,12 @@ const FAQ_ITEMS = [
 ];
 
 const GUIDES = [
-    { title: 'Getting Started Guide', desc: 'Set up your account, create your first tournament, and add teams', icon: '🚀', color: "inherit" },
-    { title: 'Tournament Management', desc: 'Configure formats, generate fixtures, manage matches and results', icon: '🏆', color: "inherit" },
-    { title: 'Player Registration', desc: 'Register players, assign USIs, and manage player profiles', icon: '👤', color: "inherit" },
-    { title: 'Financial Management', desc: 'Track revenue, manage payments, and generate financial reports', icon: '💰', color: "inherit" },
-    { title: 'Admin & Governance', desc: 'Set up hierarchical governance, roles, and permissions', icon: '🛡️', color: "inherit" },
-    { title: 'API Documentation', desc: 'RESTful API reference for third-party integrations', icon: '🔗', color: "inherit" },
+    { title: 'Getting Started Guide', desc: 'Set up your account, create your first tournament, and add teams', icon: '🚀', color: '#22c55e' },
+    { title: 'Tournament Management', desc: 'Configure formats, generate fixtures, manage matches and results', icon: '🏆', color: '#6366f1' },
+    { title: 'Player Registration', desc: 'Register players, assign USIs, and manage player profiles', icon: '👤', color: '#f59e0b' },
+    { title: 'Financial Management', desc: 'Track revenue, manage payments, and generate financial reports', icon: '💰', color: '#ec4899' },
+    { title: 'Admin & Governance', desc: 'Set up hierarchical governance, roles, and permissions', icon: '🛡️', color: '#8b5cf6' },
+    { title: 'API Documentation', desc: 'RESTful API reference for third-party integrations', icon: '🔗', color: '#14b8a6' },
 ];
 
 export default function HelpPage() {
@@ -38,14 +38,14 @@ export default function HelpPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fefce8 0%, #fef9c3 50%, #fef08a 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: "inherit", textDecoration: 'none' }}><div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src="/logo.png" alt="Logo" style={{ width: "80px", height: "auto", objectFit: "contain" }} /> <span className="gradient-text">Game Sphere</span></div></Link>
-                <Link href="/dashboard" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#854d0e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/dashboard" style={{ color: '#854d0e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 
             <div style={{ maxWidth: '800px', margin: '0 auto', padding: '32px 24px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                    <h1 style={{ fontSize: '36px', fontWeight: 900, color: "inherit", marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Help & Support` : 'Help & Support'}</h1>
-                    <p style={{ color: "inherit", fontSize: '16px', marginBottom: '20px' }}>{selectedSport ? `${sportLabel} help, guides, and support` : 'Find answers, explore guides, or reach out to our team'}</p>
+                    <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#713f12', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Help & Support` : 'Help & Support'}</h1>
+                    <p style={{ color: '#854d0e', fontSize: '16px', marginBottom: '20px' }}>{selectedSport ? `${sportLabel} help, guides, and support` : 'Find answers, explore guides, or reach out to our team'}</p>
                     <input value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 Search for help..."
                         style={{ width: '100%', maxWidth: '480px', padding: '14px 20px', borderRadius: '14px', border: '2px solid #fde68a', fontSize: '15px', boxSizing: 'border-box' }} />
                 </div>
@@ -66,11 +66,11 @@ export default function HelpPage() {
                             <div key={i} style={{ background: '#fff', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 2px 12px rgba(133,77,14,0.06)' }}>
                                 <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
                                     style={{ width: '100%', padding: '18px 20px', border: 'none', background: 'transparent', textAlign: 'left', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span style={{ fontWeight: 700, fontSize: '15px', color: "inherit" }}>{item.q}</span>
-                                    <span style={{ fontSize: '18px', color: "inherit", transition: 'transform 0.2s', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0)' }}>▼</span>
+                                    <span style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b' }}>{item.q}</span>
+                                    <span style={{ fontSize: '18px', color: '#854d0e', transition: 'transform 0.2s', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0)' }}>▼</span>
                                 </button>
                                 {openFaq === i && (
-                                    <div style={{ padding: '0 20px 18px', fontSize: '14px', color: "inherit", lineHeight: 1.6, borderTop: '1px solid #fef3c7' }}>
+                                    <div style={{ padding: '0 20px 18px', fontSize: '14px', color: '#475569', lineHeight: 1.6, borderTop: '1px solid #fef3c7' }}>
                                         <div style={{ paddingTop: '14px' }}>{item.a}</div>
                                     </div>
                                 )}
@@ -84,8 +84,8 @@ export default function HelpPage() {
                         {GUIDES.map((g, i) => (
                             <div key={i} style={{ background: '#fff', borderRadius: '16px', padding: '22px', boxShadow: '0 2px 12px rgba(133,77,14,0.06)', cursor: 'pointer', transition: 'transform 0.2s', borderLeft: `4px solid ${g.color}` }}>
                                 <div style={{ fontSize: '28px', marginBottom: '10px' }}>{g.icon}</div>
-                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: "inherit", marginBottom: '4px' }}>{g.title}</h3>
-                                <p style={{ fontSize: '13px', color: "inherit", lineHeight: 1.5 }}>{g.desc}</p>
+                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#1e1b4b', marginBottom: '4px' }}>{g.title}</h3>
+                                <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5 }}>{g.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -93,19 +93,19 @@ export default function HelpPage() {
 
                 {tab === 'contact' && (
                     <div style={{ background: '#fff', borderRadius: '20px', padding: '32px', boxShadow: '0 4px 24px rgba(133,77,14,0.08)' }}>
-                        <h2 style={{ fontSize: '20px', fontWeight: 800, color: "inherit", marginBottom: '20px' }}>📧 Get in Touch</h2>
+                        <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#713f12', marginBottom: '20px' }}>📧 Get in Touch</h2>
                         <div style={{ display: 'grid', gap: '14px', marginBottom: '24px' }}>
                             {[
                                 { label: 'Name', placeholder: 'Your full name' },
                                 { label: 'Email', placeholder: 'your@email.com' },
                             ].map(f => (
                                 <div key={f.label}>
-                                    <label style={{ fontSize: '13px', fontWeight: 600, color: "inherit", display: 'block', marginBottom: '6px' }}>{f.label}</label>
+                                    <label style={{ fontSize: '13px', fontWeight: 600, color: '#713f12', display: 'block', marginBottom: '6px' }}>{f.label}</label>
                                     <input placeholder={f.placeholder} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #fde68a', fontSize: '14px', boxSizing: 'border-box' }} />
                                 </div>
                             ))}
                             <div>
-                                <label style={{ fontSize: '13px', fontWeight: 600, color: "inherit", display: 'block', marginBottom: '6px' }}>Category</label>
+                                <label style={{ fontSize: '13px', fontWeight: 600, color: '#713f12', display: 'block', marginBottom: '6px' }}>Category</label>
                                 <select style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #fde68a', fontSize: '14px', fontWeight: 600 }}>
                                     <option>General Inquiry</option>
                                     <option>Bug Report</option>
@@ -115,7 +115,7 @@ export default function HelpPage() {
                                 </select>
                             </div>
                             <div>
-                                <label style={{ fontSize: '13px', fontWeight: 600, color: "inherit", display: 'block', marginBottom: '6px' }}>Message</label>
+                                <label style={{ fontSize: '13px', fontWeight: 600, color: '#713f12', display: 'block', marginBottom: '6px' }}>Message</label>
                                 <textarea placeholder="Describe your issue or question..." style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #fde68a', fontSize: '14px', minHeight: '120px', resize: 'vertical', boxSizing: 'border-box' }} />
                             </div>
                         </div>
@@ -129,8 +129,8 @@ export default function HelpPage() {
                             ].map(c => (
                                 <div key={c.label} style={{ textAlign: 'center' }}>
                                     <div style={{ fontSize: '24px', marginBottom: '6px' }}>{c.icon}</div>
-                                    <div style={{ fontWeight: 700, fontSize: '12px', color: "inherit" }}>{c.label}</div>
-                                    <div style={{ fontSize: '12px', color: "inherit" }}>{c.value}</div>
+                                    <div style={{ fontWeight: 700, fontSize: '12px', color: '#713f12' }}>{c.label}</div>
+                                    <div style={{ fontSize: '12px', color: '#64748b' }}>{c.value}</div>
                                 </div>
                             ))}
                         </div>

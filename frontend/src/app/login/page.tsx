@@ -30,22 +30,20 @@ export default function LoginPage() {
                 const res = await api.login({ email, password });
                 setAuth(res.user, res.accessToken);
                 router.push('/dashboard');
-                // Don't set loading to false here, keep it spinning while navigating
             } else {
                 if (!isOtpSent) {
                     await api.sendOtp({ phone });
                     setIsOtpSent(true);
                     setMessage(`OTP sent to ${phone}. Enter to continue.`);
-                    setLoading(false);
                 } else {
                     const res = await api.verifyOtp({ phone, otp });
                     setAuth(res.user, res.accessToken);
                     router.push('/dashboard');
-                    // Don't set loading to false here, keep it spinning while navigating
                 }
             }
         } catch (err: any) {
             setError(err.message || 'Login failed');
+        } finally {
             setLoading(false);
         }
     };
@@ -62,11 +60,11 @@ export default function LoginPage() {
                 boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-                    <img src="/logo.png" alt="Game Sphere Logo" style={{ width: "100px", height: "auto", objectFit: "contain" }} />
-                    <h1 style={{ fontSize: '28px', fontWeight: 800, marginTop: '12px', color: "inherit", letterSpacing: '-0.5px' }}>
+                    <span style={{ fontSize: '40px' }}>🌐</span>
+                    <h1 style={{ fontSize: '28px', fontWeight: 800, marginTop: '12px', color: '#1e1b4b', letterSpacing: '-0.5px' }}>
                         Welcome Back
                     </h1>
-                    <p style={{ color: "inherit", fontSize: '14px', marginTop: '6px' }}>
+                    <p style={{ color: '#64748b', fontSize: '14px', marginTop: '6px' }}>
                         Sign in to Game Sphere
                     </p>
                 </div>
@@ -74,7 +72,7 @@ export default function LoginPage() {
                 {error && (
                     <div style={{
                         padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
-                        background: '#fef2f2', color: "inherit", fontSize: '14px', fontWeight: 500,
+                        background: '#fef2f2', color: '#dc2626', fontSize: '14px', fontWeight: 500,
                         border: '1px solid #fecaca',
                     }}>
                         {error}
@@ -83,7 +81,7 @@ export default function LoginPage() {
                 {message && (
                     <div style={{
                         padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
-                        background: '#f0fdf4', color: "inherit", fontSize: '14px', fontWeight: 500,
+                        background: '#f0fdf4', color: '#16a34a', fontSize: '14px', fontWeight: 500,
                         border: '1px solid #bbf7d0',
                     }}>
                         {message}
@@ -107,36 +105,36 @@ export default function LoginPage() {
                     {loginMethod === 'email' ? (
                         <>
                             <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
                                     Email
                                 </label>
                                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                                    className="input-field" placeholder="you@example.com" required style={{ color: "inherit" }} />
+                                    className="input-field" placeholder="you@example.com" required style={{ color: '#1e1b4b' }} />
                             </div>
                             <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
                                     Password
                                 </label>
                                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                                    className="input-field" placeholder="••••••••" required style={{ color: "inherit" }} />
+                                    className="input-field" placeholder="••••••••" required style={{ color: '#1e1b4b' }} />
                             </div>
                         </>
                     ) : (
                         <>
                             <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
                                     Phone Number
                                 </label>
                                 <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={isOtpSent}
-                                    className="input-field" placeholder="+91 98765 43210" required style={{ color: "inherit" }} />
+                                    className="input-field" placeholder="+91 98765 43210" required style={{ color: '#1e1b4b' }} />
                             </div>
                             {isOtpSent && (
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: "inherit" }}>
+                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
                                         Enter 6-digit OTP
                                     </label>
                                     <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)}
-                                        className="input-field" placeholder="123456" required style={{ color: "inherit", letterSpacing: '4px', textAlign: 'center', fontSize: '20px', fontWeight: 700 }} maxLength={6} />
+                                        className="input-field" placeholder="123456" required style={{ color: '#1e1b4b', letterSpacing: '4px', textAlign: 'center', fontSize: '20px', fontWeight: 700 }} maxLength={6} />
                                 </div>
                             )}
                         </>
@@ -151,16 +149,16 @@ export default function LoginPage() {
 
                     {loginMethod === 'phone' && isOtpSent && (
                         <button type="button" onClick={() => { setIsOtpSent(false); setOtp(''); setMessage(''); setError(''); }} style={{
-                            background: 'none', border: 'none', color: "inherit", fontSize: '12px', fontWeight: 600, cursor: 'pointer', marginTop: '-4px'
+                            background: 'none', border: 'none', color: '#6366f1', fontSize: '12px', fontWeight: 600, cursor: 'pointer', marginTop: '-4px'
                         }}>
                             ← Change Phone Number
                         </button>
                     )}
                 </form>
 
-                <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: "inherit" }}>
+                <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#64748b' }}>
                     Don&apos;t have an account?{' '}
-                    <Link href="/register" style={{ color: "inherit", fontWeight: 600, textDecoration: 'none' }}>
+                    <Link href="/register" style={{ color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>
                         Register
                     </Link>
                 </p>
