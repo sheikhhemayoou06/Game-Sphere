@@ -11,7 +11,7 @@ const roles = ['PLAYER', 'TEAM_MANAGER', 'ORGANIZER', 'OFFICIAL'];
 
 export default function RegisterPage() {
     const [form, setForm] = useState({
-        firstName: '', lastName: '', email: '', password: '', role: 'PLAYER', phone: '',
+        firstName: '', lastName: '', email: '', password: '', role: 'PLAYER'
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
