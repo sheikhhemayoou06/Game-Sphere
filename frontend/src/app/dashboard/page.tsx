@@ -432,6 +432,17 @@ export default function DashboardPage() {
             setSelectedSport(sp);
             setShowAddSport(false);
             setOnboardingSport(null);
+
+            // Refresh the user session in local storage to hydrate the newly added sport metadata
+            try {
+                const updatedUser = await api.getProfile();
+                const token = localStorage.getItem('token');
+                if (updatedUser && token) {
+                    useAuthStore.getState().setAuth(updatedUser, token);
+                }
+            } catch (authErr) {
+                console.error("Failed to refresh profile", authErr);
+            }
         } catch (err: any) {
             alert('Failed to add sport: ' + err.message);
         } finally {

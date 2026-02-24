@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuthStore, useSportStore } from '@/lib/store';
+import { api } from '@/lib/api';
 import { sportIcons } from '@/lib/utils';
 import { Fingerprint } from 'lucide-react';
 
@@ -101,6 +102,16 @@ export default function PlayerProfilePage() {
             setActiveTab('overview');
         }
     }, [selectedSportKey, activeTab]);
+
+    // Force hydrate the store so old sessions receive the latest playerSports metadata
+    useEffect(() => {
+        api.getProfile().then((updatedUser: any) => {
+            const token = localStorage.getItem('token');
+            if (updatedUser && token) {
+                useAuthStore.getState().setAuth(updatedUser, token);
+            }
+        }).catch(() => { });
+    }, []);
 
     // Sport filtering
     const filteredTournaments = selectedSport ? TOURNAMENT_BREAKDOWN.filter(t => t.sport === selectedSport.name) : TOURNAMENT_BREAKDOWN;
@@ -393,6 +404,7 @@ export default function PlayerProfilePage() {
                                             const meta = typeof m.metadata === 'string' ? JSON.parse(m.metadata) : m.metadata;
                                             if (meta.role) pos = meta.role;
                                             if (meta.Position) pos = meta.Position; // some sports might capitalize
+                                            if (meta.position) pos = meta.position; // football form metadata uses 'position'
                                             if (meta.jerseyNo) jno = meta.jerseyNo;
                                         }
                                     }
