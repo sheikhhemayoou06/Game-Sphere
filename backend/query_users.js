@@ -1,13 +1,17 @@
 require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+
+// Use DIRECT_URL since the pooler URL has an IPv6/resolution issue on this network
+const prisma = new PrismaClient({
+    datasources: { db: { url: process.env.DIRECT_URL } }
+});
 
 async function main() {
-    const users = await prisma.user.findMany({
-        orderBy: { createdAt: 'desc' },
-        take: 10
+    console.log('Connecting to:', process.env.DIRECT_URL.split('@')[1]);
+    const user = await prisma.user.findUnique({
+        where: { email: 'sheikhhemayoou06@gmail.com' }
     });
-    console.log(JSON.stringify(users, null, 2));
+    console.log('Found User:', user);
 }
 
 main().catch(console.error).finally(() => prisma.$disconnect());
