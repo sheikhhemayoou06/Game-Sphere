@@ -8,4 +8,4 @@ cmds = ["npm ci"]
 cmds = ["npx prisma generate", "npm run build"]
 
 [start]
-cmd = "npx prisma db push --accept-data-loss && node dist/main"
+cmd = "NODE_OPTIONS=\"--dns-result-order=ipv4first\" npx prisma db push --accept-data-loss && NODE_OPTIONS=\"--dns-result-order=ipv4first\" node dist/main"
