@@ -70,7 +70,7 @@ let AuthService = class AuthService {
                 firstName: dto.firstName,
                 lastName: dto.lastName,
                 role: dto.role || 'PLAYER',
-                phone: dto.phone,
+                phone: dto.phone || undefined,
             },
         });
         if (user.role === 'PLAYER') {

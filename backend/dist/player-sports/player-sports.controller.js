@@ -22,7 +22,7 @@ let PlayerSportsController = class PlayerSportsController {
         this.playerSportsService = playerSportsService;
     }
     registerForSport(playerId, body) {
-        return this.playerSportsService.registerForSport(playerId, body.sportId);
+        return this.playerSportsService.registerForSport(playerId, body.sportId, body.metadata);
     }
     getPlayerSports(playerId) {
         return this.playerSportsService.getPlayerSports(playerId);

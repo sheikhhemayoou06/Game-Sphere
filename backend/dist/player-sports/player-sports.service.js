@@ -28,9 +28,19 @@ let PlayerSportsService = class PlayerSportsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async registerForSport(playerId, sportId) {
+    async resolvePlayerId(id) {
+        const player = await this.prisma.player.findUnique({ where: { id } });
+        if (player)
+            return player.id;
+        const playerByUser = await this.prisma.player.findUnique({ where: { userId: id } });
+        if (playerByUser)
+            return playerByUser.id;
+        throw new common_1.NotFoundException('Player profile not found for the given ID');
+    }
+    async registerForSport(id, sportId, metadata) {
+        const actualPlayerId = await this.resolvePlayerId(id);
         const existing = await this.prisma.playerSport.findUnique({
-            where: { playerId_sportId: { playerId, sportId } },
+            where: { playerId_sportId: { playerId: actualPlayerId, sportId } },
         });
         if (existing) {
             throw new common_1.ConflictException('Player already registered for this sport');
@@ -43,14 +53,22 @@ let PlayerSportsService = class PlayerSportsService {
         const count = await this.prisma.playerSport.count({ where: { sportId } });
         const seq = String(count + 1).padStart(5, '0');
         const sportCode = `${prefix}-${year}-${seq}`;
+        const metadataStr = metadata ? JSON.stringify(metadata) : null;
         return this.prisma.playerSport.create({
-            data: { playerId, sportId, sportCode },
+            data: { playerId: actualPlayerId, sportId, sportCode, metadata: metadataStr },
             include: { sport: true },
         });
     }
-    async getPlayerSports(playerId) {
+    async getPlayerSports(id) {
+        let actualPlayerId = id;
+        try {
+            actualPlayerId = await this.resolvePlayerId(id);
+        }
+        catch {
+            return [];
+        }
         return this.prisma.playerSport.findMany({
-            where: { playerId },
+            where: { playerId: actualPlayerId },
             include: { sport: true },
             orderBy: { createdAt: 'desc' },
         });

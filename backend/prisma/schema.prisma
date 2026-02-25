@@ -80,6 +80,7 @@ model PlayerSport {
   playerId  String
   sportId   String
   sportCode String   @unique
+  metadata  String?  // Stores JSON string of sport-specific form answers
   createdAt DateTime @default(now())
 
   player    Player   @relation(fields: [playerId], references: [id])

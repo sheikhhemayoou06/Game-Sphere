@@ -10,9 +10,9 @@ export class PlayerSportsController {
     @Post(':playerId/sports')
     registerForSport(
         @Param('playerId') playerId: string,
-        @Body() body: { sportId: string },
+        @Body() body: { sportId: string; metadata?: any },
     ) {
-        return this.playerSportsService.registerForSport(playerId, body.sportId);
+        return this.playerSportsService.registerForSport(playerId, body.sportId, body.metadata);
     }
 
     @Get(':playerId/sports')

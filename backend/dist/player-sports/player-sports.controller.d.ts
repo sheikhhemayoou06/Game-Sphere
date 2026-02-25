@@ -4,6 +4,7 @@ export declare class PlayerSportsController {
     constructor(playerSportsService: PlayerSportsService);
     registerForSport(playerId: string, body: {
         sportId: string;
+        metadata?: any;
     }): Promise<{
         sport: {
             id: string;
@@ -26,6 +27,7 @@ export declare class PlayerSportsController {
         createdAt: Date;
         sportId: string;
         playerId: string;
+        metadata: string | null;
         sportCode: string;
     }>;
     getPlayerSports(playerId: string): Promise<({
@@ -50,6 +52,7 @@ export declare class PlayerSportsController {
         createdAt: Date;
         sportId: string;
         playerId: string;
+        metadata: string | null;
         sportCode: string;
     })[]>;
 }

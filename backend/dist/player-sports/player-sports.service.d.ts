@@ -2,7 +2,8 @@ import { PrismaService } from '../prisma/prisma.service';
 export declare class PlayerSportsService {
     private prisma;
     constructor(prisma: PrismaService);
-    registerForSport(playerId: string, sportId: string): Promise<{
+    resolvePlayerId(id: string): Promise<string>;
+    registerForSport(id: string, sportId: string, metadata?: any): Promise<{
         sport: {
             id: string;
             createdAt: Date;
@@ -24,9 +25,10 @@ export declare class PlayerSportsService {
         createdAt: Date;
         sportId: string;
         playerId: string;
+        metadata: string | null;
         sportCode: string;
     }>;
-    getPlayerSports(playerId: string): Promise<({
+    getPlayerSports(id: string): Promise<({
         sport: {
             id: string;
             createdAt: Date;
@@ -48,6 +50,7 @@ export declare class PlayerSportsService {
         createdAt: Date;
         sportId: string;
         playerId: string;
+        metadata: string | null;
         sportCode: string;
     })[]>;
 }
