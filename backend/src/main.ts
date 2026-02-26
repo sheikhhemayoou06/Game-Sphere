@@ -18,7 +18,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const port = process.env.PORT ?? 4000;
-  await app.listen(port);
-  console.log(`🚀 Game Sphere API running on http://localhost:${port}/api`);
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Game Sphere API running on port ${port}/api`);
 }
 bootstrap();
