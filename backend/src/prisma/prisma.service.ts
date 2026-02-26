@@ -19,11 +19,6 @@ export class PrismaService extends PrismaClient implements OnModuleDestroy {
     let url = process.env.DATABASE_URL;
     if (!url) return undefined;
 
-    // Force IPv4 for Supabase pooler to avoid IPv6 timeouts on Render
-    if (url.includes('pooler.supabase.com') && !url.includes('ipv4.pooler.supabase.com')) {
-      url = url.replace('pooler.supabase.com', 'ipv4.pooler.supabase.com');
-    }
-
     // Add pgbouncer=true for Supabase pooler on port 6543
     if (url.includes(':6543') && !url.includes('pgbouncer=true')) {
       url += (url.includes('?') ? '&' : '?') + 'pgbouncer=true';

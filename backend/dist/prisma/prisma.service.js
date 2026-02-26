@@ -28,9 +28,6 @@ let PrismaService = PrismaService_1 = class PrismaService extends client_1.Prism
         let url = process.env.DATABASE_URL;
         if (!url)
             return undefined;
-        if (url.includes('pooler.supabase.com') && !url.includes('ipv4.pooler.supabase.com')) {
-            url = url.replace('pooler.supabase.com', 'ipv4.pooler.supabase.com');
-        }
         if (url.includes(':6543') && !url.includes('pgbouncer=true')) {
             url += (url.includes('?') ? '&' : '?') + 'pgbouncer=true';
         }
