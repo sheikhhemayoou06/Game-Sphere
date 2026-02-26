@@ -17,7 +17,14 @@ export class AuthController {
             phone?: string;
         },
     ) {
-        return this.authService.register(dto);
+        try {
+            return await this.authService.register(dto);
+        } catch (error) {
+            console.error('\n❌ [REGISTER ERROR] Detailed Stack Trace:');
+            console.error(error);
+            console.error('----------------------------------------\n');
+            throw error;
+        }
     }
 
     @Post('login')
