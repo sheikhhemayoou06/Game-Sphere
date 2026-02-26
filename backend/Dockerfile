@@ -5,8 +5,9 @@ RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and Prisma schema
 COPY package.json package-lock.json ./
+COPY prisma ./prisma/
 
 # Clean cache and install cleanly
 RUN npm cache clean --force && rm -rf node_modules && npm ci
