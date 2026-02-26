@@ -23,4 +23,4 @@ RUN npm run build:prod
 EXPOSE 4000
 
 # Start the server directly, but FIRST push the schema securely using our optimized DB Logic
-CMD npx prisma@5.22.0 db push --accept-data-loss && npm run render:start
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && npm run render:start"]
