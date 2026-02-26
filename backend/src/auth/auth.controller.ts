@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
@@ -15,6 +15,14 @@ export class AuthController {
             lastName: string;
             role?: string;
             phone?: string;
+            countryCode?: string;
+            otp?: string;
+            district?: string;
+            state?: string;
+            country?: string;
+            heightCm?: number;
+            gender?: string;
+            avatar?: string;
         },
     ) {
         try {
@@ -40,6 +48,17 @@ export class AuthController {
     @Post('verify-otp')
     async verifyOtp(@Body() dto: { phone: string; otp: string }) {
         return this.authService.verifyOtp(dto);
+    }
+
+    @Get('verify-email')
+    async verifyEmail(@Query('token') token: string) {
+        return this.authService.verifyEmail(token);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('send-verification-email')
+    async sendVerificationEmail(@Request() req: any) {
+        return this.authService.sendEmailVerification(req.user.sub);
     }
 
     @UseGuards(JwtAuthGuard)

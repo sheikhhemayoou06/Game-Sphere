@@ -18,8 +18,10 @@ model User {
   lastName      String
   role          String   @default("PLAYER")
   phone         String?  @unique
+  countryCode   String?
   avatar        String?
   isVerified    Boolean  @default(false)
+  isEmailVerified Boolean @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -36,10 +38,13 @@ model Player {
   dateOfBirth     DateTime?
   gender          String?
   city            String?
+  district        String?
   state           String?
   country         String   @default("India")
   primarySport    String?
   bio             String?
+  heightCm        Int?
+  weightKg        Int?
   totalMatches    Int      @default(0)
   totalWins       Int      @default(0)
   careerStats     String?

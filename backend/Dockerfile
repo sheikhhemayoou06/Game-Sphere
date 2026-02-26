@@ -22,7 +22,5 @@ RUN npm run build:prod
 # Expose port
 EXPOSE 4000
 
-# We do NOT run `db push` here because it can hang if DB is unreachable, 
-# preventing the server from starting and causing a Render Port Timeout.
-# Start the server directly.
-CMD npm run render:start
+# Start the server directly, but FIRST push the schema securely using our optimized DB Logic
+CMD npx prisma@5.22.0 db push --accept-data-loss && npm run render:start

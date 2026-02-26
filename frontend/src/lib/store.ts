@@ -6,6 +6,11 @@ interface User {
     firstName: string;
     lastName: string;
     role: string;
+    phone?: string;
+    countryCode?: string;
+    avatar?: string;
+    isVerified?: boolean;
+    isEmailVerified?: boolean;
     player?: any;
 }
 

@@ -27,8 +27,28 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
 export const api = {
     // Auth
-    register: (data: { email: string; password: string; firstName: string; lastName: string; role?: string }) =>
-        request<any>('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+    // Register a new user
+    register: async (data: {
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        role?: string;
+        phone?: string;
+        countryCode?: string;
+        otp?: string;
+        district?: string;
+        state?: string;
+        country?: string;
+        heightCm?: number;
+        gender?: string;
+        avatar?: string;
+    }) => {
+        return request('/auth/register', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    },
     login: (data: { email: string; password: string }) =>
         request<any>('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
     sendOtp: (data: { phone: string }) =>

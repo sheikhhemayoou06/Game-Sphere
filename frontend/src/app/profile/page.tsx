@@ -123,12 +123,24 @@ export default function PlayerProfilePage() {
     const dynamicPlayer = {
         ...PLAYER,
         name: user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : PLAYER.name,
-        sportsId: user?.player?.sportsId || 'USI-Pending'
+        sportsId: user?.player?.sportsId || 'USI-Pending',
+        phone: user?.phone ? `+${user?.countryCode || '91'} ${user.phone}` : PLAYER.phone,
+        email: user?.email || PLAYER.email,
+        district: user?.player?.district || PLAYER.district,
+        state: user?.player?.state || PLAYER.state,
+        country: user?.player?.country || PLAYER.country,
+        height: user?.player?.heightCm ? `${user.player.heightCm} cm` : PLAYER.height,
+        gender: user?.player?.gender || 'Not Specified',
+        verified: user?.isVerified || false,
+        photo: user?.avatar ? (
+            <img src={user.avatar} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+        ) : PLAYER.photo,
     };
 
     const [form, setForm] = useState({
-        name: dynamicPlayer.name, phone: dynamicPlayer.phone, email: dynamicPlayer.email,
-        district: dynamicPlayer.district, state: dynamicPlayer.state, height: dynamicPlayer.height,
+        name: dynamicPlayer.name, phone: user?.phone || dynamicPlayer.phone, email: dynamicPlayer.email,
+        district: dynamicPlayer.district, state: dynamicPlayer.state, country: dynamicPlayer.country,
+        height: user?.player?.heightCm?.toString() || dynamicPlayer.height, gender: dynamicPlayer.gender,
         weight: dynamicPlayer.weight, battingStyle: dynamicPlayer.battingStyle, bowlingStyle: dynamicPlayer.bowlingStyle,
     });
 
@@ -455,7 +467,8 @@ export default function PlayerProfilePage() {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
                                 <span>📞 {form.phone}</span>
                                 <span>📧 {form.email}</span>
-                                <span>📍 {form.district}, {form.state}</span>
+                                <span>📍 {form.district}, {form.state}, {form.country}</span>
+                                <span>👤 {form.gender}</span>
                                 <span>📏 {form.height} • {form.weight}</span>
                                 <span>🏏 {form.battingStyle}</span>
                                 <span>⚾ {form.bowlingStyle}</span>

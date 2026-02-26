@@ -19,7 +19,28 @@ export class AuthService {
         lastName: string;
         role?: string;
         phone?: string;
+        countryCode?: string;
+        otp?: string;
+        district?: string;
+        state?: string;
+        country?: string;
+        heightCm?: number;
+        gender?: string;
+        avatar?: string;
     }) {
+        // Enforce Mandatory OTP Verification if phone is provided
+        if (dto.phone) {
+            if (!dto.otp) {
+                throw new UnauthorizedException('OTP is required for phone verification.');
+            }
+            const storedOtp = this.otps.get(dto.phone);
+            if (!storedOtp || storedOtp !== dto.otp) {
+                throw new UnauthorizedException('Invalid or expired OTP.');
+            }
+            // Clear OTP after successful use
+            this.otps.delete(dto.phone);
+        }
+
         const existing = await this.prisma.user.findUnique({
             where: { email: dto.email },
         });
@@ -36,16 +57,24 @@ export class AuthService {
                 lastName: dto.lastName,
                 role: dto.role || 'PLAYER',
                 phone: dto.phone || undefined,
+                countryCode: dto.countryCode || undefined,
+                avatar: dto.avatar || undefined,
+                isVerified: !!dto.phone, // Auto-verify if they passed phone OTP phase successfully
             },
         });
 
-        // If role is PLAYER, auto-create player profile
-        if (user.role === 'PLAYER') {
+        // Add Demographic fields if role supports advanced profiles
+        if (user.role === 'PLAYER' || user.role === 'TEAM_MANAGER' || user.role === 'OFFICIAL') {
             const sportsId = `GS-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
             await this.prisma.player.create({
                 data: {
                     userId: user.id,
                     sportsId,
+                    district: dto.district || undefined,
+                    state: dto.state || undefined,
+                    country: dto.country || 'India',
+                    heightCm: dto.heightCm || undefined,
+                    gender: dto.gender || undefined,
                 },
             });
         }
@@ -137,6 +166,41 @@ export class AuthService {
             user: this.sanitizeUser(user),
             accessToken: token,
         };
+    }
+
+    async sendEmailVerification(userId: string) {
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!user) throw new UnauthorizedException('User not found');
+        if (user.isEmailVerified) return { message: 'Email already verified' };
+
+        const verifyToken = this.jwtService.sign(
+            { sub: user.id, purpose: 'email_verify' },
+            { expiresIn: '24h' }
+        );
+
+        // In production, integrate with SendGrid/AWS SES
+        console.log(`\n======================================`);
+        console.log(`📧 [DEV] EMAIL MOCK to ${user.email}:`);
+        console.log(`Click to verify: http://localhost:3000/api/auth/verify-email?token=${verifyToken}`);
+        console.log(`======================================\n`);
+
+        return { message: 'Verification email sent' };
+    }
+
+    async verifyEmail(token: string) {
+        try {
+            const decoded = this.jwtService.verify(token);
+            if (decoded.purpose !== 'email_verify') throw new Error('Invalid token type');
+
+            await this.prisma.user.update({
+                where: { id: decoded.sub },
+                data: { isEmailVerified: true }
+            });
+
+            return { message: 'Email successfully verified' };
+        } catch (e) {
+            throw new UnauthorizedException('Invalid or expired verification link');
+        }
     }
 
     async getProfile(userId: string) {
