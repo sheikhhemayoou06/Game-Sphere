@@ -259,8 +259,7 @@ export default function RegisterWizard() {
                             <label className="form-label">Country</label>
                             <select value={location.countryIso} onChange={(e) => {
                                 updateLoc('countryIso', e.target.value);
-                                updateLoc('stateIso', ''); // Reset State
-                                updateLoc('districtName', ''); // Reset District
+                                setLocation((prev) => ({ ...prev, stateIso: '', districtName: '' })); // Reset State & District securely
                             }} className="input-field">
                                 {countries.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
                             </select>
@@ -270,7 +269,7 @@ export default function RegisterWizard() {
                             <label className="form-label">State / Province</label>
                             <select value={location.stateIso} onChange={(e) => {
                                 updateLoc('stateIso', e.target.value);
-                                updateLoc('districtName', ''); // Reset District
+                                setLocation((prev) => ({ ...prev, districtName: '' })); // Reset District securely
                             }} className="input-field">
                                 <option value="">-- Select State --</option>
                                 {states.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
