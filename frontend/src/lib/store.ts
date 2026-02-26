@@ -23,6 +23,11 @@ export const useAuthStore = create<AuthState>((set) => ({
     token: null,
     isAuthenticated: false,
     setAuth: (user, token) => {
+        // Clear any old session state that might conflict with the new user
+        localStorage.removeItem('selectedSportId');
+        localStorage.removeItem('mySportIds');
+        localStorage.removeItem('activeTournament');
+
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
         set({ user, token, isAuthenticated: true });

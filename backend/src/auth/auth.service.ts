@@ -50,9 +50,19 @@ export class AuthService {
             });
         }
 
+        // Fetch the fully populated user to mirror the login payload
+        const populatedUser = await this.prisma.user.findUnique({
+            where: { id: user.id },
+            include: {
+                player: {
+                    include: { playerSports: { include: { sport: true } } }
+                }
+            },
+        });
+
         const token = this.generateToken(user);
         return {
-            user: this.sanitizeUser(user),
+            user: this.sanitizeUser(populatedUser),
             accessToken: token,
         };
     }
