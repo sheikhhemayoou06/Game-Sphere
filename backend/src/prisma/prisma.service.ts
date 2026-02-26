@@ -38,8 +38,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
       await this.$connect();
       this.logger.log('Successfully connected to the database.');
     } catch (error) {
-      this.logger.error('Failed to connect to the database', error);
-      throw error;
+      this.logger.error('Failed to connect to the database on startup (will retry on first query)', error);
+      // We explicitly DO NOT throw the error here.
+      // Throwing here will crash the NestJS app during early lifecycle,
+      // preventing it from ever binding to the port ($PORT).
+      // Render will kill the process with "Port scan timeout reached" if it doesn't bind.
     }
   }
 
