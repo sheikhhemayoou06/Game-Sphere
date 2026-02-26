@@ -1,8 +1,8 @@
-import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, Logger } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+export class PrismaService extends PrismaClient implements OnModuleDestroy {
   private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
@@ -32,19 +32,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     return url;
   }
 
-  async onModuleInit() {
-    this.logger.log('Connecting to PostgreSQL database via Prisma...');
-    try {
-      await this.$connect();
-      this.logger.log('Successfully connected to the database.');
-    } catch (error) {
-      this.logger.error('Failed to connect to the database on startup (will retry on first query)', error);
-      // We explicitly DO NOT throw the error here.
-      // Throwing here will crash the NestJS app during early lifecycle,
-      // preventing it from ever binding to the port ($PORT).
-      // Render will kill the process with "Port scan timeout reached" if it doesn't bind.
-    }
-  }
+  // We intentionally remove onModuleInit containing await this.$connect().
+  // Prisma will automatically connect to the database on the very first query.
+  // Explicitly calling $connect() at startup blocks the NestJS bootstrap process
+  // if the database is unreachable or slow, causing Render to kill the deploy
+  // with a "Port scan timeout" because app.listen() is delayed.
 
   async onModuleDestroy() {
     await this.$disconnect();
