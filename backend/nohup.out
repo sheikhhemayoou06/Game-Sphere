@@ -2,130 +2,847 @@
 > backend@0.0.1 start:dev
 > nest start --watch
 
-[2J[3J[H[[90m11:55:09 PM[0m] Starting compilation in watch mode...
+[2J[3J[H[[90m2:21:40 AM[0m] Starting compilation in watch mode...
 
-[[90m11:55:11 PM[0m] Found 0 errors. Watching for file changes.
+[[90m2:21:42 AM[0m] Found 0 errors. Watching for file changes.
 
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +20ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +13ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSearchModule dependencies initialized[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRankingsModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCertificatesModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTransfersModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDocumentsModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotificationsModule dependencies initialized[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuctionsModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPlayerSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTournamentsModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTeamsModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMatchesModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "joinMatch" message[39m[38;5;3m +176ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "leaveMatch" message[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "updateScore" message[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "completeMatch" message[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/api}:[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/send-otp, POST} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/verify-otp, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/profile, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSportsController {/api/sports}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, POST} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/seed, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTournamentsController {/api/tournaments}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/stats, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/status, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, POST} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/approve, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/fixtures, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/withdraw, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/reject, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/financials, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/leaderboard, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mMatchesController {/api/matches}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/live, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/upcoming, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id, GET} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/score, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/complete, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/player-stats/:playerId, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTeamsController {/api/teams}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my-sports, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/dashboard, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players/:playerId, DELETE} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRankingsController {/api/rankings}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/team/:teamId, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/recalculate, PUT} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCertificatesController {/api/certificates}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/verify/:code, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/:id, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/bulk, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTransfersController {/api/transfers}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDocumentsController {/api/documents}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/pending, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotificationsController {/api/notifications}:[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/unread-count, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id/read, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/read-all, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id, DELETE} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuctionsController {/api/tournaments/:tournamentId/auction}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/status, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/players, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/approve, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/bid, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/sell, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/unsold, PUT} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSearchController {/api/search}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/search, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPlayerSportsController {/api/players}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:12 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, GET} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 50812  - [39m02/25/2026, 11:55:21 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +9448ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +19ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSearchModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRankingsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCertificatesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTransfersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDocumentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotificationsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuctionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPlayerSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTournamentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTeamsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMatchesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "joinMatch" message[39m[38;5;3m +157ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "leaveMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "updateScore" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "completeMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/api}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/send-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/verify-otp, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSportsController {/api/sports}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/seed, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTournamentsController {/api/tournaments}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/stats, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/fixtures, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/withdraw, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/financials, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/leaderboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mMatchesController {/api/matches}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/live, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/upcoming, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/score, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/complete, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/player-stats/:playerId, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTeamsController {/api/teams}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my-sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/dashboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players/:playerId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRankingsController {/api/rankings}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/team/:teamId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/recalculate, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCertificatesController {/api/certificates}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/verify/:code, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/bulk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTransfersController {/api/transfers}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDocumentsController {/api/documents}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/pending, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/player/:playerId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotificationsController {/api/notifications}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/unread-count, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id/read, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/read-all, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuctionsController {/api/tournaments/:tournamentId/auction}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/approve, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/bid, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/sell, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/unsold, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSearchController {/api/search}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/search, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPlayerSportsController {/api/players}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:43 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 66947  - [39m02/26/2026, 2:21:48 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +4933ms[39m
 🚀 Game Sphere API running on http://localhost:4000/api
+[2J[3J[H[[90m3:13:06 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m3:13:07 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +21ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +17ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSearchModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRankingsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCertificatesModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTransfersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDocumentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotificationsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuctionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPlayerSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTournamentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTeamsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMatchesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "joinMatch" message[39m[38;5;3m +183ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "leaveMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "updateScore" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "completeMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/api}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/send-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/verify-otp, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSportsController {/api/sports}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/seed, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTournamentsController {/api/tournaments}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/stats, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/approve, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/fixtures, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/withdraw, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/financials, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/leaderboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mMatchesController {/api/matches}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/live, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/upcoming, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/score, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/complete, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/player-stats/:playerId, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTeamsController {/api/teams}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my-sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/dashboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players/:playerId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRankingsController {/api/rankings}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/team/:teamId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/recalculate, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCertificatesController {/api/certificates}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/verify/:code, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/bulk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTransfersController {/api/transfers}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDocumentsController {/api/documents}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/pending, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotificationsController {/api/notifications}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/unread-count, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id/read, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/read-all, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuctionsController {/api/tournaments/:tournamentId/auction}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/bid, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/sell, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/unsold, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSearchController {/api/search}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/search, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPlayerSportsController {/api/players}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 70691  - [39m02/26/2026, 3:13:07 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, GET} route[39m[38;5;3m +0ms[39m
+/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112
+You may have to run ${qe("prisma generate")} for your changes to take effect.`,this.config.clientVersion);return t}}parseEngineResponse(t){if(!t)throw new B("Response from the Engine was empty",{clientVersion:this.config.clientVersion});try{return JSON.parse(t)}catch{throw new B("Unable to JSON.parse response from engine",{clientVersion:this.config.clientVersion})}}async loadEngine(){if(!this.engine){this.QueryEngineConstructor||(this.library=await this.libraryLoader.loadLibrary(this.config),this.QueryEngineConstructor=this.library.QueryEngine);try{let t=new WeakRef(this),{adapter:r}=this.config;r&&Ae("Using driver adapter: %O",r),this.engine=new this.QueryEngineConstructor({datamodel:this.datamodel,env:process.env,logQueries:this.config.logQueries??!1,ignoreEnvVarErrors:!0,datasourceOverrides:this.datasourceOverrides??{},logLevel:this.logLevel,configDir:this.config.cwd,engineProtocol:"json"},n=>{t.deref()?.logger(n)},r)}catch(t){let r=t,n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}}}logger(t){let r=this.parseEngineResponse(t);if(r){if("span"in r){this.config.tracingHelper.createEngineSpan(r);return}r.level=r?.level.toLowerCase()??"unknown",fm(r)?this.logEmitter.emit("query",{timestamp:new Date,query:r.query,params:r.params,duration:Number(r.duration_ms),target:r.module_path}):gm(r)?this.loggerRustPanic=new le(lo(this,`${r.message}: ${r.reason} in ${r.file}:${r.line}:${r.column}`),this.config.clientVersion):this.logEmitter.emit(r.level,{timestamp:new Date,message:r.message,target:r.module_path})}}parseInitError(t){try{return JSON.parse(t)}catch{}return t}parseRequestError(t){try{return JSON.parse(t)}catch{}return t}onBeforeExit(){throw new Error('"beforeExit" hook is not applicable to the library engine since Prisma 5.0.0, it is only relevant and implemented for the binary engine. Please add your event listener to the `process` object directly instead.')}async start(){if(await this.libraryInstantiationPromise,await this.libraryStoppingPromise,this.libraryStartingPromise)return Ae(`library already starting, this.libraryStarted: ${this.libraryStarted}`),this.libraryStartingPromise;if(this.libraryStarted)return;let t=async()=>{Ae("library starting");try{let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.connect(JSON.stringify(r)),this.libraryStarted=!0,Ae("library started")}catch(r){let n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}finally{this.libraryStartingPromise=void 0}};return this.libraryStartingPromise=this.config.tracingHelper.runInChildSpan("connect",t),this.libraryStartingPromise}async stop(){if(await this.libraryStartingPromise,await this.executingQueryPromise,this.libraryStoppingPromise)return Ae("library is already stopping"),this.libraryStoppingPromise;if(!this.libraryStarted)return;let t=async()=>{await new Promise(n=>setTimeout(n,5)),Ae("library stopping");let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.disconnect(JSON.stringify(r)),this.libraryStarted=!1,this.libraryStoppingPromise=void 0,Ae("library stopped")};return this.libraryStoppingPromise=this.config.tracingHelper.runInChildSpan("disconnect",t),this.libraryStoppingPromise}version(){return this.versionInfo=this.library?.version(),this.versionInfo?.version??"unknown"}debugPanic(t){return this.library?.debugPanic(t)}async request(t,{traceparent:r,interactiveTransaction:n}){Ae(`sending request, this.libraryStarted: ${this.libraryStarted}`);let i=JSON.stringify({traceparent:r}),o=JSON.stringify(t);try{await this.start(),this.executingQueryPromise=this.engine?.query(o,i,n?.id),this.lastQuery=o;let s=this.parseEngineResponse(await this.executingQueryPromise);if(s.errors)throw s.errors.length===1?this.buildQueryError(s.errors[0]):new B(JSON.stringify(s.errors),{clientVersion:this.config.clientVersion});if(this.loggerRustPanic)throw this.loggerRustPanic;return{data:s,elapsed:0}}catch(s){if(s instanceof R)throw s;if(s.code==="GenericFailure"&&s.message?.startsWith("PANIC:"))throw new le(lo(this,s.message),this.config.clientVersion);let a=this.parseRequestError(s.message);throw typeof a=="string"?s:new B(`${a.message}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+PrismaClientInitializationError: Can't reach database server at `db.fikwgmxcyilxxheyjfgm.supabase.co:5432`
+
+Please make sure your database server is running at `db.fikwgmxcyilxxheyjfgm.supabase.co:5432`.
+    at t (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112:2488)
+    at async Proxy.onModuleInit (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/src/prisma/prisma.service.ts:7:5)
+    at async Promise.all (index 0)
+    at async callModuleInitHook (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/hooks/on-module-init.hook.js:43:5)
+    at async NestApplication.callInitHook (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application-context.js:252:13)
+    at async NestApplication.init (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application.js:103:9)
+    at async NestApplication.listen (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application.js:175:13)
+    at async bootstrap (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/src/main.ts:21:3) {
+  clientVersion: '5.22.0',
+  errorCode: 'P1001'
+}
+
+Node.js v20.20.0
+[2J[3J[H[[90m3:15:48 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m3:15:48 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +20ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +9ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSearchModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRankingsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCertificatesModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTransfersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDocumentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotificationsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuctionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPlayerSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTournamentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTeamsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMatchesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "joinMatch" message[39m[38;5;3m +180ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "leaveMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "updateScore" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "completeMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/api}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/send-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/verify-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSportsController {/api/sports}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/seed, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTournamentsController {/api/tournaments}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/stats, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/fixtures, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/withdraw, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/financials, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/leaderboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mMatchesController {/api/matches}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/live, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/upcoming, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/score, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/complete, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/player-stats/:playerId, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTeamsController {/api/teams}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my-sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/dashboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players/:playerId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRankingsController {/api/rankings}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/team/:teamId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/recalculate, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCertificatesController {/api/certificates}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/verify/:code, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/bulk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTransfersController {/api/transfers}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDocumentsController {/api/documents}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/pending, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotificationsController {/api/notifications}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/unread-count, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id/read, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/read-all, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuctionsController {/api/tournaments/:tournamentId/auction}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/bid, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/sell, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/unsold, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSearchController {/api/search}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/search, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPlayerSportsController {/api/players}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:49 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71021  - [39m02/26/2026, 3:15:57 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +7710ms[39m
+[31m[Nest] 71021  - [39m02/26/2026, 3:15:57 AM [31m  ERROR[39m [38;5;3m[NestApplication] [39m[31mError: listen EADDRINUSE: address already in use :::4000[39m[38;5;3m +3ms[39m
+node:net:1908
+    const ex = new UVExceptionWithHostPort(err, 'listen', address, port);
+               ^
+
+Error: listen EADDRINUSE: address already in use :::4000
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at ExpressAdapter.listen (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/platform-express/adapters/express-adapter.js:127:32)
+    at /Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application.js:188:30
+    at new Promise (<anonymous>)
+    at NestApplication.listen (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application.js:178:16)
+    at async bootstrap (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/src/main.ts:21:3) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 4000
+}
+
+Node.js v20.20.0
+[2J[3J[H[[90m11:45:49 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m11:45:50 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +25ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +20ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSearchModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRankingsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCertificatesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTransfersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDocumentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotificationsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuctionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPlayerSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTournamentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTeamsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMatchesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "joinMatch" message[39m[38;5;3m +179ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "leaveMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "updateScore" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "completeMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/api}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/send-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/verify-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/profile, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSportsController {/api/sports}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/seed, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTournamentsController {/api/tournaments}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/stats, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/fixtures, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/withdraw, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/financials, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/leaderboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mMatchesController {/api/matches}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/live, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/upcoming, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/score, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/complete, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/player-stats/:playerId, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTeamsController {/api/teams}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my-sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/dashboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players/:playerId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRankingsController {/api/rankings}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/team/:teamId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/recalculate, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCertificatesController {/api/certificates}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/verify/:code, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/bulk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTransfersController {/api/transfers}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDocumentsController {/api/documents}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/pending, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/player/:playerId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/approve, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotificationsController {/api/notifications}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/unread-count, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id/read, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/read-all, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuctionsController {/api/tournaments/:tournamentId/auction}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/players, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/bid, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/sell, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/unsold, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSearchController {/api/search}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/search, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPlayerSportsController {/api/players}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 71877  - [39m02/26/2026, 11:45:51 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, GET} route[39m[38;5;3m +0ms[39m
+/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112
+You may have to run ${qe("prisma generate")} for your changes to take effect.`,this.config.clientVersion);return t}}parseEngineResponse(t){if(!t)throw new B("Response from the Engine was empty",{clientVersion:this.config.clientVersion});try{return JSON.parse(t)}catch{throw new B("Unable to JSON.parse response from engine",{clientVersion:this.config.clientVersion})}}async loadEngine(){if(!this.engine){this.QueryEngineConstructor||(this.library=await this.libraryLoader.loadLibrary(this.config),this.QueryEngineConstructor=this.library.QueryEngine);try{let t=new WeakRef(this),{adapter:r}=this.config;r&&Ae("Using driver adapter: %O",r),this.engine=new this.QueryEngineConstructor({datamodel:this.datamodel,env:process.env,logQueries:this.config.logQueries??!1,ignoreEnvVarErrors:!0,datasourceOverrides:this.datasourceOverrides??{},logLevel:this.logLevel,configDir:this.config.cwd,engineProtocol:"json"},n=>{t.deref()?.logger(n)},r)}catch(t){let r=t,n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}}}logger(t){let r=this.parseEngineResponse(t);if(r){if("span"in r){this.config.tracingHelper.createEngineSpan(r);return}r.level=r?.level.toLowerCase()??"unknown",fm(r)?this.logEmitter.emit("query",{timestamp:new Date,query:r.query,params:r.params,duration:Number(r.duration_ms),target:r.module_path}):gm(r)?this.loggerRustPanic=new le(lo(this,`${r.message}: ${r.reason} in ${r.file}:${r.line}:${r.column}`),this.config.clientVersion):this.logEmitter.emit(r.level,{timestamp:new Date,message:r.message,target:r.module_path})}}parseInitError(t){try{return JSON.parse(t)}catch{}return t}parseRequestError(t){try{return JSON.parse(t)}catch{}return t}onBeforeExit(){throw new Error('"beforeExit" hook is not applicable to the library engine since Prisma 5.0.0, it is only relevant and implemented for the binary engine. Please add your event listener to the `process` object directly instead.')}async start(){if(await this.libraryInstantiationPromise,await this.libraryStoppingPromise,this.libraryStartingPromise)return Ae(`library already starting, this.libraryStarted: ${this.libraryStarted}`),this.libraryStartingPromise;if(this.libraryStarted)return;let t=async()=>{Ae("library starting");try{let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.connect(JSON.stringify(r)),this.libraryStarted=!0,Ae("library started")}catch(r){let n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}finally{this.libraryStartingPromise=void 0}};return this.libraryStartingPromise=this.config.tracingHelper.runInChildSpan("connect",t),this.libraryStartingPromise}async stop(){if(await this.libraryStartingPromise,await this.executingQueryPromise,this.libraryStoppingPromise)return Ae("library is already stopping"),this.libraryStoppingPromise;if(!this.libraryStarted)return;let t=async()=>{await new Promise(n=>setTimeout(n,5)),Ae("library stopping");let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.disconnect(JSON.stringify(r)),this.libraryStarted=!1,this.libraryStoppingPromise=void 0,Ae("library stopped")};return this.libraryStoppingPromise=this.config.tracingHelper.runInChildSpan("disconnect",t),this.libraryStoppingPromise}version(){return this.versionInfo=this.library?.version(),this.versionInfo?.version??"unknown"}debugPanic(t){return this.library?.debugPanic(t)}async request(t,{traceparent:r,interactiveTransaction:n}){Ae(`sending request, this.libraryStarted: ${this.libraryStarted}`);let i=JSON.stringify({traceparent:r}),o=JSON.stringify(t);try{await this.start(),this.executingQueryPromise=this.engine?.query(o,i,n?.id),this.lastQuery=o;let s=this.parseEngineResponse(await this.executingQueryPromise);if(s.errors)throw s.errors.length===1?this.buildQueryError(s.errors[0]):new B(JSON.stringify(s.errors),{clientVersion:this.config.clientVersion});if(this.loggerRustPanic)throw this.loggerRustPanic;return{data:s,elapsed:0}}catch(s){if(s instanceof R)throw s;if(s.code==="GenericFailure"&&s.message?.startsWith("PANIC:"))throw new le(lo(this,s.message),this.config.clientVersion);let a=this.parseRequestError(s.message);throw typeof a=="string"?s:new B(`${a.message}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            /Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112
+You may have to run ${qe("prisma generate")} for your changes to take effect.`,this.config.clientVersion);return t}}parseEngineResponse(t){if(!t)throw new B("Response from the Engine was empty",{clientVersion:this.config.clientVersion});try{return JSON.parse(t)}catch{throw new B("Unable to JSON.parse response from engine",{clientVersion:this.config.clientVersion})}}async loadEngine(){if(!this.engine){this.QueryEngineConstructor||(this.library=await this.libraryLoader.loadLibrary(this.config),this.QueryEngineConstructor=this.library.QueryEngine);try{let t=new WeakRef(this),{adapter:r}=this.config;r&&Ae("Using driver adapter: %O",r),this.engine=new this.QueryEngineConstructor({datamodel:this.datamodel,env:process.env,logQueries:this.config.logQueries??!1,ignoreEnvVarErrors:!0,datasourceOverrides:this.datasourceOverrides??{},logLevel:this.logLevel,configDir:this.config.cwd,engineProtocol:"json"},n=>{t.deref()?.logger(n)},r)}catch(t){let r=t,n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}}}logger(t){let r=this.parseEngineResponse(t);if(r){if("span"in r){this.config.tracingHelper.createEngineSpan(r);return}r.
+Node.js v20.20.0
+[2J[3J[H[[90m12:30:48 PM[0m] File change detected. Starting incremental compilation...
+
+[[90m12:30:49 PM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +20ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +16ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSearchModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRankingsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCertificatesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTransfersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDocumentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotificationsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuctionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPlayerSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTournamentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTeamsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMatchesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "joinMatch" message[39m[38;5;3m +167ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "leaveMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "updateScore" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "completeMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/api}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/send-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/verify-otp, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSportsController {/api/sports}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/seed, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTournamentsController {/api/tournaments}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/stats, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/status, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/fixtures, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/withdraw, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/financials, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/leaderboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mMatchesController {/api/matches}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/live, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/upcoming, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/score, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/complete, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/player-stats/:playerId, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTeamsController {/api/teams}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my-sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/dashboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players/:playerId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRankingsController {/api/rankings}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/team/:teamId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/recalculate, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCertificatesController {/api/certificates}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/verify/:code, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/bulk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTransfersController {/api/transfers}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDocumentsController {/api/documents}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/pending, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/reject, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotificationsController {/api/notifications}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/unread-count, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id/read, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/read-all, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuctionsController {/api/tournaments/:tournamentId/auction}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/bid, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/sell, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/unsold, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSearchController {/api/search}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/search, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPlayerSportsController {/api/players}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73248  - [39m02/26/2026, 12:30:50 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, GET} route[39m[38;5;3m +0ms[39m
+/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112
+You may have to run ${qe("prisma generate")} for your changes to take effect.`,this.config.clientVersion);return t}}parseEngineResponse(t){if(!t)throw new B("Response from the Engine was empty",{clientVersion:this.config.clientVersion});try{return JSON.parse(t)}catch{throw new B("Unable to JSON.parse response from engine",{clientVersion:this.config.clientVersion})}}async loadEngine(){if(!this.engine){this.QueryEngineConstructor||(this.library=await this.libraryLoader.loadLibrary(this.config),this.QueryEngineConstructor=this.library.QueryEngine);try{let t=new WeakRef(this),{adapter:r}=this.config;r&&Ae("Using driver adapter: %O",r),this.engine=new this.QueryEngineConstructor({datamodel:this.datamodel,env:process.env,logQueries:this.config.logQueries??!1,ignoreEnvVarErrors:!0,datasourceOverrides:this.datasourceOverrides??{},logLevel:this.logLevel,configDir:this.config.cwd,engineProtocol:"json"},n=>{t.deref()?.logger(n)},r)}catch(t){let r=t,n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}}}logger(t){let r=this.parseEngineResponse(t);if(r){if("span"in r){this.config.tracingHelper.createEngineSpan(r);return}r.level=r?.level.toLowerCase()??"unknown",fm(r)?this.logEmitter.emit("query",{timestamp:new Date,query:r.query,params:r.params,duration:Number(r.duration_ms),target:r.module_path}):gm(r)?this.loggerRustPanic=new le(lo(this,`${r.message}: ${r.reason} in ${r.file}:${r.line}:${r.column}`),this.config.clientVersion):this.logEmitter.emit(r.level,{timestamp:new Date,message:r.message,target:r.module_path})}}parseInitError(t){try{return JSON.parse(t)}catch{}return t}parseRequestError(t){try{return JSON.parse(t)}catch{}return t}onBeforeExit(){throw new Error('"beforeExit" hook is not applicable to the library engine since Prisma 5.0.0, it is only relevant and implemented for the binary engine. Please add your event listener to the `process` object directly instead.')}async start(){if(await this.libraryInstantiationPromise,await this.libraryStoppingPromise,this.libraryStartingPromise)return Ae(`library already starting, this.libraryStarted: ${this.libraryStarted}`),this.libraryStartingPromise;if(this.libraryStarted)return;let t=async()=>{Ae("library starting");try{let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.connect(JSON.stringify(r)),this.libraryStarted=!0,Ae("library started")}catch(r){let n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}finally{this.libraryStartingPromise=void 0}};return this.libraryStartingPromise=this.config.tracingHelper.runInChildSpan("connect",t),this.libraryStartingPromise}async stop(){if(await this.libraryStartingPromise,await this.executingQueryPromise,this.libraryStoppingPromise)return Ae("library is already stopping"),this.libraryStoppingPromise;if(!this.libraryStarted)return;let t=async()=>{await new Promise(n=>setTimeout(n,5)),Ae("library stopping");let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.disconnect(JSON.stringify(r)),this.libraryStarted=!1,this.libraryStoppingPromise=void 0,Ae("library stopped")};return this.libraryStoppingPromise=this.config.tracingHelper.runInChildSpan("disconnect",t),this.libraryStoppingPromise}version(){return this.versionInfo=this.library?.version(),this.versionInfo?.version??"unknown"}debugPanic(t){return this.library?.debugPanic(t)}async request(t,{traceparent:r,interactiveTransaction:n}){Ae(`sending request, this.libraryStarted: ${this.libraryStarted}`);let i=JSON.stringify({traceparent:r}),o=JSON.stringify(t);try{await this.start(),this.executingQueryPromise=this.engine?.query(o,i,n?.id),this.lastQuery=o;let s=this.parseEngineResponse(await this.executingQueryPromise);if(s.errors)throw s.errors.length===1?this.buildQueryError(s.errors[0]):new B(JSON.stringify(s.errors),{clientVersion:this.config.clientVersion});if(this.loggerRustPanic)throw this.loggerRustPanic;return{data:s,elapsed:0}}catch(s){if(s instanceof R)throw s;if(s.code==="GenericFailure"&&s.message?.startsWith("PANIC:"))throw new le(lo(this,s.message),this.config.clientVersion);let a=this.parseRequestError(s.message);throw typeof a=="string"?s:new B(`${a.message}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+PrismaClientInitializationError: Can't reach database server at `db.fikwgmxcyilxxheyjfgm.supabase.co:5432`
+
+Please make sure your database server is running at `db.fikwgmxcyilxxheyjfgm.supabase.co:5432`.
+    at t (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112:2488)
+    at async Proxy.onModuleInit (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/src/prisma/prisma.service.ts:7:5)
+    at async Promise.all (index 0)
+    at async callModuleInitHook (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/hooks/on-module-init.hook.js:43:5)
+    at async NestApplication.callInitHook (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application-context.js:252:13)
+    at async NestApplication.init (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application.js:103:9)
+    at async NestApplication.listen (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application.js:175:13)
+    at async bootstrap (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/src/main.ts:21:3) {
+  clientVersion: '5.22.0',
+  errorCode: 'P1001'
+}
+
+Node.js v20.20.0
+[2J[3J[H[[90m12:40:10 PM[0m] File change detected. Starting incremental compilation...
+
+[[90m12:40:10 PM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +20ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +14ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSearchModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRankingsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCertificatesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTransfersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDocumentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotificationsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuctionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPlayerSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSportsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTournamentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTeamsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMatchesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "joinMatch" message[39m[38;5;3m +175ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "leaveMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "updateScore" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mMatchGateway subscribed to the "completeMatch" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/api}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/send-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/verify-otp, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSportsController {/api/sports}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/sports/seed, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTournamentsController {/api/tournaments}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/stats, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/fixtures, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/withdraw, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/teams/:teamId/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/financials, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/leaderboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/chat, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:id/media, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mMatchesController {/api/matches}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/live, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/upcoming, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/score, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/complete, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/matches/:id/player-stats/:playerId, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTeamsController {/api/teams}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my-sports, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/my, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/dashboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/teams/:id/players/:playerId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRankingsController {/api/rankings}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/team/:teamId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/rankings/recalculate, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCertificatesController {/api/certificates}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/verify/:code, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/certificates/bulk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTransfersController {/api/transfers}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/transfers/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDocumentsController {/api/documents}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/pending, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/player/:playerId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/documents/:id/reject, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotificationsController {/api/notifications}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/unread-count, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id/read, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/read-all, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notifications/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuctionsController {/api/tournaments/:tournamentId/auction}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/:auctionId/players, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/approve, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/bid, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/sell, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/tournaments/:tournamentId/auction/players/:auctionPlayerId/unsold, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSearchController {/api/search}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/search, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPlayerSportsController {/api/players}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 73587  - [39m02/26/2026, 12:40:11 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/players/:playerId/sports, GET} route[39m[38;5;3m +0ms[39m
+/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112
+You may have to run ${qe("prisma generate")} for your changes to take effect.`,this.config.clientVersion);return t}}parseEngineResponse(t){if(!t)throw new B("Response from the Engine was empty",{clientVersion:this.config.clientVersion});try{return JSON.parse(t)}catch{throw new B("Unable to JSON.parse response from engine",{clientVersion:this.config.clientVersion})}}async loadEngine(){if(!this.engine){this.QueryEngineConstructor||(this.library=await this.libraryLoader.loadLibrary(this.config),this.QueryEngineConstructor=this.library.QueryEngine);try{let t=new WeakRef(this),{adapter:r}=this.config;r&&Ae("Using driver adapter: %O",r),this.engine=new this.QueryEngineConstructor({datamodel:this.datamodel,env:process.env,logQueries:this.config.logQueries??!1,ignoreEnvVarErrors:!0,datasourceOverrides:this.datasourceOverrides??{},logLevel:this.logLevel,configDir:this.config.cwd,engineProtocol:"json"},n=>{t.deref()?.logger(n)},r)}catch(t){let r=t,n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}}}logger(t){let r=this.parseEngineResponse(t);if(r){if("span"in r){this.config.tracingHelper.createEngineSpan(r);return}r.level=r?.level.toLowerCase()??"unknown",fm(r)?this.logEmitter.emit("query",{timestamp:new Date,query:r.query,params:r.params,duration:Number(r.duration_ms),target:r.module_path}):gm(r)?this.loggerRustPanic=new le(lo(this,`${r.message}: ${r.reason} in ${r.file}:${r.line}:${r.column}`),this.config.clientVersion):this.logEmitter.emit(r.level,{timestamp:new Date,message:r.message,target:r.module_path})}}parseInitError(t){try{return JSON.parse(t)}catch{}return t}parseRequestError(t){try{return JSON.parse(t)}catch{}return t}onBeforeExit(){throw new Error('"beforeExit" hook is not applicable to the library engine since Prisma 5.0.0, it is only relevant and implemented for the binary engine. Please add your event listener to the `process` object directly instead.')}async start(){if(await this.libraryInstantiationPromise,await this.libraryStoppingPromise,this.libraryStartingPromise)return Ae(`library already starting, this.libraryStarted: ${this.libraryStarted}`),this.libraryStartingPromise;if(this.libraryStarted)return;let t=async()=>{Ae("library starting");try{let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.connect(JSON.stringify(r)),this.libraryStarted=!0,Ae("library started")}catch(r){let n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}finally{this.libraryStartingPromise=void 0}};return this.libraryStartingPromise=this.config.tracingHelper.runInChildSpan("connect",t),this.libraryStartingPromise}async stop(){if(await this.libraryStartingPromise,await this.executingQueryPromise,this.libraryStoppingPromise)return Ae("library is already stopping"),this.libraryStoppingPromise;if(!this.libraryStarted)return;let t=async()=>{await new Promise(n=>setTimeout(n,5)),Ae("library stopping");let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.disconnect(JSON.stringify(r)),this.libraryStarted=!1,this.libraryStoppingPromise=void 0,Ae("library stopped")};return this.libraryStoppingPromise=this.config.tracingHelper.runInChildSpan("disconnect",t),this.libraryStoppingPromise}version(){return this.versionInfo=this.library?.version(),this.versionInfo?.version??"unknown"}debugPanic(t){return this.library?.debugPanic(t)}async request(t,{traceparent:r,interactiveTransaction:n}){Ae(`sending request, this.libraryStarted: ${this.libraryStarted}`);let i=JSON.stringify({traceparent:r}),o=JSON.stringify(t);try{await this.start(),this.executingQueryPromise=this.engine?.query(o,i,n?.id),this.lastQuery=o;let s=this.parseEngineResponse(await this.executingQueryPromise);if(s.errors)throw s.errors.length===1?this.buildQueryError(s.errors[0]):new B(JSON.stringify(s.errors),{clientVersion:this.config.clientVersion});if(this.loggerRustPanic)throw this.loggerRustPanic;return{data:s,elapsed:0}}catch(s){if(s instanceof R)throw s;if(s.code==="GenericFailure"&&s.message?.startsWith("PANIC:"))throw new le(lo(this,s.message),this.config.clientVersion);let a=this.parseRequestError(s.message);throw typeof a=="string"?s:new B(`${a.message}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            /Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112
+You may have to run ${qe("prisma generate")} for your changes to take effect.`,this.config.clientVersion);return t}}parseEngineResponse(t){if(!t)throw new B("Response from the Engine was empty",{clientVersion:this.config.clientVersion});try{return JSON.parse(t)}catch{throw new B("Unable to JSON.parse response from engine",{clientVersion:this.config.clientVersion})}}async loadEngine(){if(!this.engine){this.QueryEngineConstructor||(this.library=await this.libraryLoader.loadLibrary(this.config),this.QueryEngineConstructor=this.library.QueryEngine);try{let t=new WeakRef(this),{adapter:r}=this.config;r&&Ae("Using driver adapter: %O",r),this.engine=new this.QueryEngineConstructor({datamodel:this.datamodel,env:process.env,logQueries:this.config.logQueries??!1,ignoreEnvVarErrors:!0,datasourceOverrides:this.datasourceOverrides??{},logLevel:this.logLevel,configDir:this.config.cwd,engineProtocol:"json"},n=>{t.deref()?.logger(n)},r)}catch(t){let r=t,n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}}}logger(t){let r=this.parseEngineResponse(t);if(r){if("span"in r){this.config.tracingHelper.createEngineSpan(r);return}r.
+Node.js v20.20.0
+owerCase()??"unknown",fm(r)?this.logEmitter.emit("query",{timestamp:new Date,query:r.query,params:r.params,duration:Number(r.duration_ms),target:r.module_path}):gm(r)?this.loggerRustPanic=new le(lo(this,`${r.message}: ${r.reason} in ${r.file}:${r.line}:${r.column}`),this.config.clientVersion):this.logEmitter.emit(r.level,{timestamp:new Date,message:r.message,target:r.module_path})}}parseInitError(t){try{return JSON.parse(t)}catch{}return t}parseRequestError(t){try{return JSON.parse(t)}catch{}return t}onBeforeExit(){throw new Error('"beforeExit" hook is not applicable to the library engine since Prisma 5.0.0, it is only relevant and implemented for the binary engine. Please add your event listener to the `process` object directly instead.')}async start(){if(await this.libraryInstantiationPromise,await this.libraryStoppingPromise,this.libraryStartingPromise)return Ae(`library already starting, this.libraryStarted: ${this.libraryStarted}`),this.libraryStartingPromise;if(this.libraryStarted)return;let t=async()=>{Ae("library starting");try{let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.connect(JSON.stringify(r)),this.libraryStarted=!0,Ae("library started")}catch(r){let n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}finally{this.libraryStartingPromise=void 0}};return this.libraryStartingPromise=this.config.tracingHelper.runInChildSpan("connect",t),this.libraryStartingPromise}async stop(){if(await this.libraryStartingPromise,await this.executingQueryPromise,this.libraryStoppingPromise)return Ae("library is already stopping"),this.libraryStoppingPromise;if(!this.libraryStarted)return;let t=async()=>{await new Promise(n=>setTimeout(n,5)),Ae("library stopping");let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.disconnect(JSON.stringify(r)),this.libraryStarted=!1,this.libraryStoppingPromise=void 0,Ae("library stopped")};return this.libraryStoppingPromise=this.config.tracingHelper.runInChildSpan("disconnect",t),this.libraryStoppingPromise}version(){return this.versionInfo=this.library?.version(),this.versionInfo?.version??"unknown"}debugPanic(t){return this.library?.debugPanic(t)}async request(t,{traceparent:r,interactiveTransaction:n}){Ae(`sending request, this.libraryStarted: ${this.libraryStarted}`);let i=JSON.stringify({traceparent:r}),o=JSON.stringify(t);try{await this.start(),this.executingQueryPromise=this.engine?.query(o,i,n?.id),this.lastQuery=o;let s=this.parseEngineResponse(await this.executingQueryPromise);if(s.errors)throw s.errors.length===1?this.buildQueryError(s.errors[0]):new B(JSON.stringify(s.errors),{clientVersion:this.config.clientVersion});if(this.loggerRustPanic)throw this.loggerRustPanic;return{data:s,elapsed:0}}catch(s){if(s instanceof R)throw s;if(s.code==="GenericFailure"&&s.message?.startsWith("PANIC:"))throw new le(lo(this,s.message),this.config.clientVersion);let a=this.parseRequestError(s.message);throw typeof a=="string"?s:new B(`${a.message}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+PrismaClientInitializationError: Can't reach database server at `db.fikwgmxcyilxxheyjfgm.supabase.co:5432`
+
+Please make sure your database server is running at `db.fikwgmxcyilxxheyjfgm.supabase.co:5432`.
+    at t (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@prisma/client/runtime/library.js:112:2488)
+    at async Proxy.onModuleInit (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/src/prisma/prisma.service.ts:7:5)
+    at async Promise.all (index 0)
+    at async callModuleInitHook (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/hooks/on-module-init.hook.js:43:5)
+    at async NestApplication.callInitHook (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application-context.js:252:13)
+    at async NestApplication.init (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application.js:103:9)
+    at async NestApplication.listen (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/node_modules/@nestjs/core/nest-application.js:175:13)
+    at async bootstrap (/Users/sheikhhemayoou08/Documents/Game Sphere /backend/src/main.ts:21:3) {
+  clientVersion: '5.22.0',
+  errorCode: 'P1001'
+}
+
+Node.js v20.20.0

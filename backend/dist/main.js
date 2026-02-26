@@ -11,9 +11,10 @@ async function bootstrap() {
     });
     app.useGlobalPipes(new common_1.ValidationPipe({ transform: true, whitelist: true }));
     app.setGlobalPrefix('api');
-    const port = process.env.PORT ?? 4000;
-    await app.listen(port);
-    console.log(`🚀 Game Sphere API running on http://localhost:${port}/api`);
+    const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
+    await app.listen(port, '0.0.0.0', () => {
+        console.log(`🚀 Game Sphere API running on port ${port} /api`);
+    });
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
