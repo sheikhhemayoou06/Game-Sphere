@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/lib/store';
 import { roleLabels } from '@/lib/utils';
 import { Country, State, City } from 'country-state-city';
@@ -18,13 +19,14 @@ export default function RegisterWizard() {
         firstName: '', lastName: '', email: '', password: '', role: 'PLAYER'
     });
 
-    // Phone & Verification
-    const [phoneData, setPhoneData] = useState({ countryCode: '+91', phone: '', otp: '' });
-    const [isOtpSent, setIsOtpSent] = useState(false);
-    const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+    // Phone
+    const [phoneData, setPhoneData] = useState({ countryCode: '+91', phone: '' });
 
     // Location
     const [location, setLocation] = useState({ countryIso: 'IN', stateIso: '', districtName: '' });
+
+    // Email OTP
+    const [emailOtp, setEmailOtp] = useState('');
 
     // Demographics
     const [demographics, setDemographics] = useState({ gender: '', heightCm: '', avatar: '' });
@@ -40,41 +42,13 @@ export default function RegisterWizard() {
     const states = State.getStatesOfCountry(location.countryIso);
     const cities = City.getCitiesOfState(location.countryIso, location.stateIso);
 
-    const handleSendOtp = async () => {
-        if (!phoneData.phone || phoneData.phone.length < 8) return setError("Enter a valid phone number");
-        setError('');
-        setLoading(true);
-        try {
-            await api.sendOtp({ phone: `${phoneData.countryCode}${phoneData.phone}` });
-            setIsOtpSent(true);
-        } catch (err: any) {
-            setError(err.message || 'Failed to send OTP');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleVerifyOtp = async () => {
-        if (!phoneData.otp) return setError("Enter the OTP");
-        setError('');
-        setLoading(true);
-        try {
-            await api.verifyOtp({ phone: `${phoneData.countryCode}${phoneData.phone}`, otp: phoneData.otp });
-            setIsPhoneVerified(true);
-            setError('');
-        } catch (err: any) {
-            setError(err.message || 'Invalid OTP');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleNextStep1 = () => {
         if (!form.firstName || !form.lastName || !form.email || !form.password) {
             return setError("Please fill all core identity fields.");
         }
-        if (!isPhoneVerified) {
-            return setError("You must verify your phone number via OTP to continue.");
+        if (!phoneData.phone) {
+            return setError("Please enter your phone number to continue.");
         }
         setError('');
         setStep(2);
@@ -88,7 +62,7 @@ export default function RegisterWizard() {
         setStep(3);
     };
 
-    const handleFinalSubmit = async () => {
+    const handleSignupInit = async () => {
         if (form.role === 'PLAYER' && !demographics.avatar) {
             return setError("A profile photo is mandatory for players.");
         }
@@ -96,11 +70,48 @@ export default function RegisterWizard() {
         setError('');
         setLoading(true);
         try {
+            const { error: signUpError } = await supabase.auth.signUp({
+                email: form.email,
+                password: form.password,
+                options: {
+                    data: {
+                        first_name: form.firstName,
+                        last_name: form.lastName,
+                        role: form.role,
+                    }
+                }
+            });
+
+            if (signUpError) throw signUpError;
+
+            // Success - transition to OTP stage
+            setStep(4);
+        } catch (err: any) {
+            setError(err.message || 'Supabase Registration failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleVerifyEmailOtp = async () => {
+        if (!emailOtp || emailOtp.length !== 6) return setError("Enter the 6-digit OTP sent to your email.");
+
+        setError('');
+        setLoading(true);
+        try {
+            const { error: verifyError } = await supabase.auth.verifyOtp({
+                email: form.email,
+                token: emailOtp,
+                type: 'signup'
+            });
+
+            if (verifyError) throw verifyError;
+
+            // Verified successfully, now register on our backend
             const finalPayload = {
                 ...form,
                 phone: `${phoneData.countryCode}${phoneData.phone}`,
                 countryCode: phoneData.countryCode,
-                otp: phoneData.otp,
                 country: Country.getCountryByCode(location.countryIso)?.name || '',
                 state: State.getStateByCodeAndCountry(location.stateIso, location.countryIso)?.name || '',
                 district: location.districtName,
@@ -149,9 +160,10 @@ export default function RegisterWizard() {
                         {step === 1 && "Start Your Journey"}
                         {step === 2 && "Where are you based?"}
                         {step === 3 && "Complete Your Profile"}
+                        {step === 4 && "Verify Your Email"}
                     </h1>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
-                        {[1, 2, 3].map(s => (
+                        {[1, 2, 3, 4].map(s => (
                             <div key={s} style={{
                                 width: '32px', height: '6px', borderRadius: '4px',
                                 background: step >= s ? '#6366f1' : '#e2e8f0',
@@ -213,15 +225,14 @@ export default function RegisterWizard() {
                             </div>
                         </div>
 
-                        {/* Phone Verification Section */}
+                        {/* Phone Section */}
                         <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                            <label className="form-label">Mandatory Phone Verification</label>
+                            <label className="form-label">Phone Number</label>
                             <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
                                 <select
                                     value={phoneData.countryCode}
                                     onChange={(e) => updatePhone('countryCode', e.target.value)}
                                     className="input-field" style={{ width: '90px', padding: '0 8px' }}
-                                    disabled={isPhoneVerified}
                                 >
                                     <option value="+91">+91 (IN)</option>
                                     <option value="+1">+1 (US)</option>
@@ -231,36 +242,8 @@ export default function RegisterWizard() {
                                 <input
                                     type="tel" value={phoneData.phone} onChange={(e) => updatePhone('phone', e.target.value)}
                                     className="input-field" placeholder="Phone Number" style={{ flex: 1 }}
-                                    disabled={isPhoneVerified || isOtpSent}
                                 />
-                                {!isPhoneVerified && !isOtpSent && (
-                                    <button type="button" onClick={handleSendOtp} disabled={loading} style={{
-                                        background: '#312e81', color: 'white', padding: '0 16px', borderRadius: '10px', fontWeight: 600, cursor: 'pointer', fontSize: '13px'
-                                    }}>
-                                        {loading ? '...' : 'Send'}
-                                    </button>
-                                )}
                             </div>
-
-                            {isOtpSent && !isPhoneVerified && (
-                                <div style={{ display: 'flex', gap: '8px' }}>
-                                    <input
-                                        type="text" value={phoneData.otp} onChange={(e) => updatePhone('otp', e.target.value)}
-                                        className="input-field" placeholder="Enter 6-digit OTP" style={{ flex: 1, letterSpacing: '2px', textAlign: 'center' }}
-                                    />
-                                    <button type="button" onClick={handleVerifyOtp} disabled={loading} style={{
-                                        background: '#10b981', color: 'white', padding: '0 16px', borderRadius: '10px', fontWeight: 600, cursor: 'pointer', fontSize: '13px'
-                                    }}>
-                                        {loading ? '...' : 'Verify'}
-                                    </button>
-                                </div>
-                            )}
-
-                            {isPhoneVerified && (
-                                <div style={{ color: '#10b981', fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                    ✅ Number verified securely.
-                                </div>
-                            )}
                         </div>
 
                         <button type="button" onClick={handleNextStep1} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px' }}>
@@ -372,10 +355,41 @@ export default function RegisterWizard() {
                             }}>
                                 ← Back
                             </button>
-                            <button type="button" onClick={handleFinalSubmit} className="btn-primary" disabled={loading} style={{
+                            <button type="button" onClick={handleSignupInit} className="btn-primary" disabled={loading} style={{
                                 flex: 2, justifyContent: 'center', padding: '14px', opacity: loading ? 0.7 : 1
                             }}>
-                                {loading ? '⏳ Creating...' : '✨ Complete Registration'}
+                                {loading ? '⏳ Sending OTP...' : '✨ Next: Verify Email'}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* ───────────────── STEP 4: EMAIL OTP VERIFICATION ───────────────── */}
+                {step === 4 && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '48px', marginBottom: '8px' }}>✉️</div>
+                        <h3 style={{ fontSize: '18px', color: '#1e293b', fontWeight: 600 }}>We sent you a code</h3>
+                        <p style={{ color: '#475569', fontSize: '14px', marginBottom: '16px' }}>
+                            Please check <strong style={{ color: '#1e1b4b' }}>{form.email}</strong> for a 6-digit verification code from Supabase.
+                        </p>
+
+                        <div>
+                            <input
+                                type="text"
+                                value={emailOtp}
+                                onChange={(e) => setEmailOtp(e.target.value)}
+                                className="input-field"
+                                placeholder="Enter 6-digit OTP"
+                                style={{ letterSpacing: '4px', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}
+                                maxLength={6}
+                            />
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+                            <button type="button" onClick={handleVerifyEmailOtp} className="btn-primary" disabled={loading} style={{
+                                width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.7 : 1
+                            }}>
+                                {loading ? '⏳ Verifying...' : '✅ Verify & Enter Dashboard'}
                             </button>
                         </div>
                     </div>

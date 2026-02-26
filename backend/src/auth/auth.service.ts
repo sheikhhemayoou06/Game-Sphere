@@ -28,18 +28,7 @@ export class AuthService {
         gender?: string;
         avatar?: string;
     }) {
-        // Enforce Mandatory OTP Verification if phone is provided
-        if (dto.phone) {
-            if (!dto.otp) {
-                throw new UnauthorizedException('OTP is required for phone verification.');
-            }
-            const storedOtp = this.otps.get(dto.phone);
-            if (!storedOtp || storedOtp !== dto.otp) {
-                throw new UnauthorizedException('Invalid or expired OTP.');
-            }
-            // Clear OTP after successful use
-            this.otps.delete(dto.phone);
-        }
+        // Phone verification removed as per new email-first verification plan
 
         const existing = await this.prisma.user.findUnique({
             where: { email: dto.email },
@@ -59,7 +48,6 @@ export class AuthService {
                 phone: dto.phone || undefined,
                 countryCode: dto.countryCode || undefined,
                 avatar: dto.avatar || undefined,
-                isVerified: !!dto.phone, // Auto-verify if they passed phone OTP phase successfully
             },
         });
 
