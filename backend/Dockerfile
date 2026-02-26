@@ -23,4 +23,4 @@ RUN npm run build:prod
 EXPOSE 4000
 
 # Start the server directly, but FIRST push the schema securely using our optimized DB Logic
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss && npm run render:start"]
+CMD ["sh", "-c", "export NODE_OPTIONS='--dns-result-order=ipv4first'; npx prisma db push --accept-data-loss && npm run render:start"]
