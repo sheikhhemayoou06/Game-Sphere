@@ -5,7 +5,7 @@ nixPkgs = ["...", "openssl"]
 cmds = ["npm ci"]
 
 [phases.build]
-cmds = ["npx prisma generate", "npm run build"]
+cmds = ["npm run render:build"]
 
 [start]
-cmd = "NODE_OPTIONS=\"--dns-result-order=ipv4first\" node dist/main"
+cmd = "npm run render:start"
