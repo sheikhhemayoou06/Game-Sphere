@@ -22,5 +22,5 @@ RUN npm run build:prod
 # Expose port
 EXPOSE 4000
 
-# Start the server directly, but FIRST push the schema securely using our optimized DB Logic
-CMD ["sh", "-c", "export NODE_OPTIONS='--dns-result-order=ipv4first'; npx prisma db push --accept-data-loss && npm run render:start"]
+# Start the server directly. Migrations must be handled outside of the startup script or via Render's dedicated build hooks.
+CMD ["npm", "run", "render:start"]
