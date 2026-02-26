@@ -792,77 +792,80 @@ export default function DashboardPage() {
                     </p>
                 </div>
 
-                {/* ─── Sport Selector Bar (only user's chosen sports) ─── */}
-                {mySports.length > 0 && selectedSport && (
-                    <div className="flex-wrap-mobile" style={{
-                        display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px',
-                        padding: '12px 16px', borderRadius: '14px',
-                        background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, justifyContent: 'flex-start'
-                    }}>
-                        <span style={{ fontSize: '13px', fontWeight: 700, color: theme.textSecondary, marginRight: '4px' }}>🏅 Sport:</span>
-                        {mySports.map((sp: any) => {
-                            const isActive = selectedSport?.id === sp.id;
-                            const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
-                            return (
-                                <button key={sp.id} onClick={() => setSelectedSport(sp)} style={{
-                                    padding: '8px 18px', borderRadius: '10px', cursor: 'pointer',
-                                    fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px',
-                                    border: isActive ? `2px solid ${accent}` : `1px solid ${theme.cardBorder}`,
-                                    background: isActive ? accent : theme.cardBg,
-                                    color: isActive ? 'white' : theme.textPrimary,
-                                    transition: 'all 0.2s',
-                                    whiteSpace: 'nowrap',
+                {/* ─── Sport Selector Bar (Always visible to allow adding sports) ─── */}
+                <div className="flex-wrap-mobile" style={{
+                    display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px',
+                    padding: '12px 16px', borderRadius: '14px',
+                    background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, justifyContent: 'flex-start'
+                }}>
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: theme.textSecondary, marginRight: '4px' }}>🏅 Sport:</span>
+
+                    {mySports.length > 0 ? mySports.map((sp: any) => {
+                        const isActive = selectedSport?.id === sp.id;
+                        const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
+                        return (
+                            <button key={sp.id} onClick={() => setSelectedSport(sp)} style={{
+                                padding: '8px 18px', borderRadius: '10px', cursor: 'pointer',
+                                fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px',
+                                border: isActive ? `2px solid ${accent}` : `1px solid ${theme.cardBorder}`,
+                                background: isActive ? accent : theme.cardBg,
+                                color: isActive ? 'white' : theme.textPrimary,
+                                transition: 'all 0.2s',
+                                whiteSpace: 'nowrap',
+                            }}>
+                                <SportIcon sport={sp.name} size={18} color={isActive ? 'white' : accent} />
+                                {sp.name}
+                            </button>
+                        );
+                    }) : (
+                        <span style={{ fontSize: '14px', color: theme.textSecondary, fontStyle: 'italic' }}>No sports selected yet.</span>
+                    )}
+
+                    {/* Add Sport Button */}
+                    {remainingSports.length > 0 && (
+                        <div style={{ position: 'relative', marginLeft: 'auto' }}>
+                            <button onClick={() => setShowAddSport(!showAddSport)} style={{
+                                padding: '8px 16px', borderRadius: '10px', cursor: 'pointer',
+                                fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px',
+                                border: `1px dashed ${theme.cardBorder}`,
+                                background: theme.cardBg, color: theme.textSecondary,
+                                transition: 'all 0.2s',
+                                whiteSpace: 'nowrap',
+                            }}>
+                                ➕ Add Sport
+                            </button>
+                            {showAddSport && (
+                                <div style={{
+                                    position: 'absolute', top: '44px', right: 0, zIndex: 50,
+                                    background: 'white', borderRadius: '12px', border: '1px solid #e9d5ff',
+                                    boxShadow: '0 10px 40px rgba(0,0,0,0.15)', padding: '8px', minWidth: '200px',
                                 }}>
-                                    <SportIcon sport={sp.name} size={18} color={isActive ? 'white' : accent} />
-                                    {sp.name}
-                                </button>
-                            );
-                        })}
-                        {/* Add Sport Button */}
-                        {remainingSports.length > 0 && (
-                            <div style={{ position: 'relative', marginLeft: 'auto' }}>
-                                <button onClick={() => setShowAddSport(!showAddSport)} style={{
-                                    padding: '8px 16px', borderRadius: '10px', cursor: 'pointer',
-                                    fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px',
-                                    border: `1px dashed ${theme.cardBorder}`,
-                                    background: theme.cardBg, color: theme.textSecondary,
-                                    transition: 'all 0.2s',
-                                    whiteSpace: 'nowrap',
-                                }}>
-                                    ➕ Add Sport
-                                </button>
-                                {showAddSport && (
-                                    <div style={{
-                                        position: 'absolute', top: '44px', right: 0, zIndex: 50,
-                                        background: 'white', borderRadius: '12px', border: '1px solid #e9d5ff',
-                                        boxShadow: '0 10px 40px rgba(0,0,0,0.15)', padding: '8px', minWidth: '200px',
-                                    }}>
-                                        {remainingSports.map((sp: any) => {
-                                            const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
-                                            return (
-                                                <button key={sp.id} onClick={() => {
-                                                    setShowAddSport(false);
-                                                    handleSelectNewSport(sp);
-                                                }} style={{
-                                                    width: '100%', padding: '10px 14px', borderRadius: '8px',
-                                                    cursor: 'pointer', fontSize: '14px', fontWeight: 600,
-                                                    border: 'none', background: 'transparent',
-                                                    color: "inherit", display: 'flex', alignItems: 'center', gap: '8px',
-                                                    textAlign: 'left', transition: 'background 0.15s',
-                                                }}
-                                                    onMouseEnter={(e) => (e.currentTarget.style.background = `${accent}15`)}
-                                                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
-                                                    <SportIcon sport={sp.name} size={20} color={accent} />
-                                                    {sp.name}
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                )}
+                                    {remainingSports.map((sp: any) => {
+                                        const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
+                                        return (
+                                            <button key={sp.id} onClick={() => {
+                                                setShowAddSport(false);
+                                                handleSelectNewSport(sp);
+                                            }} style={{
+                                                width: '100%', padding: '10px 14px', borderRadius: '8px',
+                                                cursor: 'pointer', fontSize: '14px', fontWeight: 600,
+                                                border: 'none', background: 'transparent',
+                                                color: "inherit", display: 'flex', alignItems: 'center', gap: '8px',
+                                                transition: 'background 0.2s'
+                                            }}
+                                                onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
+                                                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                                            >
+                                                <SportIcon sport={sp.name} size={18} color={accent} />
+                                                {sp.name}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
 
                 {/* ─── Sport Loading Indicator ─── */}
                 {isOwnerRole && sportLoading && (
