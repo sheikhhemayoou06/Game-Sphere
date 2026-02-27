@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/lib/store';
 
 export default function LoginPage() {
@@ -27,6 +28,17 @@ export default function LoginPage() {
 
         try {
             if (loginMethod === 'email') {
+                // 1. Authenticate with Supabase
+                const { error: sbError } = await supabase.auth.signInWithPassword({ email, password });
+
+                // If Supabase fails but it's an "Invalid login credentials", we should still try the backend 
+                // in case the user exists on the old backend but hasn't been migrated to Supabase yet.
+                // However, for consistency, we throw if Supabase fails.
+                if (sbError && sbError.message !== 'Invalid login credentials') {
+                    throw sbError;
+                }
+
+                // 2. Authenticate with Backend to get the custom JWT session
                 const res = await api.login({ email, password });
                 setAuth(res.user, res.accessToken);
                 router.push('/dashboard');

@@ -70,7 +70,7 @@ export default function RegisterWizard() {
         setError('');
         setLoading(true);
         try {
-            const { error: signUpError } = await supabase.auth.signUp({
+            const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
                 email: form.email,
                 password: form.password,
                 options: {
@@ -84,8 +84,27 @@ export default function RegisterWizard() {
 
             if (signUpError) throw signUpError;
 
-            // Success - transition to OTP stage
-            setStep(4);
+            // If Supabase Email Confirmations are turned OFF, it instantly returns a session
+            if (signUpData.session) {
+                const finalPayload = {
+                    ...form,
+                    phone: `${phoneData.countryCode}${phoneData.phone}`,
+                    countryCode: phoneData.countryCode,
+                    country: Country.getCountryByCode(location.countryIso)?.name || '',
+                    state: State.getStateByCodeAndCountry(location.stateIso, location.countryIso)?.name || '',
+                    district: location.districtName,
+                    gender: demographics.gender,
+                    heightCm: demographics.heightCm ? parseInt(demographics.heightCm) : undefined,
+                    avatar: demographics.avatar || undefined,
+                };
+
+                const res = await api.register(finalPayload) as any;
+                setAuth(res.user, res.accessToken);
+                router.push('/dashboard');
+            } else {
+                // Success but needs email verify - transition to OTP stage
+                setStep(4);
+            }
         } catch (err: any) {
             setError(err.message || 'Supabase Registration failed');
         } finally {
