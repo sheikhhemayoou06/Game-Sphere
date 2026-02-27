@@ -54,6 +54,9 @@ export default function LoginPage() {
                 }
             }
         } catch (err: any) {
+            const currentApiUrl = process.env.NODE_ENV === 'development' && typeof window !== 'undefined'
+                ? `http://${window.location.hostname}:4000/api` : 'production or unresolved';
+            alert(`[DEBUG] Error: ${err.message}\nSupabase URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL}\nAPI URL: ${currentApiUrl}`);
             setError(err.message || 'Login failed');
         } finally {
             setLoading(false);

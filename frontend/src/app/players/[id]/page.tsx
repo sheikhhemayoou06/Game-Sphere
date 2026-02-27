@@ -12,7 +12,10 @@ export default function PlayerProfilePage() {
 
     useEffect(() => {
         if (id) {
-            fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/auth/profile`, {
+            const apiUrl = process.env.NODE_ENV === 'development' && typeof window !== 'undefined'
+                ? `http://${window.location.hostname}:4000/api` : (process.env.NEXT_PUBLIC_API_URL || '/api');
+
+            fetch(`${apiUrl}/auth/profile`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             })
                 .then((r) => r.json())

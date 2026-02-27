@@ -1,4 +1,12 @@
-const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4000/api' : (process.env.NEXT_PUBLIC_API_URL || '/api');
+const isDev = process.env.NODE_ENV === 'development';
+const getApiUrl = () => {
+    if (!isDev) return process.env.NEXT_PUBLIC_API_URL || '/api';
+    if (typeof window !== 'undefined') {
+        // Use the current hostname so mobile works automatically
+        return `http://${window.location.hostname}:4000/api`;
+    }
+    return 'http://localhost:4000/api';
+};
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -12,9 +20,12 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
         headers['Authorization'] = `Bearer ${token}`;
     }
 
-    const res = await fetch(`${API_URL}${endpoint}`, {
+    const apiUrl = getApiUrl();
+    const res = await fetch(`${apiUrl}${endpoint}`, {
         ...options,
         headers,
+    }).catch(err => {
+        throw new Error(`[Network Error connecting to ${apiUrl}${endpoint}]: ${err.message}`);
     });
 
     if (!res.ok) {

@@ -265,25 +265,12 @@ export default function DashboardPage() {
     const executeAddSport = async (sp: any, metadata: any) => {
         setIsSavingSport(true);
         try {
-            console.log("SENDING ADD SPORT TO BACKEND:", { sportId: sp.id, metadata });
-            const token = localStorage.getItem('token');
-            const sportRes = await fetch(`http://localhost:4000/api/players/me/sports`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ sportId: sp.id, metadata })
+            // 1. Send add sport request cleanly using api client
+            const sportRes = await api.addMySport(sp.id, metadata).catch((e) => {
+                throw new Error(e.message);
             });
 
-            if (!sportRes.ok) {
-                const errText = await sportRes.text();
-                console.error("Sport addition failed:", sportRes.status, errText);
-                alert(`Failed to add sport: ${sportRes.status} ${errText}`);
-                setIsSavingSport(false);
-                return;
-            }
-
+            // If the request didn't throw, it was successful.
             // Fallback for context update
             addMySport(sp.id);
 
@@ -291,29 +278,15 @@ export default function DashboardPage() {
             if (user?.role === 'TEAM_MANAGER' && metadata.teamName) {
                 console.log("SENDING TEAM SETUP TO BACKEND:", { name: metadata.teamName, sportId: sp.id });
                 try {
-                    const token = localStorage.getItem('token');
-                    const res = await fetch('http://localhost:4000/api/teams', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({
-                            name: metadata.teamName,
-                            sportId: sp.id,
-                            logo: metadata.logo || '',
-                        })
+                    await api.createTeam({
+                        name: metadata.teamName,
+                        sportId: sp.id,
+                        logo: metadata.logo || '',
                     });
-                    if (!res.ok) {
-                        const errText = await res.text();
-                        console.error("Team creation failed:", res.status, errText);
-                        alert(`Failed to save team: ${res.status} ${errText}`);
-                    } else {
-                        console.log("Team creation successful");
-                    }
-                } catch (teamErr) {
+                    console.log("Team creation successful");
+                } catch (teamErr: any) {
                     console.error("CRITICAL FETCH ERROR ON TEAM CREATION:", teamErr);
-                    alert("CRITICAL FETCH ERROR ON TEAM CREATION. Check console.");
+                    alert(`Failed to save team: ${teamErr.message}`);
                 }
             }
 
