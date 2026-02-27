@@ -85,7 +85,7 @@ export class AuthService {
     }
 
     async login(dto: { email: string; password: string }) {
-        const user = await this.prisma.user.findUnique({
+        let user = await this.prisma.user.findUnique({
             where: { email: dto.email },
             include: {
                 player: {
@@ -93,13 +93,32 @@ export class AuthService {
                 }
             },
         });
-        if (!user) {
-            throw new UnauthorizedException('Invalid credentials');
-        }
 
-        const isPasswordValid = await bcrypt.compare(dto.password, user.password);
-        if (!isPasswordValid) {
-            throw new UnauthorizedException('Invalid credentials');
+        // 🚀 HOTFIX: Auto-sync orphaned Supabase accounts
+        // If Supabase authentication succeeded on the frontend but Prisma failed during signup, 
+        // the user's login hits this endpoint and throws 'Invalid Credentials' because they 
+        // don't exist in our custom database. We will auto-create them right here.
+        if (!user) {
+            const hashedPassword = await bcrypt.hash(dto.password, 10);
+            user = await this.prisma.user.create({
+                data: {
+                    email: dto.email,
+                    password: hashedPassword,
+                    firstName: 'Player',
+                    lastName: '',
+                    role: 'PLAYER',
+                },
+                include: {
+                    player: {
+                        include: { playerSports: { include: { sport: true } } }
+                    }
+                }
+            });
+        } else {
+            const isPasswordValid = await bcrypt.compare(dto.password, user.password);
+            if (!isPasswordValid) {
+                throw new UnauthorizedException('Invalid credentials');
+            }
         }
 
         const token = this.generateToken(user);
