@@ -23,8 +23,8 @@ export default function FixturesPage() {
         api.getTournaments().then(setTournaments).catch(() => []).finally(() => setLoading(false));
     }, []);
 
-    const CRICKET_TEAMS = ['Thunder Warriors', 'Blue Blazers', 'Red Dragons', 'Golden Eagles', 'Silver Sharks', 'Green Vipers', 'Iron Falcons', 'Storm Riders'];
-    const FOOTBALL_TEAMS = ['Storm FC', 'Iron Hawks FC', 'Blue Devils FC', 'Red Bulls FC', 'Golden Tigers FC', 'Silver Knights FC', 'Green Arrows FC', 'Black Panthers FC'];
+    const CRICKET_TEAMS: string[] = [];
+    const FOOTBALL_TEAMS: string[] = [];
     const sampleTeams = selectedSport?.name === 'Football' ? FOOTBALL_TEAMS : CRICKET_TEAMS;
 
     const filteredTournaments = selectedSport ? tournaments.filter(t => !t.sport || t.sport === selectedSport.name || t.sport?.name === selectedSport.name) : tournaments;
@@ -79,7 +79,7 @@ export default function FixturesPage() {
             </nav>
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Fixture Generator` : 'Fixture Generator'}</h1>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Fixture Generator` : 'Fixture Generator'}</h1>
                 <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `Auto-generate ${sportLabel} brackets and schedules` : 'Auto-generate tournament brackets and round-robin schedules'}</p>
 
                 {/* Config panel */}

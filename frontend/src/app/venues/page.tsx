@@ -4,14 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useSportStore } from '@/lib/store';
 
-const VENUES = [
-    { id: '1', name: 'Wankhede Stadium', city: 'Mumbai', state: 'Maharashtra', type: 'STADIUM', capacity: 33108, surface: 'Natural Grass', indoor: false, rating: 4.8, sports: ['Cricket'], facilities: ['Floodlights', 'Scoreboard', 'VIP Lounge', 'Media Box', 'Parking'], image: '🏟️', status: 'AVAILABLE' },
-    { id: '2', name: 'Jawaharlal Nehru Indoor Arena', city: 'Delhi', state: 'Delhi', type: 'INDOOR', capacity: 5000, surface: 'Hardwood', indoor: true, rating: 4.5, sports: ['Badminton', 'Basketball', 'Volleyball'], facilities: ['AC', 'Scoreboard', 'Changing Rooms', 'Parking'], image: '🏢', status: 'AVAILABLE' },
-    { id: '3', name: 'SAI Training Centre', city: 'Bengaluru', state: 'Karnataka', type: 'TRAINING', capacity: 500, surface: 'Synthetic', indoor: false, rating: 4.3, sports: ['Athletics', 'Football', 'Hockey'], facilities: ['Track', 'Gym', 'Medical Room', 'Hostel'], image: '🏋️', status: 'MAINTENANCE' },
-    { id: '4', name: 'Gachibowli Athletic Stadium', city: 'Hyderabad', state: 'Telangana', type: 'STADIUM', capacity: 25000, surface: 'Natural Grass', indoor: false, rating: 4.6, sports: ['Football', 'Athletics'], facilities: ['Floodlights', 'Running Track', 'Parking', 'Scoreboard'], image: '🏟️', status: 'BOOKED' },
-    { id: '5', name: 'Tau Devi Lal Complex', city: 'Panchkula', state: 'Haryana', type: 'COMPLEX', capacity: 8000, surface: 'Multiple', indoor: false, rating: 4.1, sports: ['Cricket', 'Football', 'Kabaddi', 'Wrestling'], facilities: ['Swimming Pool', 'Courts', 'Canteen', 'Parking'], image: '🏟️', status: 'AVAILABLE' },
-    { id: '6', name: 'Patliputra Sports Complex', city: 'Patna', state: 'Bihar', type: 'COMPLEX', capacity: 3000, surface: 'Clay/Grass', indoor: false, rating: 3.9, sports: ['Cricket', 'Football', 'Hockey'], facilities: ['Changing Rooms', 'Practice Nets', 'Canteen'], image: '🏗️', status: 'AVAILABLE' },
-];
+const VENUES: any[] = [];
 
 export default function VenuesPage() {
     const { selectedSport } = useSportStore();

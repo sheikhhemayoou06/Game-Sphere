@@ -30,23 +30,16 @@ export default function FinancialPage() {
     const pendingPayments = Math.floor(filteredTeams.length * 0.3) * 2500;
 
     const monthlyData = [
-        { month: 'Sep', amount: 45000 },
-        { month: 'Oct', amount: 62000 },
-        { month: 'Nov', amount: 78000 },
-        { month: 'Dec', amount: 54000 },
-        { month: 'Jan', amount: 91000 },
+        { month: 'Sep', amount: 0 },
+        { month: 'Oct', amount: 0 },
+        { month: 'Nov', amount: 0 },
+        { month: 'Dec', amount: 0 },
+        { month: 'Jan', amount: 0 },
         { month: 'Feb', amount: totalRevenue },
     ];
-    const maxAmount = Math.max(...monthlyData.map((d) => d.amount));
+    const maxAmount = Math.max(...monthlyData.map((d) => d.amount), 1);
 
-    const recentTransactions = [
-        { id: 'TXN-001', desc: 'Tournament Registration — Cricket Premier League', amount: 15000, type: 'credit', date: '2026-02-20', sport: 'Cricket' },
-        { id: 'TXN-002', desc: 'Team Registration Fee — Thunder Warriors', amount: 2500, type: 'credit', date: '2026-02-19', sport: 'Cricket' },
-        { id: 'TXN-003', desc: 'Refund — Match Cancellation', amount: -5000, type: 'debit', date: '2026-02-18', sport: 'Football' },
-        { id: 'TXN-004', desc: 'Sponsorship — District Level Kabaddi', amount: 25000, type: 'credit', date: '2026-02-17', sport: 'Kabaddi' },
-        { id: 'TXN-005', desc: 'Official Fee — Match Referees', amount: -8000, type: 'debit', date: '2026-02-16', sport: 'Cricket' },
-        { id: 'TXN-006', desc: 'Team Registration Fee — Blue Blazers', amount: 2500, type: 'credit', date: '2026-02-15', sport: 'Football' },
-    ];
+    const recentTransactions: any[] = [];
 
     const filteredTxns = selectedSport ? recentTransactions.filter(tx => tx.sport === selectedSport.name) : recentTransactions;
 

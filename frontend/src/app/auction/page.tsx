@@ -13,90 +13,23 @@ function getAuctionRole(role: string): RoleView {
     return 'player';
 }
 
-/* ═══════ PLAYER DATA ═══════ */
+/* ═══════ DATA — All empty by default ═══════ */
 
-const MY_AUCTION_STATUS_CRICKET = {
-    id: 'AUC-001',
-    name: 'District Cricket Championship 2026 — Player Auction',
-    status: 'SHORTLISTED',
-    currentBid: 175000,
-    basePrice: 50000,
-    team: 'Thunder Warriors',
-    logo: '⚡',
-    sport: 'Cricket',
-};
+const MY_AUCTION_STATUS_CRICKET: any = null;
+const MY_AUCTION_STATUS_FOOTBALL: any = null;
 
-const MY_AUCTION_STATUS_FOOTBALL = {
-    id: 'AUC-008',
-    name: 'Mumbai Local Draft 2026 — Player Auction',
-    status: 'IN_BIDDING',
-    currentBid: 250000,
-    basePrice: 100000,
-    team: 'Kerala Blasters',
-    logo: '🐘',
-    sport: 'Football',
-};
-
-const OPEN_AUCTIONS = [
-    { id: 'AUC-002', name: 'State Football League Draft', sport: 'Football', date: '2026-03-15', teams: 6, regDeadline: '2026-03-01', entryFee: 1000, status: 'OPEN' },
-    { id: 'AUC-003', name: 'Inter-District Basketball Selection', sport: 'Basketball', date: '2026-03-20', teams: 8, regDeadline: '2026-03-10', entryFee: 500, status: 'OPEN' },
-    { id: 'AUC-004', name: 'Kabaddi Premier League Auction', sport: 'Kabaddi', date: '2026-04-05', teams: 8, regDeadline: '2026-03-20', entryFee: 750, status: 'UPCOMING' },
-];
-
-const BID_NOTIFICATIONS = [
-    { team: 'Thunder Warriors', amount: 175000, time: '10:25 AM', logo: '⚡', isLatest: true, sport: 'Cricket' },
-    { team: 'Royal Strikers', amount: 150000, time: '10:24 AM', logo: '👑', isLatest: false, sport: 'Cricket' },
-    { team: 'Blazing Eagles', amount: 125000, time: '10:23 AM', logo: '🦅', isLatest: false, sport: 'Football' },
-    { team: 'Golden Lions', amount: 100000, time: '10:22 AM', logo: '🦁', isLatest: false, sport: 'Basketball' },
-    { team: 'Phoenix Rising', amount: 75000, time: '10:21 AM', logo: '🔥', isLatest: false, sport: 'Kabaddi' },
-    { team: 'Thunder Warriors', amount: 50000, time: '10:20 AM', logo: '⚡', isLatest: false, sport: 'Cricket' },
-    { team: 'Mumbai Strikers', amount: 250000, time: '10:30 AM', logo: '🔥', isLatest: true, sport: 'Football' },
-    { team: 'Kerala Blasters', amount: 200000, time: '10:28 AM', logo: '🐘', isLatest: false, sport: 'Football' },
-];
-
-const TEAMS_PURSE = [
-    { name: 'Thunder Warriors', logo: '⚡', remaining: 3250000, spent: 1750000, players: 5, color: '#f59e0b', sport: 'Cricket' },
-    { name: 'Royal Strikers', logo: '👑', remaining: 3800000, spent: 1200000, players: 4, color: '#6366f1', sport: 'Cricket' },
-    { name: 'Blazing Eagles', logo: '🦅', remaining: 2900000, spent: 2100000, players: 6, color: '#dc2626', sport: 'Football' },
-    { name: 'Mumbai Strikers', logo: '🔥', remaining: 4200000, spent: 800000, players: 3, color: '#16a34a', sport: 'Football' },
-    { name: 'Golden Lions', logo: '🦁', remaining: 4200000, spent: 800000, players: 3, color: '#ca8a04', sport: 'Basketball' },
-    { name: 'Storm Riders', logo: '🌊', remaining: 3500000, spent: 1500000, players: 5, color: '#0ea5e9', sport: 'Hockey' },
-    { name: 'Iron Wolves', logo: '🐺', remaining: 4000000, spent: 1000000, players: 3, color: '#64748b', sport: 'Cricket' },
-    { name: 'Phoenix Rising', logo: '🔥', remaining: 3000000, spent: 2000000, players: 6, color: '#dc2626', sport: 'Kabaddi' },
-    { name: 'Silver Hawks', logo: '🦅', remaining: 3700000, spent: 1300000, players: 4, color: '#94a3b8', sport: 'Badminton' },
-];
+const OPEN_AUCTIONS: any[] = [];
+const BID_NOTIFICATIONS: any[] = [];
+const TEAMS_PURSE: any[] = [];
 
 /* ═══════ OWNER DATA ═══════ */
 
-const CURRENT_BIDDING_PLAYER = {
-    name: 'Rajesh Sharma', position: 'All-Rounder', age: 24, matches: 45, runs: 1580,
-    wickets: 38, rating: 87, basePrice: 50000, currentBid: 125000,
-    highestBidder: 'Royal Strikers', highestBidLogo: '👑', timeLeft: '0:42',
-    myLastBid: 100000, sport: 'Cricket'
-};
+const CURRENT_BIDDING_PLAYER: any = null;
+const CURRENT_BIDDING_FOOTBALLER: any = null;
 
-const CURRENT_BIDDING_FOOTBALLER = {
-    name: 'Sunil Chhetri', position: 'Striker', age: 38, matches: 130, runs: 85,
-    wickets: 0, rating: 91, basePrice: 150000, currentBid: 325000,
-    highestBidder: 'Mumbai Strikers', highestBidLogo: '🔥', timeLeft: '1:12',
-    myLastBid: 250000, sport: 'Football'
-};
+const MY_PURCHASED_PLAYERS: any[] = [];
 
-const MY_PURCHASED_PLAYERS = [
-    { name: 'Vikram Singh', position: 'Batsman', price: 350000, rating: 92, status: 'CONFIRMED', sport: 'Cricket' },
-    { name: 'Kiran Desai', position: 'Fast Bowler', price: 280000, rating: 85, status: 'CONFIRMED', sport: 'Cricket' },
-    { name: 'Arjun Patel', position: 'All-Rounder', price: 420000, rating: 88, status: 'PENDING_PAYMENT', sport: 'Cricket' },
-    { name: 'Sanjay Verma', position: 'Spinner', price: 150000, rating: 80, status: 'CONFIRMED', sport: 'Cricket' },
-    { name: 'Deepak Yadav', position: 'Batsman', price: 220000, rating: 86, status: 'CONFIRMED', sport: 'Cricket' },
-    { name: 'Rahul Mehta', position: 'Midfielder', price: 450000, rating: 89, status: 'CONFIRMED', sport: 'Football' },
-    { name: 'Amit Kumar', position: 'Goalkeeper', price: 300000, rating: 82, status: 'PENDING_PAYMENT', sport: 'Football' },
-];
-
-const OWNER_UPCOMING_AUCTIONS = [
-    { id: 'AUC-001', name: 'District Cricket Championship 2026', date: '2026-02-25', status: 'REGISTERED', sport: 'Cricket', players: 48, teams: 8 },
-    { id: 'AUC-005', name: 'State T20 League Auction', date: '2026-03-10', status: 'REGISTERED', sport: 'Cricket', players: 64, teams: 10 },
-    { id: 'AUC-006', name: 'Corporate Cricket Series', date: '2026-04-01', status: 'NOT_REGISTERED', sport: 'Cricket', players: 32, teams: 6 },
-];
+const OWNER_UPCOMING_AUCTIONS: any[] = [];
 
 /* ═══════ COMPONENT ═══════ */
 
@@ -115,7 +48,7 @@ export default function AuctionPage() {
     // Sport filtering
     const activeConfig = selectedSport ? (sportConfig[selectedSport.name] || defaultSportConfig) : defaultSportConfig;
     const activeMyStatus = selectedSport?.name === 'Football' ? MY_AUCTION_STATUS_FOOTBALL : MY_AUCTION_STATUS_CRICKET;
-    const showMyAuctionStatus = !selectedSport || activeMyStatus.sport === selectedSport.name;
+    const showMyAuctionStatus = activeMyStatus && (!selectedSport || activeMyStatus.sport === selectedSport.name);
 
     const filteredOpenAuctions = selectedSport ? OPEN_AUCTIONS.filter(a => a.sport === selectedSport.name) : OPEN_AUCTIONS;
     const filteredOwnerAuctions = selectedSport ? OWNER_UPCOMING_AUCTIONS.filter(a => a.sport === selectedSport.name) : OWNER_UPCOMING_AUCTIONS;
@@ -124,13 +57,13 @@ export default function AuctionPage() {
     const filteredPurchases = selectedSport ? MY_PURCHASED_PLAYERS.filter(p => p.sport === selectedSport.name) : MY_PURCHASED_PLAYERS;
 
     const ActiveBiddingPlayer = selectedSport?.name === 'Football' ? CURRENT_BIDDING_FOOTBALLER : CURRENT_BIDDING_PLAYER;
-    const isLiveBiddingActive = !selectedSport || ActiveBiddingPlayer.sport === selectedSport.name;
+    const isLiveBiddingActive = ActiveBiddingPlayer && (!selectedSport || ActiveBiddingPlayer.sport === selectedSport.name);
 
     const getMyTeam = () => {
-        if (!selectedSport) return TEAMS_PURSE.find(t => t.name === 'Thunder Warriors');
+        if (!selectedSport) return TEAMS_PURSE[0] || null;
         return filteredTeamsPurse.length > 0 ? filteredTeamsPurse[0] : null;
     };
-    const activeMyTeam = getMyTeam() || TEAMS_PURSE.find(t => t.name === 'Thunder Warriors');
+    const activeMyTeam = getMyTeam() || TEAMS_PURSE[0] || null;
 
     const statusColor = (s: string) => {
         switch (s) {
@@ -153,7 +86,7 @@ export default function AuctionPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <Link href="/dashboard" style={{ color: '#f59e0b', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
                         <span style={{ color: '#2d2d44' }}>|</span>
-                        <span style={{ fontWeight: 800, fontSize: '18px', color: '#f59e0b' }}>{sportIcon} {selectedSport ? `${sportLabel} Auction Console` : '🔨 Auction Console'}</span>
+                        <span style={{ fontWeight: 800, fontSize: '18px', color: '#f59e0b' }}>{selectedSport ? `${sportLabel} Auction Console` : '🔨 Auction Console'}</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         {activeMyTeam && (
@@ -339,7 +272,7 @@ export default function AuctionPage() {
                             {filteredTeamsPurse.map((t, i) => {
                                 const total = t.remaining + t.spent;
                                 const pct = (t.spent / total) * 100;
-                                const isMyTeam = t.name === 'Thunder Warriors' || t.name === 'Mumbai Strikers';
+                                const isMyTeam = false;
                                 return (
                                     <div key={i} style={{ padding: '18px', borderRadius: '14px', background: '#1a1a2e', border: isMyTeam ? `2px solid ${t.color}` : '1px solid #2d2d44' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
@@ -405,7 +338,7 @@ export default function AuctionPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <Link href="/dashboard" style={{ color: '#f59e0b', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
                     <span style={{ color: '#2d2d44' }}>|</span>
-                    <span style={{ fontWeight: 800, fontSize: '18px', color: '#f59e0b' }}>{sportIcon} {selectedSport ? `${sportLabel} Player Auction` : '🔨 Player Auction'}</span>
+                    <span style={{ fontWeight: 800, fontSize: '18px', color: '#f59e0b' }}>{selectedSport ? `${sportLabel} Player Auction` : '🔨 Player Auction'}</span>
                 </div>
             </div>
 

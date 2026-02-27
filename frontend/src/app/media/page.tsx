@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+//
 import Link from 'next/link';
 import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
 
 const ALBUMS = [
     {
-        id: '1', title: 'District Cricket Cup 2025', sport: 'Cricket', date: '2025-12-15', coverEmoji: '🏏',
+        id: '1', title: 'Championship Finals Highlights', sport: 'Cricket', date: '2026-02-15', coverEmoji: '',
         items: [
             { type: 'photo', desc: 'Opening ceremony', emoji: '🎭' },
             { type: 'photo', desc: 'Semi-final match action', emoji: '⚡' },
@@ -18,7 +19,7 @@ const ALBUMS = [
         ],
     },
     {
-        id: '2', title: 'State Football League 2026', sport: 'Football', date: '2026-01-20', coverEmoji: '⚽',
+        id: '3', title: 'Basketball Inter-City Cup', sport: 'Basketball', date: '2025-12-10', coverEmoji: '',
         items: [
             { type: 'photo', desc: 'Kick-off', emoji: '🥅' },
             { type: 'video', desc: 'Goal compilation', emoji: '🎬' },
@@ -67,7 +68,7 @@ export default function MediaPage() {
             </nav>
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#831843', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Media Gallery` : 'Media Gallery'}</h1>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#831843', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Media Gallery` : 'Media Gallery'}</h1>
                 <p style={{ color: '#9d174d', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} photos and videos` : 'Photos and videos from tournaments, matches, and events'}</p>
 
                 {/* Stats */}

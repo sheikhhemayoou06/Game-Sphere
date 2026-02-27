@@ -44,7 +44,7 @@ export default function HelpPage() {
 
             <div style={{ maxWidth: '800px', margin: '0 auto', padding: '32px 24px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                    <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#713f12', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Help & Support` : 'Help & Support'}</h1>
+                    <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#713f12', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Help & Support` : 'Help & Support'}</h1>
                     <p style={{ color: '#854d0e', fontSize: '16px', marginBottom: '20px' }}>{selectedSport ? `${sportLabel} help, guides, and support` : 'Find answers, explore guides, or reach out to our team'}</p>
                     <input value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 Search for help..."
                         style={{ width: '100%', maxWidth: '480px', padding: '14px 20px', borderRadius: '14px', border: '2px solid #fde68a', fontSize: '15px', boxSizing: 'border-box' }} />

@@ -39,7 +39,7 @@ export default function TournamentsPage() {
 
     const handleApply = (tournamentId: string, tournamentName: string) => {
         setAppliedIds(prev => new Set(prev).add(tournamentId));
-        alert(`✅ Application submitted for "${tournamentName}"!\n\nYour team "Thunder Warriors" has been registered. The organizer will review your application.`);
+        alert(`✅ Application submitted for "${tournamentName}"!\n\nYour team has been registered. The organizer will review your application.`);
     };
 
     return (
@@ -66,7 +66,7 @@ export default function TournamentsPage() {
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px' }}>
                 <div style={{ marginBottom: '32px' }}>
-                    <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#1e1b4b', letterSpacing: '-0.5px' }}>{sportIcon} {selectedSport ? `${sportLabel} Tournaments` : 'Tournaments'}</h1>
+                    <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#1e1b4b', letterSpacing: '-0.5px' }}>{selectedSport ? `${sportLabel} Tournaments` : 'Tournaments'}</h1>
                     <p style={{ color: '#64748b', fontSize: '15px', marginTop: '4px' }}>
                         {isTeamManager
                             ? `Browse ${selectedSport ? sportLabel + ' ' : ''}tournaments and apply with your team`

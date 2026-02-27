@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4000/api' : (process.env.NEXT_PUBLIC_API_URL || '/api');
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -56,6 +56,7 @@ export const api = {
     verifyOtp: (data: { phone: string; otp: string }) =>
         request<any>('/auth/verify-otp', { method: 'POST', body: JSON.stringify(data) }),
     getProfile: () => request<any>('/auth/profile'),
+    updateProfile: (data: any) => request<any>('/auth/profile', { method: 'PATCH', body: JSON.stringify(data) }),
 
     // Sports
     getSports: () => request<any[]>('/sports'),

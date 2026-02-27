@@ -1,7 +1,7 @@
 export type FormField = {
     id: string;
     label: string;
-    type: 'select' | 'text' | 'number';
+    type: 'select' | 'text' | 'number' | 'file';
     options?: string[];
     placeholder?: string;
 };
@@ -84,5 +84,25 @@ export const SPORT_FORMS: Record<string, FormField[]> = {
             type: 'select',
             options: ['Forward', 'Midfielder', 'Defender', 'Goalkeeper'],
         },
+    ],
+    TEAM_MANAGER: [
+        {
+            id: 'teamName',
+            label: 'Team Name',
+            type: 'text',
+            placeholder: 'e.g., Strike Force 11',
+        },
+        {
+            id: 'level',
+            label: 'Team Level',
+            type: 'select',
+            options: ['Club', 'School', 'College', 'District', 'State', 'National'],
+        },
+        {
+            id: 'logo',
+            label: 'Team Logo',
+            type: 'file',
+            placeholder: 'Upload Logo',
+        }
     ],
 };

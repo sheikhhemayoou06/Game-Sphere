@@ -181,7 +181,7 @@ export default function AdminPanel() {
                                                 color: s.accentColor || '#6366f1',
                                                 display: 'flex', alignItems: 'center', gap: '6px',
                                             }}>
-                                                <span>{s.icon || sportIcons[s.name] || '🏅'}</span> {s.name}
+                                                <span>{s.name}</span>
                                             </div>
                                         ))}
                                     </div>

@@ -262,10 +262,13 @@ export declare class MatchesController {
                 dateOfBirth: Date | null;
                 gender: string | null;
                 city: string | null;
+                district: string | null;
                 state: string | null;
                 country: string;
                 primarySport: string | null;
                 bio: string | null;
+                heightCm: number | null;
+                weightKg: number | null;
                 totalMatches: number;
                 totalWins: number;
                 careerStats: string | null;
@@ -273,8 +276,8 @@ export declare class MatchesController {
             };
         } & {
             id: string;
-            playerId: string;
             matchId: string;
+            playerId: string;
             statsData: string | null;
         })[];
     } & {
@@ -419,8 +422,8 @@ export declare class MatchesController {
     }>;
     updatePlayerStats(matchId: string, playerId: string, statsData: any): Promise<{
         id: string;
-        playerId: string;
         matchId: string;
+        playerId: string;
         statsData: string | null;
     }>;
 }

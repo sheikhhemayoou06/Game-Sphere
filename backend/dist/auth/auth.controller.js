@@ -22,7 +22,15 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async register(dto) {
-        return this.authService.register(dto);
+        try {
+            return await this.authService.register(dto);
+        }
+        catch (error) {
+            console.error('\n❌ [REGISTER ERROR] Detailed Stack Trace:');
+            console.error(error);
+            console.error('----------------------------------------\n');
+            throw error;
+        }
     }
     async login(dto) {
         return this.authService.login(dto);
@@ -33,8 +41,17 @@ let AuthController = class AuthController {
     async verifyOtp(dto) {
         return this.authService.verifyOtp(dto);
     }
+    async verifyEmail(token) {
+        return this.authService.verifyEmail(token);
+    }
+    async sendVerificationEmail(req) {
+        return this.authService.sendEmailVerification(req.user.sub);
+    }
     async getProfile(req) {
         return this.authService.getProfile(req.user.sub);
+    }
+    async updateProfile(req, dto) {
+        return this.authService.updateProfile(req.user.sub, dto);
     }
 };
 exports.AuthController = AuthController;
@@ -67,6 +84,21 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "verifyOtp", null);
 __decorate([
+    (0, common_1.Get)('verify-email'),
+    __param(0, (0, common_1.Query)('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "verifyEmail", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('send-verification-email'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "sendVerificationEmail", null);
+__decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('profile'),
     __param(0, (0, common_1.Request)()),
@@ -74,6 +106,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getProfile", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)('profile'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "updateProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

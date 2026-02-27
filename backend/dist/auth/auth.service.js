@@ -71,20 +71,35 @@ let AuthService = class AuthService {
                 lastName: dto.lastName,
                 role: dto.role || 'PLAYER',
                 phone: dto.phone || undefined,
+                countryCode: dto.countryCode || undefined,
+                avatar: dto.avatar || undefined,
             },
         });
-        if (user.role === 'PLAYER') {
+        if (user.role === 'PLAYER' || user.role === 'TEAM_MANAGER' || user.role === 'OFFICIAL') {
             const sportsId = `GS-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
             await this.prisma.player.create({
                 data: {
                     userId: user.id,
                     sportsId,
+                    district: dto.district || undefined,
+                    state: dto.state || undefined,
+                    country: dto.country || 'India',
+                    heightCm: dto.heightCm || undefined,
+                    gender: dto.gender || undefined,
                 },
             });
         }
+        const populatedUser = await this.prisma.user.findUnique({
+            where: { id: user.id },
+            include: {
+                player: {
+                    include: { playerSports: { include: { sport: true } } }
+                }
+            },
+        });
         const token = this.generateToken(user);
         return {
-            user: this.sanitizeUser(user),
+            user: this.sanitizeUser(populatedUser),
             accessToken: token,
         };
     }
@@ -147,6 +162,34 @@ let AuthService = class AuthService {
             accessToken: token,
         };
     }
+    async sendEmailVerification(userId) {
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!user)
+            throw new common_1.UnauthorizedException('User not found');
+        if (user.isEmailVerified)
+            return { message: 'Email already verified' };
+        const verifyToken = this.jwtService.sign({ sub: user.id, purpose: 'email_verify' }, { expiresIn: '24h' });
+        console.log(`\n======================================`);
+        console.log(`📧 [DEV] EMAIL MOCK to ${user.email}:`);
+        console.log(`Click to verify: http://localhost:3000/api/auth/verify-email?token=${verifyToken}`);
+        console.log(`======================================\n`);
+        return { message: 'Verification email sent' };
+    }
+    async verifyEmail(token) {
+        try {
+            const decoded = this.jwtService.verify(token);
+            if (decoded.purpose !== 'email_verify')
+                throw new Error('Invalid token type');
+            await this.prisma.user.update({
+                where: { id: decoded.sub },
+                data: { isEmailVerified: true }
+            });
+            return { message: 'Email successfully verified' };
+        }
+        catch (e) {
+            throw new common_1.UnauthorizedException('Invalid or expired verification link');
+        }
+    }
     async getProfile(userId) {
         const user = await this.prisma.user.findUnique({
             where: { id: userId },
@@ -160,6 +203,50 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException('User not found');
         }
         return this.sanitizeUser(user);
+    }
+    async updateProfile(userId, data) {
+        const { name, phone, email, district, state, country, height, weight, gender } = data;
+        let firstName, lastName;
+        if (name) {
+            const parts = name.trim().split(' ');
+            firstName = parts[0];
+            lastName = parts.slice(1).join(' ');
+        }
+        const userUpdate = {};
+        if (firstName)
+            userUpdate.firstName = firstName;
+        if (lastName !== undefined)
+            userUpdate.lastName = lastName;
+        if (phone)
+            userUpdate.phone = phone;
+        if (email)
+            userUpdate.email = email;
+        if (Object.keys(userUpdate).length > 0) {
+            await this.prisma.user.update({
+                where: { id: userId },
+                data: userUpdate,
+            });
+        }
+        const playerUpdate = {};
+        if (district)
+            playerUpdate.district = district;
+        if (state)
+            playerUpdate.state = state;
+        if (country)
+            playerUpdate.country = country;
+        if (height)
+            playerUpdate.heightCm = parseInt(height.toString().replace(/[^0-9]/g, '')) || null;
+        if (weight)
+            playerUpdate.weightKg = parseInt(weight.toString().replace(/[^0-9]/g, '')) || null;
+        if (gender)
+            playerUpdate.gender = gender;
+        if (Object.keys(playerUpdate).length > 0) {
+            await this.prisma.player.update({
+                where: { userId },
+                data: playerUpdate,
+            });
+        }
+        return this.getProfile(userId);
     }
     generateToken(user) {
         return this.jwtService.sign({

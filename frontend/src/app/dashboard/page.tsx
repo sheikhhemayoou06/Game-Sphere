@@ -10,176 +10,8 @@ import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trop
 import SportIcon from '@/components/SportIcon';
 
 /* ═══════════════════════════════════════════════════════════════
-   SPORT-SPECIFIC MOCK DATA
+   MOCK DATA HAS BEEN REMOVED FOR PRODUCTION
    ═══════════════════════════════════════════════════════════════ */
-
-const SPORT_DATA: Record<string, {
-    matches: { opp: string; date: string; venue: string }[];
-    requests: { text: string; status: string; icon: string; color: string }[];
-    notifications: { text: string; time: string; unread: boolean }[];
-    payments: { desc: string; amount: string; status: string; due: string }[];
-    profileBadge: string;
-    piScore: number;
-    winRate: string;
-    teamName: string;
-}> = {
-    Cricket: {
-        matches: [
-            { opp: 'vs Royal Strikers', date: '25 Feb, 2:00 PM', venue: 'Wankhede Stadium' },
-            { opp: 'vs Blazing Eagles', date: '02 Mar, 10:00 AM', venue: 'DY Patil Ground' },
-            { opp: 'vs Iron Wolves', date: '08 Mar, 4:00 PM', venue: 'Brabourne Stadium' },
-        ],
-        requests: [
-            { text: 'Application to Golden Lions CC', status: 'PENDING', icon: '📤', color: "inherit" },
-            { text: 'Join invite — Phoenix Rising CC', status: 'NEW', icon: '📥', color: "inherit" },
-            { text: 'Join invite — Iron Wolves CC', status: 'NEW', icon: '📥', color: "inherit" },
-        ],
-        notifications: [
-            { text: 'Auction bid placed on you — ₹1,75,000', time: '2h ago', unread: true },
-            { text: 'Cricket practice session tomorrow at 6 AM', time: '3h ago', unread: true },
-            { text: 'State Cricket Championship registration confirmed', time: '1d ago', unread: false },
-            { text: 'Payment received — Cricket Tournament fee ₹2,500', time: '2d ago', unread: false },
-            { text: 'Your cricket profile was viewed 12 times', time: '3d ago', unread: false },
-        ],
-        payments: [
-            { desc: 'Cricket Equipment Deposit', amount: '₹3,000', status: 'PENDING', due: '22 Feb' },
-            { desc: 'State Cricket League Fee', amount: '₹2,000', status: 'OVERDUE', due: '05 Feb' },
-            { desc: 'Cricket Auction Selection Fee', amount: '₹5,000', status: 'PENDING', due: '28 Feb' },
-        ],
-        profileBadge: '🏏 Cricket', piScore: 82, winRate: '71%', teamName: 'Thunder Warriors',
-    },
-    Football: {
-        matches: [
-            { opp: 'vs Delhi Dynamos', date: '26 Feb, 5:00 PM', venue: 'Nehru Stadium' },
-            { opp: 'vs Kerala Blasters', date: '04 Mar, 7:30 PM', venue: 'Salt Lake Stadium' },
-            { opp: 'vs Goa United', date: '10 Mar, 3:00 PM', venue: 'Fatorda Stadium' },
-        ],
-        requests: [
-            { text: 'Application to Mumbai FC', status: 'PENDING', icon: '📤', color: "inherit" },
-            { text: 'Trial invite — Bengaluru FC', status: 'NEW', icon: '📥', color: "inherit" },
-        ],
-        notifications: [
-            { text: 'Football training rescheduled to 5 PM', time: '1h ago', unread: true },
-            { text: 'ISL scout viewed your profile', time: '4h ago', unread: true },
-            { text: 'District Football League starts next week', time: '1d ago', unread: false },
-            { text: 'Match fee payment confirmed — ₹1,500', time: '2d ago', unread: false },
-        ],
-        payments: [
-            { desc: 'Football Kit & Boots', amount: '₹4,500', status: 'PENDING', due: '25 Feb' },
-            { desc: 'Football League Registration', amount: '₹1,500', status: 'PENDING', due: '01 Mar' },
-        ],
-        profileBadge: '⚽ Football', piScore: 75, winRate: '62%', teamName: 'Mumbai Strikers',
-    },
-    Basketball: {
-        matches: [
-            { opp: 'vs Chennai Snipers', date: '27 Feb, 6:00 PM', venue: 'Kanteerava Arena' },
-            { opp: 'vs Punjab Panthers', date: '05 Mar, 4:00 PM', venue: 'Thyagraj Stadium' },
-        ],
-        requests: [
-            { text: 'Application to Delhi Dunksters', status: 'PENDING', icon: '📤', color: "inherit" },
-        ],
-        notifications: [
-            { text: '3x3 Basketball tournament announced', time: '2h ago', unread: true },
-            { text: 'Basketball gym session today at 4 PM', time: '5h ago', unread: true },
-            { text: 'State Basketball selections next month', time: '1d ago', unread: false },
-        ],
-        payments: [
-            { desc: 'Basketball Equipment', amount: '₹3,000', status: 'PENDING', due: '22 Feb' },
-            { desc: 'Court Booking Fee', amount: '₹800', status: 'PENDING', due: '26 Feb' },
-        ],
-        profileBadge: '🏀 Basketball', piScore: 68, winRate: '58%', teamName: 'Mumbai Mavericks',
-    },
-    Hockey: {
-        matches: [
-            { opp: 'vs Punjab Warriors', date: '28 Feb, 3:00 PM', venue: 'Major Dhyan Chand Stadium' },
-            { opp: 'vs Odisha Tigers', date: '06 Mar, 5:00 PM', venue: 'Kalinga Stadium' },
-        ],
-        requests: [
-            { text: 'Join invite — Mumbai Magicians HC', status: 'NEW', icon: '📥', color: "inherit" },
-        ],
-        notifications: [
-            { text: 'Hockey India League registration open', time: '3h ago', unread: true },
-            { text: 'Turf practice booked for Saturday', time: '6h ago', unread: false },
-        ],
-        payments: [
-            { desc: 'Hockey Stick & Gear', amount: '₹4,000', status: 'PENDING', due: '28 Feb' },
-        ],
-        profileBadge: '🏑 Hockey', piScore: 70, winRate: '60%', teamName: 'Mumbai Magicians',
-    },
-    Tennis: {
-        matches: [
-            { opp: 'vs Ravi Kumar', date: '01 Mar, 10:00 AM', venue: 'MSLTA Complex' },
-            { opp: 'vs Arjun Desai', date: '07 Mar, 2:00 PM', venue: 'CCI Courts' },
-        ],
-        requests: [],
-        notifications: [
-            { text: 'Tennis coaching session confirmed', time: '1h ago', unread: true },
-            { text: 'State Ranking updated — #45', time: '1d ago', unread: false },
-        ],
-        payments: [
-            { desc: 'Court Membership Fee', amount: '₹6,000', status: 'PENDING', due: '01 Mar' },
-        ],
-        profileBadge: '🎾 Tennis', piScore: 73, winRate: '65%', teamName: 'Solo',
-    },
-    Badminton: {
-        matches: [
-            { opp: 'vs Priya Sharma', date: '02 Mar, 11:00 AM', venue: 'Gopichand Academy' },
-        ],
-        requests: [
-            { text: 'Doubles pairing request — Smash Kings', status: 'NEW', icon: '📥', color: "inherit" },
-        ],
-        notifications: [
-            { text: 'Badminton league draw announced', time: '4h ago', unread: true },
-            { text: 'Badminton shuttlecock order delivered', time: '1d ago', unread: false },
-        ],
-        payments: [
-            { desc: 'Racquet Restringing', amount: '₹1,200', status: 'PENDING', due: '24 Feb' },
-        ],
-        profileBadge: '🏸 Badminton', piScore: 65, winRate: '55%', teamName: 'Smash Kings',
-    },
-    Athletics: {
-        matches: [
-            { opp: '100m Sprint — State Meet', date: '03 Mar, 9:00 AM', venue: 'Shiv Chhatrapati Complex' },
-            { opp: '4x400m Relay — District', date: '09 Mar, 11:00 AM', venue: 'SAI Complex' },
-        ],
-        requests: [],
-        notifications: [
-            { text: 'Athletics trials date announced — March 15', time: '2h ago', unread: true },
-            { text: 'Track practice tomorrow at 5:30 AM', time: '8h ago', unread: false },
-        ],
-        payments: [
-            { desc: 'Running Shoes & Spikes', amount: '₹5,500', status: 'PENDING', due: '25 Feb' },
-        ],
-        profileBadge: '🏃 Athletics', piScore: 78, winRate: '72%', teamName: 'Sprint Squad',
-    },
-    Kabaddi: {
-        matches: [
-            { opp: 'vs Patna Pirates', date: '04 Mar, 8:00 PM', venue: 'Tau Devi Lal Stadium' },
-            { opp: 'vs Bengal Warriors', date: '11 Mar, 8:00 PM', venue: 'NSCI Dome' },
-        ],
-        requests: [
-            { text: 'Trial invite — U Mumba', status: 'NEW', icon: '📥', color: "inherit" },
-        ],
-        notifications: [
-            { text: 'Kabaddi camp registration opens tomorrow', time: '1h ago', unread: true },
-            { text: 'Mat practice rescheduled to 6 PM', time: '5h ago', unread: false },
-        ],
-        payments: [
-            { desc: 'Inter-District Kabaddi Fee', amount: '₹2,000', status: 'OVERDUE', due: '05 Feb' },
-            { desc: 'Kabaddi Mat Booking', amount: '₹1,500', status: 'PENDING', due: '28 Feb' },
-        ],
-        profileBadge: '🤼 Kabaddi', piScore: 80, winRate: '68%', teamName: 'Mumbai Raiders',
-    },
-};
-
-// Fallback for any sport not in the map
-const DEFAULT_SPORT_DATA = {
-    matches: [{ opp: 'vs Opponent TBD', date: 'TBD', venue: 'TBD' }],
-    requests: [],
-    notifications: [{ text: 'Welcome to this sport!', time: 'now', unread: true }],
-    payments: [],
-    profileBadge: '🏅 Sport', piScore: 50, winRate: '50%', teamName: 'My Team',
-};
 
 /* ═══════════════════════════════════════════════════════════════
    ROLE DETECTION HELPERS
@@ -344,7 +176,7 @@ const ROLE_THEMES: Record<RoleGroup, {
     team_manager: {
         bg: '#faf5ff', navBg: 'white', navBorder: '#e9d5ff', textPrimary: '#1e1b4b', textSecondary: '#6b21a8',
         cardBg: 'white', cardBorder: '#f3e8ff', bannerGradient: 'linear-gradient(135deg, #7c3aed, #a855f7)',
-        emoji: '⚡', sectionTitle: '⚡ Team Management', quickAccessTitle: 'Team Operations',
+        emoji: '⚡', sectionTitle: 'Team Management', quickAccessTitle: 'Team Operations',
         navLinks: [
             { href: '/tournaments', label: 'Tournaments' },
             { href: '/fixtures', label: 'Fixtures' },
@@ -368,7 +200,7 @@ const ROLE_THEMES: Record<RoleGroup, {
     player: {
         bg: '#f8fafc', navBg: 'white', navBorder: '#e2e8f0', textPrimary: '#1e1b4b', textSecondary: '#64748b',
         cardBg: 'white', cardBorder: '#f1f5f9', bannerGradient: 'linear-gradient(135deg, #1e1b4b, #4338ca)',
-        emoji: '👋', sectionTitle: '⚡ Quick Access', quickAccessTitle: 'Your Sports Hub',
+        emoji: '👋', sectionTitle: 'Quick Access', quickAccessTitle: 'Your Sports Hub',
         navLinks: [],
         badgeBg: '#eef2ff', badgeText: '#4338ca',
     },
@@ -405,7 +237,13 @@ export default function DashboardPage() {
     const router = useRouter();
 
     const handleSelectNewSport = (sp: any) => {
-        const formFields = SPORT_FORMS[sp.name];
+        let formFields = SPORT_FORMS[sp.name];
+
+        // If user is a team manager, we override with the team creation form.
+        if (user?.role === 'TEAM_MANAGER') {
+            formFields = SPORT_FORMS.TEAM_MANAGER;
+        }
+
         if (formFields && formFields.length > 0) {
             // Sport requires specific information, open modal
             const defaults: Record<string, string> = {};
@@ -427,8 +265,58 @@ export default function DashboardPage() {
     const executeAddSport = async (sp: any, metadata: any) => {
         setIsSavingSport(true);
         try {
-            await api.addMySport(sp.id, metadata);
+            console.log("SENDING ADD SPORT TO BACKEND:", { sportId: sp.id, metadata });
+            const token = localStorage.getItem('token');
+            const sportRes = await fetch(`http://localhost:4000/api/players/me/sports`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ sportId: sp.id, metadata })
+            });
+
+            if (!sportRes.ok) {
+                const errText = await sportRes.text();
+                console.error("Sport addition failed:", sportRes.status, errText);
+                alert(`Failed to add sport: ${sportRes.status} ${errText}`);
+                setIsSavingSport(false);
+                return;
+            }
+
+            // Fallback for context update
             addMySport(sp.id);
+
+            // If the user is a team manager, we also quickly provision their team
+            if (user?.role === 'TEAM_MANAGER' && metadata.teamName) {
+                console.log("SENDING TEAM SETUP TO BACKEND:", { name: metadata.teamName, sportId: sp.id });
+                try {
+                    const token = localStorage.getItem('token');
+                    const res = await fetch('http://localhost:4000/api/teams', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            name: metadata.teamName,
+                            sportId: sp.id,
+                            logo: metadata.logo || '',
+                        })
+                    });
+                    if (!res.ok) {
+                        const errText = await res.text();
+                        console.error("Team creation failed:", res.status, errText);
+                        alert(`Failed to save team: ${res.status} ${errText}`);
+                    } else {
+                        console.log("Team creation successful");
+                    }
+                } catch (teamErr) {
+                    console.error("CRITICAL FETCH ERROR ON TEAM CREATION:", teamErr);
+                    alert("CRITICAL FETCH ERROR ON TEAM CREATION. Check console.");
+                }
+            }
+
             setSelectedSport(sp);
             setShowAddSport(false);
             setOnboardingSport(null);
@@ -444,7 +332,12 @@ export default function DashboardPage() {
                 console.error("Failed to refresh profile", authErr);
             }
         } catch (err: any) {
-            alert('Failed to add sport: ' + err.message);
+            console.error('🔥 Full onboarding error:', err);
+            if (err instanceof TypeError && err.message === 'Failed to fetch') {
+                alert('Network Error (Failed to fetch). The payload might still be too large or the API proxy crashed. Please check the browser console.');
+            } else {
+                alert('Failed to add sport: ' + err.message);
+            }
         } finally {
             setIsSavingSport(false);
         }
@@ -627,7 +520,7 @@ export default function DashboardPage() {
                             </div>
                             <div style={{ padding: '32px' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                    {SPORT_FORMS[onboardingSport.name]?.map((field) => (
+                                    {(user?.role === 'TEAM_MANAGER' ? SPORT_FORMS.TEAM_MANAGER : SPORT_FORMS[onboardingSport.name])?.map((field) => (
                                         <div key={field.id}>
                                             <label style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: "inherit", marginBottom: '8px' }}>
                                                 {field.label}
@@ -645,6 +538,24 @@ export default function DashboardPage() {
                                                         <option key={opt} value={opt}>{opt}</option>
                                                     ))}
                                                 </select>
+                                            ) : field.type === 'file' ? (
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={(e) => {
+                                                        const file = e.target.files?.[0];
+                                                        if (file) {
+                                                            const reader = new FileReader();
+                                                            reader.onloadend = () => {
+                                                                setOnboardingAnswers({ ...onboardingAnswers, [field.id]: reader.result as string });
+                                                            };
+                                                            reader.readAsDataURL(file);
+                                                        }
+                                                    }}
+                                                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px dashed #e2e8f0', fontSize: '15px', color: '#64748b', background: onboardingAnswers[field.id] ? '#f0fdf4' : 'transparent', cursor: 'pointer', outline: 'none', transition: 'border 0.2s' }}
+                                                    onFocus={(e) => e.target.style.borderColor = onboardingSport.accentColor || '#6366f1'}
+                                                    onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                                                />
                                             ) : (
                                                 <input
                                                     type={field.type}
@@ -723,14 +634,23 @@ export default function DashboardPage() {
     /* ─── Banner subtitle ─── */
     const sportLabel = selectedSport?.name || 'Sports';
     const sportIcon = selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🏅';
-    const currentSportData = selectedSport ? (SPORT_DATA[selectedSport.name] || DEFAULT_SPORT_DATA) : DEFAULT_SPORT_DATA;
+    const currentSportData = {
+        matches: [],
+        requests: [],
+        notifications: [],
+        payments: [],
+        profileBadge: 'New Sport',
+        piScore: 0,
+        winRate: '0%',
+        teamName: 'Free Agent',
+    };
 
     const bannerSubtitles: Record<RoleGroup, string> = {
         admin: `Platform Administrator Dashboard — ${sportLabel} Management`,
         organizer: `${sportIcon} ${sportLabel} Tournament Management`,
         team_manager: `${sportIcon} ${sportLabel} Team Management Dashboard`,
         official: `${sportIcon} ${sportLabel} Match Official Dashboard`,
-        player: `${sportIcon} Your ${sportLabel} Dashboard`,
+        player: `Your Dashboard`,
     };
 
     return (
@@ -902,523 +822,511 @@ export default function DashboardPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex', gap: '8px', fontSize: '12px' }}>
-                                    <span style={{ padding: '3px 10px', borderRadius: '6px', background: `${selectedSport.accentColor || '#4338ca'}15`, color: selectedSport.accentColor || '#4338ca', fontWeight: 600 }}>{currentSportData.profileBadge}</span>
-                                    <span style={{ padding: '3px 10px', borderRadius: '6px', background: '#f0fdf4', color: "inherit", fontWeight: 600 }}>⚡ PI: {currentSportData.piScore}</span>
-                                    <span style={{ padding: '3px 10px', borderRadius: '6px', background: '#fefce8', color: "inherit", fontWeight: 600 }}>{currentSportData.winRate} Win</span>
-                                </div>
                             </Link>
                         </div>
 
                         {/* Upcoming Matches */}
                         <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `1px solid ${selectedSport.accentColor || '#6366f1'}20` }}>
                             <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#64748b', marginBottom: '10px' }}>{sportIcon} UPCOMING {sportLabel.toUpperCase()} MATCHES</div>
-                            {currentSportData.matches.map((m, i) => (
-                                <div key={i} style={{ padding: '6px 0', borderBottom: i < currentSportData.matches.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
-                                    <div style={{ fontWeight: 700, fontSize: '13px', color: "inherit" }}>{m.opp}</div>
-                                    <div style={{ fontSize: '11px', color: "inherit" }}>{m.date} • {m.venue}</div>
-                                </div>
-                            ))}
+                            <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No upcoming {sportLabel} matches</div>
                         </div>
 
                         {/* Pending Requests */}
                         <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `1px solid ${selectedSport.accentColor || '#6366f1'}20` }}>
                             <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#64748b', marginBottom: '10px' }}>📨 {sportLabel.toUpperCase()} REQUESTS</div>
-                            {currentSportData.requests.length === 0 ? (
-                                <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No pending {sportLabel} requests</div>
-                            ) : currentSportData.requests.map((r, i) => (
-                                <div key={i} style={{ padding: '6px 0', borderBottom: i < currentSportData.requests.length - 1 ? '1px solid #f1f5f9' : 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                        <span>{r.icon}</span>
-                                        <span style={{ fontWeight: 600, fontSize: '12px', color: "inherit" }}>{r.text}</span>
-                                    </div>
-                                    <span style={{ padding: '2px 8px', borderRadius: '4px', background: `${r.color}15`, color: r.color, fontSize: '10px', fontWeight: 700 }}>{r.status}</span>
-                                </div>
-                            ))}
+                            <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No pending {sportLabel} requests</div>
                             <Link href="/teams" style={{ fontSize: '12px', color: selectedSport.accentColor || '#6366f1', fontWeight: 600, textDecoration: 'none', display: 'block', marginTop: '8px' }}>View all →</Link>
                         </div>
 
                         {/* Notifications */}
                         <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `1px solid ${selectedSport.accentColor || '#6366f1'}20` }}>
                             <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#64748b', marginBottom: '10px' }}>🔔 {sportLabel.toUpperCase()} NOTIFICATIONS</div>
-                            {currentSportData.notifications.map((n, i) => (
-                                <div key={i} style={{ padding: '5px 0', borderBottom: i < currentSportData.notifications.length - 1 ? '1px solid #f1f5f9' : 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                    {n.unread && <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: selectedSport.accentColor || '#6366f1', flexShrink: 0 }} />}
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ fontWeight: n.unread ? 700 : 500, fontSize: '12px', color: n.unread ? '#1e1b4b' : '#64748b' }}>{n.text}</div>
-                                        <div style={{ fontSize: '10px', color: "inherit" }}>{n.time}</div>
-                                    </div>
-                                </div>
-                            ))}
+                            <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No new {sportLabel} notifications</div>
                         </div>
+
                         {/* Payment Dues */}
-                        {currentSportData.payments.length > 0 && (
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '2px solid #fecaca' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                                    <div style={{ fontSize: '13px', fontWeight: 700, color: "inherit" }}>💳 {sportLabel.toUpperCase()} PAYMENT DUES</div>
-                                    <Link href="/payments" style={{ fontSize: '12px', fontWeight: 600, color: selectedSport.accentColor || '#6366f1', textDecoration: 'none' }}>Manage →</Link>
-                                </div>
-                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(currentSportData.payments.length, 3)}, 1fr)`, gap: '12px' }}>
-                                    {currentSportData.payments.map((p, i) => (
-                                        <div key={i} style={{ padding: '12px', borderRadius: '10px', background: p.status === 'OVERDUE' ? '#fef2f2' : '#fffbeb' }}>
-                                            <div style={{ fontWeight: 700, fontSize: '15px', color: p.status === 'OVERDUE' ? '#ef4444' : '#f59e0b', marginBottom: '4px' }}>{p.amount}</div>
-                                            <div style={{ fontSize: '11px', color: "inherit", marginBottom: '4px' }}>{p.desc}</div>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <span style={{ fontSize: '10px', color: "inherit" }}>Due: {p.due}</span>
-                                                <span style={{ padding: '2px 8px', borderRadius: '4px', background: p.status === 'OVERDUE' ? '#7f1d1d' : '#422006', color: p.status === 'OVERDUE' ? '#fca5a5' : '#fbbf24', fontSize: '10px', fontWeight: 700 }}>{p.status}</span>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                        {/* Empty until live API data is connected */}
                     </div>
                 )}
 
                 {/* ─── ORGANIZER Dashboard Widgets (Tournament-Focused) ─── */}
-                {roleGroup === 'organizer' && !sportLoading && selectedSport && activeTournament && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
+                {
+                    roleGroup === 'organizer' && !sportLoading && selectedSport && activeTournament && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
 
-                        {/* Tournament Stats Summary */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>🏆 TOURNAMENT OVERVIEW</div>
-                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                                {[
-                                    { label: 'My Tournaments', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id).length, icon: '🏆' },
-                                    { label: 'Live Now', value: liveMatches.filter((m: any) => m.sport?.id === selectedSport.id).length, icon: '🔴' },
-                                    { label: 'Active', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id && ['REGISTRATION', 'LIVE', 'FIXTURES'].includes(t.status)).length, icon: '✅' },
-                                    { label: 'Completed', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id && t.status === 'COMPLETED').length, icon: '🏁' },
-                                ].map((s, i) => (
-                                    <div key={i} style={{ padding: '10px', borderRadius: '8px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <span style={{ fontSize: '18px' }}>{s.icon}</span>
-                                        <div>
-                                            <div style={{ fontSize: '18px', fontWeight: 800, color: "inherit" }}>{s.value}</div>
-                                            <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Registration & Revenue */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>💰 REVENUE & REGISTRATIONS</div>
-                            <div style={{ display: 'grid', gap: '10px' }}>
-                                {[
-                                    { label: 'Total Registrations', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + (t._count?.teams || 0), 0), color: "inherit" },
-                                    { label: 'Registration Fees', value: `₹${tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + ((t._count?.teams || 0) * (t.registrationFee || 0)), 0).toLocaleString()}`, color: "inherit" },
-                                    { label: 'Prize Pools', value: `₹${tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + (t.prizePool || 0), 0).toLocaleString()}`, color: "inherit" },
-                                ].map((s, i) => (
-                                    <div key={i} style={{ padding: '10px', borderRadius: '8px', background: '#faf5ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <span style={{ fontSize: '12px', color: "inherit" }}>{s.label}</span>
-                                        <span style={{ fontSize: '15px', fontWeight: 800, color: s.color }}>{s.value}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Quick Actions */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>⚡ ORGANISER ACTIONS</div>
-                            <div style={{ display: 'grid', gap: '8px' }}>
-                                <Link href={`/tournaments/create?sport=${selectedSport.id}`} style={{
-                                    padding: '12px 16px', borderRadius: '10px', textDecoration: 'none',
-                                    background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}88)`,
-                                    color: 'white', fontWeight: 700, fontSize: '13px', display: 'block', textAlign: 'center',
-                                }}>
-                                    + Create {selectedSport.name} Tournament
-                                </Link>
-                                <Link href="/scoring" style={{
-                                    padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
-                                    background: '#fef2f2', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
-                                }}>
-                                    🔴 Live Scoring Dashboard
-                                </Link>
-                                <Link href="/transfers" style={{
-                                    padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
-                                    background: '#f0fdf4', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
-                                }}>
-                                    🔄 Transfer Approvals
-                                </Link>
-                                <Link href="/certificates" style={{
-                                    padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
-                                    background: '#fffbeb', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
-                                }}>
-                                    🏅 Issue Certificates
-                                </Link>
-                            </div>
-                        </div>
-
-
-                    </div>
-                )}
-
-                {/* ─── TEAM MANAGER Dashboard Widgets (Team-Focused) ─── */}
-                {roleGroup === 'team_manager' && !sportLoading && selectedSport && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
-                        {/* Team Overview — from API data */}
-                        {ownerDashData?.teams?.map((team: any) => (
-                            <div key={team.id} style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
-                                    <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}</div>
-                                    <div>
-                                        <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{team.name}</div>
-                                        <div style={{ fontSize: '12px', color: selectedSport.accentColor || '#6d28d9' }}>{selectedSport.icon || sportIcons[selectedSport.name]} {selectedSport.name}</div>
-                                    </div>
-                                </div>
-                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                            {/* Tournament Stats Summary */}
+                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>🏆 TOURNAMENT OVERVIEW</div>
+                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                                     {[
-                                        { label: 'Record', value: `${ownerDashData.stats?.wins || 0}W-${ownerDashData.stats?.losses || 0}L`, color: "inherit" },
-                                        { label: 'Players', value: team.playerCount, color: selectedSport.accentColor || '#7c3aed' },
-                                        { label: 'Tournaments', value: team.tournamentCount, color: "inherit" },
-                                    ].map((s: any, i: number) => (
-                                        <div key={i} style={{ textAlign: 'center', padding: '8px', borderRadius: '8px', background: '#faf5ff' }}>
-                                            <div style={{ fontSize: '16px', fontWeight: 800, color: s.color }}>{s.value}</div>
-                                            <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-
-                        {/* Roster Management — from API data */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>👥 {selectedSport.name?.toUpperCase()} ROSTER</div>
-                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
-                                {[
-                                    { label: 'Active Players', value: ownerDashData?.stats?.totalPlayers || 0, icon: '🟢' },
-                                    { label: 'Total Matches', value: ownerDashData?.stats?.totalMatches || 0, icon: '🏏' },
-                                    { label: 'Upcoming', value: ownerDashData?.stats?.upcomingCount || 0, icon: '📅' },
-                                    { label: 'Live Now', value: ownerDashData?.stats?.liveCount || 0, icon: '🔴' },
-                                ].map((s, i) => (
-                                    <div key={i} style={{ padding: '8px', borderRadius: '8px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <span>{s.icon}</span>
-                                        <div>
-                                            <div style={{ fontSize: '15px', fontWeight: 800, color: "inherit" }}>{s.value}</div>
-                                            <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <Link href="/teams" style={{ fontSize: '12px', color: selectedSport.accentColor || '#7c3aed', fontWeight: 600, textDecoration: 'none' }}>Manage roster →</Link>
-                        </div>
-
-                        {/* Player List (from roster) */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '10px' }}>📋 PLAYERS ({ownerDashData?.roster?.length || 0})</div>
-                            {(ownerDashData?.roster || []).slice(0, 6).map((p: any, i: number) => (
-                                <div key={i} style={{ padding: '5px 0', borderBottom: i < 5 ? '1px solid #f3e8ff' : 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#6366f1'}, ${selectedSport.accentColor || '#6366f1'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '11px' }}>{p.name?.charAt(0)}</div>
-                                        <div>
-                                            <div style={{ fontSize: '12px', fontWeight: 700, color: "inherit" }}>{p.name}</div>
-                                            <div style={{ fontSize: '10px', color: "inherit" }}>{p.role || 'Player'} • #{p.jersey || '–'}</div>
-                                        </div>
-                                    </div>
-                                    <span style={{ fontSize: '10px', color: "inherit" }}>{p.sportMatchCount || 0} matches</span>
-                                </div>
-                            ))}
-                            {(ownerDashData?.roster?.length || 0) > 6 && (
-                                <Link href="/teams" style={{ fontSize: '11px', color: selectedSport.accentColor || '#7c3aed', fontWeight: 600, textDecoration: 'none', display: 'block', marginTop: '6px' }}>View all {ownerDashData.roster.length} players →</Link>
-                            )}
-                        </div>
-
-                        {/* Tournaments for this sport */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '10px' }}>🏆 {selectedSport.name?.toUpperCase()} TOURNAMENTS</div>
-                            {(ownerDashData?.tournaments || []).length === 0 ? (
-                                <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No {selectedSport.name} tournaments yet</div>
-                            ) : (ownerDashData?.tournaments || []).slice(0, 5).map((t: any, i: number) => (
-                                <div key={i} style={{ padding: '5px 0', borderBottom: i < 4 ? '1px solid #f3e8ff' : 'none' }}>
-                                    <div style={{ fontWeight: 700, fontSize: '12px', color: "inherit" }}>{t.name}</div>
-                                    <div style={{ fontSize: '10px', color: "inherit" }}>{t.format} • {t.status} • Team: {t.teamName}</div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Upcoming Fixtures — from API data */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9' }}>🏟️ {selectedSport.name?.toUpperCase()} FIXTURES</div>
-                                <Link href="/fixtures" style={{ fontSize: '12px', fontWeight: 600, color: selectedSport.accentColor || '#7c3aed', textDecoration: 'none' }}>All fixtures →</Link>
-                            </div>
-                            {(ownerDashData?.upcomingFixtures || []).length === 0 && (ownerDashData?.matchHistory || []).length === 0 ? (
-                                <div style={{ fontSize: '12px', color: "inherit", padding: '16px 0', textAlign: 'center' }}>No {selectedSport.name} fixtures yet</div>
-                            ) : (
-                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-                                    {(ownerDashData?.upcomingFixtures || []).slice(0, 3).map((m: any, i: number) => (
-                                        <div key={i} style={{ padding: '14px', borderRadius: '10px', background: '#faf5ff', border: `1px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
-                                            <div style={{ fontWeight: 800, fontSize: '14px', color: "inherit", marginBottom: '4px' }}>
-                                                {m.homeTeam?.name || 'TBD'} vs {m.awayTeam?.name || 'TBD'}
+                                        { label: 'My Tournaments', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id).length, icon: '🏆' },
+                                        { label: 'Live Now', value: liveMatches.filter((m: any) => m.sport?.id === selectedSport.id).length, icon: '🔴' },
+                                        { label: 'Active', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id && ['REGISTRATION', 'LIVE', 'FIXTURES'].includes(t.status)).length, icon: '✅' },
+                                        { label: 'Completed', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id && t.status === 'COMPLETED').length, icon: '🏁' },
+                                    ].map((s, i) => (
+                                        <div key={i} style={{ padding: '10px', borderRadius: '8px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <span style={{ fontSize: '18px' }}>{s.icon}</span>
+                                            <div>
+                                                <div style={{ fontSize: '18px', fontWeight: 800, color: "inherit" }}>{s.value}</div>
+                                                <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
                                             </div>
-                                            <div style={{ fontSize: '11px', color: selectedSport.accentColor || '#6d28d9', fontWeight: 600, marginBottom: '4px' }}>
-                                                📅 {m.scheduledAt ? formatDate(m.scheduledAt) : 'TBD'}
-                                            </div>
-                                            <div style={{ fontSize: '11px', color: "inherit" }}>🏟️ {m.venue || 'TBD'}</div>
-                                            <span style={{ fontSize: '10px', marginTop: '6px', display: 'inline-block', padding: '2px 8px', borderRadius: '4px', background: `${selectedSport.accentColor || '#6d28d9'}15`, color: selectedSport.accentColor || '#6d28d9', fontWeight: 700 }}>{m.round || m.status}</span>
-                                        </div>
-                                    ))}
-                                    {(ownerDashData?.matchHistory || []).slice(0, 3 - (ownerDashData?.upcomingFixtures || []).length).map((m: any, i: number) => (
-                                        <div key={`h${i}`} style={{ padding: '14px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                                            <div style={{ fontWeight: 800, fontSize: '14px', color: "inherit", marginBottom: '4px' }}>
-                                                {m.homeTeam?.name || 'TBD'} vs {m.awayTeam?.name || 'TBD'}
-                                            </div>
-                                            <div style={{ fontSize: '11px', color: "inherit" }}>🏆 {m.tournament?.name}</div>
-                                            <span style={{ fontSize: '10px', marginTop: '6px', display: 'inline-block', padding: '2px 8px', borderRadius: '4px', background: m.status === 'COMPLETED' ? '#f0fdf4' : '#fef2f2', color: m.status === 'COMPLETED' ? '#16a34a' : '#ef4444', fontWeight: 700 }}>{m.status}</span>
                                         </div>
                                     ))}
                                 </div>
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                {/* ─── No Sports Prompt ─── */}
-                {roleGroup === 'organizer' && !sportLoading && availableSports.length === 0 && (
-                    <div style={{ padding: '48px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center', marginBottom: '32px' }}>
-                        <div style={{ fontSize: '48px', marginBottom: '12px' }}>🏆</div>
-                        <p style={{ color: theme.textSecondary, fontSize: '15px', marginBottom: '16px' }}>No sports available yet. Add a sport to start creating tournaments!</p>
-                        <Link href="/tournaments/create" className="btn-primary" style={{ padding: '10px 24px', fontSize: '14px' }}>+ Create Tournament</Link>
-                    </div>
-                )}
-                {roleGroup === 'team_manager' && !sportLoading && availableSports.length === 0 && (
-                    <div style={{ padding: '48px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center', marginBottom: '32px' }}>
-                        <div style={{ fontSize: '48px', marginBottom: '12px' }}>🏅</div>
-                        <p style={{ color: theme.textSecondary, fontSize: '15px', marginBottom: '16px' }}>You don't have any teams yet. Create a team to get started!</p>
-                        <Link href="/teams" className="btn-primary" style={{ padding: '10px 24px', fontSize: '14px' }}>+ Create Team</Link>
-                    </div>
-                )}
-
-                {/* ─── Organiser Strict Context Lock Navigation ─── */}
-                {roleGroup === 'organizer' && (
-                    <div style={{ marginBottom: '32px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                            <div>
-                                <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px', color: theme.textPrimary }}>
-                                    {selectedSport ? `${sportIcon} ${sportLabel} — ${theme.sectionTitle}` : theme.sectionTitle}
-                                </h2>
-                                <p style={{ fontSize: '13px', color: theme.textSecondary }}> {selectedSport ? `${sportLabel} Organizer Tools` : `Select a sport to continue`} </p>
                             </div>
-                            {activeTournament && (
-                                <button onClick={() => useSportStore.getState().clearActiveTournament()} style={{
-                                    padding: '8px 16px', borderRadius: '8px', background: 'white', border: `1px solid ${theme.cardBorder}`,
-                                    color: "inherit", fontWeight: 600, fontSize: '12px', cursor: 'pointer'
-                                }}>
-                                    ✖ Clear Context
-                                </button>
-                            )}
-                        </div>
 
-                        {!selectedSport ? (
-                            <div style={{ padding: '32px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center' }}>
-                                <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏆</div>
-                                <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select a Sport</h3>
-                                <p style={{ fontSize: '14px', color: theme.textSecondary, marginBottom: '16px' }}>Please select a sport from the banner above to load your tournament tools.</p>
-                            </div>
-                        ) : !activeTournament ? (
-                            <div style={{ padding: '32px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}` }}>
-                                <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                                    <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏟️</div>
-                                    <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select an Active Tournament</h3>
-                                    <p style={{ fontSize: '14px', color: theme.textSecondary }}>Choose a tournament to load scoped data and tools.</p>
-                                </div>
-                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-                                    {tournaments.filter(t => t.sport?.id === selectedSport.id).map(t => (
-                                        <button key={t.id} onClick={() => useSportStore.getState().setActiveTournament(t)} style={{
-                                            padding: '16px', borderRadius: '12px', background: '#faf5ff', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}40`,
-                                            textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '8px',
-                                            transition: 'all 0.2s'
-                                        }} className="hover:border-purple-500 hover:shadow-md">
-                                            <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{t.name}</div>
-                                            <div style={{ fontSize: '12px', color: "inherit", fontWeight: 600 }}>{t.format}</div>
-                                            <span style={{
-                                                fontSize: '10px', padding: '4px 8px', borderRadius: '4px', fontWeight: 700, alignSelf: 'flex-start',
-                                                background: t.status === 'LIVE' ? '#fef2f2' : t.status === 'COMPLETED' ? '#f0fdf4' : `${selectedSport.accentColor || '#6d28d9'}15`,
-                                                color: t.status === 'LIVE' ? '#ef4444' : t.status === 'COMPLETED' ? '#16a34a' : selectedSport.accentColor || '#6d28d9',
-                                            }}>{t.status}</span>
-                                        </button>
+                            {/* Registration & Revenue */}
+                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>💰 REVENUE & REGISTRATIONS</div>
+                                <div style={{ display: 'grid', gap: '10px' }}>
+                                    {[
+                                        { label: 'Total Registrations', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + (t._count?.teams || 0), 0), color: "inherit" },
+                                        { label: 'Registration Fees', value: `₹${tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + ((t._count?.teams || 0) * (t.registrationFee || 0)), 0).toLocaleString()}`, color: "inherit" },
+                                        { label: 'Prize Pools', value: `₹${tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + (t.prizePool || 0), 0).toLocaleString()}`, color: "inherit" },
+                                    ].map((s, i) => (
+                                        <div key={i} style={{ padding: '10px', borderRadius: '8px', background: '#faf5ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <span style={{ fontSize: '12px', color: "inherit" }}>{s.label}</span>
+                                            <span style={{ fontSize: '15px', fontWeight: 800, color: s.color }}>{s.value}</span>
+                                        </div>
                                     ))}
+                                </div>
+                            </div>
+
+                            {/* Quick Actions */}
+                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>ORGANISER ACTIONS</div>
+                                <div style={{ display: 'grid', gap: '8px' }}>
                                     <Link href={`/tournaments/create?sport=${selectedSport.id}`} style={{
-                                        padding: '16px', borderRadius: '12px', background: 'white', border: `2px dashed ${selectedSport.accentColor || '#e9d5ff'}`,
-                                        textAlign: 'center', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '8px',
-                                        textDecoration: 'none'
+                                        padding: '12px 16px', borderRadius: '10px', textDecoration: 'none',
+                                        background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}88)`,
+                                        color: 'white', fontWeight: 700, fontSize: '13px', display: 'block', textAlign: 'center',
                                     }}>
-                                        <div style={{ fontSize: '24px', color: selectedSport.accentColor || '#7c3aed' }}>+</div>
-                                        <div style={{ fontWeight: 700, fontSize: '14px', color: selectedSport.accentColor || '#7c3aed' }}>Create Tournament</div>
+                                        + Create {selectedSport.name} Tournament
+                                    </Link>
+                                    <Link href="/scoring" style={{
+                                        padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
+                                        background: '#fef2f2', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
+                                    }}>
+                                        🔴 Live Scoring Dashboard
+                                    </Link>
+                                    <Link href="/transfers" style={{
+                                        padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
+                                        background: '#f0fdf4', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
+                                    }}>
+                                        🔄 Transfer Approvals
+                                    </Link>
+                                    <Link href="/certificates" style={{
+                                        padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
+                                        background: '#fffbeb', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
+                                    }}>
+                                        🏅 Issue Certificates
                                     </Link>
                                 </div>
                             </div>
-                        ) : (
-                            <div>
-                                <div className="flex-wrap-mobile" style={{ padding: '16px', borderRadius: '12px', background: `${selectedSport.accentColor || '#7c3aed'}10`, border: `1px solid ${selectedSport.accentColor || '#7c3aed'}30`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', gap: '12px' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <div style={{ fontSize: '24px' }}>🔒</div>
+
+
+                        </div>
+                    )
+                }
+
+                {/* ─── TEAM MANAGER Dashboard Widgets (Team-Focused) ─── */}
+                {
+                    roleGroup === 'team_manager' && !sportLoading && selectedSport && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
+                            {/* Team Overview — from API data */}
+                            {ownerDashData?.teams?.map((team: any) => (
+                                <div key={team.id} style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
+                                        <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}</div>
                                         <div>
-                                            <div style={{ fontSize: '12px', fontWeight: 700, color: selectedSport.accentColor || '#7c3aed', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Active Context Lock</div>
-                                            <div style={{ fontSize: '16px', fontWeight: 800, color: "inherit" }}>{activeTournament.name}</div>
+                                            <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{team.name}</div>
+                                            <div style={{ fontSize: '12px', color: selectedSport.accentColor || '#6d28d9' }}>{selectedSport.icon || sportIcons[selectedSport.name]} {selectedSport.name}</div>
                                         </div>
                                     </div>
-                                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'white', fontSize: '12px', fontWeight: 700, color: selectedSport.accentColor || '#7c3aed', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                                        {sportLabel} • {activeTournament.format}
-                                    </span>
+                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                                        {[
+                                            { label: 'Record', value: `${ownerDashData.stats?.wins || 0}W-${ownerDashData.stats?.losses || 0}L`, color: "inherit" },
+                                            { label: 'Players', value: team.playerCount, color: selectedSport.accentColor || '#7c3aed' },
+                                            { label: 'Tournaments', value: team.tournamentCount, color: "inherit" },
+                                        ].map((s: any, i: number) => (
+                                            <div key={i} style={{ textAlign: 'center', padding: '8px', borderRadius: '8px', background: '#faf5ff' }}>
+                                                <div style={{ fontSize: '16px', fontWeight: 800, color: s.color }}>{s.value}</div>
+                                                <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                            ))}
+
+                            {/* Roster Management — from API data */}
+                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>👥 {selectedSport.name?.toUpperCase()} ROSTER</div>
+                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
                                     {[
-                                        { href: `/tournaments/${activeTournament.id}?tab=overview`, label: 'Overview', desc: 'Stats & Activity', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=teams`, label: 'Teams', desc: 'Registrations & Squads', icon: '📝', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=fixtures`, label: 'Fixtures', desc: 'Schedule & Results', icon: '📅', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=scoring`, label: 'Live Scoring', desc: 'Score Matches', icon: '🔴', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=auction`, label: 'Auction', desc: 'Live Bidding', icon: '🔨', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=transfers`, label: 'Transfers', desc: 'Player Movement', icon: '🔄', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=financials`, label: 'Financials', desc: 'Fees & Payouts', icon: '💰', gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=leaderboard`, label: 'Leaderboard', desc: 'Points & Rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=chat`, label: 'Chat', desc: 'Team & Admin Comm', icon: '💬', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=media`, label: 'Media', desc: 'Photos & Videos', icon: '📸', gradient: 'linear-gradient(135deg, #9d174d, #ec4899)' },
-                                        { href: `/tournaments/${activeTournament.id}?tab=settings`, label: 'Settings', desc: 'Configure Tournament', icon: '⚙️', gradient: 'linear-gradient(135deg, #1e293b, #334155)' },
-                                    ].map((item) => (
-                                        <Link key={item.label} href={item.href} className="card-hover" style={{
-                                            display: 'block', padding: '24px', borderRadius: '16px', background: item.gradient,
-                                            textDecoration: 'none', color: 'white', position: 'relative', overflow: 'hidden'
+                                        { label: 'Active Players', value: ownerDashData?.stats?.totalPlayers || 0, icon: '🟢' },
+                                        { label: 'Total Matches', value: ownerDashData?.stats?.totalMatches || 0, icon: '🏏' },
+                                        { label: 'Upcoming', value: ownerDashData?.stats?.upcomingCount || 0, icon: '📅' },
+                                        { label: 'Live Now', value: ownerDashData?.stats?.liveCount || 0, icon: '🔴' },
+                                    ].map((s, i) => (
+                                        <div key={i} style={{ padding: '8px', borderRadius: '8px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <span>{s.icon}</span>
+                                            <div>
+                                                <div style={{ fontSize: '15px', fontWeight: 800, color: "inherit" }}>{s.value}</div>
+                                                <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <Link href="/teams" style={{ fontSize: '12px', color: selectedSport.accentColor || '#7c3aed', fontWeight: 600, textDecoration: 'none' }}>Manage roster →</Link>
+                            </div>
+
+                            {/* Player List (from roster) */}
+                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '10px' }}>📋 PLAYERS ({ownerDashData?.roster?.length || 0})</div>
+                                {(ownerDashData?.roster || []).slice(0, 6).map((p: any, i: number) => (
+                                    <div key={i} style={{ padding: '5px 0', borderBottom: i < 5 ? '1px solid #f3e8ff' : 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                            <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#6366f1'}, ${selectedSport.accentColor || '#6366f1'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '11px' }}>{p.name?.charAt(0)}</div>
+                                            <div>
+                                                <div style={{ fontSize: '12px', fontWeight: 700, color: "inherit" }}>{p.name}</div>
+                                                <div style={{ fontSize: '10px', color: "inherit" }}>{p.role || 'Player'} • #{p.jersey || '–'}</div>
+                                            </div>
+                                        </div>
+                                        <span style={{ fontSize: '10px', color: "inherit" }}>{p.sportMatchCount || 0} matches</span>
+                                    </div>
+                                ))}
+                                {(ownerDashData?.roster?.length || 0) > 6 && (
+                                    <Link href="/teams" style={{ fontSize: '11px', color: selectedSport.accentColor || '#7c3aed', fontWeight: 600, textDecoration: 'none', display: 'block', marginTop: '6px' }}>View all {ownerDashData.roster.length} players →</Link>
+                                )}
+                            </div>
+
+                            {/* Tournaments for this sport */}
+                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '10px' }}>🏆 {selectedSport.name?.toUpperCase()} TOURNAMENTS</div>
+                                {(ownerDashData?.tournaments || []).length === 0 ? (
+                                    <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No {selectedSport.name} tournaments yet</div>
+                                ) : (ownerDashData?.tournaments || []).slice(0, 5).map((t: any, i: number) => (
+                                    <div key={i} style={{ padding: '5px 0', borderBottom: i < 4 ? '1px solid #f3e8ff' : 'none' }}>
+                                        <div style={{ fontWeight: 700, fontSize: '12px', color: "inherit" }}>{t.name}</div>
+                                        <div style={{ fontSize: '10px', color: "inherit" }}>{t.format} • {t.status} • Team: {t.teamName}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Upcoming Fixtures — from API data */}
+                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                                    <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9' }}>🏟️ {selectedSport.name?.toUpperCase()} FIXTURES</div>
+                                    <Link href="/fixtures" style={{ fontSize: '12px', fontWeight: 600, color: selectedSport.accentColor || '#7c3aed', textDecoration: 'none' }}>All fixtures →</Link>
+                                </div>
+                                {(ownerDashData?.upcomingFixtures || []).length === 0 && (ownerDashData?.matchHistory || []).length === 0 ? (
+                                    <div style={{ fontSize: '12px', color: "inherit", padding: '16px 0', textAlign: 'center' }}>No {selectedSport.name} fixtures yet</div>
+                                ) : (
+                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                                        {(ownerDashData?.upcomingFixtures || []).slice(0, 3).map((m: any, i: number) => (
+                                            <div key={i} style={{ padding: '14px', borderRadius: '10px', background: '#faf5ff', border: `1px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
+                                                <div style={{ fontWeight: 800, fontSize: '14px', color: "inherit", marginBottom: '4px' }}>
+                                                    {m.homeTeam?.name || 'TBD'} vs {m.awayTeam?.name || 'TBD'}
+                                                </div>
+                                                <div style={{ fontSize: '11px', color: selectedSport.accentColor || '#6d28d9', fontWeight: 600, marginBottom: '4px' }}>
+                                                    📅 {m.scheduledAt ? formatDate(m.scheduledAt) : 'TBD'}
+                                                </div>
+                                                <div style={{ fontSize: '11px', color: "inherit" }}>🏟️ {m.venue || 'TBD'}</div>
+                                                <span style={{ fontSize: '10px', marginTop: '6px', display: 'inline-block', padding: '2px 8px', borderRadius: '4px', background: `${selectedSport.accentColor || '#6d28d9'}15`, color: selectedSport.accentColor || '#6d28d9', fontWeight: 700 }}>{m.round || m.status}</span>
+                                            </div>
+                                        ))}
+                                        {(ownerDashData?.matchHistory || []).slice(0, 3 - (ownerDashData?.upcomingFixtures || []).length).map((m: any, i: number) => (
+                                            <div key={`h${i}`} style={{ padding: '14px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                                                <div style={{ fontWeight: 800, fontSize: '14px', color: "inherit", marginBottom: '4px' }}>
+                                                    {m.homeTeam?.name || 'TBD'} vs {m.awayTeam?.name || 'TBD'}
+                                                </div>
+                                                <div style={{ fontSize: '11px', color: "inherit" }}>🏆 {m.tournament?.name}</div>
+                                                <span style={{ fontSize: '10px', marginTop: '6px', display: 'inline-block', padding: '2px 8px', borderRadius: '4px', background: m.status === 'COMPLETED' ? '#f0fdf4' : '#fef2f2', color: m.status === 'COMPLETED' ? '#16a34a' : '#ef4444', fontWeight: 700 }}>{m.status}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )
+                }
+
+                {/* ─── No Sports Prompt ─── */}
+                {
+                    roleGroup === 'organizer' && !sportLoading && availableSports.length === 0 && (
+                        <div style={{ padding: '48px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center', marginBottom: '32px' }}>
+                            <div style={{ fontSize: '48px', marginBottom: '12px' }}>🏆</div>
+                            <p style={{ color: theme.textSecondary, fontSize: '15px', marginBottom: '16px' }}>No sports available yet. Add a sport to start creating tournaments!</p>
+                            <Link href="/tournaments/create" className="btn-primary" style={{ padding: '10px 24px', fontSize: '14px' }}>+ Create Tournament</Link>
+                        </div>
+                    )
+                }
+                {
+                    roleGroup === 'team_manager' && !sportLoading && availableSports.length === 0 && (
+                        <div style={{ padding: '48px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center', marginBottom: '32px' }}>
+                            <div style={{ fontSize: '48px', marginBottom: '12px' }}>🏅</div>
+                            <p style={{ color: theme.textSecondary, fontSize: '15px', marginBottom: '16px' }}>You don't have any teams yet. Create a team to get started!</p>
+                            <Link href="/teams" className="btn-primary" style={{ padding: '10px 24px', fontSize: '14px' }}>+ Create Team</Link>
+                        </div>
+                    )
+                }
+
+                {/* ─── Organiser Strict Context Lock Navigation ─── */}
+                {
+                    roleGroup === 'organizer' && (
+                        <div style={{ marginBottom: '32px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                <div>
+                                    <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px', color: theme.textPrimary }}>
+                                        {theme.sectionTitle}
+                                    </h2>
+                                    <p style={{ fontSize: '13px', color: theme.textSecondary }}> {selectedSport ? `${sportLabel} Organizer Tools` : `Select a sport to continue`} </p>
+                                </div>
+                                {activeTournament && (
+                                    <button onClick={() => useSportStore.getState().clearActiveTournament()} style={{
+                                        padding: '8px 16px', borderRadius: '8px', background: 'white', border: `1px solid ${theme.cardBorder}`,
+                                        color: "inherit", fontWeight: 600, fontSize: '12px', cursor: 'pointer'
+                                    }}>
+                                        ✖ Clear Context
+                                    </button>
+                                )}
+                            </div>
+
+                            {!selectedSport ? (
+                                <div style={{ padding: '32px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center' }}>
+                                    <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏆</div>
+                                    <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select a Sport</h3>
+                                    <p style={{ fontSize: '14px', color: theme.textSecondary, marginBottom: '16px' }}>Please select a sport from the banner above to load your tournament tools.</p>
+                                </div>
+                            ) : !activeTournament ? (
+                                <div style={{ padding: '32px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}` }}>
+                                    <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                                        <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏟️</div>
+                                        <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select an Active Tournament</h3>
+                                        <p style={{ fontSize: '14px', color: theme.textSecondary }}>Choose a tournament to load scoped data and tools.</p>
+                                    </div>
+                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+                                        {tournaments.filter(t => t.sport?.id === selectedSport.id).map(t => (
+                                            <button key={t.id} onClick={() => useSportStore.getState().setActiveTournament(t)} style={{
+                                                padding: '16px', borderRadius: '12px', background: '#faf5ff', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}40`,
+                                                textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '8px',
+                                                transition: 'all 0.2s'
+                                            }} className="hover:border-purple-500 hover:shadow-md">
+                                                <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{t.name}</div>
+                                                <div style={{ fontSize: '12px', color: "inherit", fontWeight: 600 }}>{t.format}</div>
+                                                <span style={{
+                                                    fontSize: '10px', padding: '4px 8px', borderRadius: '4px', fontWeight: 700, alignSelf: 'flex-start',
+                                                    background: t.status === 'LIVE' ? '#fef2f2' : t.status === 'COMPLETED' ? '#f0fdf4' : `${selectedSport.accentColor || '#6d28d9'}15`,
+                                                    color: t.status === 'LIVE' ? '#ef4444' : t.status === 'COMPLETED' ? '#16a34a' : selectedSport.accentColor || '#6d28d9',
+                                                }}>{t.status}</span>
+                                            </button>
+                                        ))}
+                                        <Link href={`/tournaments/create?sport=${selectedSport.id}`} style={{
+                                            padding: '16px', borderRadius: '12px', background: 'white', border: `2px dashed ${selectedSport.accentColor || '#e9d5ff'}`,
+                                            textAlign: 'center', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '8px',
+                                            textDecoration: 'none'
                                         }}>
-                                            <div style={{ fontSize: '32px', marginBottom: '12px' }}>{item.icon}</div>
-                                            <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '4px' }}>{item.label}</div>
-                                            <div style={{ fontSize: '12px', opacity: 0.85 }}>{item.desc}</div>
+                                            <div style={{ fontSize: '24px', color: selectedSport.accentColor || '#7c3aed' }}>+</div>
+                                            <div style={{ fontWeight: 700, fontSize: '14px', color: selectedSport.accentColor || '#7c3aed' }}>Create Tournament</div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <div className="flex-wrap-mobile" style={{ padding: '16px', borderRadius: '12px', background: `${selectedSport.accentColor || '#7c3aed'}10`, border: `1px solid ${selectedSport.accentColor || '#7c3aed'}30`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', gap: '12px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <div style={{ fontSize: '24px' }}>🔒</div>
+                                            <div>
+                                                <div style={{ fontSize: '12px', fontWeight: 700, color: selectedSport.accentColor || '#7c3aed', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Active Context Lock</div>
+                                                <div style={{ fontSize: '16px', fontWeight: 800, color: "inherit" }}>{activeTournament.name}</div>
+                                            </div>
+                                        </div>
+                                        <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'white', fontSize: '12px', fontWeight: 700, color: selectedSport.accentColor || '#7c3aed', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                                            {sportLabel} • {activeTournament.format}
+                                        </span>
+                                    </div>
+                                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                                        {[
+                                            { href: `/tournaments/${activeTournament.id}?tab=overview`, label: 'Overview', desc: 'Stats & Activity', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=teams`, label: 'Teams', desc: 'Registrations & Squads', icon: '📝', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=fixtures`, label: 'Fixtures', desc: 'Schedule & Results', icon: '📅', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=scoring`, label: 'Live Scoring', desc: 'Score Matches', icon: '🔴', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=auction`, label: 'Auction', desc: 'Live Bidding', icon: '🔨', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=transfers`, label: 'Transfers', desc: 'Player Movement', icon: '🔄', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=financials`, label: 'Financials', desc: 'Fees & Payouts', icon: '💰', gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=leaderboard`, label: 'Leaderboard', desc: 'Points & Rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=chat`, label: 'Chat', desc: 'Team & Admin Comm', icon: '💬', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=media`, label: 'Media', desc: 'Photos & Videos', icon: '📸', gradient: 'linear-gradient(135deg, #9d174d, #ec4899)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=settings`, label: 'Settings', desc: 'Configure Tournament', icon: '⚙️', gradient: 'linear-gradient(135deg, #1e293b, #334155)' },
+                                        ].map((item) => (
+                                            <Link key={item.label} href={item.href} className="card-hover" style={{
+                                                display: 'block', padding: '24px', borderRadius: '16px', background: item.gradient,
+                                                textDecoration: 'none', color: 'white', position: 'relative', overflow: 'hidden'
+                                            }}>
+                                                <div style={{ fontSize: '32px', marginBottom: '12px' }}>{item.icon}</div>
+                                                <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '4px' }}>{item.label}</div>
+                                                <div style={{ fontSize: '12px', opacity: 0.85 }}>{item.desc}</div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )
+                }
+
+                {/* ─── Team Manager & Other Roles Quick Access Cards ─── */}
+                {
+                    roleGroup !== 'organizer' && (
+                        <div style={{ marginBottom: '32px' }}>
+                            <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px', color: theme.textPrimary }}>
+                                {theme.sectionTitle}
+                            </h2>
+                            <p style={{ fontSize: '13px', color: theme.textSecondary, marginBottom: '16px' }}>
+                                {theme.quickAccessTitle}
+                            </p>
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px' }}>
+                                {quickCards.map((item) => (
+                                    <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} className="card-hover" style={{
+                                        padding: '24px', borderRadius: '16px', background: item.gradient,
+                                        textDecoration: 'none', color: 'white', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s',
+                                    }}>
+                                        <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>{item.icon}</div>
+                                        <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '6px' }}>{item.label}</div>
+                                        <div style={{ fontSize: '13px', opacity: 0.8, lineHeight: 1.4 }}>{item.desc}</div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
+
+                {/* ─── Live Matches (filtered by selected sport) ─── */}
+                {
+                    (() => {
+                        const filteredLive = selectedSport
+                            ? liveMatches.filter((m: any) => m.sport?.name === selectedSport.name || m.sport?.id === selectedSport.id)
+                            : liveMatches;
+                        return filteredLive.length > 0 ? (
+                            <div style={{ marginBottom: '32px' }}>
+                                <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '16px', color: theme.textPrimary, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <span className="live-pulse"></span> Live {sportLabel} Matches
+                                </h2>
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                                    {filteredLive.map((match: any) => (
+                                        <Link href={`/matches/${match.id}`} key={match.id} className="card-hover" style={{
+                                            padding: '20px', borderRadius: '14px',
+                                            background: theme.cardBg, border: '2px solid #fecaca',
+                                            textDecoration: 'none', color: theme.textPrimary,
+                                        }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                                                <span style={{ fontSize: '20px' }}>{sportIcons[match.sport?.name] || sportIcon}</span>
+                                                <span className="status-badge" style={{ background: '#fef2f2', color: "inherit" }}>
+                                                    <span className="live-pulse"></span> LIVE
+                                                </span>
+                                            </div>
+                                            <div style={{ fontSize: '15px', fontWeight: 700 }}>
+                                                {match.homeTeam?.name || 'TBD'} vs {match.awayTeam?.name || 'TBD'}
+                                            </div>
+                                            <div style={{ fontSize: '12px', color: "inherit", marginTop: '4px' }}>{match.tournament?.name}</div>
                                         </Link>
                                     ))}
                                 </div>
                             </div>
-                        )}
-                    </div>
-                )}
+                        ) : null;
+                    })()
+                }
 
-                {/* ─── Team Manager & Other Roles Quick Access Cards ─── */}
-                {roleGroup !== 'organizer' && (
-                    <div style={{ marginBottom: '32px' }}>
-                        <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px', color: theme.textPrimary }}>
-                            {selectedSport ? `${sportIcon} ${sportLabel} — ${theme.sectionTitle}` : theme.sectionTitle}
-                        </h2>
-                        <p style={{ fontSize: '13px', color: theme.textSecondary, marginBottom: '16px' }}>
-                            {theme.quickAccessTitle}
-                        </p>
-                        <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px' }}>
-                            {quickCards.map((item) => (
-                                <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} className="card-hover" style={{
-                                    padding: '24px', borderRadius: '16px', background: item.gradient,
-                                    textDecoration: 'none', color: 'white', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s',
-                                }}>
-                                    <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>{item.icon}</div>
-                                    <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '6px' }}>{item.label}</div>
-                                    <div style={{ fontSize: '13px', opacity: 0.8, lineHeight: 1.4 }}>{item.desc}</div>
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* ─── Live Matches (filtered by selected sport) ─── */}
-                {(() => {
-                    const filteredLive = selectedSport
-                        ? liveMatches.filter((m: any) => m.sport?.name === selectedSport.name || m.sport?.id === selectedSport.id)
-                        : liveMatches;
-                    return filteredLive.length > 0 ? (
-                        <div style={{ marginBottom: '32px' }}>
-                            <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '16px', color: theme.textPrimary, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span className="live-pulse"></span> Live {sportLabel} Matches
-                            </h2>
-                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
-                                {filteredLive.map((match: any) => (
-                                    <Link href={`/matches/${match.id}`} key={match.id} className="card-hover" style={{
-                                        padding: '20px', borderRadius: '14px',
-                                        background: theme.cardBg, border: '2px solid #fecaca',
-                                        textDecoration: 'none', color: theme.textPrimary,
-                                    }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                                            <span style={{ fontSize: '20px' }}>{sportIcons[match.sport?.name] || sportIcon}</span>
-                                            <span className="status-badge" style={{ background: '#fef2f2', color: "inherit" }}>
-                                                <span className="live-pulse"></span> LIVE
-                                            </span>
-                                        </div>
-                                        <div style={{ fontSize: '15px', fontWeight: 700 }}>
-                                            {match.homeTeam?.name || 'TBD'} vs {match.awayTeam?.name || 'TBD'}
-                                        </div>
-                                        <div style={{ fontSize: '12px', color: "inherit", marginTop: '4px' }}>{match.tournament?.name}</div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                    ) : null;
-                })()}
-
-            </div>
+            </div >
 
             {/* ─── DYNAMIC SPORT ONBOARDING MODAL ─── */}
-            {onboardingSport && (
-                <div style={{
-                    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                    background: 'rgba(15,23,42,0.85)', backdropFilter: 'blur(8px)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
-                    padding: '20px'
-                }}>
+            {
+                onboardingSport && (
                     <div style={{
-                        background: 'white', borderRadius: '24px', width: '100%', maxWidth: '500px',
-                        overflow: 'hidden', boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
-                        animation: 'modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                        background: 'rgba(15,23,42,0.85)', backdropFilter: 'blur(8px)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
+                        padding: '20px'
                     }}>
-                        <div style={{ padding: '24px 32px', background: onboardingSport.accentColor || '#6366f1', color: 'white', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                            <div style={{ fontSize: '36px' }}>
-                                <SportIcon sport={onboardingSport.name} size={42} color="white" />
+                        <div style={{
+                            background: 'white', borderRadius: '24px', width: '100%', maxWidth: '500px',
+                            overflow: 'hidden', boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
+                            animation: 'modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}>
+                            <div style={{ padding: '24px 32px', background: onboardingSport.accentColor || '#6366f1', color: 'white', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                <div style={{ fontSize: '36px' }}>
+                                    <SportIcon sport={onboardingSport.name} size={42} color="white" />
+                                </div>
+                                <div>
+                                    <h2 style={{ fontSize: '24px', fontWeight: 800 }}>Welcome to {onboardingSport.name}!</h2>
+                                    <p style={{ fontSize: '14px', opacity: 0.9 }}>Let's set up your sport profile.</p>
+                                </div>
                             </div>
-                            <div>
-                                <h2 style={{ fontSize: '24px', fontWeight: 800 }}>Welcome to {onboardingSport.name}!</h2>
-                                <p style={{ fontSize: '14px', opacity: 0.9 }}>Let's set up your sport profile.</p>
-                            </div>
-                        </div>
-                        <div style={{ padding: '32px' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                {SPORT_FORMS[onboardingSport.name]?.map((field) => (
-                                    <div key={field.id}>
-                                        <label style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: "inherit", marginBottom: '8px' }}>
-                                            {field.label}
-                                        </label>
-                                        {field.type === 'select' ? (
-                                            <select
-                                                value={onboardingAnswers[field.id] || ''}
-                                                onChange={(e) => setOnboardingAnswers({ ...onboardingAnswers, [field.id]: e.target.value })}
-                                                style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #e2e8f0', fontSize: '15px', color: "inherit", background: '#f8fafc', outline: 'none', transition: 'border 0.2s', cursor: 'pointer' }}
-                                                onFocus={(e) => e.target.style.borderColor = onboardingSport.accentColor || '#6366f1'}
-                                                onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
-                                            >
-                                                <option value="" disabled>Select an option...</option>
-                                                {field.options?.map((opt) => (
-                                                    <option key={opt} value={opt}>{opt}</option>
-                                                ))}
-                                            </select>
-                                        ) : (
-                                            <input
-                                                type={field.type}
-                                                placeholder={field.placeholder || ''}
-                                                value={onboardingAnswers[field.id] || ''}
-                                                onChange={(e) => setOnboardingAnswers({ ...onboardingAnswers, [field.id]: e.target.value })}
-                                                style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #e2e8f0', fontSize: '15px', color: "inherit", background: '#f8fafc', outline: 'none', transition: 'border 0.2s' }}
-                                                onFocus={(e) => e.target.style.borderColor = onboardingSport.accentColor || '#6366f1'}
-                                                onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
-                                            />
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                            <div style={{ marginTop: '32px', display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-                                <button onClick={() => setOnboardingSport(null)} disabled={isSavingSport} style={{ padding: '12px 24px', borderRadius: '12px', background: '#f1f5f9', color: "inherit", fontWeight: 700, fontSize: '15px', border: 'none', cursor: 'pointer', transition: 'background 0.2s' }}>
-                                    Cancel
-                                </button>
-                                <button onClick={() => executeAddSport(onboardingSport, onboardingAnswers)} disabled={isSavingSport} style={{ padding: '12px 32px', borderRadius: '12px', background: onboardingSport.accentColor || '#6366f1', color: 'white', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: `0 4px 14px ${(onboardingSport.accentColor || '#6366f1')}60`, transition: 'all 0.2s', transform: isSavingSport ? 'scale(0.98)' : 'scale(1)', opacity: isSavingSport ? 0.7 : 1 }}>
-                                    {isSavingSport ? 'Saving...' : 'Complete Setup'}
-                                </button>
+                            <div style={{ padding: '32px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                    {(user?.role === 'TEAM_MANAGER' ? SPORT_FORMS.TEAM_MANAGER : SPORT_FORMS[onboardingSport.name])?.map((field) => (
+                                        <div key={field.id}>
+                                            <label style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: "inherit", marginBottom: '8px' }}>
+                                                {field.label}
+                                            </label>
+                                            {field.type === 'select' ? (
+                                                <select
+                                                    value={onboardingAnswers[field.id] || ''}
+                                                    onChange={(e) => setOnboardingAnswers({ ...onboardingAnswers, [field.id]: e.target.value })}
+                                                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #e2e8f0', fontSize: '15px', color: "inherit", background: '#f8fafc', outline: 'none', transition: 'border 0.2s', cursor: 'pointer' }}
+                                                    onFocus={(e) => e.target.style.borderColor = onboardingSport.accentColor || '#6366f1'}
+                                                    onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                                                >
+                                                    <option value="" disabled>Select an option...</option>
+                                                    {field.options?.map((opt) => (
+                                                        <option key={opt} value={opt}>{opt}</option>
+                                                    ))}
+                                                </select>
+                                            ) : field.type === 'file' ? (
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={(e) => {
+                                                        const file = e.target.files?.[0];
+                                                        if (file) {
+                                                            const reader = new FileReader();
+                                                            reader.onloadend = () => {
+                                                                setOnboardingAnswers({ ...onboardingAnswers, [field.id]: reader.result as string });
+                                                            };
+                                                            reader.readAsDataURL(file);
+                                                        }
+                                                    }}
+                                                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px dashed #e2e8f0', fontSize: '15px', color: '#64748b', background: onboardingAnswers[field.id] ? '#f0fdf4' : 'transparent', cursor: 'pointer', outline: 'none', transition: 'border 0.2s' }}
+                                                    onFocus={(e) => e.target.style.borderColor = onboardingSport.accentColor || '#6366f1'}
+                                                    onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                                                />
+                                            ) : (
+                                                <input
+                                                    type={field.type}
+                                                    placeholder={field.placeholder || ''}
+                                                    value={onboardingAnswers[field.id] || ''}
+                                                    onChange={(e) => setOnboardingAnswers({ ...onboardingAnswers, [field.id]: e.target.value })}
+                                                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #e2e8f0', fontSize: '15px', color: "inherit", background: '#f8fafc', outline: 'none', transition: 'border 0.2s' }}
+                                                    onFocus={(e) => e.target.style.borderColor = onboardingSport.accentColor || '#6366f1'}
+                                                    onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                                                />
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                                <div style={{ marginTop: '32px', display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                                    <button onClick={() => setOnboardingSport(null)} disabled={isSavingSport} style={{ padding: '12px 24px', borderRadius: '12px', background: '#f1f5f9', color: "inherit", fontWeight: 700, fontSize: '15px', border: 'none', cursor: 'pointer', transition: 'background 0.2s' }}>
+                                        Cancel
+                                    </button>
+                                    <button onClick={() => executeAddSport(onboardingSport, onboardingAnswers)} disabled={isSavingSport} style={{ padding: '12px 32px', borderRadius: '12px', background: onboardingSport.accentColor || '#6366f1', color: 'white', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: `0 4px 14px ${(onboardingSport.accentColor || '#6366f1')}60`, transition: 'all 0.2s', transform: isSavingSport ? 'scale(0.98)' : 'scale(1)', opacity: isSavingSport ? 0.7 : 1 }}>
+                                        {isSavingSport ? 'Saving...' : 'Complete Setup'}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }

@@ -3,20 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const ACTIVITIES = [
-    { id: 1, action: 'Tournament Created', user: 'Admin (Ravi Kumar)', target: 'District Cricket Cup 2026', type: 'TOURNAMENT', time: '2 min ago', ip: '192.168.1.45', icon: '🏆' },
-    { id: 2, action: 'Player Registered', user: 'System', target: 'Arjun Patel (USI-2026-MH-00421)', type: 'PLAYER', time: '5 min ago', ip: '—', icon: '👤' },
-    { id: 3, action: 'Document Approved', user: 'Admin (Priya Sharma)', target: 'Medical Certificate — Kiran Das', type: 'DOCUMENT', time: '12 min ago', ip: '10.0.0.23', icon: '📄' },
-    { id: 4, action: 'Match Score Updated', user: 'Scorer (Amit Verma)', target: 'Thunder Warriors vs Blue Blazers (185-142)', type: 'MATCH', time: '18 min ago', ip: '172.16.0.8', icon: '⚽' },
-    { id: 5, action: 'Transfer Approved', user: 'Admin (Ravi Kumar)', target: 'Suresh M. — Mumbai XI → Thunder Warriors', type: 'TRANSFER', time: '25 min ago', ip: '192.168.1.45', icon: '🔄' },
-    { id: 6, action: 'Certificate Generated', user: 'System', target: 'Winner Certificate — District Football Cup', type: 'CERTIFICATE', time: '32 min ago', ip: '—', icon: '🏅' },
-    { id: 7, action: 'Settings Changed', user: 'Admin (Priya Sharma)', target: 'Platform language updated to Hindi', type: 'SETTINGS', time: '45 min ago', ip: '10.0.0.23', icon: '⚙️' },
-    { id: 8, action: 'User Login', user: 'Arjun Patel', target: 'Login from Mumbai, MH (Chrome/Mac)', type: 'AUTH', time: '1 hr ago', ip: '49.207.52.118', icon: '🔐' },
-    { id: 9, action: 'Team Created', user: 'Coach (Deepak Rao)', target: 'Golden Eagles — Football', type: 'TEAM', time: '1.5 hr ago', ip: '103.44.12.67', icon: '⚡' },
-    { id: 10, action: 'Report Filed', user: 'Referee (Manoj T.)', target: 'Incident Report — Unsportsmanlike Conduct', type: 'REPORT', time: '2 hr ago', ip: '192.168.5.12', icon: '📋' },
-    { id: 11, action: 'Venue Booked', user: 'Admin (Ravi Kumar)', target: 'Wankhede Stadium — Feb 25-27', type: 'VENUE', time: '3 hr ago', ip: '192.168.1.45', icon: '🏟️' },
-    { id: 12, action: 'Sponsor Added', user: 'Admin (Priya Sharma)', target: 'SportsTech India — Title Sponsor (₹5L)', type: 'SPONSOR', time: '5 hr ago', ip: '10.0.0.23', icon: '💎' },
-];
+const ACTIVITIES: any[] = [];
 
 const TYPE_COLORS: Record<string, string> = {
     TOURNAMENT: '#6366f1', PLAYER: '#22c55e', DOCUMENT: '#a855f7', MATCH: '#ef4444',

@@ -9,6 +9,14 @@ export declare class AuthController {
         lastName: string;
         role?: string;
         phone?: string;
+        countryCode?: string;
+        otp?: string;
+        district?: string;
+        state?: string;
+        country?: string;
+        heightCm?: number;
+        gender?: string;
+        avatar?: string;
     }): Promise<{
         user: any;
         accessToken: string;
@@ -32,5 +40,12 @@ export declare class AuthController {
         user: any;
         accessToken: string;
     }>;
+    verifyEmail(token: string): Promise<{
+        message: string;
+    }>;
+    sendVerificationEmail(req: any): Promise<{
+        message: string;
+    }>;
     getProfile(req: any): Promise<any>;
+    updateProfile(req: any, dto: any): Promise<any>;
 }

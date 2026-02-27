@@ -396,10 +396,13 @@ export declare class TeamsController {
                 dateOfBirth: Date | null;
                 gender: string | null;
                 city: string | null;
+                district: string | null;
                 state: string | null;
                 country: string;
                 primarySport: string | null;
                 bio: string | null;
+                heightCm: number | null;
+                weightKg: number | null;
                 totalMatches: number;
                 totalWins: number;
                 careerStats: string | null;
@@ -486,10 +489,13 @@ export declare class TeamsController {
             dateOfBirth: Date | null;
             gender: string | null;
             city: string | null;
+            district: string | null;
             state: string | null;
             country: string;
             primarySport: string | null;
             bio: string | null;
+            heightCm: number | null;
+            weightKg: number | null;
             totalMatches: number;
             totalWins: number;
             careerStats: string | null;

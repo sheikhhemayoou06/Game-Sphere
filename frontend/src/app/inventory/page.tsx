@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const EQUIPMENT = [
     { id: '1', name: 'SG Cricket Bats', category: 'CRICKET', quantity: 48, available: 32, condition: 'GOOD', location: 'Store Room A', lastChecked: '2026-02-18', unitCost: 3500, icon: '🏏' },
-    { id: '2', name: 'Adidas Footballs (FIFA Pro)', category: 'FOOTBALL', quantity: 30, available: 24, condition: 'EXCELLENT', location: 'Store Room B', lastChecked: '2026-02-20', unitCost: 4200, icon: '⚽' },
+    { id: '2', name: 'Adidas Footballs (FIFA Pro)', category: 'FOOTBALL', quantity: 30, available: 24, condition: 'EXCELLENT', location: 'Store Room B', lastChecked: '2026-02-20', unitCost: 4200, icon: '' },
     { id: '3', name: 'Yonex Badminton Rackets', category: 'BADMINTON', quantity: 24, available: 18, condition: 'GOOD', location: 'Indoor Hall', lastChecked: '2026-02-15', unitCost: 6800, icon: '🏸' },
     { id: '4', name: 'Nivia Basketballs', category: 'BASKETBALL', quantity: 20, available: 14, condition: 'FAIR', location: 'Court Storage', lastChecked: '2026-02-12', unitCost: 2500, icon: '🏀' },
     { id: '5', name: 'Kabaddi Mats (Standard)', category: 'KABADDI', quantity: 6, available: 4, condition: 'GOOD', location: 'Mat Hall', lastChecked: '2026-02-19', unitCost: 45000, icon: '🤼' },

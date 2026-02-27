@@ -12,57 +12,17 @@ function getPaymentRole(role: string): RoleView {
     return 'player';
 }
 
-/* ═══════ PLAYER DATA ═══════ */
-const ALL_PAYMENTS = [
-    { id: 'PAY-001', type: 'Tournament Fee', category: 'tournament', desc: 'District Cricket Championship 2026', amount: 2500, status: 'PAID', date: '2026-02-15', method: 'UPI', ref: 'TXN98342', sport: 'Cricket' },
-    { id: 'PAY-002', type: 'Team Registration', category: 'team', desc: 'Thunder Warriors — Season Fee', amount: 5000, status: 'PAID', date: '2026-02-12', method: 'Card', ref: 'TXN87251', sport: 'Cricket' },
-    { id: 'PAY-003', type: 'Tournament Fee', category: 'tournament', desc: 'State Football League 2026', amount: 3000, status: 'PAID', date: '2026-02-10', method: 'UPI', ref: 'TXN76150', sport: 'Football' },
-    { id: 'PAY-004', type: 'Equipment Deposit', category: 'team', desc: 'Basketball Equipment Deposit', amount: 3000, status: 'PENDING', date: '2026-02-22', method: '—', ref: '—', sport: 'Basketball' },
-    { id: 'PAY-005', type: 'Tournament Fee', category: 'tournament', desc: 'Inter-District Kabaddi Championship', amount: 2000, status: 'OVERDUE', date: '2026-02-05', method: '—', ref: '—', sport: 'Kabaddi' },
-    { id: 'PAY-006', type: 'Training Fee', category: 'tournament', desc: 'Advanced Batting Coaching Course', amount: 1500, status: 'PAID', date: '2026-01-28', method: 'Bank', ref: 'TXN65049', sport: 'Cricket' },
-    { id: 'PAY-007', type: 'Auction Fee', category: 'auction', desc: 'District Cricket Auction Registration', amount: 500, status: 'PAID', date: '2026-02-18', method: 'UPI', ref: 'TXN43298', sport: 'Cricket' },
-    { id: 'PAY-008', type: 'Auction Selection Fee', category: 'auction', desc: 'Thunder Warriors Selection Payment', amount: 5000, status: 'PENDING', date: '2026-02-22', method: '—', ref: '—', sport: 'Cricket' },
-    { id: 'PAY-009', type: 'Tournament Fee', category: 'tournament', desc: 'Hockey State League 2026', amount: 1800, status: 'PAID', date: '2026-02-08', method: 'UPI', ref: 'TXN54123', sport: 'Hockey' },
-    { id: 'PAY-010', type: 'Training Fee', category: 'tournament', desc: 'Football Skills Academy', amount: 2000, status: 'PENDING', date: '2026-02-20', method: '—', ref: '—', sport: 'Football' },
-    { id: 'PAY-011', type: 'Team Registration', category: 'team', desc: 'Storm FC — Season Fee', amount: 4000, status: 'PAID', date: '2026-02-11', method: 'Card', ref: 'TXN33210', sport: 'Football' },
-];
+/* ═══════ DATA — All empty by default ═══════ */
+const ALL_PAYMENTS: any[] = [];
 
-const PAYMENT_METHODS = [
-    { name: 'UPI', icon: '📱', details: 'arjun.patel@upi', primary: true },
-    { name: 'Bank Account', icon: '🏦', details: 'HDFC ****4523', primary: false },
-    { name: 'Credit Card', icon: '💳', details: 'Visa ****8891', primary: false },
-];
+const PAYMENT_METHODS: any[] = [];
 
 /* ═══════ OWNER DATA ═══════ */
-const REVENUE_TRANSACTIONS = [
-    { id: 'REV-001', from: 'Arjun Patel', type: 'Registration Fee', amount: 5000, status: 'RECEIVED', date: '2026-02-15', sport: 'Cricket' },
-    { id: 'REV-002', from: 'Vikram Singh', type: 'Registration Fee', amount: 5000, status: 'RECEIVED', date: '2026-02-14', sport: 'Cricket' },
-    { id: 'REV-003', from: 'Kiran Desai', type: 'Registration Fee', amount: 5000, status: 'RECEIVED', date: '2026-02-13', sport: 'Cricket' },
-    { id: 'REV-004', from: 'Rohit Joshi', type: 'Registration Fee', amount: 5000, status: 'PENDING', date: '2026-02-20', sport: 'Cricket' },
-    { id: 'REV-005', from: 'Raj Thakur', type: 'Registration Fee', amount: 5000, status: 'PENDING', date: '2026-02-21', sport: 'Cricket' },
-    { id: 'REV-006', from: 'Mohan Das', type: 'Registration Fee', amount: 5000, status: 'OVERDUE', date: '2026-02-10', sport: 'Cricket' },
-    { id: 'REV-007', from: 'Sports India Co.', type: 'Sponsorship', amount: 200000, status: 'RECEIVED', date: '2026-02-01', sport: 'Cricket' },
-    { id: 'REV-008', from: 'CrickBat Ltd', type: 'Sponsorship', amount: 150000, status: 'RECEIVED', date: '2026-01-25', sport: 'Cricket' },
-    { id: 'REV-009', from: 'Carlos Mendes', type: 'Registration Fee', amount: 4000, status: 'RECEIVED', date: '2026-02-12', sport: 'Football' },
-    { id: 'REV-010', from: 'Nike India', type: 'Sponsorship', amount: 100000, status: 'RECEIVED', date: '2026-02-05', sport: 'Football' },
-];
+const REVENUE_TRANSACTIONS: any[] = [];
 
-const EXPENSE_TRANSACTIONS = [
-    { id: 'EXP-001', to: 'Auction — Vikram Singh', type: 'Player Acquisition', amount: 350000, status: 'PAID', date: '2026-02-18', sport: 'Cricket' },
-    { id: 'EXP-002', to: 'Auction — Arjun Patel', type: 'Player Acquisition', amount: 420000, status: 'PENDING', date: '2026-02-20', sport: 'Cricket' },
-    { id: 'EXP-003', to: 'Wankhede Stadium', type: 'Venue Rental', amount: 25000, status: 'PAID', date: '2026-02-12', sport: 'Cricket' },
-    { id: 'EXP-004', to: 'SG Sports Equipment', type: 'Equipment', amount: 45000, status: 'PAID', date: '2026-02-08', sport: 'Cricket' },
-    { id: 'EXP-005', to: 'DY Patil Ground', type: 'Venue Rental', amount: 20000, status: 'PENDING', date: '2026-02-25', sport: 'Cricket' },
-    { id: 'EXP-006', to: 'Tournament Entry — State T20', type: 'Registration', amount: 15000, status: 'PAID', date: '2026-02-05', sport: 'Cricket' },
-    { id: 'EXP-007', to: 'Football Ground Rental', type: 'Venue Rental', amount: 15000, status: 'PAID', date: '2026-02-10', sport: 'Football' },
-    { id: 'EXP-008', to: 'Nike Boots Purchase', type: 'Equipment', amount: 35000, status: 'PAID', date: '2026-02-07', sport: 'Football' },
-];
+const EXPENSE_TRANSACTIONS: any[] = [];
 
-const INVOICE_TEMPLATES = [
-    { label: 'Registration Fee', amount: 5000, desc: 'Annual team registration fee for 2026 season' },
-    { label: 'Equipment Contribution', amount: 3000, desc: 'Team equipment and jersey contribution' },
-    { label: 'Training Fee', amount: 2000, desc: 'Monthly coaching and facility fee' },
-];
+const INVOICE_TEMPLATES: any[] = [];
 
 /* ═══════ COMPONENT ═══════ */
 export default function PaymentsPage() {
@@ -109,9 +69,9 @@ export default function PaymentsPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <Link href="/dashboard" style={{ color: '#6d28d9', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
                         <span style={{ color: '#d4d4d8' }}>|</span>
-                        <span style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{sportIcon} {selectedSport ? `${sportLabel} Financial Dashboard` : '💰 Financial Dashboard'}</span>
+                        <span style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{selectedSport ? `${sportLabel} Financial Dashboard` : '💰 Financial Dashboard'}</span>
                     </div>
-                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: '#ede9fe', color: '#6d28d9', fontSize: '12px', fontWeight: 700 }}>⚡ Thunder Warriors</span>
+                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: '#ede9fe', color: '#6d28d9', fontSize: '12px', fontWeight: 700 }}>⚡ My Team</span>
                 </div>
 
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px' }}>
@@ -180,10 +140,10 @@ export default function PaymentsPage() {
                             {/* Category Breakdown */}
                             <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '16px' }}>
                                 {[
-                                    { label: 'Player Acquisition', value: fmt(770000), pct: '85%', color: '#ef4444' },
-                                    { label: 'Venue Rental', value: fmt(45000), pct: '5%', color: '#7c3aed' },
-                                    { label: 'Equipment', value: fmt(45000), pct: '5%', color: '#f59e0b' },
-                                    { label: 'Registration', value: fmt(15000), pct: '2%', color: '#0ea5e9' },
+                                    { label: 'Player Acquisition', value: fmt(0), pct: '0%', color: '#ef4444' },
+                                    { label: 'Venue Rental', value: fmt(0), pct: '0%', color: '#7c3aed' },
+                                    { label: 'Equipment', value: fmt(0), pct: '0%', color: '#f59e0b' },
+                                    { label: 'Registration', value: fmt(0), pct: '0%', color: '#0ea5e9' },
                                 ].map((c, i) => (
                                     <div key={i} style={{ padding: '14px', borderRadius: '12px', background: 'white', border: '1px solid #f3e8ff' }}>
                                         <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '4px' }}>{c.label}</div>
@@ -274,7 +234,7 @@ export default function PaymentsPage() {
             </div>
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '28px 32px' }}>
-                <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#1e1b4b', marginBottom: '6px' }}>{sportIcon} {selectedSport ? `${sportLabel} Payments & Transactions` : '💳 Payments & Transactions'}</h1>
+                <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#1e1b4b', marginBottom: '6px' }}>{selectedSport ? `${sportLabel} Payments & Transactions` : '💳 Payments & Transactions'}</h1>
                 <p style={{ color: '#64748b', marginBottom: '20px', fontSize: '14px' }}>{selectedSport ? `${sportLabel} payments, receipts, and dues` : 'Track all payments, download receipts, and manage dues'}</p>
 
                 {/* Stats */}
@@ -393,4 +353,4 @@ export default function PaymentsPage() {
     );
 }
 
-const OWNER_ROSTER_NAMES = ['Vikram Singh', 'Arjun Patel', 'Kiran Desai', 'Rohit Joshi', 'Sanjay Verma', 'Deepak Yadav', 'Mohan Das', 'Anil Kapoor'];
+const OWNER_ROSTER_NAMES: string[] = [];

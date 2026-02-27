@@ -12,6 +12,14 @@ export declare class AuthService {
         lastName: string;
         role?: string;
         phone?: string;
+        countryCode?: string;
+        otp?: string;
+        district?: string;
+        state?: string;
+        country?: string;
+        heightCm?: number;
+        gender?: string;
+        avatar?: string;
     }): Promise<{
         user: any;
         accessToken: string;
@@ -35,7 +43,14 @@ export declare class AuthService {
         user: any;
         accessToken: string;
     }>;
+    sendEmailVerification(userId: string): Promise<{
+        message: string;
+    }>;
+    verifyEmail(token: string): Promise<{
+        message: string;
+    }>;
     getProfile(userId: string): Promise<any>;
+    updateProfile(userId: string, data: any): Promise<any>;
     private generateToken;
     private sanitizeUser;
 }

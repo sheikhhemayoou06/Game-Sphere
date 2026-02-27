@@ -82,7 +82,7 @@ export default function MatchDetailPage() {
                     </div>
 
                     <div style={{ fontSize: '14px', opacity: 0.7, marginBottom: '20px' }}>
-                        {sportIcons[match.sport?.name] || '🏅'} {match.sport?.name} — {match.tournament?.name}
+                        {match.sport?.name} — {match.tournament?.name}
                     </div>
 
                     <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>

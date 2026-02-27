@@ -7,12 +7,12 @@ import SmartSearch from '@/components/SmartSearch';
 import { Sun, Moon } from 'lucide-react';
 
 const sports = [
-  { name: 'Cricket', icon: '🏏', color: '#0D9488' },
-  { name: 'Football', icon: '⚽', color: '#16A34A' },
-  { name: 'Basketball', icon: '🏀', color: '#EA580C' },
-  { name: 'Kabaddi', icon: '🤼', color: '#F97316' },
-  { name: 'Volleyball', icon: '🏐', color: '#7C3AED' },
-  { name: 'Badminton', icon: '🏸', color: '#06B6D4' },
+  { name: 'Cricket', icon: '', color: '#3B82F6' },
+  { name: 'Football', icon: '', color: '#16A34A' },
+  { name: 'Basketball', icon: '', color: '#EA580C' },
+  { name: 'Tennis', icon: '', color: '#D97706' },
+  { name: 'Badminton', icon: '', color: '#E11D48' },
+  { name: 'Kabaddi', icon: '', color: '#0F766E' },
   { name: 'Hockey', icon: '🏑', color: '#2563EB' },
   { name: 'Tennis', icon: '🎾', color: '#84CC16' },
   { name: 'Athletics', icon: '🏃', color: '#EAB308' },

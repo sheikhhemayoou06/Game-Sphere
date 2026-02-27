@@ -146,10 +146,13 @@ export declare class MatchesService {
                 dateOfBirth: Date | null;
                 gender: string | null;
                 city: string | null;
+                district: string | null;
                 state: string | null;
                 country: string;
                 primarySport: string | null;
                 bio: string | null;
+                heightCm: number | null;
+                weightKg: number | null;
                 totalMatches: number;
                 totalWins: number;
                 careerStats: string | null;
@@ -157,8 +160,8 @@ export declare class MatchesService {
             };
         } & {
             id: string;
-            playerId: string;
             matchId: string;
+            playerId: string;
             statsData: string | null;
         })[];
     } & {
@@ -307,8 +310,8 @@ export declare class MatchesService {
     }>;
     updatePlayerStats(matchId: string, playerId: string, statsData: any): Promise<{
         id: string;
-        playerId: string;
         matchId: string;
+        playerId: string;
         statsData: string | null;
     }>;
     getLiveMatches(): Promise<({

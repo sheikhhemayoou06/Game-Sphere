@@ -139,14 +139,17 @@ export default function SportIcon({ sport, size = 32, color = 'currentColor', cl
 }
 
 /** String-based icon lookup (kept for backward compatibility in text-only contexts) */
-export const sportIconStrings: Record<string, string> = {
-    Cricket: '🏏',
-    Football: '⚽',
-    Basketball: '🏀',
-    Kabaddi: '💪',
-    Volleyball: '🏐',
-    Badminton: '🏸',
-    Hockey: '🏑',
-    Tennis: '🎾',
-    Athletics: '🏅',
+export const sportEmojis: Record<string, string> = {
+    Cricket: '',
+    Football: '',
+    Basketball: '',
+    Tennis: '',
+    Kabaddi: '',
+    Badminton: '',
+    Hockey: '',
+    Athletics: '',
+    Volleyball: '',
+    TableTennis: '',
+    Swimming: '',
+    eSports: '',
 };

@@ -7,12 +7,13 @@ import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
 
 const TYPE_ICONS: Record<string, string> = {
-    TRANSFER: '🔄',
-    MATCH: '⚽',
-    TOURNAMENT: '🏆',
-    DOCUMENT: '📄',
-    CERTIFICATE: '🏅',
-    SYSTEM: '🔔',
+    SYSTEM: '💻',
+    MATCH: '',
+    TEAM: '',
+    PAYMENT: '',
+    TOURNAMENT: '',
+    DOCUMENT: '',
+    CERTIFICATE: '',
 };
 
 export default function NotificationsPage() {
@@ -62,14 +63,12 @@ export default function NotificationsPage() {
             <div style={{ maxWidth: '700px', margin: '0 auto', padding: '32px 24px' }}>
                 <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', gap: '16px' }}>
                     <div>
-                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#9f1239', marginBottom: '8px' }}>
-                            🔔 Notifications
-                            {unreadCount > 0 && (
-                                <span style={{ fontSize: '16px', marginLeft: '12px', padding: '4px 12px', borderRadius: '20px', background: '#ef4444', color: '#fff', fontWeight: 700, verticalAlign: 'middle' }}>
-                                    {unreadCount}
-                                </span>
-                            )}
-                        </h1>
+                        <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#1e1b4b', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Notifications` : 'Notifications'}</h1>
+                        {unreadCount > 0 && (
+                            <span style={{ fontSize: '16px', marginLeft: '12px', padding: '4px 12px', borderRadius: '20px', background: '#ef4444', color: '#fff', fontWeight: 700, verticalAlign: 'middle' }}>
+                                {unreadCount}
+                            </span>
+                        )}
                         <p style={{ color: '#be123c', fontSize: '16px' }}>{selectedSport ? `${sportLabel} activity updates` : 'Stay updated on platform activity'}</p>
                     </div>
                     <div style={{ display: 'flex', gap: '8px' }}>

@@ -12,126 +12,25 @@ function getMsgRole(role: string): RoleView {
     return 'player';
 }
 
-/* ═══════ SHARED DATA ═══════ */
-const TEAM_MESSAGES: Record<string, { sender: string; text: string; time: string; isOwner: boolean }[]> = {
-    Cricket: [
-        { sender: 'Coach Raj', text: 'Practice shifted to 7 AM tomorrow. Don\'t be late!', time: '10:30 AM', isOwner: true },
-        { sender: 'Arjun Patel', text: 'Got it coach! Will be there early.', time: '10:32 AM', isOwner: false },
-        { sender: 'Vikram Singh', text: 'Can we do extra batting session after?', time: '10:35 AM', isOwner: false },
-        { sender: 'Coach Raj', text: 'Yes, 30 min extra nets. Bring your own kit.', time: '10:36 AM', isOwner: true },
-        { sender: 'Kiran Desai', text: 'My shoulder is sore, might skip bowling drills', time: '10:40 AM', isOwner: false },
-        { sender: 'Deepak Yadav', text: 'Should we review the last match footage?', time: '10:45 AM', isOwner: false },
-        { sender: 'Coach Raj', text: '📋 Match review at 8 AM before practice.', time: '10:48 AM', isOwner: true },
-    ],
-    Football: [
-        { sender: 'Coach Silva', text: 'Tactical session at 6 PM. Full attendance.', time: '09:00 AM', isOwner: true },
-        { sender: 'Ravi Kumar', text: 'Understood coach!', time: '09:05 AM', isOwner: false },
-        { sender: 'Aditya Rao', text: 'Should I bring the training cones?', time: '09:10 AM', isOwner: false },
-        { sender: 'Coach Silva', text: 'Yes, and the set-piece boards too.', time: '09:12 AM', isOwner: true },
-    ],
-};
+/* ═══════ DATA — All empty by default ═══════ */
+const TEAM_MESSAGES: Record<string, { sender: string; text: string; time: string; isOwner: boolean }[]> = {};
 
-const TEAM_MEMBERS: Record<string, { name: string; role: string; online: boolean }[]> = {
-    Cricket: [
-        { name: 'Vikram Singh', role: 'Captain', online: true },
-        { name: 'Arjun Patel', role: 'Vice-Captain', online: true },
-        { name: 'Kiran Desai', role: 'Fast Bowler', online: false },
-        { name: 'Rohit Joshi', role: 'Wicket-Keeper', online: true },
-        { name: 'Sanjay Verma', role: 'Spinner', online: false },
-        { name: 'Deepak Yadav', role: 'Batsman', online: true },
-        { name: 'Mohan Das', role: 'Fast Bowler', online: false },
-        { name: 'Anil Kapoor', role: 'All-Rounder', online: true },
-        { name: 'Sanjay Mishra', role: 'Spinner', online: false },
-        { name: 'Raj Thakur', role: 'Batsman', online: false },
-        { name: 'Nikhil Sharma', role: 'Fast Bowler', online: true },
-        { name: 'Amit Dubey', role: 'All-Rounder', online: false },
-    ],
-    Football: [
-        { name: 'Ravi Kumar', role: 'Captain / Midfielder', online: true },
-        { name: 'Aditya Rao', role: 'Goalkeeper', online: true },
-        { name: 'Suresh Nair', role: 'Centre-Back', online: false },
-        { name: 'Pradeep Menon', role: 'Right-Back', online: true },
-        { name: 'Ajay Sharma', role: 'Left Winger', online: false },
-        { name: 'Omkar Joshi', role: 'Striker', online: true },
-        { name: 'Manish Tiwari', role: 'Defensive Mid', online: false },
-        { name: 'Karan Mehta', role: 'Centre-Forward', online: true },
-    ],
-};
+const TEAM_MEMBERS: Record<string, { name: string; role: string; online: boolean }[]> = {};
 
-const DEFAULT_TEAM_MESSAGES = TEAM_MESSAGES.Cricket;
-const DEFAULT_TEAM_MEMBERS = TEAM_MEMBERS.Cricket;
+const DEFAULT_TEAM_MESSAGES: typeof TEAM_MESSAGES[string] = [];
+const DEFAULT_TEAM_MEMBERS: typeof TEAM_MEMBERS[string] = [];
 
 /* ═══════ OWNER-SPECIFIC DATA ═══════ */
-const ANNOUNCEMENTS: Record<string, { text: string; date: string; pinned: boolean }[]> = {
-    Cricket: [
-        { text: '🏏 Practice schedule updated for next week. Check calendar.', date: '2026-02-21', pinned: true },
-        { text: '⚡ Starting XI for next match will be announced by Friday.', date: '2026-02-20', pinned: true },
-        { text: '💰 Registration fees due by Feb 28. Contact treasurer if issues.', date: '2026-02-18', pinned: false },
-        { text: '🏟️ Home ground changed to DY Patil for matches on 2nd & 3rd March.', date: '2026-02-15', pinned: false },
-    ],
-    Football: [
-        { text: '⚽ Squad announced for State Championship. Check team page.', date: '2026-02-21', pinned: true },
-        { text: '💰 Kit fee due by Feb 25.', date: '2026-02-19', pinned: false },
-    ],
-};
+const ANNOUNCEMENTS: Record<string, { text: string; date: string; pinned: boolean }[]> = {};
 
-const DM_CONVERSATIONS: Record<string, { player: string; role: string; lastMsg: string; time: string; unread: number; online: boolean }[]> = {
-    Cricket: [
-        { player: 'Vikram Singh', role: 'Captain', lastMsg: 'I\'ll prepare the playing XI draft', time: '10 min ago', unread: 2, online: true },
-        { player: 'Kiran Desai', role: 'Fast Bowler', lastMsg: 'Physiotherapy booked for Thursday', time: '1h ago', unread: 0, online: false },
-        { player: 'Rohit Joshi', role: 'Wicket-Keeper', lastMsg: 'Sir, can I skip Tuesday practice?', time: '2h ago', unread: 1, online: true },
-        { player: 'Deepak Yadav', role: 'Batsman', lastMsg: 'Thanks for the feedback on my innings!', time: '3h ago', unread: 0, online: true },
-        { player: 'Mohan Das', role: 'Fast Bowler', lastMsg: 'Payment done for registration', time: '5h ago', unread: 0, online: false },
-    ],
-    Football: [
-        { player: 'Ravi Kumar', role: 'Captain', lastMsg: 'Formation change idea for next match', time: '30 min ago', unread: 1, online: true },
-        { player: 'Omkar Joshi', role: 'Striker', lastMsg: 'Feeling fit, ready for Saturday!', time: '2h ago', unread: 0, online: true },
-    ],
-};
+const DM_CONVERSATIONS: Record<string, { player: string; role: string; lastMsg: string; time: string; unread: number; online: boolean }[]> = {};
 
-const STAFF_MEMBERS: Record<string, { name: string; role: string; online: boolean }[]> = {
-    Cricket: [
-        { name: 'Coach Raj Malhotra', role: 'Head Coach', online: true },
-        { name: 'Dr. Priya Sharma', role: 'Physiotherapist', online: false },
-        { name: 'Nitin Joshi', role: 'Analyst', online: true },
-        { name: 'Suresh Kulkarni', role: 'Trainer', online: true },
-    ],
-    Football: [
-        { name: 'Coach Silva', role: 'Head Coach', online: true },
-        { name: 'Dr. Meera Patel', role: 'Physiotherapist', online: true },
-        { name: 'Rahul Iyer', role: 'Tactical Analyst', online: false },
-    ],
-};
+const STAFF_MEMBERS: Record<string, { name: string; role: string; online: boolean }[]> = {};
 
-const STAFF_MESSAGES: Record<string, { sender: string; text: string; time: string }[]> = {
-    Cricket: [
-        { sender: 'Coach Raj', text: 'Team meeting at 5 PM to discuss auction strategy', time: '9:00 AM' },
-        { sender: 'Nitin Joshi', text: 'Uploaded opponent analysis to drive', time: '9:15 AM' },
-        { sender: 'Dr. Priya', text: 'Kiran needs 2 more days rest. Right shoulder strain.', time: '9:30 AM' },
-        { sender: 'Suresh K.', text: 'Fitness test results are ready', time: '10:00 AM' },
-        { sender: 'Coach Raj', text: 'We should target a left-arm spinner in the auction', time: '10:20 AM' },
-    ],
-    Football: [
-        { sender: 'Coach Silva', text: 'Tactical review at 4 PM. Bring laptops.', time: '9:00 AM' },
-        { sender: 'Rahul Iyer', text: 'Video analysis of opponent ready', time: '9:30 AM' },
-        { sender: 'Dr. Meera', text: 'All players cleared for Saturday match', time: '10:00 AM' },
-    ],
-};
+const STAFF_MESSAGES: Record<string, { sender: string; text: string; time: string }[]> = {};
 
 /* ═══════ PLAYER-SPECIFIC DATA ═══════ */
-const PLAYER_CONVERSATIONS: Record<string, { name: string; lastMsg: string; time: string; unread: number; isTeam: boolean; icon: string }[]> = {
-    Cricket: [
-        { name: 'Team Chat — Thunder Warriors', lastMsg: 'Coach Raj: Match review at 8 AM before practice.', time: '10:48 AM', unread: 3, isTeam: true, icon: '⚡' },
-        { name: 'Vikram Singh', lastMsg: 'Let me know about the practice schedule', time: '2h ago', unread: 0, isTeam: false, icon: '🏏' },
-        { name: 'Tournament Updates', lastMsg: 'District Championship Round 2 fixtures released', time: '5h ago', unread: 1, isTeam: false, icon: '🏆' },
-        { name: 'Rohit Joshi', lastMsg: 'See you at the ground tomorrow!', time: '1d ago', unread: 0, isTeam: false, icon: '🧑' },
-    ],
-    Football: [
-        { name: 'Team Chat — Storm FC', lastMsg: 'Coach Silva: Don\'t forget 6 PM session!', time: '09:12 AM', unread: 2, isTeam: true, icon: '⚽' },
-        { name: 'Ravi Kumar', lastMsg: 'New formation looks good', time: '1h ago', unread: 0, isTeam: false, icon: '⚽' },
-        { name: 'League Updates', lastMsg: 'State League Round 3 schedule released', time: '4h ago', unread: 1, isTeam: false, icon: '🏆' },
-    ],
-};
+const PLAYER_CONVERSATIONS: Record<string, { name: string; lastMsg: string; time: string; unread: number; isTeam: boolean; icon: string }[]> = {};
 
 /* ═══════ COMPONENT ═══════ */
 export default function MessagesPage() {
@@ -168,10 +67,10 @@ export default function MessagesPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <Link href="/dashboard" style={{ color: '#6d28d9', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>← Dashboard</Link>
                         <span style={{ color: '#d4d4d8' }}>|</span>
-                        <span style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{sportIcon} {selectedSport ? `${sportLabel} Communication Hub` : '💬 Communication Hub'}</span>
+                        <span style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{selectedSport ? `${sportLabel} Communication Hub` : '💬 Communication Hub'}</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ padding: '4px 12px', borderRadius: '6px', background: '#ede9fe', color: '#6d28d9', fontSize: '12px', fontWeight: 700 }}>⚡ Thunder Warriors</span>
+                        <span style={{ padding: '4px 12px', borderRadius: '6px', background: '#ede9fe', color: '#6d28d9', fontSize: '12px', fontWeight: 700 }}>⚡ My Team</span>
                         <span style={{ fontSize: '12px', color: '#16a34a', fontWeight: 600 }}>🟢 {teamMembers.filter(m => m.online).length} online</span>
                     </div>
                 </div>
@@ -208,7 +107,7 @@ export default function MessagesPage() {
                                 <div style={{ padding: '14px 20px', background: '#faf5ff', borderBottom: '1px solid #f3e8ff', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <span style={{ fontSize: '22px' }}>⚡</span>
                                     <div>
-                                        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>Thunder Warriors — Team Chat</div>
+                                        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>My Team — Team Chat</div>
                                         <div style={{ fontSize: '11px', color: '#64748b' }}>{teamMembers.length} members • {teamMembers.filter(m => m.online).length} online</div>
                                     </div>
                                 </div>
@@ -411,7 +310,7 @@ export default function MessagesPage() {
             </div>
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '28px 32px' }}>
-                <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#1e1b4b', marginBottom: '20px' }}>{sportIcon} {selectedSport ? `${sportLabel} Messages` : '💬 Messages'}</h1>
+                <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#1e1b4b', marginBottom: '20px' }}>{selectedSport ? `${sportLabel} Messages` : '💬 Messages'}</h1>
 
                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: '16px' }}>
                     {/* Sidebar */}

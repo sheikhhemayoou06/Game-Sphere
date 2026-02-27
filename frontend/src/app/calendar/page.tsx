@@ -33,25 +33,8 @@ export default function CalendarPage() {
     for (let i = 0; i < firstDayOfMonth; i++) calendarDays.push(null);
     for (let i = 1; i <= daysInMonth; i++) calendarDays.push(i);
 
-    // Demo events on specific days — each tagged with sport
-    const allEvents: Record<number, { type: string; title: string; color: string; sport: string }[]> = {
-        3: [{ type: 'match', title: 'Cricket Semi-Final', color: '#22c55e', sport: 'Cricket' }],
-        5: [{ type: 'match', title: 'Football League Match', color: '#22c55e', sport: 'Football' }],
-        7: [{ type: 'tournament', title: 'District Football Cup', color: '#6366f1', sport: 'Football' }],
-        8: [{ type: 'training', title: 'Cricket Net Practice', color: '#f59e0b', sport: 'Cricket' }],
-        10: [{ type: 'match', title: 'Kabaddi Quarter-Final', color: '#22c55e', sport: 'Kabaddi' }],
-        12: [{ type: 'match', title: 'Basketball Pool Stage', color: '#22c55e', sport: 'Basketball' }],
-        14: [{ type: 'deadline', title: 'Cricket Registration Closes', color: '#ef4444', sport: 'Cricket' }, { type: 'deadline', title: 'Football Registration Closes', color: '#ef4444', sport: 'Football' }],
-        16: [{ type: 'training', title: 'Football Training Camp', color: '#f59e0b', sport: 'Football' }],
-        18: [{ type: 'match', title: 'Basketball Finals', color: '#22c55e', sport: 'Basketball' }, { type: 'training', title: 'Cricket Team Practice', color: '#f59e0b', sport: 'Cricket' }],
-        20: [{ type: 'match', title: 'Hockey Quarter-Final', color: '#22c55e', sport: 'Hockey' }],
-        21: [{ type: 'tournament', title: 'State Athletics Meet', color: '#6366f1', sport: 'Athletics' }],
-        22: [{ type: 'match', title: 'Cricket T20 Final', color: '#22c55e', sport: 'Cricket' }],
-        24: [{ type: 'tournament', title: 'Tennis Open', color: '#6366f1', sport: 'Tennis' }],
-        25: [{ type: 'match', title: 'Hockey League Day 1', color: '#22c55e', sport: 'Hockey' }],
-        27: [{ type: 'match', title: 'Badminton Doubles Final', color: '#22c55e', sport: 'Badminton' }],
-        28: [{ type: 'ceremony', title: 'Cricket Award Ceremony', color: '#ec4899', sport: 'Cricket' }, { type: 'ceremony', title: 'Football Award Night', color: '#ec4899', sport: 'Football' }],
-    };
+    // Events — empty by default, populated from API data
+    const allEvents: Record<number, { type: string; title: string; color: string; sport: string }[]> = {};
 
     // Filter events by selected sport
     const events: Record<number, { type: string; title: string; color: string; sport: string }[]> = {};
@@ -78,7 +61,7 @@ export default function CalendarPage() {
             </nav>
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#1e3a8a', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Calendar` : 'Calendar'}</h1>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#1e3a8a', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Calendar` : 'Calendar'}</h1>
                 <p style={{ color: '#1e40af', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} match schedules, tournament dates, and events` : 'Match schedules, tournament dates, and event timeline'}</p>
 
                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>

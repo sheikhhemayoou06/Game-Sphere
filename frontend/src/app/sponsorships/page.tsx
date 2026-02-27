@@ -14,20 +14,14 @@ export default function SponsorshipsPage() {
         api.getTournaments().then(setTournaments).catch(() => []).finally(() => setLoading(false));
     }, []);
 
-    const sponsors = [
-        { name: 'SportsTech India', tier: 'TITLE', logo: '🏢', amount: '₹5,00,000', status: 'ACTIVE', sport: 'Cricket', placement: 'Jersey + Banner + Digital', color: '#f59e0b' },
-        { name: 'FitGear Pro', tier: 'GOLD', logo: '🎽', amount: '₹2,50,000', status: 'ACTIVE', sport: 'Football', placement: 'Banner + Digital', color: '#eab308' },
-        { name: 'NutriMax', tier: 'SILVER', logo: '🥤', amount: '₹1,00,000', status: 'ACTIVE', sport: 'All Sports', placement: 'Digital Only', color: '#94a3b8' },
-        { name: 'EduSports Foundation', tier: 'PARTNER', logo: '🎓', amount: '₹50,000', status: 'PENDING', sport: 'Athletics', placement: 'Certificate Branding', color: '#a78bfa' },
-        { name: 'HealthPlus', tier: 'SILVER', logo: '💊', amount: '₹75,000', status: 'EXPIRED', sport: 'Kabaddi', placement: 'Banner', color: '#94a3b8' },
-    ];
+    const sponsors: any[] = [];
 
     const filteredSponsors = selectedSport
-        ? sponsors.filter(s => s.sport === selectedSport.name || s.sport === 'All Sports')
+        ? sponsors.filter((s: any) => s.sport === selectedSport.name || s.sport === 'All Sports')
         : sponsors;
 
-    const activeSponsorships = filteredSponsors.filter(s => s.status === 'ACTIVE').length;
-    const totalSponsorship = filteredSponsors.reduce((acc, curr) => {
+    const activeSponsorships = filteredSponsors.filter((s: any) => s.status === 'ACTIVE').length;
+    const totalSponsorship = filteredSponsors.reduce((acc: number, curr: any) => {
         const val = parseInt(curr.amount.replace(/[^0-9]/g, ''), 10);
         return acc + val;
     }, 0);
@@ -38,12 +32,7 @@ export default function SponsorshipsPage() {
         EXPIRED: { bg: '#fef2f2', color: '#ef4444' },
     };
 
-    const adPlacements = [
-        { location: 'Match Scoreboard Banner', impressions: '12.5K', clicks: '890', ctr: '7.1%', revenue: '₹15,000', sport: 'Cricket' },
-        { location: 'Tournament Page Sidebar', impressions: '8.2K', clicks: '420', ctr: '5.1%', revenue: '₹8,500', sport: 'Football' },
-        { location: 'Certificate Footer', impressions: '3.1K', clicks: '180', ctr: '5.8%', revenue: '₹4,200', sport: 'All Sports' },
-        { location: 'Player Profile Card', impressions: '6.7K', clicks: '310', ctr: '4.6%', revenue: '₹6,800', sport: 'Kabaddi' },
-    ];
+    const adPlacements: any[] = [];
 
     const filteredAds = selectedSport
         ? adPlacements.filter(ad => ad.sport === selectedSport.name || ad.sport === 'All Sports')

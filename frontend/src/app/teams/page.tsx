@@ -19,104 +19,20 @@ function getTeamRole(role: string): RoleView {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SHARED MOCK DATA
+   DATA — All empty by default, populated from API
    ═══════════════════════════════════════════════════════════════ */
 
-const MY_TEAMS = [
-    {
-        name: 'Thunder Warriors', sport: 'Cricket', sportIcon: '🏏', logo: '⚡', color: '#f59e0b',
-        captain: 'Vikram Singh', coach: 'Raj Malhotra', wins: 12, losses: 3,
-        roster: [
-            { name: 'Arjun Patel', role: 'All-Rounder', online: true },
-            { name: 'Vikram Singh', role: 'Captain / Batsman', online: true },
-            { name: 'Kiran Desai', role: 'Fast Bowler', online: false },
-            { name: 'Rohit Joshi', role: 'Wicket-Keeper', online: true },
-            { name: 'Sanjay Verma', role: 'Spinner', online: false },
-            { name: 'Deepak Yadav', role: 'Batsman', online: true },
-            { name: 'Mohan Das', role: 'Fast Bowler', online: false },
-            { name: 'Anil Kapoor', role: 'All-Rounder', online: true },
-        ],
-        upcomingMatches: [
-            { opponent: 'Royal Strikers', date: '2026-02-25', venue: 'Wankhede Stadium', time: '2:00 PM' },
-            { opponent: 'Blazing Eagles', date: '2026-03-02', venue: 'DY Patil Ground', time: '10:00 AM' },
-        ],
-    },
-    {
-        name: 'Mumbai Strikers', sport: 'Football', sportIcon: '⚽', logo: '🔥', color: '#16a34a',
-        captain: 'Rahul Mehta', coach: 'Fernando Silva', wins: 8, losses: 5,
-        roster: [
-            { name: 'Rahul Mehta', role: 'Captain / Striker', online: true },
-            { name: 'Sunil Chhetri', role: 'Forward', online: true },
-            { name: 'Aniket Thapa', role: 'Midfielder', online: false },
-            { name: 'Sandesh Jhingan', role: 'Centre-Back', online: true },
-            { name: 'Gurpreet Sandhu', role: 'Goalkeeper', online: true },
-            { name: 'Ashique KP', role: 'Left Winger', online: false },
-            { name: 'Brandon Fernandes', role: 'Attacking Mid', online: false },
-        ],
-        upcomingMatches: [
-            { opponent: 'Delhi Dynamos', date: '2026-02-28', venue: 'Jawaharlal Nehru Stadium', time: '6:00 PM' },
-            { opponent: 'Kerala Blasters', date: '2026-03-05', venue: 'Salt Lake Stadium', time: '7:30 PM' },
-        ],
-    },
-];
+const MY_TEAMS: any[] = [];
 
-/* ═══════════════════════════════════════════════════════════════
-   PLAYER-SPECIFIC DATA
-   ═══════════════════════════════════════════════════════════════ */
+const BROWSE_TEAMS: any[] = [];
 
-const BROWSE_TEAMS = [
-    { id: 't1', name: 'Royal Strikers', sport: 'Cricket', logo: '👑', color: '#6366f1', openSlots: 3, members: 9, location: 'Mumbai', rating: 4.5 },
-    { id: 't2', name: 'Blazing Eagles', sport: 'Football', logo: '🦅', color: '#dc2626', openSlots: 5, members: 11, location: 'Pune', rating: 4.2 },
-    { id: 't3', name: 'Golden Lions', sport: 'Cricket', logo: '🦁', color: '#ca8a04', openSlots: 2, members: 10, location: 'Delhi', rating: 4.8 },
-    { id: 't4', name: 'Storm Riders', sport: 'Football', logo: '🌊', color: '#0ea5e9', openSlots: 4, members: 8, location: 'Bangalore', rating: 3.9 },
-    { id: 't5', name: 'Iron Wolves', sport: 'Kabaddi', logo: '🐺', color: '#64748b', openSlots: 6, members: 7, location: 'Jaipur', rating: 4.1 },
-    { id: 't6', name: 'Phoenix Rising', sport: 'Basketball', logo: '🔥', color: '#dc2626', openSlots: 3, members: 10, location: 'Chennai', rating: 4.6 },
-];
+const MY_APPLICATIONS: any[] = [];
 
-const MY_APPLICATIONS = [
-    { team: 'Golden Lions', sport: 'Cricket', status: 'PENDING', date: '2026-02-20', logo: '🦁', color: '#ca8a04' },
-    { team: 'Royal Strikers', sport: 'Cricket', status: 'APPROVED', date: '2026-02-15', logo: '👑', color: '#6366f1' },
-    { team: 'Storm Riders', sport: 'Football', status: 'REJECTED', date: '2026-02-10', logo: '🌊', color: '#0ea5e9' },
-];
+const JOIN_REQUESTS: any[] = [];
 
-const JOIN_REQUESTS = [
-    { team: 'Phoenix Rising', sport: 'Basketball', owner: 'Rahul Mehta', message: 'We are looking for an athletic all-rounder. Your profile impressed us!', logo: '🔥', color: '#dc2626', date: '2026-02-21' },
-    { team: 'Iron Wolves', sport: 'Kabaddi', owner: 'Suraj Yadav', message: 'Join us for the upcoming state championship. We need your skills!', logo: '🐺', color: '#64748b', date: '2026-02-19' },
-];
+const OWNER_ROSTER_CRICKET: any[] = [];
 
-/* ═══════════════════════════════════════════════════════════════
-   OWNER-SPECIFIC DATA
-   ═══════════════════════════════════════════════════════════════ */
-
-
-
-const OWNER_ROSTER_CRICKET = [
-    { name: 'Vikram Singh', role: 'Captain', position: 'Batsman', matches: 45, runs: 1820, avg: 42.3, rating: 92, online: true, fee: 'PAID' },
-    { name: 'Arjun Patel', role: 'Vice-Captain', position: 'All-Rounder', matches: 38, runs: 1240, avg: 36.5, rating: 88, online: true, fee: 'PAID' },
-    { name: 'Kiran Desai', role: 'Player', position: 'Fast Bowler', matches: 30, runs: 320, avg: 14.5, rating: 85, online: false, fee: 'PAID' },
-    { name: 'Rohit Joshi', role: 'Player', position: 'Wicket-Keeper', matches: 42, runs: 980, avg: 28.8, rating: 83, online: true, fee: 'PENDING' },
-    { name: 'Sanjay Verma', role: 'Player', position: 'Spinner', matches: 25, runs: 180, avg: 12.0, rating: 80, online: false, fee: 'PAID' },
-    { name: 'Deepak Yadav', role: 'Player', position: 'Batsman', matches: 28, runs: 1100, avg: 39.3, rating: 86, online: true, fee: 'PAID' },
-    { name: 'Mohan Das', role: 'Player', position: 'Fast Bowler', matches: 22, runs: 150, avg: 10.7, rating: 78, online: false, fee: 'PENDING' },
-    { name: 'Anil Kapoor', role: 'Player', position: 'All-Rounder', matches: 34, runs: 890, avg: 29.7, rating: 82, online: true, fee: 'PAID' },
-    { name: 'Sanjay Mishra', role: 'Player', position: 'Spinner', matches: 18, runs: 120, avg: 10.0, rating: 75, online: false, fee: 'PAID' },
-    { name: 'Raj Thakur', role: 'Player', position: 'Batsman', matches: 20, runs: 780, avg: 34.8, rating: 81, online: false, fee: 'PENDING' },
-    { name: 'Nikhil Sharma', role: 'Player', position: 'Fast Bowler', matches: 15, runs: 90, avg: 9.0, rating: 76, online: true, fee: 'PAID' },
-];
-
-const OWNER_ROSTER_FOOTBALL = [
-    { name: 'Rahul Mehta', role: 'Captain', position: 'Striker', matches: 52, runs: 38, avg: 0, rating: 91, online: true, fee: 'PAID' },
-    { name: 'Sunil Chhetri', role: 'Vice-Captain', position: 'Forward', matches: 48, runs: 32, avg: 0, rating: 89, online: true, fee: 'PAID' },
-    { name: 'Aniket Thapa', role: 'Player', position: 'Midfielder', matches: 40, runs: 12, avg: 0, rating: 86, online: false, fee: 'PAID' },
-    { name: 'Sandesh Jhingan', role: 'Player', position: 'Centre-Back', matches: 44, runs: 3, avg: 0, rating: 87, online: true, fee: 'PAID' },
-    { name: 'Gurpreet Sandhu', role: 'Player', position: 'Goalkeeper', matches: 50, runs: 0, avg: 0, rating: 90, online: true, fee: 'PAID' },
-    { name: 'Ashique KP', role: 'Player', position: 'Left Winger', matches: 30, runs: 15, avg: 0, rating: 83, online: false, fee: 'PENDING' },
-    { name: 'Lallianzuala', role: 'Player', position: 'Right Back', matches: 35, runs: 4, avg: 0, rating: 82, online: true, fee: 'PAID' },
-    { name: 'Brandon Fernandes', role: 'Player', position: 'Attacking Mid', matches: 38, runs: 18, avg: 0, rating: 85, online: false, fee: 'PAID' },
-    { name: 'Manvir Singh', role: 'Player', position: 'Striker', matches: 28, runs: 20, avg: 0, rating: 81, online: true, fee: 'PAID' },
-    { name: 'Udanta Singh', role: 'Player', position: 'Right Winger', matches: 25, runs: 10, avg: 0, rating: 79, online: false, fee: 'PENDING' },
-    { name: 'Sahal Samad', role: 'Player', position: 'Midfielder', matches: 22, runs: 8, avg: 0, rating: 80, online: true, fee: 'PAID' },
-];
+const OWNER_ROSTER_FOOTBALL: any[] = [];
 
 const SPORT_ROSTERS: Record<string, typeof OWNER_ROSTER_CRICKET> = {
     Cricket: OWNER_ROSTER_CRICKET,
@@ -125,27 +41,9 @@ const SPORT_ROSTERS: Record<string, typeof OWNER_ROSTER_CRICKET> = {
 
 const DEFAULT_ROSTER = OWNER_ROSTER_CRICKET;
 
-const INCOMING_APPLICATIONS = [
-    { name: 'Ravi Kumar', position: 'Fast Bowler', experience: '3 years', rating: 81, matches: 22, basePrice: 50000, date: '2026-02-21', status: 'NEW', sport: 'Cricket' },
-    { name: 'Suresh Menon', position: 'Batsman', experience: '5 years', rating: 87, matches: 40, basePrice: 75000, date: '2026-02-20', status: 'NEW', sport: 'Cricket' },
-    { name: 'Prateek Jain', position: 'Spinner', experience: '2 years', rating: 74, matches: 12, basePrice: 30000, date: '2026-02-19', status: 'REVIEWING', sport: 'Cricket' },
-    { name: 'Harsh Pandey', position: 'Wicket-Keeper', experience: '4 years', rating: 83, matches: 31, basePrice: 60000, date: '2026-02-18', status: 'NEW', sport: 'Cricket' },
-    { name: 'Vikash Singh', position: 'Midfielder', experience: '3 years', rating: 79, matches: 15, basePrice: 35000, date: '2026-02-22', status: 'NEW', sport: 'Football' },
-];
+const INCOMING_APPLICATIONS: any[] = [];
 
-const SCOUT_PLAYERS = [
-    { name: 'Ajay Rathore', position: 'Batsman', sport: 'Cricket', rating: 89, matches: 52, runs: 2100, location: 'Mumbai', available: true },
-    { name: 'Vishal Gupta', position: 'Fast Bowler', sport: 'Cricket', rating: 86, matches: 35, runs: 210, location: 'Delhi', available: true },
-    { name: 'Manish Rao', position: 'All-Rounder', sport: 'Cricket', rating: 84, matches: 28, runs: 890, location: 'Pune', available: true },
-    { name: 'Tanmay Shah', position: 'Spinner', sport: 'Cricket', rating: 82, matches: 24, runs: 160, location: 'Ahmedabad', available: false },
-    { name: 'Gaurav Singh', position: 'Wicket-Keeper', sport: 'Cricket', rating: 80, matches: 20, runs: 580, location: 'Jaipur', available: true },
-    { name: 'Rohit Mehra', position: 'Batsman', sport: 'Cricket', rating: 91, matches: 60, runs: 2800, location: 'Bangalore', available: true },
-    // Football Scouts
-    { name: 'Vikash Singh', position: 'Forward', sport: 'Football', rating: 85, matches: 45, runs: 28, location: 'Kolkata', available: true },
-    { name: 'Arjun Das', position: 'Midfielder', sport: 'Football', rating: 82, matches: 30, runs: 12, location: 'Goa', available: true },
-    { name: 'Samir Sheikh', position: 'Defender', sport: 'Football', rating: 88, matches: 60, runs: 5, location: 'Kerala', available: true },
-    { name: 'Rahul Bose', position: 'Goalkeeper', sport: 'Football', rating: 90, matches: 55, runs: 0, location: 'Mumbai', available: false },
-];
+const SCOUT_PLAYERS: any[] = [];
 
 /* ═══════════════════════════════════════════════════════════════
    COMPONENT
@@ -313,7 +211,7 @@ export default function TeamsPage() {
                                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: `linear-gradient(135deg, ${selectedSport?.accentColor || sportColors[selectedSport?.name || ''] || '#7c3aed'}, ${selectedSport?.accentColor || '#7c3aed'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>{selectedSport?.icon || sportIcons[selectedSport?.name || ''] || '🏅'}</div>
                                 <div>
                                     <span style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{myTeams.length > 0 ? myTeams[0].name : 'My Teams'}</span>
-                                    <span style={{ fontSize: '12px', color: selectedSport?.accentColor || '#6d28d9', marginLeft: '8px' }}>{selectedSport?.icon || sportIcons[selectedSport?.name || '']} {selectedSport?.name || 'All Sports'}</span>
+                                    <span style={{ fontSize: '12px', color: selectedSport?.accentColor || '#6d28d9', marginLeft: '8px' }}>{selectedSport?.name || 'All Sports'}</span>
                                 </div>
                             </div>
                         </div>
@@ -686,7 +584,7 @@ export default function TeamsPage() {
                                             <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: `${activePlayerTeam.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>{activePlayerTeam.logo}</div>
                                             <div>
                                                 <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#1e1b4b' }}>{activePlayerTeam.name}</h2>
-                                                <div style={{ fontSize: '13px', color: '#64748b' }}>{activePlayerTeam.sportIcon} {activePlayerTeam.sport} • Captain: {activePlayerTeam.captain} • Coach: {activePlayerTeam.coach}</div>
+                                                <div style={{ fontSize: '13px', color: '#64748b' }}>{activePlayerTeam.sport} • Captain: {activePlayerTeam.captain} • Coach: {activePlayerTeam.coach}</div>
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', gap: '16px', textAlign: 'center' as const }}>
@@ -712,7 +610,7 @@ export default function TeamsPage() {
                                     {activePlayerTeam.upcomingMatches.map((m: any, i: number) => (
                                         <div key={i} style={{ padding: '16px', borderRadius: '12px', background: 'white', border: '1px solid #f3e8ff' }}>
                                             <div style={{ fontWeight: 700, fontSize: '15px', color: '#1e1b4b' }}>vs {m.opponent}</div>
-                                            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>{activePlayerTeam.sportIcon} {m.date} • ⏰ {m.time}</div>
+                                            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>{m.date} • ⏰ {m.time}</div>
                                             <div style={{ fontSize: '12px', color: '#64748b' }}>🏟️ {m.venue}</div>
                                         </div>
                                     ))}

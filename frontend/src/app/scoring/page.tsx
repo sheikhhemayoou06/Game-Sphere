@@ -40,7 +40,7 @@ export default function LiveScoringPage() {
     const addGoal = (team: 'home' | 'away') => {
         setScores(prev => ({ ...prev, [team]: prev[team] + 1 }));
         const teamName = team === 'home' ? (selected?.homeTeam?.name || 'Home') : (selected?.awayTeam?.name || 'Away');
-        setEvents(prev => [{ time: formatTime(timer), team: teamName, type: 'GOAL', desc: '⚽ Goal scored!' }, ...prev]);
+        setEvents(prev => [{ time: formatTime(timer), team: teamName, type: 'GOAL', desc: 'Goal scored!' }, ...prev]);
     };
 
     const addEvent = (type: string, desc: string, team: string) => {
@@ -65,7 +65,7 @@ export default function LiveScoringPage() {
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
                 <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', gap: '16px' }}>
                     <div>
-                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '4px' }}>{sportIcon} {selectedSport ? `${sportLabel} Live Scoring` : 'Live Scoring'}</h1>
+                        <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '4px' }}>{selectedSport ? `${sportLabel} Live Scoring` : 'Live Scoring'}</h1>
                         <p style={{ color: '#64748b', fontSize: '15px' }}>{selectedSport ? `${sportLabel} real-time match scoring & event tracking` : 'Real-time match scoring & event tracking'}</p>
                     </div>
                     <select value={selected?.id || ''} onChange={(e) => { const m = matches.find(x => x.id === e.target.value); setSelected(m); setScores({ home: m?.homeScore || 0, away: m?.awayScore || 0 }); setEvents([]); setTimer(0); setRunning(false); }}

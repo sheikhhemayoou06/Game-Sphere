@@ -47,7 +47,7 @@ export default function CertificatesPage() {
             </nav>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Certificates` : 'Certificates'}</h1>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Certificates` : 'Certificates'}</h1>
                 <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} QR-verifiable digital certificates` : 'QR-verifiable digital certificates for participation and achievements'}</p>
 
                 {/* Tabs */}

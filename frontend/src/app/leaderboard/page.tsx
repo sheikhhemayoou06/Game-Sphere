@@ -46,7 +46,7 @@ export default function LeaderboardPage() {
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0b2e 0%, #1a1145 30%, #0d1b3e 100%)', color: '#fff' }}>
             {/* Header */}
             <div style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)', padding: '48px 24px 40px', textAlign: 'center' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, letterSpacing: '-1px', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Leaderboard` : 'Leaderboard'}</h1>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, letterSpacing: '-1px', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Leaderboard` : 'Leaderboard'}</h1>
                 <p style={{ opacity: 0.8, fontSize: '16px' }}>{selectedSport ? `${sportLabel} player & team rankings` : 'Player & team rankings across sports and levels'}</p>
                 <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '24px', flexWrap: 'wrap' }}>
                     <select value={sportId} onChange={(e) => setSportId(e.target.value)}

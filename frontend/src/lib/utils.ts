@@ -12,15 +12,23 @@ export const sportColors: Record<string, string> = {
 };
 
 export const sportIcons: Record<string, string> = {
-    Cricket: '🏏',
-    Football: '⚽',
-    Basketball: '🏀',
-    Kabaddi: '💪',
-    Volleyball: '🏐',
-    Badminton: '🏸',
-    Hockey: '🏑',
-    Tennis: '🎾',
-    Athletics: '🏅',
+    Cricket: '',
+    Football: '',
+    Basketball: '',
+    Kabaddi: '',
+    Volleyball: '',
+    Badminton: '',
+    Hockey: '',
+    Tennis: '',
+    Athletics: '',
+    Swimming: '',
+    TableTennis: '',
+    eSports: '',
+};
+
+// Image-based sport icons for key visual spots (sport selector, headers)
+export const sportImageIcons: Record<string, string> = {
+    Cricket: '/icons/cricket.png',
 };
 
 export const roleLabels: Record<string, string> = {
@@ -61,44 +69,44 @@ export function formatDate(date: string | Date) {
 
 export const sportConfig: Record<string, { positions: string[], stat: string, secondaryStat: string, emoji: string, events: { type: string, label: string }[] }> = {
     Cricket: {
-        positions: ['All', 'Batsman', 'Fast Bowler', 'Spinner', 'All-Rounder', 'Wicket-Keeper'], stat: 'Runs', secondaryStat: 'Wickets', emoji: '🏏',
+        positions: ['All', 'Batsman', 'Bowler', 'All-Rounder', 'Wicket Keeper'], stat: 'Runs', secondaryStat: 'Wickets', emoji: '',
         events: [{ type: 'WICKET', label: 'Wicket' }, { type: 'SIX', label: 'Six' }, { type: 'FOUR', label: 'Four' }]
     },
     Football: {
-        positions: ['All', 'Forward', 'Midfielder', 'Defender', 'Goalkeeper'], stat: 'Goals', secondaryStat: 'Assists', emoji: '⚽',
+        positions: ['All', 'Forward', 'Midfielder', 'Defender', 'Goalkeeper'], stat: 'Goals', secondaryStat: 'Assists', emoji: '',
         events: [{ type: 'YELLOW_CARD', label: 'Yellow Card' }, { type: 'RED_CARD', label: 'Red Card' }, { type: 'SUBSTITUTION', label: 'Sub' }]
     },
     Basketball: {
-        positions: ['All', 'Point Guard', 'Shooting Guard', 'Small Forward', 'Power Forward', 'Center'], stat: 'Points', secondaryStat: 'Rebounds', emoji: '🏀',
+        positions: ['All', 'Guard', 'Forward', 'Center'], stat: 'Points', secondaryStat: 'Rebounds', emoji: '',
         events: [{ type: 'FOUL', label: 'Foul' }, { type: 'BLOCK', label: 'Block' }, { type: 'SUBSTITUTION', label: 'Sub' }]
     },
     Kabaddi: {
-        positions: ['All', 'Raider', 'Left Cover', 'Right Cover', 'Left Corner', 'Right Corner', 'All-Rounder'], stat: 'Raid Pts', secondaryStat: 'Tackles', emoji: '💪',
+        positions: ['All', 'Raider', 'Defender', 'All-Rounder'], stat: 'Raid Pts', secondaryStat: 'Tackle Pts', emoji: '',
         events: [{ type: 'RAID', label: 'Raid' }, { type: 'TACKLE', label: 'Tackle' }, { type: 'YELLOW_CARD', label: 'Warning' }]
     },
     Tennis: {
-        positions: ['All', 'Singles Player', 'Doubles Player'], stat: 'Aces', secondaryStat: 'Winners', emoji: '🎾',
+        positions: ['All', 'Singles', 'Doubles'], stat: 'Aces', secondaryStat: 'Winners', emoji: '',
         events: [{ type: 'ACE', label: 'Ace' }, { type: 'SMASH', label: 'Smash' }]
     },
     Badminton: {
-        positions: ['All', 'Singles Player', 'Doubles Player'], stat: 'Smashes', secondaryStat: 'Drops', emoji: '🏸',
+        positions: ['All', 'Singles', 'Doubles'], stat: 'Points', secondaryStat: 'Aces', emoji: '',
         events: [{ type: 'SMASH', label: 'Smash' }, { type: 'ACE', label: 'Service Ace' }]
     },
     Athletics: {
-        positions: ['All', 'Sprinter', 'Long Distance', 'Thrower', 'Jumper'], stat: 'Medals', secondaryStat: 'Records', emoji: '🏅',
+        positions: ['All', 'Sprinter', 'Marathon', 'Jump', 'Throw'], stat: 'Medals', secondaryStat: 'Records', emoji: '',
         events: [{ type: 'ACE', label: 'Record' }, { type: 'YELLOW_CARD', label: 'Warning' }]
     },
     Volleyball: {
-        positions: ['All', 'Setter', 'Outside Hitter', 'Middle Blocker', 'Libero'], stat: 'Kills', secondaryStat: 'Blocks', emoji: '🏐',
+        positions: ['All', 'Spiker', 'Setter', 'Libero', 'Blocker'], stat: 'Kills', secondaryStat: 'Blocks', emoji: '',
         events: [{ type: 'SMASH', label: 'Spike' }, { type: 'BLOCK', label: 'Block' }, { type: 'ACE', label: 'Service Ace' }]
     },
     Hockey: {
-        positions: ['All', 'Forward', 'Midfielder', 'Defender', 'Goalkeeper'], stat: 'Goals', secondaryStat: 'Assists', emoji: '🏑',
+        positions: ['All', 'Forward', 'Midfielder', 'Defender', 'Goalkeeper'], stat: 'Goals', secondaryStat: 'Assists', emoji: '',
         events: [{ type: 'YELLOW_CARD', label: 'Green Card' }, { type: 'RED_CARD', label: 'Yellow Card' }, { type: 'SUBSTITUTION', label: 'Sub' }]
     },
 };
 
 export const defaultSportConfig = {
-    positions: ['All', 'Player', 'Captain'], stat: 'Score', secondaryStat: 'Action', emoji: '🏅',
+    positions: ['All', 'Player', 'Captain'], stat: 'Score', secondaryStat: 'Action', emoji: '',
     events: [{ type: 'SCORE', label: 'Point' }, { type: 'YELLOW_CARD', label: 'Warning' }]
 };

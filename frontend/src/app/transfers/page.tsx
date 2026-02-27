@@ -87,12 +87,12 @@ export default function TransfersPage() {
                             const config = STATUS_CONFIG[t.status] || STATUS_CONFIG.PENDING;
                             const fromTeam = teams.find(tm => tm.id === t.fromTeamId);
                             const toTeam = teams.find(tm => tm.id === t.toTeamId);
-                            const sportIcon = fromTeam?.sport?.icon || toTeam?.sport?.icon || selectedSport?.icon || '⚽';
+                            const sportIcon = fromTeam?.sport?.icon || toTeam?.sport?.icon || selectedSport?.icon || '';
                             return (
                                 <div key={t.id} style={{ background: '#fff', borderRadius: '16px', padding: '24px', boxShadow: '0 2px 16px rgba(20,83,45,0.06)', border: '1px solid rgba(20,83,45,0.08)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #22c55e, #16a34a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>{sportIcon}</div>
+                                            <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #22c55e, #16a34a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>🏃</div>
                                             <div>
                                                 <div style={{ fontWeight: 800, fontSize: '16px', color: '#1c1917' }}>Player Transfer</div>
                                                 <div style={{ fontSize: '12px', color: '#78716c' }}>ID: {t.playerId?.slice(0, 8)}...</div>

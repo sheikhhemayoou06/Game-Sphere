@@ -3,14 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const GRIEVANCES = [
-    { id: 'GRV-2026-001', title: 'Unfair umpiring in Semi-Final', category: 'MATCH_DISPUTE', priority: 'HIGH', status: 'UNDER_REVIEW', filedBy: 'Coach Rajesh (Thunder Warriors)', date: '2026-02-19', sport: 'Cricket', description: 'Multiple incorrect LBW decisions in the semi-final match against Blue Blazers.' },
-    { id: 'GRV-2026-002', title: 'Player age verification dispute', category: 'ELIGIBILITY', priority: 'CRITICAL', status: 'ESCALATED', filedBy: 'Admin (Priya Sharma)', date: '2026-02-18', sport: 'Football', description: 'Player\'s date of birth on submitted documents does not match Aadhaar records.' },
-    { id: 'GRV-2026-003', title: 'Venue facility complaint', category: 'INFRASTRUCTURE', priority: 'MEDIUM', status: 'IN_PROGRESS', filedBy: 'Team Manager (Amit K.)', date: '2026-02-17', sport: 'Kabaddi', description: 'Changing room facilities at Tau Devi Lal Complex were unhygienic.' },
-    { id: 'GRV-2026-004', title: 'Delayed certificate issuance', category: 'ADMINISTRATIVE', priority: 'LOW', status: 'RESOLVED', filedBy: 'Player (Kiran Das)', date: '2026-02-15', sport: 'Athletics', description: 'Winner certificate for District Athletics Meet not issued after 2 weeks.' },
-    { id: 'GRV-2026-005', title: 'Biased team selection', category: 'SELECTION', priority: 'HIGH', status: 'UNDER_REVIEW', filedBy: 'Parent (Sunita Devi)', date: '2026-02-14', sport: 'Hockey', description: 'Qualified player excluded from state team without explanation.' },
-    { id: 'GRV-2026-006', title: 'Transfer fee overcharge', category: 'FINANCIAL', priority: 'MEDIUM', status: 'RESOLVED', filedBy: 'Club Manager (Deepak R.)', date: '2026-02-10', sport: 'Football', description: 'Transfer processing fee charged was ₹5,000 above the published rate.' },
-];
+const GRIEVANCES: any[] = [];
 
 const PRIORITY_COLORS: Record<string, { bg: string; color: string }> = {
     CRITICAL: { bg: '#fef2f2', color: '#dc2626' },

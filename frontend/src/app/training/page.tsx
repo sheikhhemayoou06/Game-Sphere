@@ -55,7 +55,7 @@ export default function TrainingPage() {
             </nav>
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#134e4a', marginBottom: '8px' }}>{sportIcon} {selectedSport ? `${sportLabel} Training & Coaching` : 'Training & Coaching'}</h1>
+                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#134e4a', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Training & Coaching` : 'Training & Coaching'}</h1>
                 <p style={{ color: '#115e59', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} training programs, coaching sessions, and schedule` : 'Training programs, coaching sessions, and weekly schedule'}</p>
 
                 {/* Stats */}

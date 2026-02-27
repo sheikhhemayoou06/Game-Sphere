@@ -206,6 +206,47 @@ export class AuthService {
         return this.sanitizeUser(user);
     }
 
+    async updateProfile(userId: string, data: any) {
+        const { name, phone, email, district, state, country, height, weight, gender } = data;
+
+        let firstName, lastName;
+        if (name) {
+            const parts = name.trim().split(' ');
+            firstName = parts[0];
+            lastName = parts.slice(1).join(' ');
+        }
+
+        const userUpdate: any = {};
+        if (firstName) userUpdate.firstName = firstName;
+        if (lastName !== undefined) userUpdate.lastName = lastName;
+        if (phone) userUpdate.phone = phone;
+        if (email) userUpdate.email = email;
+
+        if (Object.keys(userUpdate).length > 0) {
+            await this.prisma.user.update({
+                where: { id: userId },
+                data: userUpdate,
+            });
+        }
+
+        const playerUpdate: any = {};
+        if (district) playerUpdate.district = district;
+        if (state) playerUpdate.state = state;
+        if (country) playerUpdate.country = country;
+        if (height) playerUpdate.heightCm = parseInt(height.toString().replace(/[^0-9]/g, '')) || null;
+        if (weight) playerUpdate.weightKg = parseInt(weight.toString().replace(/[^0-9]/g, '')) || null;
+        if (gender) playerUpdate.gender = gender;
+
+        if (Object.keys(playerUpdate).length > 0) {
+            await this.prisma.player.update({
+                where: { userId },
+                data: playerUpdate,
+            });
+        }
+
+        return this.getProfile(userId);
+    }
+
     private generateToken(user: { id: string; email: string; role: string }) {
         return this.jwtService.sign({
             sub: user.id,

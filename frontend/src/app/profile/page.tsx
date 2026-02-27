@@ -13,76 +13,20 @@ function getProfileRole(role: string): RoleView {
     return 'player';
 }
 
-/* ═══════ COMPREHENSIVE PLAYER PROFILE DATA ═══════ */
+/* ═══════ DEFAULT EMPTY STATS (no hardcoded fakes) ═══════ */
 
-const PLAYER = {
-    name: 'Arjun Patel', sportsId: 'USI-Pending', age: 22,
-    phone: '+91 98765 43210', email: 'arjun.patel@gamesphere.in',
-    photo: '🧑‍🦱', primarySport: 'Cricket', secondarySport: 'Football',
-    district: 'Mumbai', state: 'Maharashtra', country: 'India',
-    level: 'STATE', verified: true, bloodGroup: 'O+',
-    dob: '2004-03-15', height: '5\'11"', weight: '72 kg',
-    battingStyle: 'Right-Hand Bat', bowlingStyle: 'Right-Arm Medium',
-    position: 'All-Rounder', jerseyNo: 7,
-    performanceIndex: 82,
+const EMPTY_CRICKET = {
+    matches: 0, innings: 0, runs: 0, highScore: 0, avg: 0, strikeRate: 0,
+    centuries: 0, fifties: 0, fours: 0, sixes: 0,
+    wickets: 0, bowlAvg: 0, economy: 0, bestBowling: '0/0',
+    catches: 0, stumpings: 0, runOuts: 0,
 };
 
-const CAREER_STATS = {
-    cricket: {
-        matches: 87, innings: 78, runs: 2845, highScore: 142, avg: 42.46, strikeRate: 128.5,
-        centuries: 3, fifties: 18, fours: 312, sixes: 89,
-        wickets: 48, bowlAvg: 28.3, economy: 6.2, bestBowling: '4/22',
-        catches: 34, stumpings: 0, runOuts: 8,
-    },
-    football: {
-        matches: 24, goals: 12, assists: 8, saves: 0,
-        yellowCards: 3, redCards: 0, passAccuracy: 78.5,
-        shotsOnTarget: 38, minutesPlayed: 1920,
-    },
+const EMPTY_FOOTBALL = {
+    matches: 0, goals: 0, assists: 0, saves: 0,
+    yellowCards: 0, redCards: 0, passAccuracy: 0,
+    shotsOnTarget: 0, minutesPlayed: 0,
 };
-
-const TOURNAMENT_BREAKDOWN = [
-    { name: 'District Cricket Championship 2025', sport: 'Cricket', matches: 8, runs: 456, wickets: 12, catches: 6, bestScore: '142', result: '🏆 Winner' },
-    { name: 'State Under-25 Trophy', sport: 'Cricket', matches: 6, runs: 312, wickets: 8, catches: 4, bestScore: '98', result: '🥈 Runner-up' },
-    { name: 'Inter-District T20 League', sport: 'Cricket', matches: 12, runs: 580, wickets: 15, catches: 8, bestScore: '88*', result: '🏆 Winner' },
-    { name: 'Mumbai Cricket Association Cup', sport: 'Cricket', matches: 5, runs: 198, wickets: 4, catches: 3, bestScore: '76', result: 'Semi-Final' },
-    { name: 'Corporate Football League', sport: 'Football', matches: 10, runs: 0, wickets: 0, catches: 0, bestScore: '5 goals', result: '🥉 3rd Place' },
-    { name: 'State Football Championship', sport: 'Football', matches: 4, runs: 0, wickets: 0, catches: 0, bestScore: '3 goals', result: 'Quarter-Final' },
-];
-
-const ACHIEVEMENTS = [
-    { title: 'District Champion 2025', icon: '🏆', date: 'Jun 2025', sport: 'Cricket' },
-    { title: 'Best All-Rounder Award', icon: '🏅', date: 'Aug 2025', sport: 'Cricket' },
-    { title: 'State Level Qualifier', icon: '⭐', date: 'Nov 2025', sport: 'Cricket' },
-    { title: 'Century Scorer (3x)', icon: '💯', date: 'Jan 2026', sport: 'Cricket' },
-    { title: 'Top Scorer — Corp. League', icon: '⚽', date: 'Dec 2025', sport: 'Football' },
-];
-
-const RECENT_MATCHES = [
-    { opponent: 'Blue Blazers', result: 'Won', score: '185-142', date: '2026-02-18', performance: '78 runs, 2 wkts', sport: 'Cricket' },
-    { opponent: 'Red Dragons', result: 'Won', score: '220-165', date: '2026-02-15', performance: '45 runs, 3 wkts', sport: 'Cricket' },
-    { opponent: 'Silver Sharks', result: 'Lost', score: '145-178', date: '2026-02-10', performance: '22 runs, 1 wkt', sport: 'Cricket' },
-    { opponent: 'Golden Eagles', result: 'Won', score: '198-190', date: '2026-02-05', performance: '92* runs, 0 wkts', sport: 'Cricket' },
-    { opponent: 'Storm FC', result: 'Won', score: '3-1', date: '2026-01-28', performance: '2 goals, 1 assist', sport: 'Football' },
-    { opponent: 'Iron Hawks FC', result: 'Lost', score: '1-2', date: '2026-01-20', performance: '1 goal', sport: 'Football' },
-];
-
-const CERTIFICATES = [
-    { title: 'District Cricket Championship', type: 'WINNER', date: '2025-06', qr: true, sport: 'Cricket' },
-    { title: 'State Tournament', type: 'PARTICIPATION', date: '2025-11', qr: true, sport: 'Cricket' },
-    { title: 'Best All-Rounder', type: 'AWARD', date: '2025-08', qr: false, sport: 'Cricket' },
-    { title: 'Corporate Football League', type: 'PARTICIPATION', date: '2025-12', qr: true, sport: 'Football' },
-];
-
-const TRANSFERS = [
-    { from: 'Mumbai XI', to: 'Thunder Warriors', date: '2025-09', status: 'COMPLETED', fee: '₹50,000', sport: 'Cricket' },
-    { from: 'Storm FC B-team', to: 'Storm FC', date: '2025-11', status: 'COMPLETED', fee: '₹20,000', sport: 'Football' },
-];
-
-const INJURY_HISTORY = [
-    { type: 'Hamstring Strain', duration: '2 weeks', date: '2025-07', status: 'Recovered', sport: 'Cricket' },
-    { type: 'Ankle Sprain', duration: '10 days', date: '2025-03', status: 'Recovered', sport: 'Football' },
-];
 
 export default function PlayerProfilePage() {
     const { user } = useAuthStore();
@@ -96,6 +40,16 @@ export default function PlayerProfilePage() {
     const defaultTab = selectedSportKey && (selectedSportKey === 'cricket' || selectedSportKey === 'football') ? selectedSportKey : 'overview';
     const [activeTab, setActiveTab] = useState<'overview' | 'cricket' | 'football' | 'tournaments' | 'history'>(defaultTab);
     const [ownerTab, setOwnerTab] = useState<'team' | 'financial' | 'seasons'>('team');
+
+    // Real data states (default: empty/zero)
+    const [careerStats, setCareerStats] = useState({ cricket: EMPTY_CRICKET, football: EMPTY_FOOTBALL });
+    const [recentMatches, setRecentMatches] = useState<any[]>([]);
+    const [tournaments, setTournaments] = useState<any[]>([]);
+    const [certificates, setCertificates] = useState<any[]>([]);
+    const [transfers, setTransfers] = useState<any[]>([]);
+    const [achievements, setAchievements] = useState<any[]>([]);
+    const [injuries] = useState<any[]>([]);
+    const [performanceIndex, setPerformanceIndex] = useState(0);
 
     useEffect(() => {
         if (selectedSportKey && activeTab !== 'overview' && activeTab !== 'tournaments' && activeTab !== 'history' && activeTab !== selectedSportKey) {
@@ -113,28 +67,161 @@ export default function PlayerProfilePage() {
         }).catch(() => { });
     }, []);
 
+    // Fetch real profile data from backend APIs
+    useEffect(() => {
+        const playerId = user?.player?.id;
+        if (!playerId) return;
+
+        // Fetch recent matches
+        api.getMatches?.()?.then?.((matches: any[]) => {
+            if (!Array.isArray(matches)) return;
+            const playerMatches = matches.filter((m: any) =>
+                m.playerStats?.some((ps: any) => ps.playerId === playerId)
+            ).slice(0, 6).map((m: any) => {
+                const stat = m.playerStats?.find((ps: any) => ps.playerId === playerId);
+                const statsData = stat?.statsData ? (typeof stat.statsData === 'string' ? JSON.parse(stat.statsData) : stat.statsData) : {};
+                return {
+                    opponent: m.awayTeam?.name || m.homeTeam?.name || 'Unknown',
+                    result: m.winnerTeamId ? (m.homeTeam?.name ? 'Won' : 'Lost') : 'Draw',
+                    score: m.scoreData || '—',
+                    date: m.scheduledAt ? new Date(m.scheduledAt).toISOString().split('T')[0] : '—',
+                    performance: statsData.runs ? `${statsData.runs} runs` : '—',
+                    sport: m.sport?.name || 'Unknown',
+                };
+            });
+            setRecentMatches(playerMatches);
+
+            // Calculate career stats from match data
+            const cricketMatches = matches.filter((m: any) =>
+                m.sport?.name?.toLowerCase() === 'cricket' &&
+                m.playerStats?.some((ps: any) => ps.playerId === playerId)
+            );
+            const footballMatches = matches.filter((m: any) =>
+                m.sport?.name?.toLowerCase() === 'football' &&
+                m.playerStats?.some((ps: any) => ps.playerId === playerId)
+            );
+
+            if (cricketMatches.length > 0) {
+                let totalRuns = 0, totalWickets = 0, highScore = 0, totalCatches = 0;
+                cricketMatches.forEach((m: any) => {
+                    const stat = m.playerStats?.find((ps: any) => ps.playerId === playerId);
+                    const sd = stat?.statsData ? (typeof stat.statsData === 'string' ? JSON.parse(stat.statsData) : stat.statsData) : {};
+                    totalRuns += sd.runs || 0;
+                    totalWickets += sd.wickets || 0;
+                    totalCatches += sd.catches || 0;
+                    if ((sd.runs || 0) > highScore) highScore = sd.runs || 0;
+                });
+                setCareerStats(prev => ({
+                    ...prev,
+                    cricket: {
+                        ...EMPTY_CRICKET,
+                        matches: cricketMatches.length,
+                        innings: cricketMatches.length,
+                        runs: totalRuns,
+                        highScore,
+                        avg: cricketMatches.length > 0 ? Math.round((totalRuns / cricketMatches.length) * 100) / 100 : 0,
+                        wickets: totalWickets,
+                        catches: totalCatches,
+                    }
+                }));
+            }
+
+            if (footballMatches.length > 0) {
+                let totalGoals = 0, totalAssists = 0;
+                footballMatches.forEach((m: any) => {
+                    const stat = m.playerStats?.find((ps: any) => ps.playerId === playerId);
+                    const sd = stat?.statsData ? (typeof stat.statsData === 'string' ? JSON.parse(stat.statsData) : stat.statsData) : {};
+                    totalGoals += sd.goals || 0;
+                    totalAssists += sd.assists || 0;
+                });
+                setCareerStats(prev => ({
+                    ...prev,
+                    football: {
+                        ...EMPTY_FOOTBALL,
+                        matches: footballMatches.length,
+                        goals: totalGoals,
+                        assists: totalAssists,
+                    }
+                }));
+            }
+        }).catch(() => { });
+
+        // Fetch certificates
+        api.getCertificates?.()?.then?.((certs: any[]) => {
+            if (!Array.isArray(certs)) return;
+            const playerCerts = certs.filter((c: any) => c.playerId === playerId);
+            setCertificates(playerCerts.map((c: any) => ({
+                title: c.tournamentName || c.recipientName || 'Certificate',
+                type: c.type || 'PARTICIPATION',
+                date: c.issuedAt ? new Date(c.issuedAt).toISOString().substring(0, 7) : '—',
+                qr: !!c.verificationCode,
+                sport: c.sportName || 'General',
+            })));
+            // Derive achievements from certificates
+            setAchievements(playerCerts.filter((c: any) => c.type === 'WINNER' || c.type === 'AWARD').map((c: any) => ({
+                title: c.tournamentName || c.recipientName || 'Achievement',
+                icon: c.type === 'WINNER' ? '🏆' : '🏅',
+                date: c.issuedAt ? new Date(c.issuedAt).toISOString().substring(0, 7) : '—',
+                sport: c.sportName || 'General',
+            })));
+        }).catch(() => { });
+
+        // Fetch transfers
+        api.getTransfers?.()?.then?.((allTxs: any[]) => {
+            const txs = Array.isArray(allTxs) ? allTxs.filter((t: any) => t.playerId === playerId) : [];
+            if (txs.length === 0) return;
+            setTransfers(txs.map((t: any) => ({
+                from: t.fromTeam?.name || 'Free Agent',
+                to: t.toTeam?.name || 'Unknown',
+                date: t.requestedAt ? new Date(t.requestedAt).toISOString().substring(0, 7) : '—',
+                status: t.status || 'PENDING',
+                fee: t.transferFee ? `₹${t.transferFee.toLocaleString('en-IN')}` : '₹0',
+                sport: 'General',
+            })));
+        }).catch(() => { });
+
+        // Fetch ranking for PI score
+        api.getPlayerRankings?.(playerId)?.then?.((rankings: any[]) => {
+            if (Array.isArray(rankings) && rankings.length > 0) {
+                setPerformanceIndex(Math.round(rankings[0].points || 0));
+            }
+        }).catch(() => { });
+    }, [user]);
+
     // Sport filtering
-    const filteredTournaments = selectedSport ? TOURNAMENT_BREAKDOWN.filter(t => t.sport === selectedSport.name) : TOURNAMENT_BREAKDOWN;
-    const filteredAchievements = selectedSport ? ACHIEVEMENTS.filter(a => a.sport === selectedSport.name) : ACHIEVEMENTS;
-    const filteredMatches = selectedSport ? RECENT_MATCHES.filter(m => m.sport === selectedSport.name) : RECENT_MATCHES;
-    const filteredCertificates = selectedSport ? CERTIFICATES.filter(c => c.sport === selectedSport.name) : CERTIFICATES;
-    const filteredTransfers = selectedSport ? TRANSFERS.filter(t => t.sport === selectedSport.name) : TRANSFERS;
-    const filteredInjuries = selectedSport ? INJURY_HISTORY.filter(i => i.sport === selectedSport.name) : INJURY_HISTORY;
+    const filteredTournaments = selectedSport ? tournaments.filter(t => t.sport === selectedSport.name) : tournaments;
+    const filteredAchievements = selectedSport ? achievements.filter(a => a.sport === selectedSport.name) : achievements;
+    const filteredMatches = selectedSport ? recentMatches.filter(m => m.sport === selectedSport.name) : recentMatches;
+    const filteredCertificates = selectedSport ? certificates.filter(c => c.sport === selectedSport.name) : certificates;
+    const filteredTransfers = selectedSport ? transfers.filter(t => t.sport === selectedSport.name) : transfers;
+    const filteredInjuries = selectedSport ? injuries.filter((i: any) => i.sport === selectedSport.name) : injuries;
+
     const dynamicPlayer = {
-        ...PLAYER,
-        name: user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : PLAYER.name,
+        name: user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'New Player',
         sportsId: user?.player?.sportsId || 'USI-Pending',
-        phone: user?.phone ? `+${user?.countryCode || '91'} ${user.phone}` : PLAYER.phone,
-        email: user?.email || PLAYER.email,
-        district: user?.player?.district || PLAYER.district,
-        state: user?.player?.state || PLAYER.state,
-        country: user?.player?.country || PLAYER.country,
-        height: user?.player?.heightCm ? `${user.player.heightCm} cm` : PLAYER.height,
+        phone: user?.phone ? `+${user?.countryCode || '91'} ${user.phone}` : 'Not set',
+        email: user?.email || 'Not set',
+        district: user?.player?.district || 'Not set',
+        state: user?.player?.state || 'Not set',
+        country: user?.player?.country || 'India',
+        height: user?.player?.heightCm ? `${user.player.heightCm} cm` : 'Not set',
         gender: user?.player?.gender || 'Not Specified',
         verified: user?.isVerified || false,
         photo: user?.avatar ? (
             <img src={user.avatar} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
-        ) : PLAYER.photo,
+        ) : '👤',
+        primarySport: selectedSport?.name || 'Not set',
+        secondarySport: '',
+        level: 'DISTRICT',
+        age: 0,
+        bloodGroup: 'Not set',
+        dob: '',
+        weight: 'Not set',
+        battingStyle: 'Not set',
+        bowlingStyle: 'Not set',
+        position: 'Player',
+        jerseyNo: 0,
+        performanceIndex,
     };
 
     const [form, setForm] = useState({
@@ -144,31 +231,51 @@ export default function PlayerProfilePage() {
         weight: dynamicPlayer.weight, battingStyle: dynamicPlayer.battingStyle, bowlingStyle: dynamicPlayer.bowlingStyle,
     });
 
-    const winRate = Math.round((62 / 87) * 100);
-    const cs = CAREER_STATS.cricket;
-    const fs = CAREER_STATS.football;
+    const [saving, setSaving] = useState(false);
+
+    const handleSave = async () => {
+        if (!editMode) {
+            setEditMode(true);
+            return;
+        }
+        setSaving(true);
+        try {
+            const updatedUser = await api.updateProfile(form);
+            const token = localStorage.getItem('token');
+            if (updatedUser && token) {
+                useAuthStore.getState().setAuth(updatedUser, token);
+            }
+            setEditMode(false);
+        } catch (error) {
+            console.error('Failed to save profile', error);
+            alert('Failed to save profile. Please try again.');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const cs = careerStats.cricket;
+    const fs = careerStats.football;
+    const totalMatches = cs.matches + fs.matches;
+    const winRate = totalMatches > 0 ? Math.round((recentMatches.filter(m => m.result === 'Won').length / Math.max(recentMatches.length, 1)) * 100) : 0;
     const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 
     /* ═══════ OWNER VIEW ═══════ */
     if (roleView === 'owner') {
         const TEAM_PROFILE = {
-            name: 'Thunder Warriors', logo: '⚡', sport: 'Cricket', founded: '2023',
-            owner: 'Rajiv Mehta', coach: 'Coach Raj Malhotra', homeGround: 'Wankhede Stadium',
-            city: 'Mumbai', players: 12, wins: 28, losses: 10, draws: 4, titles: 3,
-            rating: 92, rank: '#2 District',
+            name: user?.firstName ? `${user.firstName}'s Team` : 'No Team Yet', logo: '⚡', sport: selectedSport?.name || 'Not set', founded: '—',
+            owner: user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'Not set', coach: 'Not set', homeGround: 'Not set',
+            city: user?.player?.district || 'Not set', players: 0, wins: 0, losses: 0, draws: 0, titles: 0,
+            rating: 0, rank: 'Unranked',
         };
-        const SEASON_HISTORY = [
-            { season: '2025-26', played: 14, won: 10, lost: 3, drawn: 1, points: 31, result: '🏆 Champions', position: 1 },
-            { season: '2024-25', played: 12, won: 8, lost: 3, drawn: 1, points: 25, result: '🥈 Runner-up', position: 2 },
-            { season: '2023-24', played: 10, won: 6, lost: 3, drawn: 1, points: 19, result: 'Semi-Final', position: 4 },
-        ];
+        const SEASON_HISTORY: any[] = [];
         const FINANCIALS = [
-            { label: 'Total Revenue', value: fmt(565000), color: '#16a34a' },
-            { label: 'Total Expenses', value: fmt(875000), color: '#ef4444' },
-            { label: 'Auction Spend', value: fmt(1420000), color: '#f59e0b' },
-            { label: 'Sponsorship', value: fmt(350000), color: '#7c3aed' },
-            { label: 'Player Registrations', value: fmt(60000), color: '#0ea5e9' },
-            { label: 'Venue Costs', value: fmt(45000), color: '#ec4899' },
+            { label: 'Total Revenue', value: fmt(0), color: '#16a34a' },
+            { label: 'Total Expenses', value: fmt(0), color: '#ef4444' },
+            { label: 'Auction Spend', value: fmt(0), color: '#f59e0b' },
+            { label: 'Sponsorship', value: fmt(0), color: '#7c3aed' },
+            { label: 'Player Registrations', value: fmt(0), color: '#0ea5e9' },
+            { label: 'Venue Costs', value: fmt(0), color: '#ec4899' },
         ];
         const tp = TEAM_PROFILE;
 
@@ -176,7 +283,16 @@ export default function PlayerProfilePage() {
             <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)' }}>
                 <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                     <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                    <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                        <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                        <button onClick={handleSave} disabled={saving} style={{
+                            padding: '8px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)',
+                            background: editMode ? '#22c55e' : 'rgba(255,255,255,0.1)', color: '#fff',
+                            fontWeight: 700, fontSize: '13px', cursor: 'pointer', opacity: saving ? 0.7 : 1
+                        }}>
+                            {saving ? 'Saving...' : editMode ? '✓ Save Profile' : '✏️ Edit Profile'}
+                        </button>
+                    </div>
                 </nav>
 
                 <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
@@ -184,22 +300,46 @@ export default function PlayerProfilePage() {
                     <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' as const }}>
                         <div style={{ width: '110px', height: '110px', borderRadius: '50%', background: 'linear-gradient(135deg, #f59e0b, #d97706)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '52px', border: '3px solid rgba(255,255,255,0.2)' }}>⚡</div>
                         <div style={{ flex: 1 }}>
-                            <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', marginBottom: '6px' }}>{tp.name}</h1>
-                            <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px' }}>🏏 {tp.sport} • 📍 {tp.city} • 🏟️ {tp.homeGround}</div>
-                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>
-                                {[`👤 Owner: ${tp.owner}`, `🎯 Coach: ${tp.coach}`, `📅 Est. ${tp.founded}`, `⭐ Rating: ${tp.rating}`].map(tag => (
-                                    <span key={tag} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{tag}</span>
-                                ))}
+                            <div style={{ flex: 1 }}>
+                                {editMode ? (
+                                    <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
+                                        style={{ fontSize: '28px', fontWeight: 900, color: '#fff', background: 'rgba(255,255,255,0.1)', border: '2px solid #6366f1', borderRadius: '8px', padding: '4px 12px', marginBottom: '6px' }} />
+                                ) : (
+                                    <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', marginBottom: '6px' }}>{form.name ? `${form.name}'s Setup` : tp.name}</h1>
+                                )}
+                                <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px' }}>🏏 {tp.sport} • 📍 {tp.city} • 🏟️ {tp.homeGround}</div>
+                                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>
+                                    {[`👤 Owner: ${tp.owner}`, `🎯 Coach: ${tp.coach}`, `📅 Est. ${tp.founded}`, `⭐ Rating: ${tp.rating}`].map(tag => (
+                                        <span key={tag} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{tag}</span>
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                        <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '14px', padding: '16px', minWidth: '200px' }}>
-                            <div style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', marginBottom: '8px' }}>QUICK STATS</div>
-                            {[{ l: 'Rank', v: tp.rank }, { l: 'Players', v: tp.players }, { l: 'Record', v: `${tp.wins}W-${tp.losses}L-${tp.draws}D` }, { l: 'Titles', v: `🏆 ${tp.titles}` }].map(s => (
-                                <div key={s.l} style={{ display: 'flex', justifyContent: 'space-between', padding: '3px 0', fontSize: '12px' }}>
-                                    <span style={{ color: '#64748b' }}>{s.l}</span>
-                                    <span style={{ color: '#e2e8f0', fontWeight: 700 }}>{s.v}</span>
+                        {/* Manager Contact Details */}
+                        <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '14px', padding: '16px', minWidth: '220px' }}>
+                            <div style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px' }}>PERSONAL DETAILS</div>
+                            {editMode ? (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    {[
+                                        { label: 'Phone', key: 'phone' as const },
+                                        { label: 'Email', key: 'email' as const },
+                                        { label: 'District', key: 'district' as const },
+                                        { label: 'State', key: 'state' as const },
+                                    ].map(f => (
+                                        <div key={f.key} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                            <span style={{ fontSize: '11px', color: '#64748b', width: '60px' }}>{f.label}:</span>
+                                            <input value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
+                                                style={{ flex: 1, padding: '5px 10px', borderRadius: '6px', border: '1px solid #4338ca', background: 'rgba(255,255,255,0.05)', color: '#e2e8f0', fontSize: '12px' }} />
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
+                                    <span>📞 {form.phone}</span>
+                                    <span>📧 {form.email}</span>
+                                    <span>📍 {form.district}, {form.state}, {form.country}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -248,15 +388,7 @@ export default function PlayerProfilePage() {
                             </div>
                             <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
                                 <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏆 Achievements</h3>
-                                {[{ t: 'District Champions 2025-26', i: '🏆', d: 'Cricket' }, { t: '3x Season Winners', i: '⭐', d: '2023-2026' }, { t: 'Best Team Award 2025', i: '🏅', d: 'District Association' }, { t: 'Fair Play Award', i: '🤝', d: 'Season 2024-25' }].map((a, i) => (
-                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: i < 3 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                        <span style={{ fontSize: '24px' }}>{a.i}</span>
-                                        <div>
-                                            <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{a.t}</div>
-                                            <div style={{ fontSize: '11px', color: '#64748b' }}>{a.d}</div>
-                                        </div>
-                                    </div>
-                                ))}
+                                <div style={{ padding: '20px 0', textAlign: 'center', color: '#64748b', fontSize: '13px' }}>No achievements yet. Participate in tournaments to earn achievements!</div>
                             </div>
                         </div>
                     )}
@@ -284,32 +416,10 @@ export default function PlayerProfilePage() {
                     )}
 
                     {ownerTab === 'seasons' && (
-                        <div style={{ borderRadius: '16px', overflowX: 'auto', border: '1px solid rgba(255,255,255,0.1)' }}>
-                            <div style={{ minWidth: '600px' }}>
-                                <table style={{ width: '100%', borderCollapse: 'collapse' as const }}>
-                                    <thead>
-                                        <tr style={{ background: 'rgba(255,255,255,0.08)' }}>
-                                            {['Season', 'P', 'W', 'L', 'D', 'Pts', 'Pos', 'Result'].map(h => (
-                                                <th key={h} style={{ padding: '14px 12px', fontSize: '11px', fontWeight: 700, color: '#94a3b8', textAlign: 'left' as const }}>{h}</th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {SEASON_HISTORY.map((s, i) => (
-                                            <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                                                <td style={{ padding: '14px 12px', fontWeight: 700, fontSize: '14px', color: '#e2e8f0' }}>{s.season}</td>
-                                                <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{s.played}</td>
-                                                <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#22c55e' }}>{s.won}</td>
-                                                <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#ef4444' }}>{s.lost}</td>
-                                                <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{s.drawn}</td>
-                                                <td style={{ padding: '14px 12px', fontSize: '15px', fontWeight: 800, color: '#f59e0b' }}>{s.points}</td>
-                                                <td style={{ padding: '14px 12px', fontSize: '16px', fontWeight: 800, color: '#8b5cf6' }}>#{s.position}</td>
-                                                <td style={{ padding: '14px 12px', fontSize: '13px', fontWeight: 700 }}>{s.result}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '32px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
+                            <div style={{ fontSize: '48px', marginBottom: '12px' }}>📅</div>
+                            <div style={{ fontSize: '16px', fontWeight: 700, color: '#e2e8f0', marginBottom: '6px' }}>No Season History Yet</div>
+                            <div style={{ fontSize: '13px', color: '#64748b' }}>Season data will appear here as your team participates in tournaments.</div>
                         </div>
                     )}
                 </div>
@@ -326,7 +436,7 @@ export default function PlayerProfilePage() {
             { label: 'Wickets', value: cs.wickets, color: '#f59e0b' },
             { label: 'High Score', value: cs.highScore, color: '#ef4444' },
             { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
-            { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
+            { label: 'PI Score', value: performanceIndex, color: '#8b5cf6' }
         ];
     } else if (selectedSportKey === 'football') {
         overviewStats = [
@@ -335,7 +445,7 @@ export default function PlayerProfilePage() {
             { label: 'Assists', value: fs.assists, color: '#f59e0b' },
             { label: 'SOT', value: fs.shotsOnTarget, color: '#ef4444' },
             { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
-            { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
+            { label: 'PI Score', value: performanceIndex, color: '#8b5cf6' }
         ];
     } else if (!selectedSportKey) {
         // All Sports selected
@@ -345,7 +455,7 @@ export default function PlayerProfilePage() {
             { label: 'Total Goals', value: fs.goals, color: '#ef4444' },
             { label: 'Total Wickets', value: cs.wickets, color: '#f59e0b' },
             { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
-            { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
+            { label: 'PI Score', value: performanceIndex, color: '#8b5cf6' }
         ];
     } else {
         // Specific sport selected but no mock data available (e.g. Kabaddi)
@@ -355,7 +465,7 @@ export default function PlayerProfilePage() {
             { label: 'Assists/Defenses', value: 0, color: '#f59e0b' },
             { label: 'Fouls', value: 0, color: '#ef4444' },
             { label: 'Win Rate', value: '0%', color: '#ec4899' },
-            { label: 'PI Score', value: PLAYER.performanceIndex, color: '#8b5cf6' }
+            { label: 'PI Score', value: performanceIndex, color: '#8b5cf6' }
         ];
     }
 
@@ -363,7 +473,7 @@ export default function PlayerProfilePage() {
         { key: 'overview', label: '📋 Overview' }
     ];
     if (!selectedSportKey || selectedSportKey === 'cricket') profileTabs.push({ key: 'cricket', label: '🏏 Cricket Stats' });
-    if (!selectedSportKey || selectedSportKey === 'football') profileTabs.push({ key: 'football', label: '⚽ Football Stats' });
+    if (!selectedSportKey || selectedSportKey === 'football') profileTabs.push({ key: 'football', label: 'Football Stats' });
     profileTabs.push({ key: 'tournaments', label: '🏆 Tournament Breakdown' });
     profileTabs.push({ key: 'history', label: '📜 History' });
 
@@ -373,12 +483,12 @@ export default function PlayerProfilePage() {
                 <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                     <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-                    <button onClick={() => setEditMode(!editMode)} style={{
+                    <button onClick={handleSave} disabled={saving} style={{
                         padding: '8px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)',
                         background: editMode ? '#22c55e' : 'rgba(255,255,255,0.1)', color: '#fff',
-                        fontWeight: 700, fontSize: '13px', cursor: 'pointer',
+                        fontWeight: 700, fontSize: '13px', cursor: 'pointer', opacity: saving ? 0.7 : 1
                     }}>
-                        {editMode ? '✓ Save Profile' : '✏️ Edit Profile'}
+                        {saving ? 'Saving...' : editMode ? '✓ Save Profile' : '✏️ Edit Profile'}
                     </button>
                 </div>
             </nav>
@@ -387,7 +497,7 @@ export default function PlayerProfilePage() {
                 {/* ─── Profile Header ─── */}
                 <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
                     <div style={{ width: '110px', height: '110px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '52px', flexShrink: 0, border: '3px solid rgba(255,255,255,0.2)' }}>
-                        {PLAYER.photo}
+                        {dynamicPlayer.photo}
                     </div>
                     <div style={{ flex: 1, minWidth: '280px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
@@ -428,11 +538,11 @@ export default function PlayerProfilePage() {
                             {!selectedSportKey && (
                                 <>
                                     <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>🏏 {dynamicPlayer.primarySport}</span>
-                                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>⚽ {dynamicPlayer.secondarySport}</span>
+                                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{dynamicPlayer.secondarySport}</span>
                                 </>
                             )}
                             {selectedSportKey && (
-                                <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{sportIcon} {sportLabel}</span>
+                                <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{sportLabel}</span>
                             )}
                             {[
                                 `🏟️ ${dynamicPlayer.level} Level`,
@@ -487,70 +597,86 @@ export default function PlayerProfilePage() {
                     ))}
                 </div>
 
-                {/* ─── Tabs ─── */}
-                <div style={{ display: 'flex', gap: '6px', marginBottom: '24px', flexWrap: 'wrap' }}>
-                    {profileTabs.map(tab => (
-                        <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
-                            padding: '10px 18px', borderRadius: '10px', border: 'none', cursor: 'pointer',
-                            background: activeTab === tab.key ? '#6366f1' : 'rgba(255,255,255,0.08)',
-                            color: activeTab === tab.key ? '#fff' : '#a5b4fc',
-                            fontWeight: 700, fontSize: '13px', transition: 'all 0.2s',
-                        }}>
-                            {tab.label}
-                        </button>
-                    ))}
+                {/* ─── Section Dropdown ─── */}
+                <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <select
+                        value={activeTab}
+                        onChange={(e) => setActiveTab(e.target.value as any)}
+                        style={{
+                            padding: '12px 20px', borderRadius: '12px', border: '2px solid rgba(99,102,241,0.4)',
+                            background: 'rgba(255,255,255,0.08)', color: '#e2e8f0',
+                            fontWeight: 700, fontSize: '14px', cursor: 'pointer',
+                            outline: 'none', appearance: 'none',
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a5b4fc' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                            backgroundRepeat: 'no-repeat', backgroundPosition: 'right 14px center',
+                            paddingRight: '40px', minWidth: '240px',
+                        }}
+                    >
+                        {profileTabs.map(tab => (
+                            <option key={tab.key} value={tab.key} style={{ background: '#1e1b4b', color: '#e2e8f0' }}>
+                                {tab.label}
+                            </option>
+                        ))}
+                    </select>
+                    <span style={{ fontSize: '12px', color: '#6366f1', fontWeight: 600 }}>
+                        {profileTabs.find(t => t.key === activeTab)?.label}
+                    </span>
                 </div>
 
                 {/* ═══ OVERVIEW TAB ═══ */}
                 {activeTab === 'overview' && (
-                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                        {/* Achievements */}
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏆 Achievements ({filteredAchievements.length})</h3>
-                            {filteredAchievements.map((a, i) => (
-                                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: i < filteredAchievements.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                    <span style={{ fontSize: '24px' }}>{a.icon}</span>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{a.title}</div>
-                                        <div style={{ fontSize: '11px', color: '#64748b' }}>{a.date} • {a.sport}</div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Recent Matches */}
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>⚡ Recent Matches</h3>
-                            {filteredMatches.map((m, i) => (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < filteredMatches.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                    <div>
-                                        <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>vs {m.opponent}</div>
-                                        <div style={{ fontSize: '11px', color: '#64748b' }}>{m.date} • {m.score}</div>
-                                        <div style={{ fontSize: '11px', color: '#a5b4fc', marginTop: '2px' }}>{m.performance}</div>
-                                    </div>
-                                    <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: m.result === 'Won' ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)', color: m.result === 'Won' ? '#22c55e' : '#ef4444' }}>{m.result}</span>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Certificates */}
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏅 Certificates</h3>
-                            {filteredCertificates.map((c, i) => (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < filteredCertificates.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                    <div>
-                                        <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{c.title}</div>
-                                        <div style={{ fontSize: '10px', color: '#64748b' }}>{c.type} • {c.date}</div>
-                                    </div>
-                                    {c.qr && <span style={{ fontSize: '10px', color: '#22c55e', fontWeight: 600 }}>📱 QR Verified</span>}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Injury + Transfers */}
+                    <div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            {/* Achievements */}
+                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏆 Achievements ({filteredAchievements.length})</h3>
+                                {filteredAchievements.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No achievements yet</div>}
+                                {filteredAchievements.map((a, i) => (
+                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: i < filteredAchievements.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                                        <span style={{ fontSize: '24px' }}>{a.icon}</span>
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{a.title}</div>
+                                            <div style={{ fontSize: '11px', color: '#64748b' }}>{a.date} • {a.sport}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Recent Matches */}
+                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>⚡ Recent Matches</h3>
+                                {filteredMatches.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No matches yet</div>}
+                                {filteredMatches.map((m, i) => (
+                                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < filteredMatches.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                                        <div>
+                                            <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>vs {m.opponent}</div>
+                                            <div style={{ fontSize: '11px', color: '#64748b' }}>{m.date} • {m.score}</div>
+                                            <div style={{ fontSize: '11px', color: '#a5b4fc', marginTop: '2px' }}>{m.performance}</div>
+                                        </div>
+                                        <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: m.result === 'Won' ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)', color: m.result === 'Won' ? '#22c55e' : '#ef4444' }}>{m.result}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Certificates */}
                             <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                                <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏅 Certificates</h3>
+                                {filteredCertificates.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No certificates yet</div>}
+                                {filteredCertificates.map((c, i) => (
+                                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < filteredCertificates.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                                        <div>
+                                            <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{c.title}</div>
+                                            <div style={{ fontSize: '10px', color: '#64748b' }}>{c.type} • {c.date}</div>
+                                        </div>
+                                        {c.qr && <span style={{ fontSize: '10px', color: '#22c55e', fontWeight: 600 }}>📱 QR Verified</span>}
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Transfers */}
+                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)', }}>
                                 <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🔄 Transfers</h3>
+                                {filteredTransfers.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No transfers yet</div>}
                                 {filteredTransfers.map((t, i) => (
                                     <div key={i} style={{ padding: '8px 0' }}>
                                         <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{t.from} → {t.to}</div>
@@ -558,8 +684,11 @@ export default function PlayerProfilePage() {
                                     </div>
                                 ))}
                             </div>
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
+
+                            {/* Injury History */}
+                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)', }}>
                                 <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏥 Injury History</h3>
+                                {filteredInjuries.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No injuries recorded</div>}
                                 {filteredInjuries.map((inj, i) => (
                                     <div key={i} style={{ padding: '8px 0', borderBottom: i < filteredInjuries.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
                                         <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{inj.type}</div>
@@ -574,7 +703,7 @@ export default function PlayerProfilePage() {
                 {/* ═══ CRICKET STATS TAB ═══ */}
                 {activeTab === 'cricket' && (
                     <div>
-                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '24px' }}>
                             {/* Batting */}
                             <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
                                 <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>🏏 Batting Statistics</h3>
@@ -622,22 +751,19 @@ export default function PlayerProfilePage() {
                         {/* Performance Bar Chart */}
                         <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
                             <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '16px' }}>📊 Performance Over Last 6 Months</h3>
-                            <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', height: '150px' }}>
-                                {[
-                                    { month: 'Sep', runs: 280, wickets: 6 },
-                                    { month: 'Oct', runs: 420, wickets: 10 },
-                                    { month: 'Nov', runs: 350, wickets: 8 },
-                                    { month: 'Dec', runs: 510, wickets: 12 },
-                                    { month: 'Jan', runs: 380, wickets: 5 },
-                                    { month: 'Feb', runs: 456, wickets: 7 },
-                                ].map(m => (
-                                    <div key={m.month} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                                        <div style={{ fontSize: '11px', fontWeight: 700, color: '#22c55e' }}>{m.runs}</div>
-                                        <div style={{ width: '100%', background: 'linear-gradient(180deg, #22c55e, #065f46)', borderRadius: '6px 6px 0 0', height: `${(m.runs / 510) * 120}px` }} />
-                                        <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>{m.month}</div>
+                            {cs.matches > 0 ? (
+                                <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', height: '150px' }}>
+                                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                                        <div style={{ fontSize: '11px', fontWeight: 700, color: '#22c55e' }}>{cs.runs}</div>
+                                        <div style={{ width: '100%', background: 'linear-gradient(180deg, #22c55e, #065f46)', borderRadius: '6px 6px 0 0', height: '80px' }} />
+                                        <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>Total</div>
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '40px 0', color: '#64748b', fontSize: '13px' }}>
+                                    📉 No match data yet. Play cricket matches to see your performance chart!
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -646,7 +772,7 @@ export default function PlayerProfilePage() {
                 {activeTab === 'football' && (
                     <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                         <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>⚽ Football Statistics</h3>
+                            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>Football Statistics</h3>
                             <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
                                 {[
                                     { label: 'Matches', value: fs.matches, color: '#6366f1' },
@@ -717,7 +843,7 @@ export default function PlayerProfilePage() {
 
                 {/* ═══ HISTORY TAB ═══ */}
                 {activeTab === 'history' && (
-                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
                             <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏅 Certificates</h3>
                             {filteredCertificates.map((c, i) => (
