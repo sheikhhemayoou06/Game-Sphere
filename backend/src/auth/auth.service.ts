@@ -100,6 +100,7 @@ export class AuthService {
         // don't exist in our custom database. We will auto-create them right here.
         if (!user) {
             const hashedPassword = await bcrypt.hash(dto.password, 10);
+            const sportsId = `GS-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
             user = await this.prisma.user.create({
                 data: {
                     email: dto.email,
@@ -107,6 +108,12 @@ export class AuthService {
                     firstName: 'Player',
                     lastName: '',
                     role: 'PLAYER',
+                    player: {
+                        create: {
+                            sportsId,
+                            country: 'India'
+                        }
+                    }
                 },
                 include: {
                     player: {
