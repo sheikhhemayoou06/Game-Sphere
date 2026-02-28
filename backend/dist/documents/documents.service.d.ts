@@ -10,6 +10,7 @@ export declare class DocumentsService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        playerId: string | null;
         status: string;
         description: string | null;
         tournamentId: string | null;
@@ -17,7 +18,6 @@ export declare class DocumentsService {
         type: string;
         title: string;
         uploadedBy: string;
-        playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
@@ -27,6 +27,7 @@ export declare class DocumentsService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        playerId: string | null;
         status: string;
         description: string | null;
         tournamentId: string | null;
@@ -34,7 +35,6 @@ export declare class DocumentsService {
         type: string;
         title: string;
         uploadedBy: string;
-        playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
@@ -53,6 +53,7 @@ export declare class DocumentsService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        playerId: string | null;
         status: string;
         description: string | null;
         tournamentId: string | null;
@@ -60,7 +61,6 @@ export declare class DocumentsService {
         type: string;
         title: string;
         uploadedBy: string;
-        playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
@@ -70,6 +70,7 @@ export declare class DocumentsService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        playerId: string | null;
         status: string;
         description: string | null;
         tournamentId: string | null;
@@ -77,7 +78,6 @@ export declare class DocumentsService {
         type: string;
         title: string;
         uploadedBy: string;
-        playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
@@ -87,6 +87,7 @@ export declare class DocumentsService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        playerId: string | null;
         status: string;
         description: string | null;
         tournamentId: string | null;
@@ -94,7 +95,6 @@ export declare class DocumentsService {
         type: string;
         title: string;
         uploadedBy: string;
-        playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
@@ -104,6 +104,7 @@ export declare class DocumentsService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        playerId: string | null;
         status: string;
         description: string | null;
         tournamentId: string | null;
@@ -111,7 +112,6 @@ export declare class DocumentsService {
         type: string;
         title: string;
         uploadedBy: string;
-        playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
@@ -121,6 +121,7 @@ export declare class DocumentsService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        playerId: string | null;
         status: string;
         description: string | null;
         tournamentId: string | null;
@@ -128,7 +129,6 @@ export declare class DocumentsService {
         type: string;
         title: string;
         uploadedBy: string;
-        playerId: string | null;
         fileUrl: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;

@@ -25,10 +25,10 @@ export declare class PlayerSportsController {
     } & {
         id: string;
         createdAt: Date;
-        sportId: string;
         playerId: string;
-        metadata: string | null;
+        sportId: string;
         sportCode: string;
+        metadata: string | null;
     }>;
     getPlayerSports(playerId: string): Promise<({
         sport: {
@@ -50,9 +50,9 @@ export declare class PlayerSportsController {
     } & {
         id: string;
         createdAt: Date;
-        sportId: string;
         playerId: string;
-        metadata: string | null;
+        sportId: string;
         sportCode: string;
+        metadata: string | null;
     })[]>;
 }

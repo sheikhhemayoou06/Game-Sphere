@@ -4,33 +4,33 @@ export declare class CertificatesController {
     constructor(certificatesService: CertificatesService);
     getAll(tournamentId?: string, playerId?: string, type?: string): Promise<{
         id: string;
+        playerId: string | null;
+        metadata: string | null;
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        playerId: string | null;
         recipientName: string;
         sportName: string | null;
         tournamentName: string | null;
         position: string | null;
         verificationCode: string;
         issuedAt: Date;
-        metadata: string | null;
     }[]>;
     verify(code: string): Promise<{
         valid: boolean;
         certificate: {
             id: string;
+            playerId: string | null;
+            metadata: string | null;
             tournamentId: string | null;
             teamId: string | null;
             type: string;
-            playerId: string | null;
             recipientName: string;
             sportName: string | null;
             tournamentName: string | null;
             position: string | null;
             verificationCode: string;
             issuedAt: Date;
-            metadata: string | null;
         };
     } | {
         valid: boolean;
@@ -38,31 +38,31 @@ export declare class CertificatesController {
     }>;
     getById(id: string): Promise<{
         id: string;
+        playerId: string | null;
+        metadata: string | null;
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        playerId: string | null;
         recipientName: string;
         sportName: string | null;
         tournamentName: string | null;
         position: string | null;
         verificationCode: string;
         issuedAt: Date;
-        metadata: string | null;
     } | null>;
     generate(data: any): Promise<{
         id: string;
+        playerId: string | null;
+        metadata: string | null;
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        playerId: string | null;
         recipientName: string;
         sportName: string | null;
         tournamentName: string | null;
         position: string | null;
         verificationCode: string;
         issuedAt: Date;
-        metadata: string | null;
     }>;
     generateBulk(data: {
         tournamentId: string;
@@ -71,16 +71,16 @@ export declare class CertificatesController {
         participants: any[];
     }): Promise<{
         id: string;
+        playerId: string | null;
+        metadata: string | null;
         tournamentId: string | null;
         teamId: string | null;
         type: string;
-        playerId: string | null;
         recipientName: string;
         sportName: string | null;
         tournamentName: string | null;
         position: string | null;
         verificationCode: string;
         issuedAt: Date;
-        metadata: string | null;
     }[]>;
 }

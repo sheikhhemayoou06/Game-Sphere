@@ -48,8 +48,8 @@ export declare class AuctionsController {
         } & {
             id: string;
             createdAt: Date;
-            status: string;
             playerId: string;
+            status: string;
             auctionId: string;
             basePrice: number;
             soldPrice: number | null;
@@ -84,8 +84,8 @@ export declare class AuctionsController {
     }): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;
@@ -94,8 +94,8 @@ export declare class AuctionsController {
     approvePlayer(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;
@@ -117,8 +117,8 @@ export declare class AuctionsController {
     }): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;
@@ -127,8 +127,8 @@ export declare class AuctionsController {
     markUnsold(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;

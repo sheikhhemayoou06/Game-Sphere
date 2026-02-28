@@ -48,8 +48,8 @@ export declare class AuctionsService {
         } & {
             id: string;
             createdAt: Date;
-            status: string;
             playerId: string;
+            status: string;
             auctionId: string;
             basePrice: number;
             soldPrice: number | null;
@@ -81,8 +81,8 @@ export declare class AuctionsService {
     addPlayerToAuction(auctionId: string, playerId: string, basePrice?: number): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;
@@ -91,8 +91,8 @@ export declare class AuctionsService {
     approvePlayer(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;
@@ -101,8 +101,8 @@ export declare class AuctionsService {
     startBidding(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;
@@ -118,8 +118,8 @@ export declare class AuctionsService {
     sellPlayer(auctionPlayerId: string, teamId: string, soldPrice: number): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;
@@ -128,8 +128,8 @@ export declare class AuctionsService {
     markUnsold(auctionPlayerId: string): Promise<{
         id: string;
         createdAt: Date;
-        status: string;
         playerId: string;
+        status: string;
         auctionId: string;
         basePrice: number;
         soldPrice: number | null;

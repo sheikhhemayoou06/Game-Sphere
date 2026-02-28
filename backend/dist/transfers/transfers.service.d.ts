@@ -4,9 +4,9 @@ export declare class TransfersService {
     constructor(prisma: PrismaService);
     getAll(status?: string): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -17,9 +17,9 @@ export declare class TransfersService {
     }[]>;
     getByPlayer(playerId: string): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -30,9 +30,9 @@ export declare class TransfersService {
     }[]>;
     getById(id: string): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -49,9 +49,9 @@ export declare class TransfersService {
         reason?: string;
     }): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -62,9 +62,9 @@ export declare class TransfersService {
     }>;
     approveTransfer(id: string, approvedBy: string): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -75,9 +75,9 @@ export declare class TransfersService {
     }>;
     rejectTransfer(id: string, approvedBy: string): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;

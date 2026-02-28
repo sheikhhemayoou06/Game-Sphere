@@ -153,8 +153,8 @@ export declare class TournamentsController {
                 } & {
                     id: string;
                     role: string | null;
-                    teamId: string;
                     playerId: string;
+                    teamId: string;
                     jersey: number | null;
                     joinedAt: Date;
                 })[];
@@ -452,8 +452,8 @@ export declare class TournamentsController {
                 } & {
                     id: string;
                     role: string | null;
-                    teamId: string;
                     playerId: string;
+                    teamId: string;
                     jersey: number | null;
                     joinedAt: Date;
                 })[];
@@ -546,8 +546,8 @@ export declare class TournamentsController {
             } & {
                 id: string;
                 role: string | null;
-                teamId: string;
                 playerId: string;
+                teamId: string;
                 jersey: number | null;
                 joinedAt: Date;
             })[];

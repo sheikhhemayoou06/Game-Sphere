@@ -44,8 +44,11 @@ export default function RegisterWizard() {
 
 
     const handleNextStep1 = () => {
-        if (!form.firstName || !form.lastName || !form.email || !form.password) {
+        if (!form.firstName || !form.email || !form.password) {
             return setError("Please fill all core identity fields.");
+        }
+        if (form.role !== 'ORGANIZER' && form.role !== 'TEAM_MANAGER' && !form.lastName) {
+            return setError("Please fill in your Last Name.");
         }
         if (!phoneData.phone) {
             return setError("Please enter your phone number to continue.");
@@ -59,7 +62,13 @@ export default function RegisterWizard() {
             return setError("Please select your State and District.");
         }
         setError('');
-        setStep(3);
+
+        // Skip Demographics for Organizers and Officials
+        if (form.role === 'ORGANIZER' || form.role === 'OFFICIAL') {
+            handleSignupInit();
+        } else {
+            setStep(3);
+        }
     };
 
     const handleSignupInit = async () => {
@@ -76,7 +85,7 @@ export default function RegisterWizard() {
                 options: {
                     data: {
                         first_name: form.firstName,
-                        last_name: form.lastName,
+                        last_name: (form.role === 'ORGANIZER' || form.role === 'TEAM_MANAGER') ? '' : form.lastName,
                         role: form.role,
                     }
                 }
@@ -88,13 +97,14 @@ export default function RegisterWizard() {
             if (signUpData.session) {
                 const finalPayload = {
                     ...form,
+                    lastName: (form.role === 'ORGANIZER' || form.role === 'TEAM_MANAGER') ? '' : form.lastName,
                     phone: `${phoneData.countryCode}${phoneData.phone}`,
                     countryCode: phoneData.countryCode,
                     country: Country.getCountryByCode(location.countryIso)?.name || '',
                     state: State.getStateByCodeAndCountry(location.stateIso, location.countryIso)?.name || '',
                     district: location.districtName,
-                    gender: demographics.gender,
-                    heightCm: demographics.heightCm ? parseInt(demographics.heightCm) : undefined,
+                    gender: form.role === 'PLAYER' ? demographics.gender : undefined,
+                    heightCm: form.role === 'PLAYER' && demographics.heightCm ? parseInt(demographics.heightCm) : undefined,
                     avatar: demographics.avatar || undefined,
                 };
 
@@ -126,16 +136,16 @@ export default function RegisterWizard() {
 
             if (verifyError) throw verifyError;
 
-            // Verified successfully, now register on our backend
             const finalPayload = {
                 ...form,
+                lastName: (form.role === 'ORGANIZER' || form.role === 'TEAM_MANAGER') ? '' : form.lastName,
                 phone: `${phoneData.countryCode}${phoneData.phone}`,
                 countryCode: phoneData.countryCode,
                 country: Country.getCountryByCode(location.countryIso)?.name || '',
                 state: State.getStateByCodeAndCountry(location.stateIso, location.countryIso)?.name || '',
                 district: location.districtName,
-                gender: demographics.gender,
-                heightCm: demographics.heightCm ? parseInt(demographics.heightCm) : undefined,
+                gender: form.role === 'PLAYER' ? demographics.gender : undefined,
+                heightCm: form.role === 'PLAYER' && demographics.heightCm ? parseInt(demographics.heightCm) : undefined,
                 avatar: demographics.avatar || undefined,
             };
 
@@ -205,31 +215,9 @@ export default function RegisterWizard() {
                 {/* ───────────────── STEP 1: IDENTITY & OTP ───────────────── */}
                 {step === 1 && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                            <div>
-                                <label className="form-label">First Name</label>
-                                <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="John" required />
-                            </div>
-                            <div>
-                                <label className="form-label">Last Name</label>
-                                <input type="text" value={form.lastName} onChange={(e) => updateCore('lastName', e.target.value)} className="input-field" placeholder="Doe" required />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="form-label">Email</label>
-                            <input type="email" value={form.email} onChange={(e) => updateCore('email', e.target.value)} className="input-field" placeholder="you@example.com" />
-                            <small style={{ color: '#64748b', fontSize: '11px', marginTop: '4px', display: 'block' }}>Email verification link will be sent after registration.</small>
-                        </div>
-
-                        <div>
-                            <label className="form-label">Password</label>
-                            <input type="password" value={form.password} onChange={(e) => updateCore('password', e.target.value)} className="input-field" placeholder="Min 6 characters" />
-                        </div>
-
                         <div>
                             <label className="form-label">Account Role</label>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '16px' }}>
                                 {roles.map((r) => (
                                     <button type="button" key={r} onClick={() => updateCore('role', r)} style={{
                                         padding: '10px', borderRadius: '10px', fontSize: '12px', fontWeight: 600,
@@ -243,6 +231,44 @@ export default function RegisterWizard() {
                                 ))}
                             </div>
                         </div>
+
+                        {form.role === 'ORGANIZER' ? (
+                            <div>
+                                <label className="form-label">Organization / Full Name</label>
+                                <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="e.g. Delhi Sports Association" required />
+                                <input type="hidden" value="..." onChange={(e) => updateCore('lastName', e.target.value)} />
+                            </div>
+                        ) : form.role === 'TEAM_MANAGER' ? (
+                            <div>
+                                <label className="form-label">Team Name</label>
+                                <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="e.g. Mumbai Strikers" required />
+                                <input type="hidden" value="..." onChange={(e) => updateCore('lastName', e.target.value)} />
+                            </div>
+                        ) : (
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                                <div>
+                                    <label className="form-label">First Name</label>
+                                    <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="John" required />
+                                </div>
+                                <div>
+                                    <label className="form-label">Last Name</label>
+                                    <input type="text" value={form.lastName} onChange={(e) => updateCore('lastName', e.target.value)} className="input-field" placeholder="Doe" required />
+                                </div>
+                            </div>
+                        )}
+
+                        <div>
+                            <label className="form-label">Email</label>
+                            <input type="email" value={form.email} onChange={(e) => updateCore('email', e.target.value)} className="input-field" placeholder="you@example.com" />
+                            <small style={{ color: '#64748b', fontSize: '11px', marginTop: '4px', display: 'block' }}>Email verification link will be sent after registration.</small>
+                        </div>
+
+                        <div>
+                            <label className="form-label">Password</label>
+                            <input type="password" value={form.password} onChange={(e) => updateCore('password', e.target.value)} className="input-field" placeholder="Min 6 characters" />
+                        </div>
+
+
 
                         {/* Phone Section */}
                         <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
@@ -319,27 +345,31 @@ export default function RegisterWizard() {
                 {/* ───────────────── STEP 3: DEMOGRAPHICS ───────────────── */}
                 {step === 3 && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        <div>
-                            <label className="form-label">Gender</label>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                                {['Male', 'Female', 'Other', 'Prefer not to say'].map(g => (
-                                    <button type="button" key={g} onClick={() => updateDemo('gender', g)} style={{
-                                        padding: '10px', borderRadius: '8px', fontSize: '13px', fontWeight: 500,
-                                        border: `1px solid ${demographics.gender === g ? '#6366f1' : '#cbd5e1'}`,
-                                        background: demographics.gender === g ? '#eef2ff' : 'white',
-                                        color: demographics.gender === g ? '#4338ca' : '#475569',
-                                        cursor: 'pointer'
-                                    }}>
-                                        {g}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
+                        {form.role === 'PLAYER' && (
+                            <>
+                                <div>
+                                    <label className="form-label">Gender</label>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                                        {['Male', 'Female', 'Other', 'Prefer not to say'].map(g => (
+                                            <button type="button" key={g} onClick={() => updateDemo('gender', g)} style={{
+                                                padding: '10px', borderRadius: '8px', fontSize: '13px', fontWeight: 500,
+                                                border: `1px solid ${demographics.gender === g ? '#6366f1' : '#cbd5e1'}`,
+                                                background: demographics.gender === g ? '#eef2ff' : 'white',
+                                                color: demographics.gender === g ? '#4338ca' : '#475569',
+                                                cursor: 'pointer'
+                                            }}>
+                                                {g}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
 
-                        <div>
-                            <label className="form-label">Height (cm) <span style={{ fontWeight: 400, color: '#94a3b8' }}>(Optional)</span></label>
-                            <input type="number" value={demographics.heightCm} onChange={(e) => updateDemo('heightCm', e.target.value)} className="input-field" placeholder="175" />
-                        </div>
+                                <div>
+                                    <label className="form-label">Height (cm) <span style={{ fontWeight: 400, color: '#94a3b8' }}>(Optional)</span></label>
+                                    <input type="number" value={demographics.heightCm} onChange={(e) => updateDemo('heightCm', e.target.value)} className="input-field" placeholder="175" />
+                                </div>
+                            </>
+                        )}
 
                         <div>
                             <label className="form-label">

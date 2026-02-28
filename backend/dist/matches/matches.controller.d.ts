@@ -276,8 +276,8 @@ export declare class MatchesController {
             };
         } & {
             id: string;
-            matchId: string;
             playerId: string;
+            matchId: string;
             statsData: string | null;
         })[];
     } & {
@@ -422,8 +422,8 @@ export declare class MatchesController {
     }>;
     updatePlayerStats(matchId: string, playerId: string, statsData: any): Promise<{
         id: string;
-        matchId: string;
         playerId: string;
+        matchId: string;
         statsData: string | null;
     }>;
 }

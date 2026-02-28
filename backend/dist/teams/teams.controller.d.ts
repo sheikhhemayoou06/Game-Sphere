@@ -411,8 +411,8 @@ export declare class TeamsController {
         } & {
             id: string;
             role: string | null;
-            teamId: string;
             playerId: string;
+            teamId: string;
             jersey: number | null;
             joinedAt: Date;
         })[];
@@ -504,16 +504,16 @@ export declare class TeamsController {
     } & {
         id: string;
         role: string | null;
-        teamId: string;
         playerId: string;
+        teamId: string;
         jersey: number | null;
         joinedAt: Date;
     }>;
     removePlayer(teamId: string, playerId: string): Promise<{
         id: string;
         role: string | null;
-        teamId: string;
         playerId: string;
+        teamId: string;
         jersey: number | null;
         joinedAt: Date;
     }>;

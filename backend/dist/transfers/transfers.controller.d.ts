@@ -4,9 +4,9 @@ export declare class TransfersController {
     constructor(transfersService: TransfersService);
     getAll(status?: string): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -17,9 +17,9 @@ export declare class TransfersController {
     }[]>;
     getByPlayer(playerId: string): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -30,9 +30,9 @@ export declare class TransfersController {
     }[]>;
     getById(id: string): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -43,9 +43,9 @@ export declare class TransfersController {
     } | null>;
     requestTransfer(data: any): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -56,9 +56,9 @@ export declare class TransfersController {
     }>;
     approveTransfer(id: string, req: any): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;
@@ -69,9 +69,9 @@ export declare class TransfersController {
     }>;
     rejectTransfer(id: string, req: any): Promise<{
         id: string;
+        playerId: string;
         status: string;
         tournamentId: string | null;
-        playerId: string;
         fromTeamId: string | null;
         toTeamId: string;
         transferFee: number;

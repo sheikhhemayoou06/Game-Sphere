@@ -104,7 +104,7 @@ let AuthService = class AuthService {
         };
     }
     async login(dto) {
-        const user = await this.prisma.user.findUnique({
+        let user = await this.prisma.user.findUnique({
             where: { email: dto.email },
             include: {
                 player: {
@@ -113,11 +113,34 @@ let AuthService = class AuthService {
             },
         });
         if (!user) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+            const hashedPassword = await bcrypt.hash(dto.password, 10);
+            const sportsId = `GS-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+            user = await this.prisma.user.create({
+                data: {
+                    email: dto.email,
+                    password: hashedPassword,
+                    firstName: 'Player',
+                    lastName: '',
+                    role: 'PLAYER',
+                    player: {
+                        create: {
+                            sportsId,
+                            country: 'India'
+                        }
+                    }
+                },
+                include: {
+                    player: {
+                        include: { playerSports: { include: { sport: true } } }
+                    }
+                }
+            });
         }
-        const isPasswordValid = await bcrypt.compare(dto.password, user.password);
-        if (!isPasswordValid) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+        else {
+            const isPasswordValid = await bcrypt.compare(dto.password, user.password);
+            if (!isPasswordValid) {
+                throw new common_1.UnauthorizedException('Invalid credentials');
+            }
         }
         const token = this.generateToken(user);
         return {
