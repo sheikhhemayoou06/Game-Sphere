@@ -52,6 +52,7 @@ const PLAYER_CARDS = [
 const TEAM_MANAGER_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & apply for events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
     { href: '/teams', label: 'My Team', desc: 'Manage roster & squad', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+    { href: '/profile', label: 'Team Profile', desc: 'Your team\'s public profile', icon: <IdCard size={20} />, gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
     { href: '/fixtures', label: 'Fixtures', desc: 'Upcoming matches', icon: <ClipboardList size={20} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
     { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: <Siren size={20} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },

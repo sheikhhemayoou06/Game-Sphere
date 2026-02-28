@@ -260,15 +260,39 @@ export default function PlayerProfilePage() {
     const winRate = totalMatches > 0 ? Math.round((recentMatches.filter(m => m.result === 'Won').length / Math.max(recentMatches.length, 1)) * 100) : 0;
     const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 
-    /* ═══════ OWNER VIEW ═══════ */
+    /* ═══════ OWNER VIEW — Dynamic Team Profile ═══════ */
+    const [teamData, setTeamData] = useState<any>(null);
+    const [teamDetail, setTeamDetail] = useState<any>(null);
+    const [teamLoading, setTeamLoading] = useState(true);
+
+    useEffect(() => {
+        if (roleView !== 'owner') return;
+        setTeamLoading(true);
+        api.getMyTeams(selectedSport?.id).then((teams: any[]) => {
+            if (teams && teams.length > 0) {
+                setTeamData(teams[0]);
+                // Fetch full detail with roster & tournaments
+                api.getTeam(teams[0].id).then((detail: any) => {
+                    setTeamDetail(detail);
+                }).catch(() => { }).finally(() => setTeamLoading(false));
+            } else {
+                setTeamLoading(false);
+            }
+        }).catch(() => setTeamLoading(false));
+    }, [roleView, selectedSport?.id]);
+
     if (roleView === 'owner') {
-        const TEAM_PROFILE = {
-            name: user?.firstName ? `${user.firstName}'s Team` : 'No Team Yet', logo: '⚡', sport: selectedSport?.name || 'Not set', founded: '—',
-            owner: user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'Not set', coach: 'Not set', homeGround: 'Not set',
-            city: user?.player?.district || 'Not set', players: 0, wins: 0, losses: 0, draws: 0, titles: 0,
-            rating: 0, rank: 'Unranked',
-        };
-        const SEASON_HISTORY: any[] = [];
+        const td = teamData; // quick alias
+        const detail = teamDetail;
+        const playerCount = detail?.players?.length || td?._count?.players || 0;
+        const tournamentCount = detail?.tournaments?.length || td?._count?.tournaments || 0;
+        const teamName = td?.name || user?.firstName || 'No Team Yet';
+        const teamSport = td?.sport?.name || selectedSport?.name || 'Not set';
+        const teamCity = td?.city || user?.player?.district || 'Not set';
+        const teamLogo = td?.logo || '⚡';
+        const managerName = detail?.manager ? `${detail.manager.firstName} ${detail.manager.lastName}`.trim() : (user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'Not set');
+        const teamCreated = td?.createdAt ? new Date(td.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '—';
+
         const FINANCIALS = [
             { label: 'Total Revenue', value: fmt(0), color: '#16a34a' },
             { label: 'Total Expenses', value: fmt(0), color: '#ef4444' },
@@ -277,7 +301,21 @@ export default function PlayerProfilePage() {
             { label: 'Player Registrations', value: fmt(0), color: '#0ea5e9' },
             { label: 'Venue Costs', value: fmt(0), color: '#ec4899' },
         ];
-        const tp = TEAM_PROFILE;
+
+        // Build roster from detail
+        const roster = (detail?.players || []).map((tp: any) => ({
+            name: tp.player?.user ? `${tp.player.user.firstName} ${tp.player.user.lastName}`.trim() : 'Unknown',
+            avatar: tp.player?.user?.avatar || null,
+            jersey: tp.jersey || '—',
+            role: tp.role || 'Player',
+        }));
+
+        // Build tournament list from detail
+        const teamTournaments = (detail?.tournaments || []).map((tt: any) => ({
+            name: tt.tournament?.name || 'Unknown',
+            status: tt.tournament?.status || 'PENDING',
+            seed: tt.seed,
+        }));
 
         return (
             <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)' }}>
@@ -296,131 +334,182 @@ export default function PlayerProfilePage() {
                 </nav>
 
                 <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
-                    {/* Team Header */}
-                    <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' as const }}>
-                        <div style={{ width: '110px', height: '110px', borderRadius: '50%', background: 'linear-gradient(135deg, #f59e0b, #d97706)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '52px', border: '3px solid rgba(255,255,255,0.2)' }}>⚡</div>
-                        <div style={{ flex: 1 }}>
-                            <div style={{ flex: 1 }}>
-                                {editMode ? (
-                                    <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                                        style={{ fontSize: '28px', fontWeight: 900, color: '#fff', background: 'rgba(255,255,255,0.1)', border: '2px solid #6366f1', borderRadius: '8px', padding: '4px 12px', marginBottom: '6px' }} />
-                                ) : (
-                                    <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', marginBottom: '6px' }}>{form.name ? `${form.name}'s Setup` : tp.name}</h1>
-                                )}
-                                <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px' }}>🏏 {tp.sport} • 📍 {tp.city} • 🏟️ {tp.homeGround}</div>
-                                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>
-                                    {[`👤 Owner: ${tp.owner}`, `🎯 Coach: ${tp.coach}`, `📅 Est. ${tp.founded}`, `⭐ Rating: ${tp.rating}`].map(tag => (
-                                        <span key={tag} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{tag}</span>
-                                    ))}
+
+                    {teamLoading ? (
+                        <div style={{ textAlign: 'center', padding: '64px 0', color: '#a5b4fc', fontSize: '18px' }}>⏳ Loading team profile...</div>
+                    ) : !td ? (
+                        <div style={{ textAlign: 'center', padding: '64px 32px' }}>
+                            <div style={{ fontSize: '64px', marginBottom: '16px' }}>🏅</div>
+                            <h2 style={{ fontSize: '24px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>No Team Yet</h2>
+                            <p style={{ color: '#a5b4fc', fontSize: '14px', marginBottom: '24px' }}>Create a team from the Teams page to see your team profile here.</p>
+                            <Link href="/teams" style={{ padding: '12px 28px', borderRadius: '12px', background: '#6366f1', color: 'white', fontWeight: 700, fontSize: '15px', textDecoration: 'none' }}>
+                                Go to Teams →
+                            </Link>
+                        </div>
+                    ) : (
+                        <>
+                            {/* Team Header */}
+                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' as const }}>
+                                <div style={{ width: '110px', height: '110px', borderRadius: '50%', background: 'linear-gradient(135deg, #f59e0b, #d97706)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '52px', border: '3px solid rgba(255,255,255,0.2)', overflow: 'hidden' }}>
+                                    {td?.logo && td.logo.startsWith('http') ? (
+                                        <img src={td.logo} alt="Team Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    ) : teamLogo}
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ flex: 1 }}>
+                                        {editMode ? (
+                                            <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
+                                                style={{ fontSize: '28px', fontWeight: 900, color: '#fff', background: 'rgba(255,255,255,0.1)', border: '2px solid #6366f1', borderRadius: '8px', padding: '4px 12px', marginBottom: '6px' }} />
+                                        ) : (
+                                            <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', marginBottom: '6px' }}>{teamName}</h1>
+                                        )}
+                                        <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px' }}>🏏 {teamSport} • 📍 {teamCity} • 👥 {playerCount} Players</div>
+                                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>
+                                            {[`👤 Manager: ${managerName}`, `📅 Est. ${teamCreated}`, `🏆 ${tournamentCount} Tournaments`].map(tag => (
+                                                <span key={tag} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{tag}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Manager Contact Details */}
+                                <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '14px', padding: '16px', minWidth: '220px' }}>
+                                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px' }}>CONTACT DETAILS</div>
+                                    {editMode ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                            {[
+                                                { label: 'Phone', key: 'phone' as const },
+                                                { label: 'Email', key: 'email' as const },
+                                                { label: 'District', key: 'district' as const },
+                                                { label: 'State', key: 'state' as const },
+                                            ].map(f => (
+                                                <div key={f.key} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                    <span style={{ fontSize: '11px', color: '#64748b', width: '60px' }}>{f.label}:</span>
+                                                    <input value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
+                                                        style={{ flex: 1, padding: '5px 10px', borderRadius: '6px', border: '1px solid #4338ca', background: 'rgba(255,255,255,0.05)', color: '#e2e8f0', fontSize: '12px' }} />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
+                                            <span>📞 {form.phone}</span>
+                                            <span>📧 {form.email}</span>
+                                            <span>📍 {form.district}, {form.state}, {form.country}</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        </div>
-                        {/* Manager Contact Details */}
-                        <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '14px', padding: '16px', minWidth: '220px' }}>
-                            <div style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px' }}>PERSONAL DETAILS</div>
-                            {editMode ? (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    {[
-                                        { label: 'Phone', key: 'phone' as const },
-                                        { label: 'Email', key: 'email' as const },
-                                        { label: 'District', key: 'district' as const },
-                                        { label: 'State', key: 'state' as const },
-                                    ].map(f => (
-                                        <div key={f.key} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                            <span style={{ fontSize: '11px', color: '#64748b', width: '60px' }}>{f.label}:</span>
-                                            <input value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-                                                style={{ flex: 1, padding: '5px 10px', borderRadius: '6px', border: '1px solid #4338ca', background: 'rgba(255,255,255,0.05)', color: '#e2e8f0', fontSize: '12px' }} />
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
-                                    <span>📞 {form.phone}</span>
-                                    <span>📧 {form.email}</span>
-                                    <span>📍 {form.district}, {form.state}, {form.country}</span>
+
+                            {/* Stats Row */}
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                                {[
+                                    { label: 'Players', value: playerCount, color: '#6366f1' },
+                                    { label: 'Tournaments', value: tournamentCount, color: '#22c55e' },
+                                    { label: 'Sport', value: teamSport, color: '#f59e0b' },
+                                    { label: 'City', value: teamCity, color: '#8b5cf6' },
+                                ].map(s => (
+                                    <div key={s.label} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '18px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
+                                        <div style={{ fontSize: '22px', fontWeight: 900, color: s.color }}>{s.value}</div>
+                                        <div style={{ fontSize: '11px', color: '#a5b4fc', fontWeight: 600, marginTop: '4px' }}>{s.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Owner Tabs */}
+                            <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
+                                {[
+                                    { key: 'team' as const, label: '👥 Team Profile' },
+                                    { key: 'financial' as const, label: '💰 Financial Summary' },
+                                    { key: 'seasons' as const, label: '📅 Season History' },
+                                ].map(tab => (
+                                    <button key={tab.key} onClick={() => setOwnerTab(tab.key)} style={{
+                                        padding: '10px 18px', borderRadius: '10px', border: 'none', cursor: 'pointer',
+                                        background: ownerTab === tab.key ? '#6366f1' : 'rgba(255,255,255,0.08)',
+                                        color: ownerTab === tab.key ? '#fff' : '#a5b4fc', fontWeight: 700, fontSize: '13px',
+                                    }}>{tab.label}</button>
+                                ))}
+                            </div>
+
+                            {ownerTab === 'team' && (
+                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                                    <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏟️ Team Details</h3>
+                                        {[{ l: 'Team Name', v: teamName }, { l: 'Sport', v: teamSport }, { l: 'City', v: teamCity }, { l: 'State', v: td?.state || form.state || 'Not set' }, { l: 'Founded', v: teamCreated }, { l: 'Manager', v: managerName }].map(r => (
+                                            <div key={r.l} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                                                <span style={{ fontSize: '13px', color: '#94a3b8' }}>{r.l}</span>
+                                                <span style={{ fontSize: '13px', fontWeight: 700, color: '#e2e8f0' }}>{r.v}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Roster */}
+                                    <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>👥 Roster ({roster.length} Players)</h3>
+                                        {roster.length === 0 ? (
+                                            <div style={{ padding: '20px 0', textAlign: 'center', color: '#64748b', fontSize: '13px' }}>No players yet. Add players from the Teams page!</div>
+                                        ) : (
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                                {roster.map((p: any, i: number) => (
+                                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)' }}>
+                                                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '14px', overflow: 'hidden', flexShrink: 0 }}>
+                                                            {p.avatar ? <img src={p.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : p.name.charAt(0)}
+                                                        </div>
+                                                        <div style={{ flex: 1 }}>
+                                                            <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{p.name}</div>
+                                                            <div style={{ fontSize: '11px', color: '#94a3b8' }}>#{p.jersey} • {p.role}</div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             )}
-                        </div>
-                    </div>
 
-                    {/* Stats Row */}
-                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', marginBottom: '24px' }}>
-                        {[
-                            { label: 'Matches', value: tp.wins + tp.losses + tp.draws, color: '#6366f1' },
-                            { label: 'Wins', value: tp.wins, color: '#22c55e' },
-                            { label: 'Losses', value: tp.losses, color: '#ef4444' },
-                            { label: 'Win Rate', value: `${Math.round((tp.wins / (tp.wins + tp.losses + tp.draws)) * 100)}%`, color: '#f59e0b' },
-                            { label: 'Titles', value: tp.titles, color: '#ec4899' },
-                            { label: 'Rating', value: tp.rating, color: '#8b5cf6' },
-                        ].map(s => (
-                            <div key={s.label} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '18px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <div style={{ fontSize: '28px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                                <div style={{ fontSize: '11px', color: '#a5b4fc', fontWeight: 600, marginTop: '4px' }}>{s.label}</div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Owner Tabs */}
-                    <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
-                        {[
-                            { key: 'team' as const, label: '👥 Team Profile' },
-                            { key: 'financial' as const, label: '💰 Financial Summary' },
-                            { key: 'seasons' as const, label: '📅 Season History' },
-                        ].map(tab => (
-                            <button key={tab.key} onClick={() => setOwnerTab(tab.key)} style={{
-                                padding: '10px 18px', borderRadius: '10px', border: 'none', cursor: 'pointer',
-                                background: ownerTab === tab.key ? '#6366f1' : 'rgba(255,255,255,0.08)',
-                                color: ownerTab === tab.key ? '#fff' : '#a5b4fc', fontWeight: 700, fontSize: '13px',
-                            }}>{tab.label}</button>
-                        ))}
-                    </div>
-
-                    {ownerTab === 'team' && (
-                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏟️ Team Details</h3>
-                                {[{ l: 'Team Name', v: tp.name }, { l: 'Sport', v: tp.sport }, { l: 'Home Ground', v: tp.homeGround }, { l: 'City', v: tp.city }, { l: 'Founded', v: tp.founded }, { l: 'Owner', v: tp.owner }, { l: 'Head Coach', v: tp.coach }].map(r => (
-                                    <div key={r.l} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                                        <span style={{ fontSize: '13px', color: '#94a3b8' }}>{r.l}</span>
-                                        <span style={{ fontSize: '13px', fontWeight: 700, color: '#e2e8f0' }}>{r.v}</span>
+                            {/* Tournaments Section — shown below roster in team tab */}
+                            {ownerTab === 'team' && teamTournaments.length > 0 && (
+                                <div style={{ marginTop: '20px', background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                                    <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏆 Tournament Participation ({teamTournaments.length})</h3>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                        {teamTournaments.map((t: any, i: number) => (
+                                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)' }}>
+                                                <span style={{ fontWeight: 700, fontSize: '14px', color: '#e2e8f0' }}>{t.name}</span>
+                                                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: t.status === 'LIVE' ? 'rgba(239,68,68,0.2)' : t.status === 'COMPLETED' ? 'rgba(34,197,94,0.2)' : 'rgba(99,102,241,0.2)', color: t.status === 'LIVE' ? '#ef4444' : t.status === 'COMPLETED' ? '#22c55e' : '#a5b4fc' }}>{t.status}</span>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏆 Achievements</h3>
-                                <div style={{ padding: '20px 0', textAlign: 'center', color: '#64748b', fontSize: '13px' }}>No achievements yet. Participate in tournaments to earn achievements!</div>
-                            </div>
-                        </div>
-                    )}
+                                </div>
+                            )}
 
-                    {ownerTab === 'financial' && (
-                        <div>
-                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', marginBottom: '20px' }}>
-                                {FINANCIALS.slice(0, 3).map((f, i) => (
-                                    <div key={i} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '20px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        <div style={{ fontSize: '24px', fontWeight: 900, color: f.color }}>{f.value}</div>
-                                        <div style={{ fontSize: '12px', color: '#a5b4fc', fontWeight: 600, marginTop: '4px' }}>{f.label}</div>
+                            {ownerTab === 'financial' && (
+                                <div>
+                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', marginBottom: '20px' }}>
+                                        {FINANCIALS.slice(0, 3).map((f, i) => (
+                                            <div key={i} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '20px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
+                                                <div style={{ fontSize: '24px', fontWeight: 900, color: f.color }}>{f.value}</div>
+                                                <div style={{ fontSize: '12px', color: '#a5b4fc', fontWeight: 600, marginTop: '4px' }}>{f.label}</div>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>📊 Breakdown</h3>
-                                {FINANCIALS.map((f, i) => (
-                                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < FINANCIALS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                        <span style={{ fontSize: '14px', color: '#e2e8f0', fontWeight: 600 }}>{f.label}</span>
-                                        <span style={{ fontSize: '16px', fontWeight: 800, color: f.color }}>{f.value}</span>
+                                    <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>📊 Breakdown</h3>
+                                        {FINANCIALS.map((f, i) => (
+                                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < FINANCIALS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                                                <span style={{ fontSize: '14px', color: '#e2e8f0', fontWeight: 600 }}>{f.label}</span>
+                                                <span style={{ fontSize: '16px', fontWeight: 800, color: f.color }}>{f.value}</span>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                                </div>
+                            )}
 
-                    {ownerTab === 'seasons' && (
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '32px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <div style={{ fontSize: '48px', marginBottom: '12px' }}>📅</div>
-                            <div style={{ fontSize: '16px', fontWeight: 700, color: '#e2e8f0', marginBottom: '6px' }}>No Season History Yet</div>
-                            <div style={{ fontSize: '13px', color: '#64748b' }}>Season data will appear here as your team participates in tournaments.</div>
-                        </div>
+                            {ownerTab === 'seasons' && (
+                                <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '32px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
+                                    <div style={{ fontSize: '48px', marginBottom: '12px' }}>📅</div>
+                                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#e2e8f0', marginBottom: '6px' }}>No Season History Yet</div>
+                                    <div style={{ fontSize: '13px', color: '#64748b' }}>Season data will appear here as your team participates in tournaments.</div>
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
             </div>
