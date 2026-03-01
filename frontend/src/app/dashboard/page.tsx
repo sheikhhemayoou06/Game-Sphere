@@ -854,11 +854,7 @@ export default function DashboardPage() {
                                             </div>
                                             <div style={{ fontSize: '13px', color: '#6d28d9', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <span style={{ fontWeight: 700 }}>ID:</span>
-                                                {(() => {
-                                                    const pSports = user?.player?.playerSports || [];
-                                                    const orgRecord = pSports.find((ps: any) => ps.role?.name === 'ORGANIZER');
-                                                    return orgRecord ? orgRecord.sportCode : (user?.player?.sportsId || 'Pending Allocation');
-                                                })()}
+                                                {user?.player?.sportsId || 'Pending Allocation'}
                                             </div>
                                         </div>
                                     </div>
