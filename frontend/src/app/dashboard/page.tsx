@@ -422,7 +422,8 @@ export default function DashboardPage() {
     // Sports not yet added by the user
     const remainingSports = availableSports.filter((s: any) => !mySportIds.includes(s.id));
 
-    if (!loaded || !isAuthenticated || hydratingSports) {
+    // Do not block dashboard rendering on sports hydration for users who don't need to pick a sport
+    if (!loaded || !isAuthenticated || (hydratingSports && roleGroup !== 'organizer' && roleGroup !== 'admin')) {
         return (
             <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ fontSize: '24px' }}>⏳ Loading...</div>
