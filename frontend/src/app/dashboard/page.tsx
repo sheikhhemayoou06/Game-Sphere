@@ -833,79 +833,136 @@ export default function DashboardPage() {
                 {/* ─── ORGANIZER Dashboard Widgets (Tournament-Focused) ─── */}
                 {
                     roleGroup === 'organizer' && (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '32px' }}>
 
-                            {/* Tournament Stats Summary */}
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid #e9d5ff30` }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>🏆 TOURNAMENT OVERVIEW</div>
-                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                                    {[
-                                        { label: 'My Tournaments', value: tournaments.length, icon: '🏆' },
-                                        { label: 'Live Now', value: liveMatches.length, icon: '🔴' },
-                                        { label: 'Active', value: tournaments.filter((t: any) => ['REGISTRATION', 'LIVE', 'FIXTURES'].includes(t.status)).length, icon: '✅' },
-                                        { label: 'Completed', value: tournaments.filter((t: any) => t.status === 'COMPLETED').length, icon: '🏁' },
-                                    ].map((s, i) => (
-                                        <div key={i} style={{ padding: '10px', borderRadius: '8px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                            <span style={{ fontSize: '18px' }}>{s.icon}</span>
-                                            <div>
-                                                <div style={{ fontSize: '18px', fontWeight: 800, color: "inherit" }}>{s.value}</div>
-                                                <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
-                                            </div>
+                            {/* Prominent Primary CTA: Create Tournament */}
+                            <Link href="/tournaments/create" style={{
+                                padding: '24px', borderRadius: '20px', textDecoration: 'none',
+                                background: `linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%)`,
+                                color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                boxShadow: '0 10px 30px rgba(124, 58, 237, 0.3)', transition: 'transform 0.2s',
+                            }}
+                                onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
+                                onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+                            >
+                                <div>
+                                    <div style={{ fontSize: '20px', fontWeight: 800, marginBottom: '4px' }}>Create New Tournament</div>
+                                    <div style={{ fontSize: '14px', opacity: 0.9 }}>Setup brackets, teams, and live scoring in minutes.</div>
+                                </div>
+                                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
+                                    ➕
+                                </div>
+                            </Link>
+
+                            {/* My Tournaments List */}
+                            <div style={{ padding: '24px', borderRadius: '16px', background: 'white', border: `1px solid #e9d5ff` }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                    <div style={{ fontSize: '15px', fontWeight: 800, color: '#4c1d95' }}>🏆 MY TOURNAMENTS</div>
+                                </div>
+                                {tournaments.length === 0 ? (
+                                    <div style={{ textAlign: 'center', padding: '32px', color: '#64748b', background: '#f8fafc', borderRadius: '12px' }}>
+                                        <div style={{ fontSize: '32px', marginBottom: '8px' }}>🏟️</div>
+                                        <div style={{ fontSize: '16px', fontWeight: 600 }}>No tournaments yet</div>
+                                        <div style={{ fontSize: '14px', marginTop: '4px' }}>Click the banner above to get started!</div>
+                                    </div>
+                                ) : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                        {tournaments.map((t: any) => (
+                                            <Link key={t.id} href={`/tournaments/${t.id}`} style={{
+                                                display: 'flex', alignItems: 'center', padding: '16px', borderRadius: '12px',
+                                                border: '1px solid #f3e8ff', textDecoration: 'none', background: '#faf5ff',
+                                                transition: 'all 0.2s'
+                                            }}
+                                                onMouseEnter={(e) => { e.currentTarget.style.background = '#f3e8ff'; e.currentTarget.style.borderColor = '#d8b4fe'; }}
+                                                onMouseLeave={(e) => { e.currentTarget.style.background = '#faf5ff'; e.currentTarget.style.borderColor = '#f3e8ff'; }}
+                                            >
+                                                <div style={{ flex: 1 }}>
+                                                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#1e1b4b', marginBottom: '4px' }}>{t.name}</div>
+                                                    <div style={{ fontSize: '13px', color: '#6d28d9', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                        <span style={{ fontWeight: 600 }}>{t.sport?.name || 'Tournament'}</span>
+                                                        <span>•</span>
+                                                        <span>{t.format?.replace(/_/g, ' ') || 'STANDARD'}</span>
+                                                    </div>
+                                                </div>
+                                                <div style={{
+                                                    padding: '6px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 700,
+                                                    background: t.status === 'LIVE' ? '#fee2e2' : t.status === 'COMPLETED' ? '#f1f5f9' : '#e0e7ff',
+                                                    color: t.status === 'LIVE' ? '#dc2626' : t.status === 'COMPLETED' ? '#475569' : '#4338ca'
+                                                }}>
+                                                    {t.status === 'LIVE' ? '🔴 LIVE' : t.status || 'DRAFT'}
+                                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: '16px' }}>
+                                {/* Tournament Stats Summary */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                    <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid #e9d5ff30`, flex: 1 }}>
+                                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '16px' }}>📊 TOURNAMENT OVERVIEW</div>
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                                            {[
+                                                { label: 'Total Events', value: tournaments.length, icon: '🏆' },
+                                                { label: 'Live Matches', value: liveMatches.length, icon: '🔴' },
+                                                { label: 'Active', value: tournaments.filter((t: any) => ['REGISTRATION', 'LIVE', 'FIXTURES'].includes(t.status)).length, icon: '✅' },
+                                                { label: 'Completed', value: tournaments.filter((t: any) => t.status === 'COMPLETED').length, icon: '🏁' },
+                                            ].map((s, i) => (
+                                                <div key={i} style={{ padding: '12px', borderRadius: '12px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                    <span style={{ fontSize: '20px' }}>{s.icon}</span>
+                                                    <div>
+                                                        <div style={{ fontSize: '20px', fontWeight: 800, color: '#4c1d95', lineHeight: 1 }}>{s.value}</div>
+                                                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px', fontWeight: 500 }}>{s.label}</div>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
+                                    </div>
 
-                            {/* Registration & Revenue */}
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>💰 REVENUE & REGISTRATIONS</div>
-                                <div style={{ display: 'grid', gap: '10px' }}>
-                                    {[
-                                        { label: 'Total Registrations', value: tournaments.reduce((s: number, t: any) => s + (t._count?.teams || 0), 0), color: "inherit" },
-                                        { label: 'Registration Fees', value: `₹${tournaments.reduce((s: number, t: any) => s + ((t._count?.teams || 0) * (t.registrationFee || 0)), 0).toLocaleString()}`, color: "inherit" },
-                                        { label: 'Prize Pools', value: `₹${tournaments.reduce((s: number, t: any) => s + (t.prizePool || 0), 0).toLocaleString()}`, color: "inherit" },
-                                    ].map((s, i) => (
-                                        <div key={i} style={{ padding: '10px', borderRadius: '8px', background: '#faf5ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <span style={{ fontSize: '12px', color: "inherit" }}>{s.label}</span>
-                                            <span style={{ fontSize: '15px', fontWeight: 800, color: s.color }}>{s.value}</span>
+                                    {/* Registration & Revenue */}
+                                    <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
+                                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>💰 REVENUE & REGISTRATIONS</div>
+                                        <div style={{ display: 'grid', gap: '12px' }}>
+                                            {[
+                                                { label: 'Total Registrations', value: tournaments.reduce((s: number, t: any) => s + (t._count?.teams || 0), 0), color: "#1e1b4b" },
+                                                { label: 'Registration Fees', value: `₹${tournaments.reduce((s: number, t: any) => s + ((t._count?.teams || 0) * (t.registrationFee || 0)), 0).toLocaleString()}`, color: "#16a34a" },
+                                                { label: 'Prize Pools', value: `₹${tournaments.reduce((s: number, t: any) => s + (t.prizePool || 0), 0).toLocaleString()}`, color: "#ea580c" },
+                                            ].map((s, i) => (
+                                                <div key={i} style={{ padding: '12px 16px', borderRadius: '12px', background: '#faf5ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                    <span style={{ fontSize: '14px', color: '#475569', fontWeight: 500 }}>{s.label}</span>
+                                                    <span style={{ fontSize: '16px', fontWeight: 800, color: s.color }}>{s.value}</span>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
+                                    </div>
+                                </div>
+
+                                {/* Quick Actions */}
+                                <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
+                                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '16px' }}>⚡ QUICK ACTIONS</div>
+                                    <div style={{ display: 'grid', gap: '10px' }}>
+                                        <Link href="/scoring" style={{
+                                            padding: '14px 16px', borderRadius: '12px', textDecoration: 'none',
+                                            background: '#fef2f2', color: "#dc2626", fontWeight: 700, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '10px'
+                                        }}>
+                                            <span style={{ fontSize: '18px' }}>🔴</span> Live Scoring Dashboard
+                                        </Link>
+                                        <Link href="/transfers" style={{
+                                            padding: '14px 16px', borderRadius: '12px', textDecoration: 'none',
+                                            background: '#f0fdf4', color: "#16a34a", fontWeight: 700, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '10px'
+                                        }}>
+                                            <span style={{ fontSize: '18px' }}>🔄</span> Transfer Approvals
+                                        </Link>
+                                        <Link href="/certificates" style={{
+                                            padding: '14px 16px', borderRadius: '12px', textDecoration: 'none',
+                                            background: '#fffbeb', color: "#d97706", fontWeight: 700, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '10px'
+                                        }}>
+                                            <span style={{ fontSize: '18px' }}>🏅</span> Issue Certificates
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-
-                            {/* Quick Actions */}
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>ORGANISER ACTIONS</div>
-                                <div style={{ display: 'grid', gap: '8px' }}>
-                                    <Link href="/tournaments/create" style={{
-                                        padding: '12px 16px', borderRadius: '10px', textDecoration: 'none',
-                                        background: `linear-gradient(135deg, #7c3aed, #7c3aed88)`,
-                                        color: 'white', fontWeight: 700, fontSize: '13px', display: 'block', textAlign: 'center',
-                                    }}>
-                                        + Create New Tournament
-                                    </Link>
-                                    <Link href="/scoring" style={{
-                                        padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
-                                        background: '#fef2f2', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
-                                    }}>
-                                        🔴 Live Scoring Dashboard
-                                    </Link>
-                                    <Link href="/transfers" style={{
-                                        padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
-                                        background: '#f0fdf4', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
-                                    }}>
-                                        🔄 Transfer Approvals
-                                    </Link>
-                                    <Link href="/certificates" style={{
-                                        padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
-                                        background: '#fffbeb', color: "inherit", fontWeight: 600, fontSize: '12px', display: 'block', textAlign: 'center',
-                                    }}>
-                                        🏅 Issue Certificates
-                                    </Link>
-                                </div>
-                            </div>
-
-
                         </div>
                     )
                 }
