@@ -151,7 +151,11 @@ export default function RegisterWizard() {
 
             const res = await api.register(finalPayload) as any;
             setAuth(res.user, res.accessToken);
-            router.push('/dashboard');
+            if (res.user.role === 'ORGANIZER') {
+                router.push('/tournaments/create');
+            } else {
+                router.push('/dashboard');
+            }
         } catch (err: any) {
             setError(err.message || 'Registration failed');
         } finally {

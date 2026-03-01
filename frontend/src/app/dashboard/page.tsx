@@ -692,82 +692,84 @@ export default function DashboardPage() {
                 </div>
 
                 {/* ─── Sport Selector Bar (Always visible to allow adding sports) ─── */}
-                <div className="flex-wrap-mobile" style={{
-                    display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px',
-                    padding: '12px 16px', borderRadius: '14px',
-                    background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, justifyContent: 'flex-start'
-                }}>
-                    <span style={{ fontSize: '13px', fontWeight: 700, color: theme.textSecondary, marginRight: '4px' }}>🏅 Sport:</span>
+                {roleGroup !== 'organizer' && roleGroup !== 'admin' && (
+                    <div className="flex-wrap-mobile" style={{
+                        display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px',
+                        padding: '12px 16px', borderRadius: '14px',
+                        background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, justifyContent: 'flex-start'
+                    }}>
+                        <span style={{ fontSize: '13px', fontWeight: 700, color: theme.textSecondary, marginRight: '4px' }}>🏅 Sport:</span>
 
-                    {mySports.length > 0 ? mySports.map((sp: any) => {
-                        const isActive = selectedSport?.id === sp.id;
-                        const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
-                        return (
-                            <button key={sp.id} onClick={() => setSelectedSport(sp)} style={{
-                                padding: '8px 18px', borderRadius: '10px', cursor: 'pointer',
-                                fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px',
-                                border: isActive ? `2px solid ${accent}` : `1px solid ${theme.cardBorder}`,
-                                background: isActive ? accent : theme.cardBg,
-                                color: isActive ? 'white' : theme.textPrimary,
-                                transition: 'all 0.2s',
-                                whiteSpace: 'nowrap',
-                            }}>
-                                <SportIcon sport={sp.name} size={18} color={isActive ? 'white' : accent} />
-                                {sp.name}
-                            </button>
-                        );
-                    }) : (
-                        <span style={{ fontSize: '14px', color: theme.textSecondary, fontStyle: 'italic' }}>No sports selected yet.</span>
-                    )}
-
-                    {/* Add Sport Button */}
-                    {remainingSports.length > 0 && (
-                        <div style={{ position: 'relative', marginLeft: 'auto' }}>
-                            <button onClick={() => setShowAddSport(!showAddSport)} style={{
-                                padding: '8px 16px', borderRadius: '10px', cursor: 'pointer',
-                                fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px',
-                                border: `1px dashed ${theme.cardBorder}`,
-                                background: theme.cardBg, color: theme.textSecondary,
-                                transition: 'all 0.2s',
-                                whiteSpace: 'nowrap',
-                            }}>
-                                ➕ Add Sport
-                            </button>
-                            {showAddSport && (
-                                <div style={{
-                                    position: 'absolute', top: '44px', right: 0, zIndex: 50,
-                                    background: 'white', borderRadius: '12px', border: '1px solid #e9d5ff',
-                                    boxShadow: '0 10px 40px rgba(0,0,0,0.15)', padding: '8px', minWidth: '200px',
+                        {mySports.length > 0 ? mySports.map((sp: any) => {
+                            const isActive = selectedSport?.id === sp.id;
+                            const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
+                            return (
+                                <button key={sp.id} onClick={() => setSelectedSport(sp)} style={{
+                                    padding: '8px 18px', borderRadius: '10px', cursor: 'pointer',
+                                    fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px',
+                                    border: isActive ? `2px solid ${accent}` : `1px solid ${theme.cardBorder}`,
+                                    background: isActive ? accent : theme.cardBg,
+                                    color: isActive ? 'white' : theme.textPrimary,
+                                    transition: 'all 0.2s',
+                                    whiteSpace: 'nowrap',
                                 }}>
-                                    {remainingSports.map((sp: any) => {
-                                        const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
-                                        return (
-                                            <button key={sp.id} onClick={() => {
-                                                setShowAddSport(false);
-                                                handleSelectNewSport(sp);
-                                            }} style={{
-                                                width: '100%', padding: '10px 14px', borderRadius: '8px',
-                                                cursor: 'pointer', fontSize: '14px', fontWeight: 600,
-                                                border: 'none', background: 'transparent',
-                                                color: "inherit", display: 'flex', alignItems: 'center', gap: '8px',
-                                                transition: 'background 0.2s'
-                                            }}
-                                                onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
-                                                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                                            >
-                                                <SportIcon sport={sp.name} size={18} color={accent} />
-                                                {sp.name}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </div>
+                                    <SportIcon sport={sp.name} size={18} color={isActive ? 'white' : accent} />
+                                    {sp.name}
+                                </button>
+                            );
+                        }) : (
+                            <span style={{ fontSize: '14px', color: theme.textSecondary, fontStyle: 'italic' }}>No sports selected yet.</span>
+                        )}
+
+                        {/* Add Sport Button */}
+                        {remainingSports.length > 0 && (
+                            <div style={{ position: 'relative', marginLeft: 'auto' }}>
+                                <button onClick={() => setShowAddSport(!showAddSport)} style={{
+                                    padding: '8px 16px', borderRadius: '10px', cursor: 'pointer',
+                                    fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px',
+                                    border: `1px dashed ${theme.cardBorder}`,
+                                    background: theme.cardBg, color: theme.textSecondary,
+                                    transition: 'all 0.2s',
+                                    whiteSpace: 'nowrap',
+                                }}>
+                                    ➕ Add Sport
+                                </button>
+                                {showAddSport && (
+                                    <div style={{
+                                        position: 'absolute', top: '44px', right: 0, zIndex: 50,
+                                        background: 'white', borderRadius: '12px', border: '1px solid #e9d5ff',
+                                        boxShadow: '0 10px 40px rgba(0,0,0,0.15)', padding: '8px', minWidth: '200px',
+                                    }}>
+                                        {remainingSports.map((sp: any) => {
+                                            const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
+                                            return (
+                                                <button key={sp.id} onClick={() => {
+                                                    setShowAddSport(false);
+                                                    handleSelectNewSport(sp);
+                                                }} style={{
+                                                    width: '100%', padding: '10px 14px', borderRadius: '8px',
+                                                    cursor: 'pointer', fontSize: '14px', fontWeight: 600,
+                                                    border: 'none', background: 'transparent',
+                                                    color: "inherit", display: 'flex', alignItems: 'center', gap: '8px',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                                    onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
+                                                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                                                >
+                                                    <SportIcon sport={sp.name} size={18} color={accent} />
+                                                    {sp.name}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* ─── Sport Loading Indicator ─── */}
-                {isOwnerRole && sportLoading && (
+                {roleGroup !== 'organizer' && roleGroup !== 'admin' && isOwnerRole && sportLoading && (
                     <div style={{ textAlign: 'center', padding: '32px', color: theme.textSecondary }}>
                         ⏳ Loading {selectedSport?.name} dashboard...
                     </div>
@@ -830,18 +832,18 @@ export default function DashboardPage() {
 
                 {/* ─── ORGANIZER Dashboard Widgets (Tournament-Focused) ─── */}
                 {
-                    roleGroup === 'organizer' && !sportLoading && selectedSport && activeTournament && (
+                    roleGroup === 'organizer' && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
 
                             {/* Tournament Stats Summary */}
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>🏆 TOURNAMENT OVERVIEW</div>
+                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid #e9d5ff30` }}>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>🏆 TOURNAMENT OVERVIEW</div>
                                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                                     {[
-                                        { label: 'My Tournaments', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id).length, icon: '🏆' },
-                                        { label: 'Live Now', value: liveMatches.filter((m: any) => m.sport?.id === selectedSport.id).length, icon: '🔴' },
-                                        { label: 'Active', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id && ['REGISTRATION', 'LIVE', 'FIXTURES'].includes(t.status)).length, icon: '✅' },
-                                        { label: 'Completed', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id && t.status === 'COMPLETED').length, icon: '🏁' },
+                                        { label: 'My Tournaments', value: tournaments.length, icon: '🏆' },
+                                        { label: 'Live Now', value: liveMatches.length, icon: '🔴' },
+                                        { label: 'Active', value: tournaments.filter((t: any) => ['REGISTRATION', 'LIVE', 'FIXTURES'].includes(t.status)).length, icon: '✅' },
+                                        { label: 'Completed', value: tournaments.filter((t: any) => t.status === 'COMPLETED').length, icon: '🏁' },
                                     ].map((s, i) => (
                                         <div key={i} style={{ padding: '10px', borderRadius: '8px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                             <span style={{ fontSize: '18px' }}>{s.icon}</span>
@@ -856,12 +858,12 @@ export default function DashboardPage() {
 
                             {/* Registration & Revenue */}
                             <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>💰 REVENUE & REGISTRATIONS</div>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>💰 REVENUE & REGISTRATIONS</div>
                                 <div style={{ display: 'grid', gap: '10px' }}>
                                     {[
-                                        { label: 'Total Registrations', value: tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + (t._count?.teams || 0), 0), color: "inherit" },
-                                        { label: 'Registration Fees', value: `₹${tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + ((t._count?.teams || 0) * (t.registrationFee || 0)), 0).toLocaleString()}`, color: "inherit" },
-                                        { label: 'Prize Pools', value: `₹${tournaments.filter((t: any) => t.sport?.id === selectedSport.id).reduce((s: number, t: any) => s + (t.prizePool || 0), 0).toLocaleString()}`, color: "inherit" },
+                                        { label: 'Total Registrations', value: tournaments.reduce((s: number, t: any) => s + (t._count?.teams || 0), 0), color: "inherit" },
+                                        { label: 'Registration Fees', value: `₹${tournaments.reduce((s: number, t: any) => s + ((t._count?.teams || 0) * (t.registrationFee || 0)), 0).toLocaleString()}`, color: "inherit" },
+                                        { label: 'Prize Pools', value: `₹${tournaments.reduce((s: number, t: any) => s + (t.prizePool || 0), 0).toLocaleString()}`, color: "inherit" },
                                     ].map((s, i) => (
                                         <div key={i} style={{ padding: '10px', borderRadius: '8px', background: '#faf5ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <span style={{ fontSize: '12px', color: "inherit" }}>{s.label}</span>
@@ -873,14 +875,14 @@ export default function DashboardPage() {
 
                             {/* Quick Actions */}
                             <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>ORGANISER ACTIONS</div>
+                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>ORGANISER ACTIONS</div>
                                 <div style={{ display: 'grid', gap: '8px' }}>
-                                    <Link href={`/tournaments/create?sport=${selectedSport.id}`} style={{
+                                    <Link href="/tournaments/create" style={{
                                         padding: '12px 16px', borderRadius: '10px', textDecoration: 'none',
-                                        background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}88)`,
+                                        background: `linear-gradient(135deg, #7c3aed, #7c3aed88)`,
                                         color: 'white', fontWeight: 700, fontSize: '13px', display: 'block', textAlign: 'center',
                                     }}>
-                                        + Create {selectedSport.name} Tournament
+                                        + Create New Tournament
                                     </Link>
                                     <Link href="/scoring" style={{
                                         padding: '10px 16px', borderRadius: '10px', textDecoration: 'none',
