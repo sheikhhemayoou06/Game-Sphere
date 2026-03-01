@@ -330,6 +330,18 @@ export default function DashboardPage() {
         setLoaded(true);
     }, [loadFromStorage]);
 
+    // Background sync to ensure profile metadata (like ID) is fresh
+    useEffect(() => {
+        if (loaded && isAuthenticated) {
+            api.getProfile().then((userData) => {
+                const currentToken = localStorage.getItem('token');
+                if (userData && currentToken) {
+                    useAuthStore.getState().setAuth(userData, currentToken);
+                }
+            }).catch(console.error);
+        }
+    }, [loaded, isAuthenticated]);
+
     useEffect(() => {
         if (loaded && !isAuthenticated) {
             router.push('/login');
