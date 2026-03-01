@@ -361,7 +361,14 @@ export default function PlayerProfilePage() {
                                             <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
                                                 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', background: 'rgba(255,255,255,0.1)', border: '2px solid #6366f1', borderRadius: '8px', padding: '4px 12px', marginBottom: '6px' }} />
                                         ) : (
-                                            <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', marginBottom: '6px' }}>{teamName}</h1>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
+                                                <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', margin: 0 }}>{teamName}</h1>
+                                                {td?.teamCode && (
+                                                    <span style={{ padding: '4px 10px', borderRadius: '8px', background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', fontSize: '14px', fontWeight: 800, border: '1px dashed rgba(99,102,241,0.4)' }}>
+                                                        {td.teamCode}
+                                                    </span>
+                                                )}
+                                            </div>
                                         )}
                                         <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px' }}>🏏 {teamSport} • 📍 {teamCity} • 👥 {playerCount} Players</div>
                                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>

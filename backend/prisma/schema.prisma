@@ -138,6 +138,7 @@ model Tournament {
 model Team {
   id              String   @id @default(uuid())
   name            String
+  teamCode        String?  @unique
   managerId       String
   sportId         String
   logo            String?
