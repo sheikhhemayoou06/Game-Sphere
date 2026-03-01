@@ -30,6 +30,14 @@ export class PlayerSportsService {
     async registerForSport(id: string, sportId: string, metadata?: any) {
         const actualPlayerId = await this.resolvePlayerId(id);
 
+        // Fetch player with user role
+        const player = await this.prisma.player.findUnique({
+            where: { id: actualPlayerId },
+            include: { user: true },
+        });
+
+        if (!player) throw new NotFoundException('Player not found');
+
         // Check if already registered
         const existing = await this.prisma.playerSport.findUnique({
             where: { playerId_sportId: { playerId: actualPlayerId, sportId } },
@@ -42,14 +50,28 @@ export class PlayerSportsService {
         const sport = await this.prisma.sport.findUnique({ where: { id: sportId } });
         if (!sport) throw new NotFoundException('Sport not found');
 
+        const role = player.user.role;
+        let rolePrefix = 'P'; // Default PLAYER
+        if (role === 'ORGANIZER') rolePrefix = 'OR';
+        else if (role === 'OFFICIAL') rolePrefix = 'OF';
+
         const prefix = SPORT_PREFIXES[sport.name] || sport.name.substring(0, 3).toUpperCase();
-        const year = new Date().getFullYear();
 
-        // Count existing registrations for this sport to generate sequential number
-        const count = await this.prisma.playerSport.count({ where: { sportId } });
-        const seq = String(count + 1).padStart(5, '0');
-
-        const sportCode = `${prefix}-${year}-${seq}`;
+        // Generate unique code: rolePrefix + sport prefix + - + 5-digit random number
+        let sportCode = '';
+        for (let i = 0; i < 10; i++) {
+            const num = Math.floor(10000 + Math.random() * 90000);
+            const code = `${rolePrefix}${prefix}-${num}`;
+            const exists = await this.prisma.playerSport.findUnique({ where: { sportCode: code } });
+            if (!exists) {
+                sportCode = code;
+                break;
+            }
+        }
+        if (!sportCode) {
+            // Fallback to timestamp if random collisions happen 10 times
+            sportCode = `${rolePrefix}${prefix}-${Date.now().toString().slice(-5)}`;
+        }
 
         const metadataStr = metadata ? JSON.stringify(metadata) : null;
 
