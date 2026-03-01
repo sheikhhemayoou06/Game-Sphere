@@ -226,6 +226,7 @@ export default function DashboardPage() {
     const [liveMatches, setLiveMatches] = useState<any[]>([]);
     const [sports, setSports] = useState<any[]>([]);
     const [loaded, setLoaded] = useState(false);
+    const [hydratingSports, setHydratingSports] = useState(true);
     const [ownerDashData, setOwnerDashData] = useState<any>(null);
     const [sportLoading, setSportLoading] = useState(false);
     const [showAddSport, setShowAddSport] = useState(false);
@@ -360,6 +361,7 @@ export default function DashboardPage() {
                         const firstMy = allSports.find((s: any) => myIds.includes(s.id));
                         if (firstMy) setSelectedSport(firstMy);
                     }
+                    setHydratingSports(false);
                 } else if (isOwnerRole) {
                     // Try hydrating from owner's governed sports
                     api.getMySports().then((ownerSports) => {
@@ -369,12 +371,14 @@ export default function DashboardPage() {
                             const firstMy = allSports.find((s: any) => newIds.includes(s.id));
                             if (firstMy) setSelectedSport(firstMy);
                         }
-                    }).catch(() => { });
+                    }).catch(() => { })
+                        .finally(() => setHydratingSports(false));
+                } else {
+                    setHydratingSports(false);
                 }
-            }).catch(() => { });
-            if (isOwnerRole) {
-                api.getMySports().catch(() => { });
-            }
+            }).catch(() => {
+                setHydratingSports(false);
+            });
         }
     }, [loaded, isAuthenticated, router]);
 
@@ -404,7 +408,7 @@ export default function DashboardPage() {
     // Sports not yet added by the user
     const remainingSports = availableSports.filter((s: any) => !mySportIds.includes(s.id));
 
-    if (!loaded || !isAuthenticated) {
+    if (!loaded || !isAuthenticated || hydratingSports) {
         return (
             <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ fontSize: '24px' }}>⏳ Loading...</div>
