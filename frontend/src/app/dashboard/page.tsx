@@ -835,6 +835,40 @@ export default function DashboardPage() {
                     roleGroup === 'organizer' && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '32px' }}>
 
+                            {/* Organizer Profile Summary Bar */}
+                            <div style={{ padding: '20px', borderRadius: '20px', background: 'white', border: `1px solid #e9d5ff`, boxShadow: '0 4px 15px rgba(233, 213, 255, 0.5)' }}>
+                                <Link href="/profile" style={{ textDecoration: 'none', color: "inherit", display: 'block' }}>
+                                    <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                            <div style={{
+                                                width: '56px', height: '56px', borderRadius: '50%',
+                                                background: `linear-gradient(135deg, #7c3aed, #4c1d95)`,
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                color: 'white', fontSize: '24px', fontWeight: 800
+                                            }}>
+                                                {user?.firstName?.charAt(0) || 'O'}
+                                            </div>
+                                            <div>
+                                                <div style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b', marginBottom: '2px' }}>
+                                                    {user?.firstName} {user?.lastName}
+                                                </div>
+                                                <div style={{ fontSize: '13px', color: '#6d28d9', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <span style={{ fontWeight: 700 }}>ID:</span>
+                                                    {(() => {
+                                                        const pSports = user?.player?.playerSports || [];
+                                                        const orgRecord = pSports.find((ps: any) => ps.role?.name === 'ORGANIZER');
+                                                        return orgRecord ? orgRecord.sportCode : (user?.player?.sportsId || 'Pending Allocation');
+                                                    })()}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="hide-mobile" style={{ padding: '8px 16px', borderRadius: '20px', background: '#faf5ff', color: '#6d28d9', fontSize: '13px', fontWeight: 700 }}>
+                                            View Full Profile →
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+
                             {/* Prominent Primary CTA: Create Tournament */}
                             <Link href="/tournaments/create" style={{
                                 padding: '24px', borderRadius: '20px', textDecoration: 'none',
