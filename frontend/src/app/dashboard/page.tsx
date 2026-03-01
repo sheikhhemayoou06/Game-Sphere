@@ -401,7 +401,8 @@ export default function DashboardPage() {
     }, [selectedSport?.id, isOwnerRole]);
 
     // Show sport picker overlay when user hasn't chosen any sports yet
-    const showSportPicker = availableSports.length > 0 && mySportIds.length === 0;
+    // Skip this overlay completely for Admin and Organizer roles
+    const showSportPicker = availableSports.length > 0 && mySportIds.length === 0 && roleGroup !== 'organizer' && roleGroup !== 'admin';
 
     // User's chosen sports (filtered from all available)
     const mySports = availableSports.filter((s: any) => mySportIds.includes(s.id));
