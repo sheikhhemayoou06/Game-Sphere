@@ -1121,10 +1121,6 @@ export default function DashboardPage() {
                         <div style={{ marginBottom: '32px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                                 <div>
-                                    <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px', color: theme.textPrimary }}>
-                                        {theme.sectionTitle}
-                                    </h2>
-                                    <p style={{ fontSize: '13px', color: theme.textSecondary }}> {selectedSport ? `${sportLabel} Organizer Tools` : `Select a sport to continue`} </p>
                                 </div>
                                 {activeTournament && (
                                     <button onClick={() => useSportStore.getState().clearActiveTournament()} style={{
