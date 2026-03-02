@@ -1,10 +1,19 @@
 const isDev = process.env.NODE_ENV === 'development';
 const getApiUrl = () => {
     if (!isDev) return process.env.NEXT_PUBLIC_API_URL || '/api';
+
+    // In development mode:
     if (typeof window !== 'undefined') {
-        // Use the current hostname so mobile works automatically
-        return `http://${window.location.hostname}:4000/api`;
+        const hostname = window.location.hostname;
+        // If loaded via localhost or 127.0.0.1, always use localhost to avoid CORS/network issues
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return 'http://localhost:4000/api';
+        }
+        // If accessed via local network IP (e.g. 192.168.x.x from a mobile device)
+        return `http://${hostname}:4000/api`;
     }
+
+    // Fallback for SSR
     return 'http://localhost:4000/api';
 };
 

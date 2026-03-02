@@ -968,72 +968,7 @@ export default function DashboardPage() {
                                 )}
                             </div>
 
-                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: '16px' }}>
-                                {/* Tournament Stats Summary */}
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                    <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid #e9d5ff30`, flex: 1 }}>
-                                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '16px' }}>📊 TOURNAMENT OVERVIEW</div>
-                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                                            {[
-                                                { label: 'Total Events', value: tournaments.length, icon: '🏆' },
-                                                { label: 'Live Matches', value: liveMatches.length, icon: '🔴' },
-                                                { label: 'Active', value: tournaments.filter((t: any) => ['REGISTRATION', 'LIVE', 'FIXTURES'].includes(t.status)).length, icon: '✅' },
-                                                { label: 'Completed', value: tournaments.filter((t: any) => t.status === 'COMPLETED').length, icon: '🏁' },
-                                            ].map((s, i) => (
-                                                <div key={i} style={{ padding: '12px', borderRadius: '12px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                    <span style={{ fontSize: '20px' }}>{s.icon}</span>
-                                                    <div>
-                                                        <div style={{ fontSize: '20px', fontWeight: 800, color: '#4c1d95', lineHeight: 1 }}>{s.value}</div>
-                                                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px', fontWeight: 500 }}>{s.label}</div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
 
-                                    {/* Registration & Revenue */}
-                                    <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '12px' }}>💰 REVENUE & REGISTRATIONS</div>
-                                        <div style={{ display: 'grid', gap: '12px' }}>
-                                            {[
-                                                { label: 'Total Registrations', value: tournaments.reduce((s: number, t: any) => s + (t._count?.teams || 0), 0), color: "#1e1b4b" },
-                                                { label: 'Registration Fees', value: `₹${tournaments.reduce((s: number, t: any) => s + ((t._count?.teams || 0) * (t.registrationFee || 0)), 0).toLocaleString()}`, color: "#16a34a" },
-                                                { label: 'Prize Pools', value: `₹${tournaments.reduce((s: number, t: any) => s + (t.prizePool || 0), 0).toLocaleString()}`, color: "#ea580c" },
-                                            ].map((s, i) => (
-                                                <div key={i} style={{ padding: '12px 16px', borderRadius: '12px', background: '#faf5ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                    <span style={{ fontSize: '14px', color: '#475569', fontWeight: 500 }}>{s.label}</span>
-                                                    <span style={{ fontSize: '16px', fontWeight: 800, color: s.color }}>{s.value}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Quick Actions */}
-                                <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#6d28d9', marginBottom: '16px' }}>⚡ QUICK ACTIONS</div>
-                                    <div style={{ display: 'grid', gap: '10px' }}>
-                                        <Link href="/scoring" style={{
-                                            padding: '14px 16px', borderRadius: '12px', textDecoration: 'none',
-                                            background: '#fef2f2', color: "#dc2626", fontWeight: 700, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '10px'
-                                        }}>
-                                            <span style={{ fontSize: '18px' }}>🔴</span> Live Scoring Dashboard
-                                        </Link>
-                                        <Link href="/transfers" style={{
-                                            padding: '14px 16px', borderRadius: '12px', textDecoration: 'none',
-                                            background: '#f0fdf4', color: "#16a34a", fontWeight: 700, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '10px'
-                                        }}>
-                                            <span style={{ fontSize: '18px' }}>🔄</span> Transfer Approvals
-                                        </Link>
-                                        <Link href="/certificates" style={{
-                                            padding: '14px 16px', borderRadius: '12px', textDecoration: 'none',
-                                            background: '#fffbeb', color: "#d97706", fontWeight: 700, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '10px'
-                                        }}>
-                                            <span style={{ fontSize: '18px' }}>🏅</span> Issue Certificates
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     )
                 }

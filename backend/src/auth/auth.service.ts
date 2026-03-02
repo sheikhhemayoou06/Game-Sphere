@@ -37,6 +37,15 @@ export class AuthService {
             throw new ConflictException('Email already registered');
         }
 
+        if (dto.phone) {
+            const existingPhone = await this.prisma.user.findFirst({
+                where: { phone: dto.phone },
+            });
+            if (existingPhone) {
+                throw new ConflictException('Phone number already registered');
+            }
+        }
+
         const hashedPassword = await bcrypt.hash(dto.password, 10);
         const user = await this.prisma.user.create({
             data: {
