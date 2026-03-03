@@ -102,6 +102,10 @@ export const api = {
         request<any>(`/tournaments/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
     generateFixtures: (id: string) =>
         request<any>(`/tournaments/${id}/fixtures`, { method: 'POST' }),
+    regenerateFixtures: (id: string, data?: { format: string }) =>
+        request<any>(`/tournaments/${id}/fixtures/regenerate`, { method: 'PUT', body: data ? JSON.stringify(data) : undefined }),
+    updateMatchStatus: (tournamentId: string, matchId: string, data: { status: string, scoreData?: string, winnerTeamId?: string }) =>
+        request<any>(`/tournaments/${tournamentId}/matches/${matchId}/status`, { method: 'PUT', body: JSON.stringify(data) }),
     getTournamentStats: (id: string) => request<any>(`/tournaments/${id}/stats`),
     getTournamentBans: (id: string) => request<any[]>(`/tournaments/${id}/bans`),
     banPlayer: (id: string, data: { playerId: string, reason?: string, expiresAt?: string }) =>

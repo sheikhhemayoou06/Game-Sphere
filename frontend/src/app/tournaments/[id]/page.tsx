@@ -88,7 +88,7 @@ export default function TournamentDashboard() {
                     {[
                         { href: `/tournaments/${id}/profile`, label: 'Tournament Profile', desc: 'Info & Contact Details', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
                         { href: `/tournaments/${id}/teams`, label: 'Teams', desc: 'Registrations & Squads', icon: '📝', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-                        { href: `/fixtures?tournamentId=${id}`, label: 'Fixtures', desc: 'Schedule & Results', icon: '📅', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+                        { href: `/tournaments/${id}/fixtures`, label: 'Fixtures', desc: 'Schedule & Results', icon: '📅', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
                         { href: `/scoring?tournamentId=${id}`, label: 'Live Scoring', desc: 'Score Matches', icon: '🔴', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
                         { href: `/auction?tournamentId=${id}`, label: 'Auction', desc: 'Live Bidding', icon: '🔨', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
                         { href: `/transfers?tournamentId=${id}`, label: 'Transfers', desc: 'Player Movement', icon: '🔄', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },

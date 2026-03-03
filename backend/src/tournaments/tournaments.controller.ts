@@ -61,6 +61,22 @@ export class TournamentsController {
         return this.tournamentsService.generateFixtures(id);
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Put(':id/fixtures/regenerate')
+    regenerateFixtures(@Param('id') id: string, @Body('format') format?: string) {
+        return this.tournamentsService.clearAndRegenerateFixtures(id, format);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put(':id/matches/:matchId/status')
+    updateMatchDetails(
+        @Param('id') tournamentId: string,
+        @Param('matchId') matchId: string,
+        @Body() body: { status: string; scoreData?: string; winnerTeamId?: string }
+    ) {
+        return this.tournamentsService.updateMatchDetails(matchId, body.status, body.scoreData, body.winnerTeamId);
+    }
+
     // ═══════ Teams ═══════
 
     @Get(':id/teams')

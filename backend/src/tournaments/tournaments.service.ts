@@ -216,6 +216,36 @@ export class TournamentsService {
         return this.findOne(tournamentId);
     }
 
+    async clearAndRegenerateFixtures(tournamentId: string, newFormat?: string) {
+        const tournament = await this.findOne(tournamentId);
+
+        // Ensure only unplayed fixtures are deleted
+        await this.prisma.match.deleteMany({
+            where: {
+                tournamentId: tournamentId,
+                status: {
+                    in: ['SCHEDULED', 'POSTPONED']
+                }
+            }
+        });
+
+        if (newFormat && newFormat !== tournament.format) {
+            await this.prisma.tournament.update({
+                where: { id: tournamentId },
+                data: { format: newFormat }
+            });
+        }
+
+        return this.generateFixtures(tournamentId);
+    }
+
+    async updateMatchDetails(matchId: string, status: string, scoreData?: string, winnerTeamId?: string) {
+        return this.prisma.match.update({
+            where: { id: matchId },
+            data: { status, scoreData, winnerTeamId }
+        });
+    }
+
     async getStats(tournamentId: string) {
         const tournament = await this.findOne(tournamentId);
         const totalMatches = tournament.matches.length;
@@ -302,8 +332,9 @@ export class TournamentsService {
             const teamId = tt.teamId;
             const teamMatches = matches.filter(m => m.homeTeamId === teamId || m.awayTeamId === teamId);
             const wins = teamMatches.filter(m => m.winnerTeamId === teamId).length;
-            const losses = teamMatches.filter(m => m.winnerTeamId && m.winnerTeamId !== teamId).length;
-            const draws = teamMatches.filter(m => !m.winnerTeamId).length;
+            const losses = teamMatches.filter(m => (m.status === 'COMPLETED' || m.status === 'ABANDONED') && m.winnerTeamId !== teamId && m.winnerTeamId !== 'DRAW').length;
+            // Draw logic: winnerTeamId === 'DRAW' indicates 1 point each
+            const draws = teamMatches.filter(m => m.winnerTeamId === 'DRAW').length;
 
             return {
                 teamId,
@@ -313,7 +344,7 @@ export class TournamentsService {
                 wins,
                 losses,
                 draws,
-                points: wins * 2 + draws,
+                points: (wins * 2) + draws,
             };
         });
 
