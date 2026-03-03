@@ -292,19 +292,113 @@ export class TournamentsService {
     // ═══════ FINANCIALS ═══════
 
     async getTournamentFinancials(tournamentId: string) {
+        // Fetch tournament with registration fee
+        const tournament = await this.prisma.tournament.findUnique({
+            where: { id: tournamentId },
+            select: { id: true, name: true, registrationFee: true },
+        });
+
+        // 1) Team registration fees
+        const tournamentTeams = await this.prisma.tournamentTeam.findMany({
+            where: { tournamentId },
+            include: {
+                team: { select: { id: true, name: true, logo: true } },
+            },
+        });
+
+        const registrationFee = tournament?.registrationFee || 0;
+        const approvedTeams = tournamentTeams.filter(t => t.status === 'APPROVED');
+        const teamFees = approvedTeams.map(t => ({
+            teamId: t.teamId,
+            teamName: t.team.name,
+            teamLogo: t.team.logo,
+            status: t.status,
+            amount: registrationFee,
+            registeredAt: t.registeredAt,
+            type: 'TEAM_REGISTRATION' as const,
+        }));
+        const totalTeamFees = approvedTeams.length * registrationFee;
+
+        // 2) Payment-based registrations (from Registration+Payment models)
         const registrations = await this.prisma.registration.findMany({
             where: { tournamentId },
             include: { payment: true },
         });
-
         const payments = registrations.filter(r => r.payment).map(r => r.payment!);
-        const totalCollected = payments.filter(p => p.status === 'COMPLETED').reduce((sum, p) => sum + p.amount, 0);
-        const pendingPayments = payments.filter(p => p.status === 'PENDING').length;
+        const completedPayments = payments.filter(p => p.status === 'COMPLETED');
+        const totalPaymentCollected = completedPayments.reduce((sum, p) => sum + p.amount, 0);
+        const pendingPayments = payments.filter(p => p.status === 'PENDING');
+
+        // 3) Auction player registrations
+        const auction = await this.prisma.auction.findFirst({
+            where: { tournamentId },
+            include: {
+                players: {
+                    include: {
+                        player: {
+                            include: {
+                                user: { select: { firstName: true, lastName: true, avatar: true } },
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        const auctionPlayers = auction?.players || [];
+        const auctionRegistrations = auctionPlayers.map(ap => ({
+            id: ap.id,
+            playerName: `${ap.player?.user?.firstName || ''} ${ap.player?.user?.lastName || ''}`.trim(),
+            playerAvatar: ap.player?.user?.avatar,
+            basePrice: ap.basePrice,
+            soldPrice: ap.soldPrice,
+            status: ap.status,
+            createdAt: ap.createdAt,
+            type: 'AUCTION_REGISTRATION' as const,
+        }));
+        const totalAuctionRegistrationFees = auctionPlayers.length * 5000; // ₹5000 per player auction registration
+
+        // Build combined transactions list
+        const allTransactions = [
+            ...teamFees.map(tf => ({
+                id: tf.teamId,
+                desc: `Team Registration — ${tf.teamName}`,
+                amount: tf.amount,
+                type: 'TEAM_FEE',
+                status: 'COMPLETED',
+                date: tf.registeredAt,
+            })),
+            ...completedPayments.map(p => ({
+                id: p.id,
+                desc: `Registration Payment`,
+                amount: p.amount,
+                type: 'PAYMENT',
+                status: p.status,
+                date: p.createdAt,
+            })),
+            ...auctionRegistrations.map(ar => ({
+                id: ar.id,
+                desc: `Auction Registration — ${ar.playerName}`,
+                amount: 5000,
+                type: 'AUCTION_FEE',
+                status: ar.status === 'SOLD' || ar.status === 'APPROVED' || ar.status === 'IN_BIDDING' ? 'COMPLETED' : 'PENDING',
+                date: ar.createdAt,
+            })),
+        ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
         return {
+            tournamentName: tournament?.name,
+            registrationFee,
+            // Team fees
+            totalTeams: tournamentTeams.length,
+            approvedTeams: approvedTeams.length,
+            totalTeamFees,
+            teamFees,
+            // Payments
             totalRegistrations: registrations.length,
-            totalCollected,
-            pendingPayments,
+            totalPaymentCollected,
+            pendingPaymentsCount: pendingPayments.length,
+            pendingPaymentsAmount: pendingPayments.reduce((s, p) => s + p.amount, 0),
             payments: payments.map(p => ({
                 id: p.id,
                 amount: p.amount,
@@ -312,6 +406,14 @@ export class TournamentsService {
                 method: p.paymentMethod,
                 createdAt: p.createdAt,
             })),
+            // Auction
+            hasAuction: !!auction,
+            auctionPlayerCount: auctionPlayers.length,
+            totalAuctionRegistrationFees,
+            auctionRegistrations,
+            // Totals
+            totalRevenue: totalTeamFees + totalPaymentCollected + totalAuctionRegistrationFees,
+            allTransactions,
         };
     }
 
