@@ -86,7 +86,7 @@ export default function TournamentDashboard() {
 
                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
                     {[
-                        { href: `/tournaments/${id}/overview`, label: 'Overview', desc: 'Stats & Activity', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+                        { href: `/tournaments/${id}/profile`, label: 'Tournament Profile', desc: 'Info & Contact Details', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
                         { href: `/teams?tournamentId=${id}`, label: 'Teams', desc: 'Registrations & Squads', icon: '📝', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
                         { href: `/fixtures?tournamentId=${id}`, label: 'Fixtures', desc: 'Schedule & Results', icon: '📅', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
                         { href: `/scoring?tournamentId=${id}`, label: 'Live Scoring', desc: 'Score Matches', icon: '🔴', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },

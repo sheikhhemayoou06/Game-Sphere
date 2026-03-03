@@ -15,7 +15,7 @@ export class TournamentsService {
             where,
             include: {
                 sport: true,
-                organizer: { select: { id: true, firstName: true, lastName: true, email: true } },
+                organizer: { select: { id: true, firstName: true, lastName: true, email: true, phone: true } },
                 _count: { select: { teams: true, matches: true } },
             },
             orderBy: { createdAt: 'desc' },
@@ -27,7 +27,7 @@ export class TournamentsService {
             where: { id },
             include: {
                 sport: true,
-                organizer: { select: { id: true, firstName: true, lastName: true, email: true } },
+                organizer: { select: { id: true, firstName: true, lastName: true, email: true, phone: true } },
                 teams: {
                     include: {
                         team: {
