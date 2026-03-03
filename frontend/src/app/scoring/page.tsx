@@ -89,7 +89,16 @@ export default function LiveScoringPage() {
                             <div style={{ marginBottom: '20px' }}>
                                 <div style={{ fontSize: '48px', fontWeight: 900, color: '#ef4444', fontVariantNumeric: 'tabular-nums', letterSpacing: '4px' }}>{formatTime(timer)}</div>
                                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '12px' }}>
-                                    <button onClick={() => setRunning(!running)} style={{ padding: '8px 24px', borderRadius: '8px', border: 'none', background: running ? '#ef4444' : '#22c55e', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>
+                                    <button onClick={() => {
+                                        if (!running && selected.status === 'SCHEDULED' && selected.scheduledAt) {
+                                            const scheduledTime = new Date(selected.scheduledAt);
+                                            if (new Date() < scheduledTime) {
+                                                alert(`You cannot start scoring before the scheduled time: ${scheduledTime.toLocaleString()}`);
+                                                return;
+                                            }
+                                        }
+                                        setRunning(!running);
+                                    }} style={{ padding: '8px 24px', borderRadius: '8px', border: 'none', background: running ? '#ef4444' : '#22c55e', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}>
                                         {running ? '⏸ Pause' : '▶ Start'}
                                     </button>
                                     <button onClick={() => { setTimer(0); setRunning(false); }} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #334155', background: 'transparent', color: '#94a3b8', fontWeight: 600, cursor: 'pointer', fontSize: '13px' }}>Reset</button>

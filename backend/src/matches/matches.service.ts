@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -47,6 +47,15 @@ export class MatchesService {
     }
 
     async updateScore(id: string, scoreData: any) {
+        const match = await this.prisma.match.findUnique({ where: { id } });
+        if (!match) throw new NotFoundException('Match not found');
+
+        if (match.status === 'SCHEDULED' && match.scheduledAt) {
+            if (new Date() < new Date(match.scheduledAt)) {
+                throw new BadRequestException('Cannot start scoring before the scheduled time');
+            }
+        }
+
         return this.prisma.match.update({
             where: { id },
             data: {
