@@ -103,6 +103,11 @@ export const api = {
     generateFixtures: (id: string) =>
         request<any>(`/tournaments/${id}/fixtures`, { method: 'POST' }),
     getTournamentStats: (id: string) => request<any>(`/tournaments/${id}/stats`),
+    getTournamentBans: (id: string) => request<any[]>(`/tournaments/${id}/bans`),
+    banPlayer: (id: string, data: { playerId: string, reason?: string, expiresAt?: string }) =>
+        request<any>(`/tournaments/${id}/bans`, { method: 'POST', body: JSON.stringify(data) }),
+    unbanPlayer: (id: string, playerId: string) =>
+        request<any>(`/tournaments/${id}/bans/${playerId}/unban`, { method: 'PUT' }),
 
     // Matches
     getMatches: (params?: Record<string, string>) => {

@@ -56,6 +56,7 @@ model Player {
   matchScores     MatchPlayerStat[]
   auctions        AuctionPlayer[]
   playerSports    PlayerSport[]
+  tournamentBans  TournamentBan[]
 }
 
 model Sport {
@@ -133,6 +134,7 @@ model Tournament {
   chatMessages    TournamentChat[]
   media           TournamentMedia[]
   transfers       Transfer[]
+  bans            TournamentBan[]
 }
 
 model Team {
@@ -416,4 +418,22 @@ model TournamentMedia {
   createdAt       DateTime @default(now())
 
   tournament      Tournament @relation(fields: [tournamentId], references: [id])
+}
+
+// ========================
+// TOURNAMENT BANS
+// ========================
+model TournamentBan {
+  id              String   @id @default(uuid())
+  tournamentId    String
+  playerId        String
+  reason          String?
+  expiresAt       DateTime?
+  createdBy       String?
+  createdAt       DateTime @default(now())
+
+  tournament      Tournament @relation(fields: [tournamentId], references: [id])
+  player          Player     @relation(fields: [playerId], references: [id])
+
+  @@unique([tournamentId, playerId])
 }

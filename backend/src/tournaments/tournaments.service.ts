@@ -351,4 +351,43 @@ export class TournamentsService {
             data: { tournamentId, uploadedBy, ...data },
         });
     }
+
+    // ═══════ BANS ═══════
+
+    async getBannedPlayers(tournamentId: string) {
+        return this.prisma.tournamentBan.findMany({
+            where: { tournamentId },
+            include: { player: { include: { user: { select: { firstName: true, lastName: true, avatar: true } } } } }
+        });
+    }
+
+    async banPlayer(tournamentId: string, organizerId: string, data: { playerId: string, reason?: string, expiresAt?: string }) {
+        const tournament = await this.findOne(tournamentId);
+        if (tournament.organizerId !== organizerId) {
+            throw new ForbiddenException('Only organizer can ban players');
+        }
+
+        return this.prisma.tournamentBan.upsert({
+            where: { tournamentId_playerId: { tournamentId, playerId: data.playerId } },
+            update: { reason: data.reason, expiresAt: data.expiresAt ? new Date(data.expiresAt) : null, createdBy: organizerId },
+            create: {
+                tournamentId,
+                playerId: data.playerId,
+                reason: data.reason,
+                expiresAt: data.expiresAt ? new Date(data.expiresAt) : null,
+                createdBy: organizerId
+            }
+        });
+    }
+
+    async unbanPlayer(tournamentId: string, organizerId: string, playerId: string) {
+        const tournament = await this.findOne(tournamentId);
+        if (tournament.organizerId !== organizerId) {
+            throw new ForbiddenException('Only organizer can unban players');
+        }
+
+        return this.prisma.tournamentBan.delete({
+            where: { tournamentId_playerId: { tournamentId, playerId } }
+        });
+    }
 }

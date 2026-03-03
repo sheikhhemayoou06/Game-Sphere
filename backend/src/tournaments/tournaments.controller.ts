@@ -118,4 +118,24 @@ export class TournamentsController {
     addMedia(@Param('id') id: string, @Request() req: any, @Body() body: any) {
         return this.tournamentsService.addMedia(id, req.user.sub, body);
     }
+
+    // ═══════ BANS ═══════
+
+    @UseGuards(JwtAuthGuard)
+    @Get(':id/bans')
+    getBannedPlayers(@Param('id') id: string) {
+        return this.tournamentsService.getBannedPlayers(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post(':id/bans')
+    banPlayer(@Param('id') id: string, @Request() req: any, @Body() data: any) {
+        return this.tournamentsService.banPlayer(id, req.user.sub, data);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put(':id/bans/:playerId/unban')
+    unbanPlayer(@Param('id') id: string, @Param('playerId') playerId: string, @Request() req: any) {
+        return this.tournamentsService.unbanPlayer(id, req.user.sub, playerId);
+    }
 }
