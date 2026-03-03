@@ -131,6 +131,46 @@ export default function TournamentDashboard() {
             {/* Content */}
             <div style={{ padding: '24px 32px', maxWidth: '1200px', margin: '0 auto' }}>
 
+                {/* ─── Active Context & Quick Actions ─── */}
+                <div className="flex-wrap-mobile" style={{ padding: '16px', borderRadius: '12px', background: `#7c3aed10`, border: `1px solid #7c3aed30`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', gap: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{ fontSize: '24px' }}>🔒</div>
+                        <div>
+                            <div style={{ fontSize: '12px', fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Active Context Lock</div>
+                            <div style={{ fontSize: '16px', fontWeight: 800, color: '#e2e8f0' }}>{tournament.name}</div>
+                        </div>
+                    </div>
+                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', fontSize: '12px', fontWeight: 700, color: '#e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                        {tournament.sport?.name} • {tournament.format}
+                    </span>
+                </div>
+
+                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
+                    {[
+                        { id: 'overview', label: 'Overview', desc: 'Stats & Activity', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+                        { id: 'teams', label: 'Teams', desc: 'Registrations & Squads', icon: '📝', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+                        { id: 'fixtures', label: 'Fixtures', desc: 'Schedule & Results', icon: '📅', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+                        { id: 'scoring', label: 'Live Scoring', desc: 'Score Matches', icon: '🔴', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+                        { id: 'auction', label: 'Auction', desc: 'Live Bidding', icon: '🔨', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
+                        { id: 'transfers', label: 'Transfers', desc: 'Player Movement', icon: '🔄', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
+                        { id: 'financials', label: 'Financials', desc: 'Fees & Payouts', icon: '💰', gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
+                        { id: 'leaderboard', label: 'Leaderboard', desc: 'Points & Rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
+                        { id: 'chat', label: 'Chat', desc: 'Team & Admin Comm', icon: '💬', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+                        { id: 'media', label: 'Media', desc: 'Photos & Videos', icon: '📸', gradient: 'linear-gradient(135deg, #9d174d, #ec4899)' },
+                        { id: 'settings', label: 'Settings', desc: 'Configure Tournament', icon: '⚙️', gradient: 'linear-gradient(135deg, #1e293b, #334155)' },
+                    ].map((item: any) => (
+                        <button key={item.id} onClick={() => setTab(item.id)} className="card-hover" style={{
+                            display: 'block', padding: '24px', borderRadius: '16px', background: item.gradient,
+                            border: tab === item.id ? '2px solid white' : '2px solid transparent',
+                            textAlign: 'left', color: 'white', position: 'relative', overflow: 'hidden', cursor: 'pointer'
+                        }}>
+                            <div style={{ fontSize: '32px', marginBottom: '12px' }}>{item.icon}</div>
+                            <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '4px' }}>{item.label}</div>
+                            <div style={{ fontSize: '12px', opacity: 0.85 }}>{item.desc}</div>
+                        </button>
+                    ))}
+                </div>
+
                 {/* ═══════ OVERVIEW ═══════ */}
                 {tab === 'overview' && (
                     <div>
