@@ -50,7 +50,7 @@ export class MatchGateway implements OnGatewayConnection, OnGatewayDisconnect {
     async handleScoreUpdate(
         @MessageBody() data: { matchId: string; scoreData: any },
     ) {
-        const match = await this.matchesService.updateScore(data.matchId, data.scoreData);
+        const match = await this.matchesService.updateScore(data.matchId, data.scoreData, 'system');
         this.server.to(`match-${data.matchId}`).emit('scoreUpdated', match);
         return match;
     }
@@ -62,7 +62,7 @@ export class MatchGateway implements OnGatewayConnection, OnGatewayDisconnect {
         const match = await this.matchesService.completeMatch(data.matchId, {
             winnerTeamId: data.winnerTeamId,
             scoreData: data.scoreData,
-        });
+        }, 'system');
         this.server.to(`match-${data.matchId}`).emit('matchCompleted', match);
         return match;
     }
