@@ -9,7 +9,7 @@
     "build": "npx prisma generate && nest build",
     "build:prod": "./node_modules/.bin/tsc -p tsconfig.build.json",
     "render:build": "npm install && DIRECT_URL=$DATABASE_URL NODE_OPTIONS=\"--dns-result-order=ipv4first\" ./node_modules/.bin/prisma generate && npm run build:prod",
-    "render:start": "DIRECT_URL=$DATABASE_URL NODE_OPTIONS=\"--dns-result-order=ipv4first\" node dist/main.js",
+    "render:start": "DIRECT_URL=$DATABASE_URL NODE_OPTIONS=\"--dns-result-order=ipv4first\" ls -al dist/ && node dist/main.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
