@@ -356,6 +356,7 @@ model Auction {
   tournamentId    String
   status          String   @default("DRAFT") // DRAFT, OPEN, IN_PROGRESS, COMPLETED
   teamBudget      Float    @default(5000000)
+  scheduledAt     DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

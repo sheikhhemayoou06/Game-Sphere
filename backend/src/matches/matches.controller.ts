@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Param, Body, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Put, Param, Body, Query, UseGuards, Req } from '@nestjs/common';
 import { MatchesService } from './matches.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -32,14 +32,14 @@ export class MatchesController {
 
     @UseGuards(JwtAuthGuard)
     @Put(':id/score')
-    updateScore(@Param('id') id: string, @Body() scoreData: any) {
-        return this.matchesService.updateScore(id, scoreData);
+    updateScore(@Param('id') id: string, @Body() scoreData: any, @Req() req: any) {
+        return this.matchesService.updateScore(id, scoreData, req.user.id);
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id/complete')
-    completeMatch(@Param('id') id: string, @Body() data: any) {
-        return this.matchesService.completeMatch(id, data);
+    completeMatch(@Param('id') id: string, @Body() data: any, @Req() req: any) {
+        return this.matchesService.completeMatch(id, data, req.user.id);
     }
 
     @UseGuards(JwtAuthGuard)

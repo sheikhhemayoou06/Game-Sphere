@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -46,7 +46,20 @@ export class MatchesService {
         return match;
     }
 
-    async updateScore(id: string, scoreData: any) {
+    private async verifyOrganizer(matchId: string, userId: string) {
+        const match = await this.prisma.match.findUnique({
+            where: { id: matchId },
+            include: { tournament: { select: { organizerId: true } } },
+        });
+        if (!match) throw new NotFoundException('Match not found');
+        if (match.tournament.organizerId !== userId) {
+            throw new ForbiddenException('Only the tournament organizer can update scores');
+        }
+        return match;
+    }
+
+    async updateScore(id: string, scoreData: any, userId: string) {
+        await this.verifyOrganizer(id, userId);
         const match = await this.prisma.match.findUnique({ where: { id } });
         if (!match) throw new NotFoundException('Match not found');
 
@@ -70,7 +83,8 @@ export class MatchesService {
         });
     }
 
-    async completeMatch(id: string, data: { winnerTeamId: string; scoreData: any; matchReport?: string }) {
+    async completeMatch(id: string, data: { winnerTeamId: string; scoreData: any; matchReport?: string }, userId: string) {
+        await this.verifyOrganizer(id, userId);
         return this.prisma.match.update({
             where: { id },
             data: {

@@ -218,6 +218,8 @@ export const api = {
         request<any>(`/auctions/players/${auctionPlayerId}/unsold`, { method: 'PUT' }),
     placeBid: (auctionPlayerId: string, teamId: string, amount: number) =>
         request<any>(`/auctions/players/${auctionPlayerId}/bid`, { method: 'PUT', body: JSON.stringify({ teamId, amount }) }),
+    scheduleAuction: (auctionId: string, scheduledAt: string) =>
+        request<any>(`/auctions/${auctionId}/schedule`, { method: 'PUT', body: JSON.stringify({ scheduledAt }) }),
 
     // Tournament Chat
     getTournamentChat: (id: string) => request<any[]>(`/tournaments/${id}/chat`),

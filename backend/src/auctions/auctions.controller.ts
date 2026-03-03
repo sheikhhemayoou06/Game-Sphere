@@ -16,11 +16,22 @@ export class AuctionsController {
     createAuction(@Param('tournamentId') tournamentId: string, @Body('teamBudget') teamBudget?: number) {
         return this.auctionsService.createAuction(tournamentId, teamBudget);
     }
+}
+
+@Controller('auctions')
+export class AuctionsDirectController {
+    constructor(private auctionsService: AuctionsService) { }
 
     @UseGuards(JwtAuthGuard)
     @Put(':auctionId/status')
     updateStatus(@Param('auctionId') auctionId: string, @Body('status') status: string) {
         return this.auctionsService.updateAuctionStatus(auctionId, status);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put(':auctionId/schedule')
+    scheduleAuction(@Param('auctionId') auctionId: string, @Body('scheduledAt') scheduledAt: string) {
+        return this.auctionsService.scheduleAuction(auctionId, scheduledAt);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -33,6 +44,12 @@ export class AuctionsController {
     @Put('players/:auctionPlayerId/approve')
     approvePlayer(@Param('auctionPlayerId') auctionPlayerId: string) {
         return this.auctionsService.approvePlayer(auctionPlayerId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put('players/:auctionPlayerId/start')
+    startBidding(@Param('auctionPlayerId') auctionPlayerId: string) {
+        return this.auctionsService.startBidding(auctionPlayerId);
     }
 
     @UseGuards(JwtAuthGuard)
