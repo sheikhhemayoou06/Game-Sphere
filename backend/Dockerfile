@@ -17,7 +17,7 @@ COPY . .
 
 # Force local Prisma 5 generate and build
 RUN npx prisma@5.22.0 generate
-RUN npm run build:prod
+RUN npx @nestjs/cli build
 
 # Expose port
 EXPOSE 4000
