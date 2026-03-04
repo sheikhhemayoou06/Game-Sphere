@@ -34,18 +34,13 @@ function getRoleGroup(role: string): RoleGroup {
 // ─── PLAYER: Sports-focused, personal experience ───
 const PLAYER_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & join events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-    { href: '/leaderboard', label: 'Leaderboard', desc: 'Your rankings', icon: <Medal size={20} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-    { href: '/profile', label: 'My Profile', desc: 'Universal Sports ID', icon: <IdCard size={20} />, gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
     { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: <Siren size={20} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
     { href: '/training', label: 'Training', desc: 'Coaching programs', icon: <Dumbbell size={20} />, gradient: 'linear-gradient(135deg, #115e59, #14b8a6)' },
-    { href: '/certificates', label: 'Certificates', desc: 'Your achievements', icon: <Award size={20} />, gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
     { href: '/teams', label: 'My Team', desc: 'Roster & teammates', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/calendar', label: 'Calendar', desc: 'Upcoming events', icon: <Calendar size={20} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
     { href: '/messages', label: 'Messages', desc: 'Chat with team', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
     { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
     { href: '/notifications', label: 'Notifications', desc: 'Activity alerts', icon: <Bell size={20} />, gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
-    { href: '/help', label: 'Help & Support', desc: 'FAQ & contact', icon: <HelpCircle size={20} />, gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
 ];
 
 // ─── TEAM MANAGER: Team operations, apply for tournaments (no creation) ───
