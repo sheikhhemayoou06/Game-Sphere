@@ -1,83 +1,263 @@
 'use client';
 
-import { useState } from 'react';
-//
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useSportStore } from '@/lib/store';
+import { api } from '@/lib/api';
+import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
 
-const ALBUMS = [
-    {
-        id: '1', title: 'Championship Finals Highlights', sport: 'Cricket', date: '2026-02-15', coverEmoji: '',
-        items: [
-            { type: 'photo', desc: 'Opening ceremony', emoji: '🎭' },
-            { type: 'photo', desc: 'Semi-final match action', emoji: '⚡' },
-            { type: 'video', desc: 'Final highlights', emoji: '🎬' },
-            { type: 'photo', desc: 'Winner celebration', emoji: '🎉' },
-            { type: 'photo', desc: 'Award ceremony', emoji: '🏆' },
-            { type: 'photo', desc: 'Team photo', emoji: '📸' },
-        ],
-    },
-    {
-        id: '3', title: 'Basketball Inter-City Cup', sport: 'Basketball', date: '2025-12-10', coverEmoji: '',
-        items: [
-            { type: 'photo', desc: 'Kick-off', emoji: '🥅' },
-            { type: 'video', desc: 'Goal compilation', emoji: '🎬' },
-            { type: 'photo', desc: 'Training camp', emoji: '🏋️' },
-            { type: 'photo', desc: 'Fan zone', emoji: '🎪' },
-        ],
-    },
-    {
-        id: '3', title: 'Kabaddi Championship', sport: 'Kabaddi', date: '2026-02-05', coverEmoji: '🤼',
-        items: [
-            { type: 'photo', desc: 'Opening raid', emoji: '💪' },
-            { type: 'video', desc: 'Best tackles', emoji: '🎬' },
-            { type: 'photo', desc: 'Super raid moment', emoji: '🔥' },
-        ],
-    },
-    {
-        id: '4', title: 'Athletics State Meet', sport: 'Athletics', date: '2026-02-12', coverEmoji: '🏃',
-        items: [
-            { type: 'photo', desc: '100m sprint start', emoji: '⚡' },
-            { type: 'photo', desc: 'Long jump', emoji: '🦘' },
-            { type: 'video', desc: 'Relay race', emoji: '🎬' },
-            { type: 'photo', desc: 'Medal ceremony', emoji: '🥇' },
-            { type: 'photo', desc: 'Javelin throw', emoji: '🎯' },
-        ],
-    },
-];
-
 export default function MediaPage() {
+    return (
+        <Suspense fallback={
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)' }}>
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>📸</div>
+                    <div style={{ color: '#9d174d', fontSize: '14px' }}>Loading media...</div>
+                </div>
+            </div>
+        }>
+            <MediaContent />
+        </Suspense>
+    );
+}
+
+const TYPE_ICONS: Record<string, string> = { PHOTO: '📷', VIDEO: '🎬', ANNOUNCEMENT: '📢' };
+const GRADIENT_COLORS = ['#ec4899', '#6366f1', '#22c55e', '#f59e0b', '#8b5cf6', '#ef4444'];
+
+function MediaContent() {
+    const searchParams = useSearchParams();
+    const tournamentId = searchParams.get('tournamentId');
+    const { user } = useAuthStore();
     const { selectedSport } = useSportStore();
     const sportLabel = selectedSport?.name || 'All Sports';
-    const sportIcon = selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '📸';
-    const [selectedAlbum, setSelectedAlbum] = useState<typeof ALBUMS[0] | null>(null);
-    const [view, setView] = useState<'grid' | 'list'>('grid');
 
-    const filteredAlbums = selectedSport ? ALBUMS.filter(a => a.sport === selectedSport.name) : ALBUMS;
-    const totalPhotos = filteredAlbums.reduce((a, al) => a + al.items.filter(i => i.type === 'photo').length, 0);
-    const totalVideos = filteredAlbums.reduce((a, al) => a + al.items.filter(i => i.type === 'video').length, 0);
+    const [tournament, setTournament] = useState<any>(null);
+    const [media, setMedia] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [isOrganizer, setIsOrganizer] = useState(false);
 
-    const GRADIENT_COLORS = ['#ec4899', '#6366f1', '#22c55e', '#f59e0b'];
+    // Upload form state
+    const [showUpload, setShowUpload] = useState(false);
+    const [uploadForm, setUploadForm] = useState({ type: 'PHOTO', title: '', description: '', url: '' });
+    const [uploading, setUploading] = useState(false);
+    const [uploadSuccess, setUploadSuccess] = useState('');
+
+    useEffect(() => {
+        if (!tournamentId) { setLoading(false); return; }
+        setLoading(true);
+        Promise.all([
+            api.getTournament(tournamentId),
+            api.getTournamentMedia(tournamentId),
+        ]).then(([t, m]) => {
+            setTournament(t);
+            setMedia(m);
+            setIsOrganizer(user?.id === t.organizerId);
+        }).catch(() => { }).finally(() => setLoading(false));
+    }, [tournamentId, user]);
+
+    const handleUpload = async () => {
+        if (!tournamentId || !uploadForm.title || !uploadForm.url) return;
+        setUploading(true);
+        try {
+            const newMedia = await api.addTournamentMedia(tournamentId, uploadForm);
+            setMedia(prev => [newMedia, ...prev]);
+            setUploadForm({ type: 'PHOTO', title: '', description: '', url: '' });
+            setShowUpload(false);
+            setUploadSuccess('Media added successfully!');
+            setTimeout(() => setUploadSuccess(''), 3000);
+        } catch (e: any) {
+            alert(e.message || 'Failed to upload');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    // ═══════ No Tournament Context ═══════
+    if (!tournamentId) {
+        return (
+            <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)' }}>
+                <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+                    <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#9d174d', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                    <Link href="/dashboard" style={{ color: '#9d174d', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                </nav>
+                <div style={{ maxWidth: '600px', margin: '0 auto', padding: '80px 24px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '64px', marginBottom: '16px' }}>📸</div>
+                    <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#831843', marginBottom: '12px' }}>Media Gallery</h1>
+                    <p style={{ color: '#9d174d', fontSize: '15px', marginBottom: '28px' }}>
+                        Select a tournament from your dashboard to view and manage its media gallery.
+                    </p>
+                    <Link href="/dashboard" style={{
+                        display: 'inline-block', padding: '12px 28px', borderRadius: '12px',
+                        background: 'linear-gradient(135deg, #ec4899, #9d174d)', color: '#fff',
+                        fontWeight: 700, textDecoration: 'none', fontSize: '14px',
+                    }}>
+                        Go to Dashboard →
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
+    // ═══════ Tournament Media Gallery ═══════
+    const photos = media.filter(m => m.type === 'PHOTO');
+    const videos = media.filter(m => m.type === 'VIDEO');
+    const announcements = media.filter(m => m.type === 'ANNOUNCEMENT');
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
                 <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#9d174d', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#9d174d', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
+                <Link href={`/tournaments/${tournamentId}`} style={{ color: '#9d174d', fontWeight: 600, textDecoration: 'none' }}>← Tournament</Link>
             </nav>
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#831843', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Media Gallery` : 'Media Gallery'}</h1>
-                <p style={{ color: '#9d174d', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `${sportLabel} photos and videos` : 'Photos and videos from tournaments, matches, and events'}</p>
+                {/* Header */}
+                <div className="flex-wrap-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', gap: '16px' }}>
+                    <div>
+                        <div style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9d174d', marginBottom: '4px' }}>
+                            {tournament?.name || 'Tournament'} — Media
+                        </div>
+                        <h1 style={{ fontSize: '32px', fontWeight: 900, color: '#831843', marginBottom: '4px' }}>📸 Media Gallery</h1>
+                        <p style={{ color: '#9d174d', fontSize: '15px' }}>
+                            {tournament?.sport?.name} tournament photos, videos & announcements
+                        </p>
+                    </div>
+
+                    {/* Organizer Upload Button */}
+                    {isOrganizer && (
+                        <button
+                            onClick={() => setShowUpload(!showUpload)}
+                            style={{
+                                padding: '12px 24px', borderRadius: '14px', border: 'none',
+                                background: showUpload ? '#f43f5e' : 'linear-gradient(135deg, #ec4899, #9d174d)',
+                                color: '#fff', fontWeight: 800, cursor: 'pointer', fontSize: '14px',
+                                boxShadow: '0 4px 16px rgba(236,72,153,0.3)',
+                                transition: 'all 0.2s',
+                            }}
+                        >
+                            {showUpload ? '✕ Cancel' : '＋ Upload Media'}
+                        </button>
+                    )}
+                </div>
+
+                {/* Success Message */}
+                {uploadSuccess && (
+                    <div style={{
+                        padding: '14px 20px', borderRadius: '12px', marginBottom: '20px',
+                        background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
+                        color: '#15803d', fontWeight: 700, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px',
+                    }}>
+                        ✅ {uploadSuccess}
+                    </div>
+                )}
+
+                {/* Upload Form — Organizer Only */}
+                {isOrganizer && showUpload && (
+                    <div style={{
+                        background: '#fff', borderRadius: '20px', padding: '28px',
+                        boxShadow: '0 8px 32px rgba(157,23,77,0.1)', marginBottom: '28px',
+                        border: '2px solid rgba(236,72,153,0.2)',
+                    }}>
+                        <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#831843', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            📤 Upload New Media
+                        </h3>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                            {/* Type */}
+                            <div>
+                                <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Type</label>
+                                <select
+                                    value={uploadForm.type}
+                                    onChange={(e) => setUploadForm(f => ({ ...f, type: e.target.value }))}
+                                    style={{
+                                        width: '100%', padding: '12px 14px', borderRadius: '12px',
+                                        border: '2px solid #fce7f3', background: '#fdf2f8',
+                                        fontSize: '14px', fontWeight: 600, color: '#831843',
+                                    }}
+                                >
+                                    <option value="PHOTO">📷 Photo</option>
+                                    <option value="VIDEO">🎬 Video</option>
+                                    <option value="ANNOUNCEMENT">📢 Announcement</option>
+                                </select>
+                            </div>
+
+                            {/* Title */}
+                            <div>
+                                <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Title *</label>
+                                <input
+                                    value={uploadForm.title}
+                                    onChange={(e) => setUploadForm(f => ({ ...f, title: e.target.value }))}
+                                    placeholder="e.g. Opening Ceremony Highlights"
+                                    style={{
+                                        width: '100%', padding: '12px 14px', borderRadius: '12px',
+                                        border: '2px solid #fce7f3', background: '#fdf2f8',
+                                        fontSize: '14px', color: '#831843', boxSizing: 'border-box',
+                                    }}
+                                />
+                            </div>
+
+                            {/* URL */}
+                            <div style={{ gridColumn: 'span 2' }}>
+                                <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>URL *</label>
+                                <input
+                                    value={uploadForm.url}
+                                    onChange={(e) => setUploadForm(f => ({ ...f, url: e.target.value }))}
+                                    placeholder="https://example.com/image.jpg or video URL"
+                                    style={{
+                                        width: '100%', padding: '12px 14px', borderRadius: '12px',
+                                        border: '2px solid #fce7f3', background: '#fdf2f8',
+                                        fontSize: '14px', color: '#831843', boxSizing: 'border-box',
+                                    }}
+                                />
+                            </div>
+
+                            {/* Description */}
+                            <div style={{ gridColumn: 'span 2' }}>
+                                <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Description (optional)</label>
+                                <textarea
+                                    value={uploadForm.description}
+                                    onChange={(e) => setUploadForm(f => ({ ...f, description: e.target.value }))}
+                                    placeholder="Add a description..."
+                                    rows={2}
+                                    style={{
+                                        width: '100%', padding: '12px 14px', borderRadius: '12px',
+                                        border: '2px solid #fce7f3', background: '#fdf2f8',
+                                        fontSize: '14px', color: '#831843', resize: 'vertical',
+                                        boxSizing: 'border-box',
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', gap: '12px' }}>
+                            <button onClick={() => setShowUpload(false)} style={{
+                                padding: '10px 20px', borderRadius: '10px', border: '2px solid #fce7f3',
+                                background: 'transparent', color: '#9d174d', fontWeight: 700, cursor: 'pointer', fontSize: '13px',
+                            }}>Cancel</button>
+                            <button
+                                onClick={handleUpload}
+                                disabled={uploading || !uploadForm.title || !uploadForm.url}
+                                style={{
+                                    padding: '10px 28px', borderRadius: '10px', border: 'none',
+                                    background: (!uploadForm.title || !uploadForm.url) ? '#e5e7eb' : 'linear-gradient(135deg, #ec4899, #9d174d)',
+                                    color: (!uploadForm.title || !uploadForm.url) ? '#9ca3af' : '#fff',
+                                    fontWeight: 800, cursor: (!uploadForm.title || !uploadForm.url) ? 'not-allowed' : 'pointer',
+                                    fontSize: '14px',
+                                }}
+                            >
+                                {uploading ? '⏳ Uploading...' : '📤 Upload'}
+                            </button>
+                        </div>
+                    </div>
+                )}
 
                 {/* Stats */}
                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[
-                        { label: 'Albums', value: filteredAlbums.length, icon: '📁', color: '#ec4899' },
-                        { label: 'Photos', value: totalPhotos, icon: '📷', color: '#6366f1' },
-                        { label: 'Videos', value: totalVideos, icon: '🎬', color: '#22c55e' },
-                        { label: 'Total Media', value: totalPhotos + totalVideos, icon: '📊', color: '#f59e0b' },
+                        { label: 'Total Media', value: media.length, icon: '📊', color: '#ec4899' },
+                        { label: 'Photos', value: photos.length, icon: '📷', color: '#6366f1' },
+                        { label: 'Videos', value: videos.length, icon: '🎬', color: '#22c55e' },
+                        { label: 'Announcements', value: announcements.length, icon: '📢', color: '#f59e0b' },
                     ].map(s => (
                         <div key={s.label} style={{ background: '#fff', borderRadius: '14px', padding: '18px', boxShadow: '0 2px 12px rgba(157,23,77,0.06)' }}>
                             <div style={{ fontSize: '24px', marginBottom: '4px' }}>{s.icon}</div>
@@ -87,56 +267,93 @@ export default function MediaPage() {
                     ))}
                 </div>
 
-                {!selectedAlbum ? (
-                    /* Albums grid */
-                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                        {filteredAlbums.length === 0 ? (
-                            <div style={{ gridColumn: 'span 2', textAlign: 'center', padding: '48px', background: '#fff', borderRadius: '16px' }}>
-                                <div style={{ fontSize: '48px', marginBottom: '12px' }}>{sportIcon}</div>
-                                <p style={{ color: '#64748b' }}>No {sportLabel} media albums available yet</p>
-                            </div>
-                        ) : filteredAlbums.map((album, i) => (
-                            <div key={album.id} onClick={() => setSelectedAlbum(album)}
-                                style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(157,23,77,0.08)', cursor: 'pointer', transition: 'transform 0.2s' }}>
-                                <div style={{ height: '140px', background: `linear-gradient(135deg, ${GRADIENT_COLORS[i % 4]}, ${GRADIENT_COLORS[(i + 1) % 4]})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '56px' }}>
-                                    {album.coverEmoji}
-                                </div>
-                                <div style={{ padding: '18px' }}>
-                                    <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#1e1b4b', marginBottom: '4px' }}>{album.title}</h3>
-                                    <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: '#64748b' }}>
-                                        <span>🏅 {album.sport}</span>
-                                        <span>📅 {album.date}</span>
-                                        <span>📷 {album.items.length} items</span>
+                {/* Media Grid */}
+                {loading ? (
+                    <div style={{ textAlign: 'center', padding: '60px', color: '#9d174d' }}>
+                        <div style={{ fontSize: '48px', marginBottom: '12px' }}>⏳</div>
+                        Loading media...
+                    </div>
+                ) : media.length === 0 ? (
+                    <div style={{ background: '#fff', borderRadius: '20px', padding: '60px', textAlign: 'center', boxShadow: '0 4px 16px rgba(157,23,77,0.06)' }}>
+                        <div style={{ fontSize: '64px', marginBottom: '16px' }}>📸</div>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#831843', marginBottom: '8px' }}>No Media Yet</div>
+                        <div style={{ color: '#9d174d', fontSize: '14px', maxWidth: '400px', margin: '0 auto' }}>
+                            {isOrganizer
+                                ? 'Click "＋ Upload Media" above to add photos, videos, or announcements for this tournament.'
+                                : 'The organizer hasn\'t uploaded any media yet. Check back later!'}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+                        {media.map((item, i) => (
+                            <div key={item.id} style={{
+                                background: '#fff', borderRadius: '20px', overflow: 'hidden',
+                                boxShadow: '0 4px 16px rgba(157,23,77,0.06)', transition: 'transform 0.2s',
+                            }}>
+                                {/* Preview */}
+                                {item.type === 'PHOTO' && item.url ? (
+                                    <div style={{ height: '160px', overflow: 'hidden', position: 'relative' }}>
+                                        <img
+                                            src={item.url}
+                                            alt={item.title}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            onError={(e) => {
+                                                (e.target as HTMLImageElement).style.display = 'none';
+                                                (e.target as HTMLImageElement).parentElement!.style.background = `linear-gradient(135deg, ${GRADIENT_COLORS[i % 6]}40, ${GRADIENT_COLORS[(i + 2) % 6]}40)`;
+                                                (e.target as HTMLImageElement).parentElement!.innerHTML = '<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:48px">📷</div>';
+                                            }}
+                                        />
                                     </div>
+                                ) : (
+                                    <div style={{
+                                        height: '140px',
+                                        background: `linear-gradient(135deg, ${GRADIENT_COLORS[i % 6]}40, ${GRADIENT_COLORS[(i + 2) % 6]}40)`,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: '48px', position: 'relative',
+                                    }}>
+                                        {TYPE_ICONS[item.type] || '📝'}
+                                        {item.type === 'VIDEO' && (
+                                            <span style={{
+                                                position: 'absolute', bottom: '8px', right: '8px',
+                                                padding: '3px 10px', borderRadius: '6px',
+                                                background: '#ef4444', color: '#fff', fontSize: '10px', fontWeight: 800,
+                                            }}>▶ VIDEO</span>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Info */}
+                                <div style={{ padding: '16px' }}>
+                                    <div style={{ fontSize: '15px', fontWeight: 800, color: '#1e1b4b', marginBottom: '4px' }}>{item.title}</div>
+                                    {item.description && (
+                                        <div style={{ fontSize: '13px', color: '#64748b', marginBottom: '6px', lineHeight: 1.4 }}>{item.description}</div>
+                                    )}
+                                    <div style={{ display: 'flex', gap: '8px', fontSize: '11px', color: '#94a3b8', alignItems: 'center' }}>
+                                        <span>{TYPE_ICONS[item.type] || '📝'} {item.type}</span>
+                                        <span style={{ opacity: 0.4 }}>•</span>
+                                        <span>{new Date(item.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                    {item.type !== 'ANNOUNCEMENT' && item.url && (
+                                        <a href={item.url} target="_blank" rel="noopener noreferrer"
+                                            style={{
+                                                display: 'inline-block', marginTop: '10px', padding: '6px 14px',
+                                                borderRadius: '8px', background: 'rgba(236,72,153,0.08)',
+                                                color: '#9d174d', fontSize: '12px', fontWeight: 700, textDecoration: 'none',
+                                            }}>
+                                            {item.type === 'VIDEO' ? '▶ Watch' : '🔗 View Full'}
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         ))}
                     </div>
-                ) : (
-                    /* Album detail view */
-                    <div>
-                        <button onClick={() => setSelectedAlbum(null)}
-                            style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #fce7f3', background: '#fff', color: '#9d174d', fontWeight: 700, cursor: 'pointer', fontSize: '13px', marginBottom: '16px' }}>
-                            ← Back to Albums
-                        </button>
-                        <h2 style={{ fontSize: '22px', fontWeight: 900, color: '#831843', marginBottom: '4px' }}>{selectedAlbum.title}</h2>
-                        <div style={{ fontSize: '13px', color: '#9d174d', marginBottom: '20px' }}>{selectedAlbum.sport} • {selectedAlbum.date} • {selectedAlbum.items.length} items</div>
-                        <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-                            {selectedAlbum.items.map((item, i) => (
-                                <div key={i} style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 2px 12px rgba(157,23,77,0.06)' }}>
-                                    <div style={{ height: '120px', background: `linear-gradient(135deg, ${GRADIENT_COLORS[i % 4]}40, ${GRADIENT_COLORS[(i + 2) % 4]}40)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '42px', position: 'relative' }}>
-                                        {item.emoji}
-                                        {item.type === 'video' && <span style={{ position: 'absolute', bottom: '8px', right: '8px', padding: '2px 8px', borderRadius: '4px', background: '#ef4444', color: '#fff', fontSize: '10px', fontWeight: 700 }}>▶ VIDEO</span>}
-                                    </div>
-                                    <div style={{ padding: '12px' }}>
-                                        <div style={{ fontWeight: 600, fontSize: '13px', color: '#1e1b4b' }}>{item.desc}</div>
-                                        <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>{item.type === 'video' ? '🎬 Video' : '📷 Photo'}</div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
                 )}
+
+                <div style={{ textAlign: 'center', marginTop: '32px' }}>
+                    <Link href={`/tournaments/${tournamentId}`} style={{ color: '#9d174d', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
+                        ← Back to Tournament
+                    </Link>
+                </div>
             </div>
         </div>
     );
