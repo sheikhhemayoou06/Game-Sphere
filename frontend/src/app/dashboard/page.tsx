@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { roleLabels, sportIcons, sportColors, formatDate } from '@/lib/utils';
-import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trophy, Medal, IdCard, Siren, Dumbbell, Calendar, MessageSquare, Gavel, CreditCard, Bell, HelpCircle, LayoutGrid, BarChart3, Settings, ShieldCheck, FileText, DollarSign, Upload, Package, Gem, Landmark, Award, ArrowLeftRight, FileCheck, CircleDot, Zap, Pen, Camera, Search as SearchIcon } from 'lucide-react';
+import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trophy, Medal, IdCard, Siren, Dumbbell, Calendar, MessageSquare, Gavel, CreditCard, Bell, HelpCircle, LayoutGrid, BarChart3, Settings, ShieldCheck, FileText, DollarSign, Upload, Package, Gem, Landmark, Award, ArrowLeftRight, FileCheck, CircleDot, Zap, Pen, Camera, Search as SearchIcon, Menu, X, LogOut, Trash2 } from 'lucide-react';
 import SportIcon from '@/components/SportIcon';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -236,6 +236,9 @@ export default function DashboardPage() {
     const [onboardingAnswers, setOnboardingAnswers] = useState<Record<string, string>>({});
     const [isSavingSport, setIsSavingSport] = useState(false);
     const [showOrgProfileDetails, setShowOrgProfileDetails] = useState(false);
+
+    // Player Hamburger Menu State
+    const [playerMenuOpen, setPlayerMenuOpen] = useState(false);
 
     const router = useRouter();
 
@@ -690,6 +693,74 @@ export default function DashboardPage() {
                     }}>
                         Logout
                     </button>
+
+                    {/* Player Hamburger Menu */}
+                    {roleGroup === 'player' && (
+                        <div style={{ position: 'relative' }}>
+                            <button
+                                onClick={() => setPlayerMenuOpen(!playerMenuOpen)}
+                                style={{
+                                    padding: '8px', borderRadius: '8px', cursor: 'pointer',
+                                    background: playerMenuOpen ? theme.badgeBg : 'transparent',
+                                    color: playerMenuOpen ? theme.badgeText : theme.textPrimary,
+                                    border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    transition: 'all 0.2s', marginLeft: '4px'
+                                }}
+                            >
+                                {playerMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            </button>
+
+                            {playerMenuOpen && (
+                                <div style={{
+                                    position: 'absolute', top: '100%', right: 0, marginTop: '12px', zIndex: 50,
+                                    background: 'white', borderRadius: '16px', border: '1px solid #e2e8f0',
+                                    boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)',
+                                    padding: '8px', width: '280px', display: 'flex', flexDirection: 'column', gap: '4px',
+                                }}>
+                                    <div style={{ padding: '12px 16px', borderBottom: '1px solid #f1f5f9', marginBottom: '4px' }}>
+                                        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>Player Options</div>
+                                    </div>
+
+                                    <Link href="/profile" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <IdCard size={18} /> My Profile
+                                    </Link>
+                                    <Link href="/settings/security" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <ShieldCheck size={18} /> Security & Passwords
+                                    </Link>
+                                    <Link href="/certificates" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Award size={18} /> Certificates
+                                    </Link>
+                                    <Link href="/leaderboard" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Medal size={18} /> Leader Board
+                                    </Link>
+                                    <Link href="/calendar" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Calendar size={18} /> Calendar
+                                    </Link>
+                                    <Link href="/settings" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Settings size={18} /> Settings
+                                    </Link>
+                                    <Link href="/about" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <IdCard size={18} /> About the App
+                                    </Link>
+                                    <Link href="/media" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Camera size={18} /> Media
+                                    </Link>
+                                    <Link href="/help" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <HelpCircle size={18} /> Help and Support
+                                    </Link>
+
+                                    <div style={{ height: '1px', background: '#f1f5f9', margin: '4px 0' }} />
+
+                                    <button onClick={() => { setPlayerMenuOpen(false); logout(); router.push('/'); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#ef4444', fontSize: '14px', fontWeight: 600, border: 'none', background: 'transparent', cursor: 'pointer', textAlign: 'left', width: '100%' }} className="hover-bg-red">
+                                        <LogOut size={18} /> Log Out
+                                    </button>
+                                    <button onClick={() => { setPlayerMenuOpen(false); alert("To delete your account, please contact support and verify your identity."); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#7f1d1d', fontSize: '14px', fontWeight: 600, border: 'none', background: '#fef2f2', cursor: 'pointer', textAlign: 'left', width: '100%' }} className="hover-bg-red">
+                                        <Trash2 size={18} color="#ef4444" /> Delete My Account
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </nav>
 
