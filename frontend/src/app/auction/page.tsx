@@ -57,7 +57,15 @@ export default function AuctionPage() {
 
     const handleSelectTournament = async (tournament: any) => {
         setSelectedTournament(tournament);
-        setIsOrganizer(tournament.organizerId === user?.id);
+        // Check organizer: try store user first, fallback to localStorage
+        let currentUserId = user?.id;
+        if (!currentUserId) {
+            try {
+                const stored = localStorage.getItem('user');
+                if (stored) currentUserId = JSON.parse(stored).id;
+            } catch { }
+        }
+        setIsOrganizer(!!currentUserId && currentUserId === tournament.organizerId);
         await loadAuction(tournament.id);
     };
 
