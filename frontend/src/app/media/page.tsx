@@ -52,7 +52,15 @@ function MediaContent() {
         ]).then(([t, m]) => {
             setTournament(t);
             setMedia(m);
-            setIsOrganizer(user?.id === t.organizerId);
+            // Check organizer: try store user first, fallback to localStorage
+            let currentUserId = user?.id;
+            if (!currentUserId) {
+                try {
+                    const stored = localStorage.getItem('user');
+                    if (stored) currentUserId = JSON.parse(stored).id;
+                } catch { }
+            }
+            setIsOrganizer(!!currentUserId && currentUserId === t.organizerId);
         }).catch(() => { }).finally(() => setLoading(false));
     }, [tournamentId, user]);
 
