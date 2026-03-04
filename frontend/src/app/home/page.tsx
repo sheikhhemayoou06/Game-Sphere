@@ -7,14 +7,13 @@ import SmartSearch from '@/components/SmartSearch';
 import { Sun, Moon, Menu, X, LogIn, UserPlus, Info, History } from 'lucide-react';
 
 const sports = [
-  { name: 'Cricket', icon: '', color: '#3B82F6' },
-  { name: 'Football', icon: '', color: '#16A34A' },
-  { name: 'Basketball', icon: '', color: '#EA580C' },
-  { name: 'Tennis', icon: '', color: '#D97706' },
-  { name: 'Badminton', icon: '', color: '#E11D48' },
-  { name: 'Kabaddi', icon: '', color: '#0F766E' },
+  { name: 'Cricket', icon: '🏏', color: '#3B82F6' },
+  { name: 'Football', icon: '⚽', color: '#16A34A' },
+  { name: 'Basketball', icon: '🏀', color: '#EA580C' },
+  { name: 'Tennis', icon: '🎾', color: '#D97706' },
+  { name: 'Badminton', icon: '🏸', color: '#E11D48' },
+  { name: 'Kabaddi', icon: '🤼', color: '#0F766E' },
   { name: 'Hockey', icon: '🏑', color: '#2563EB' },
-  { name: 'Tennis', icon: '🎾', color: '#84CC16' },
   { name: 'Athletics', icon: '🏃', color: '#EAB308' },
 ];
 
@@ -89,7 +88,7 @@ export default function HomePage() {
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
-        <div className="show-mobile-block" style={{
+        <div style={{
           position: 'fixed', top: '72px', left: 0, right: 0, zIndex: 49,
           background: dark ? '#0f0d1a' : 'white',
           borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
