@@ -16,10 +16,9 @@ export class SearchService {
                 players: [],
             };
         }
-
         const searchStr = query.trim();
-        // Allow partial matching anywhere in the string
-        const searchCondition = { contains: searchStr };
+        // Allow partial matching anywhere in the string, explicitly case-insensitive for PostgreSQL
+        const searchCondition = { contains: searchStr, mode: 'insensitive' as const };
 
         // Common sport filter condition
         const sportFilter = sportId && sportId !== 'ALL' ? sportId : undefined;
@@ -88,7 +87,7 @@ export class SearchService {
         if (sportFilter) {
             const sport = await this.prisma.sport.findUnique({ where: { id: sportFilter } });
             if (sport) {
-                playerSportCondition = { primarySport: { contains: sport.name } };
+                playerSportCondition = { primarySport: { contains: sport.name, mode: 'insensitive' as const } };
             }
         }
 
