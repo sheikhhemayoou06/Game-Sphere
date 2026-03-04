@@ -23,7 +23,7 @@ export default function WelcomeGatewayPage() {
         if (typeof window !== 'undefined') {
             const checkSessionAndSkip = () => {
                 // If logged in, send them straight to the dashboard
-                if (user) {
+                if (user && user.id) {
                     router.replace('/dashboard');
                     return;
                 }
@@ -40,13 +40,18 @@ export default function WelcomeGatewayPage() {
             };
 
             // Slight timeout to ensure Zustand store hydration
-            setTimeout(checkSessionAndSkip, 50);
+            setTimeout(checkSessionAndSkip, 150); // Increased timeout slightly for reliable hydration
         }
     }, [user, router]);
 
     const handleSkip = () => {
         localStorage.setItem('hasSkippedGateway', 'true');
         router.push('/home');
+    };
+
+    const clearTestState = () => {
+        localStorage.removeItem('hasSkippedGateway');
+        window.location.reload();
     };
 
     const handlePhoneSubmit = async (e: React.FormEvent) => {
@@ -154,6 +159,13 @@ export default function WelcomeGatewayPage() {
                     <Link href="/login" style={{ fontSize: '13px', color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>
                         Staff Member, Team Manager, or Official? Sign in here
                     </Link>
+                </div>
+
+                {/* DEBUG HELPER */}
+                <div style={{ marginTop: '32px' }}>
+                    <button onClick={clearTestState} style={{ background: 'none', border: 'none', color: '#cbd5e1', fontSize: '11px', cursor: 'pointer', textDecoration: 'underline' }}>
+                        Developer: Clear Skip Session
+                    </button>
                 </div>
             </div>
         </div>
