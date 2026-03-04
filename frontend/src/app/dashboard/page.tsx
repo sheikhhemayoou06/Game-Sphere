@@ -8,6 +8,7 @@ import { api } from '@/lib/api';
 import { roleLabels, sportIcons, sportColors, formatDate } from '@/lib/utils';
 import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trophy, Medal, IdCard, Siren, Dumbbell, Calendar, MessageSquare, Gavel, CreditCard, Bell, HelpCircle, LayoutGrid, BarChart3, Settings, ShieldCheck, FileText, DollarSign, Upload, Package, Gem, Landmark, Award, ArrowLeftRight, FileCheck, CircleDot, Zap, Pen, Camera, Search as SearchIcon, Menu, X, LogOut, Trash2 } from 'lucide-react';
 import SportIcon from '@/components/SportIcon';
+import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
 /* ═══════════════════════════════════════════════════════════════
    MOCK DATA HAS BEEN REMOVED FOR PRODUCTION
@@ -421,8 +422,8 @@ export default function DashboardPage() {
     // Do not block dashboard rendering on sports hydration for users who don't need to pick a sport
     if (!loaded || !isAuthenticated || (hydratingSports && roleGroup !== 'organizer' && roleGroup !== 'admin')) {
         return (
-            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ fontSize: '24px' }}>⏳ Loading...</div>
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
+                <RunningAthleteLoader />
             </div>
         );
     }

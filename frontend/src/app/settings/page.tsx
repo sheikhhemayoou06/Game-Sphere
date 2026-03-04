@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
 import { roleLabels } from '@/lib/utils';
+import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
 export default function SettingsPage() {
     const { user, isAuthenticated, loadFromStorage, logout } = useAuthStore();
+    const router = useRouter();
     const [loaded, setLoaded] = useState(false);
     const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'preferences'>('profile');
     const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '' });
@@ -15,17 +17,31 @@ export default function SettingsPage() {
     const [darkMode, setDarkMode] = useState(false);
     const [emailNotifs, setEmailNotifs] = useState(true);
     const [pushNotifs, setPushNotifs] = useState(true);
-    const router = useRouter();
+    const [themePreference, setThemePreference] = useState<'system' | 'light' | 'dark'>('system');
+    const [emailNotifications, setEmailNotifications] = useState(true);
+    const [smsNotifications, setSmsNotifications] = useState(false);
 
     useEffect(() => { loadFromStorage(); setLoaded(true); }, [loadFromStorage]);
-    useEffect(() => {
-        if (loaded && !isAuthenticated) { router.push('/login'); return; }
-        if (user) setForm({ firstName: user.firstName || '', lastName: user.lastName || '', email: user.email || '', phone: '' });
-    }, [loaded, isAuthenticated, user, router]);
 
-    if (!loaded || !isAuthenticated) return (
-        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>⏳ Loading...</div>
-    );
+    useEffect(() => {
+        if (loaded && !isAuthenticated) {
+            router.push('/');
+        }
+    }, [isAuthenticated, loaded, router]);
+
+    useEffect(() => {
+        if (loaded && isAuthenticated && user) {
+            setForm({ firstName: user.firstName || '', lastName: user.lastName || '', email: user.email || '', phone: '' });
+        }
+    }, [loaded, isAuthenticated, user]);
+
+    if (!loaded || !isAuthenticated) {
+        return (
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
+                <RunningAthleteLoader />
+            </div>
+        );
+    }
 
     const handleSave = () => { setSaved(true); setTimeout(() => setSaved(false), 2000); };
 

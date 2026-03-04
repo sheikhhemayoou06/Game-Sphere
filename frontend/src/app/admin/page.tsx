@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { sportIcons, statusColors, formatDate } from '@/lib/utils';
+import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
 export default function AdminPanel() {
     const { user, isAuthenticated, loadFromStorage, logout } = useAuthStore();
@@ -51,8 +52,8 @@ export default function AdminPanel() {
 
     if (!loaded || !isAuthenticated) {
         return (
-            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ fontSize: '24px' }}>⏳ Loading...</div>
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
+                <RunningAthleteLoader />
             </div>
         );
     }

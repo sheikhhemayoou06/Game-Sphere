@@ -6,6 +6,8 @@ import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
+import { Trophy, Medal, Search as SearchIcon, ChevronDown, User, Users, ChevronLeft, Calendar, ArrowUpRight } from 'lucide-react';
+import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
 export default function LeaderboardPage() {
     return (
@@ -136,9 +138,8 @@ function LeaderboardContent() {
 
                 <div style={{ maxWidth: '1100px', margin: '-20px auto 0', padding: '0 24px 48px' }}>
                     {loading ? (
-                        <div style={{ padding: '80px 20px', textAlign: 'center', color: '#94a3b8' }}>
-                            <div style={{ fontSize: '48px', marginBottom: '16px' }}>⏳</div>
-                            Loading leaderboard...
+                        <div style={{ padding: '80px 20px', textAlign: 'center' }}>
+                            <RunningAthleteLoader />
                         </div>
                     ) : activeTab === 'players' ? (
                         /* ─── PLAYER STATS VIEW ─── */
