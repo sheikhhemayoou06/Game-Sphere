@@ -277,11 +277,15 @@ body {
   .show-mobile-block {
     display: block !important;
   }
+
+  .show-mobile-flex {
+    display: flex !important;
+  }
 }
 
 /* Hide elements entirely on desktop */
 @media (min-width: 769px) {
-  .show-mobile-block {
+  .show-mobile-block, .show-mobile-flex {
     display: none !important;
   }
 }

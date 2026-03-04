@@ -74,37 +74,15 @@ export default function HomePage() {
           </span>
         </div>
 
-        {/* Desktop Links (Hidden on small screens) */}
-        <div className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Link href="/about" style={{ padding: '8px 16px', fontSize: '14px', fontWeight: 600, color: dark ? 'rgba(255,255,255,0.9)' : '#475569', textDecoration: 'none' }}>
-            About Us
-          </Link>
-          <button
-            onClick={() => setDark(!dark)}
-            style={{
-              padding: '8px 12px', borderRadius: '10px', border: 'none',
-              background: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: dark ? '#fcd34d' : '#475569'
-            }}
-          >
-            {dark ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          <Link href="/login" className="btn-secondary" style={{ padding: '8px 12px', fontSize: '14px' }}>
-            Log In
-          </Link>
-          <Link href="/register" className="btn-primary" style={{ padding: '8px 16px', fontSize: '14px' }}>
-            Get Started
-          </Link>
-        </div>
-
-        {/* Mobile Hamburger Button */}
-        <div className="show-mobile-flex" style={{ display: 'none' }}>
+        {/* Navigation Actions (Hamburger) */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <button onClick={() => setMenuOpen(!menuOpen)} style={{
             background: 'transparent', border: 'none', color: dark ? 'white' : '#1e1b4b',
-            padding: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+            padding: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            borderRadius: '12px', transition: 'background 0.2s',
+            ...(menuOpen ? { background: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' } : {})
           }}>
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+            {menuOpen ? <X size={32} /> : <Menu size={32} />}
           </button>
         </div>
       </nav>
