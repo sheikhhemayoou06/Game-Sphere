@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import SmartSearch from '@/components/SmartSearch';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Menu, X, LogIn, UserPlus, Info, History } from 'lucide-react';
 
 const sports = [
   { name: 'Cricket', icon: '', color: '#3B82F6' },
@@ -24,6 +24,7 @@ export default function HomePage() {
   const [dark, setDark] = useState(false);
   const [activeSport, setActiveSport] = useState(0);
   const [liveMatches, setLiveMatches] = useState<any[]>([]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     // Rotating sports text
@@ -50,7 +51,7 @@ export default function HomePage() {
   }, [dark]);
 
   return (
-    <div style={{ minHeight: '100vh' }}>
+    <div style={{ minHeight: '100vh', position: 'relative' }}>
       {/* Navbar */}
       <nav className="mobile-padding" style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
@@ -72,13 +73,14 @@ export default function HomePage() {
             }}>Game Sphere</span>
           </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Link href="/about" className="hide-mobile" style={{ padding: '8px 16px', fontSize: '14px', fontWeight: 600, color: dark ? 'rgba(255,255,255,0.9)' : '#475569', textDecoration: 'none' }}>
+
+        {/* Desktop Links (Hidden on small screens) */}
+        <div className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link href="/about" style={{ padding: '8px 16px', fontSize: '14px', fontWeight: 600, color: dark ? 'rgba(255,255,255,0.9)' : '#475569', textDecoration: 'none' }}>
             About Us
           </Link>
           <button
             onClick={() => setDark(!dark)}
-            className="hide-mobile"
             style={{
               padding: '8px 12px', borderRadius: '10px', border: 'none',
               background: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
@@ -95,7 +97,69 @@ export default function HomePage() {
             Get Started
           </Link>
         </div>
+
+        {/* Mobile Hamburger Button */}
+        <div className="show-mobile-flex" style={{ display: 'none' }}>
+          <button onClick={() => setMenuOpen(!menuOpen)} style={{
+            background: 'transparent', border: 'none', color: dark ? 'white' : '#1e1b4b',
+            padding: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+          }}>
+            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </nav>
+
+      {/* Mobile Menu Dropdown */}
+      {menuOpen && (
+        <div className="show-mobile-block" style={{
+          position: 'fixed', top: '72px', left: 0, right: 0, zIndex: 49,
+          background: dark ? '#0f0d1a' : 'white',
+          borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+          padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '8px',
+          animation: 'fadeInDown 0.2s ease-out'
+        }}>
+          <Link href="/login" onClick={() => setMenuOpen(false)} style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', borderRadius: '12px',
+            textDecoration: 'none', color: dark ? 'white' : '#1e1b4b', fontWeight: 600, fontSize: '15px',
+            background: dark ? 'rgba(255,255,255,0.05)' : '#f8fafc'
+          }}>
+            <LogIn size={20} color="#6366f1" /> Log In
+          </Link>
+          <Link href="/register" onClick={() => setMenuOpen(false)} style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', borderRadius: '12px',
+            textDecoration: 'none', color: dark ? 'white' : '#1e1b4b', fontWeight: 600, fontSize: '15px',
+            background: dark ? 'rgba(255,255,255,0.05)' : '#f8fafc'
+          }}>
+            <UserPlus size={20} color="#10b981" /> Sign Up
+          </Link>
+          <button onClick={() => { setDark(!dark); setMenuOpen(false); }} style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', borderRadius: '12px',
+            border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer',
+            color: dark ? 'white' : '#1e1b4b', fontWeight: 600, fontSize: '15px',
+            background: dark ? 'rgba(255,255,255,0.05)' : '#f8fafc'
+          }}>
+            {dark ? <Sun size={20} color="#fcd34d" /> : <Moon size={20} color="#475569" />}
+            {dark ? 'Light Mode' : 'Dark Mode'}
+          </button>
+          <div style={{ height: '1px', background: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)', margin: '8px 0' }} />
+          <Link href="/about" onClick={() => setMenuOpen(false)} style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', borderRadius: '12px',
+            textDecoration: 'none', color: dark ? 'rgba(255,255,255,0.8)' : '#475569', fontWeight: 600, fontSize: '15px',
+            background: 'transparent'
+          }}>
+            <Info size={20} /> About Us
+          </Link>
+          <button onClick={() => setMenuOpen(false)} style={{ /* Placeholder for Search History as its likely handled via modal later */
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', borderRadius: '12px',
+            border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer',
+            color: dark ? 'rgba(255,255,255,0.8)' : '#475569', fontWeight: 600, fontSize: '15px',
+            background: 'transparent'
+          }}>
+            <History size={20} /> History of Search
+          </button>
+        </div>
+      )}
 
       {/* Hero with Horizontal Live Scorecard */}
       <section className="gradient-bg mobile-padding" style={{
