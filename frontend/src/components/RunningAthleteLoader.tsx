@@ -26,16 +26,26 @@ export default function RunningAthleteLoader() {
       `}</style>
 
             <div className="athlete-run-anim">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="16" cy="5" r="2" />
-                    <path d="M14.5 7 L12 12" />
-                    <path d="M12 12 L8 9 L6 10" />
-                    <path d="M12 12 L15 15 L19 14" />
-                    <path d="M12 12 L11 17 L15 21" />
-                    <path d="M11 17 L7 16 L5 18" />
-                    <path d="M2 13 L5 13" strokeDasharray="2 2" strokeOpacity="0.5" />
-                    <path d="M3 17 L6 17" strokeDasharray="1 2" strokeOpacity="0.5" />
-                    <path d="M4 9 L6 9" strokeDasharray="2 3" strokeOpacity="0.5" />
+                <svg width="68" height="68" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round">
+                    {/* Speed lines */}
+                    <path d="M 30 22 L 20 22" />
+                    <path d="M 32 36 L 8 36" />
+                    <path d="M 36 50 L 20 50" />
+
+                    {/* Head */}
+                    <circle cx="78" cy="18" r="9" fill="currentColor" stroke="none" />
+
+                    {/* Back Arm (L-shape pointing left-down) */}
+                    <path d="M 64 30 L 42 30 L 50 48" />
+
+                    {/* Torso & Front Leg */}
+                    <path d="M 64 30 L 46 56 L 72 76 L 42 84" />
+
+                    {/* Front Arm (L-shape pointing down-right) */}
+                    <path d="M 64 30 L 68 54 L 88 52" />
+
+                    {/* Back Leg (straight down-left) */}
+                    <path d="M 46 56 L 12 88" />
                 </svg>
             </div>
 
