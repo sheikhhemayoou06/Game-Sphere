@@ -767,22 +767,21 @@ export default function DashboardPage() {
                             {link.label}
                         </Link>
                     ))}
-                    <div style={{
-                        padding: '6px 14px', borderRadius: '8px',
-                        background: theme.badgeBg, fontSize: '13px', fontWeight: 600, color: theme.badgeText,
-                    }}>
-                        {roleLabels[role] || role}
-                    </div>
-                    <div style={{ fontSize: '14px', fontWeight: 600, color: theme.textPrimary }}>
-                        {user?.firstName} {user?.lastName}
-                    </div>
-                    <button onClick={() => { logout(); router.push('/'); }} style={{
-                        padding: '8px 16px', borderRadius: '8px',
-                        border: `1px solid ${theme.navBorder}`,
-                        background: roleGroup === 'admin' ? '#334155' : 'white',
-                        color: theme.textPrimary, cursor: 'pointer', fontSize: '13px', fontWeight: 500,
-                    }}>
-                        Logout
+                    <button onClick={() => router.push('/notifications')} style={{
+                        padding: '8px', borderRadius: '8px', cursor: 'pointer',
+                        background: 'transparent', color: theme.textPrimary,
+                        border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        transition: 'background 0.2s',
+                    }} className="hover-bg-slate">
+                        <Bell size={20} />
+                    </button>
+                    <button onClick={() => router.push('/messages')} style={{
+                        padding: '8px', borderRadius: '8px', cursor: 'pointer',
+                        background: 'transparent', color: theme.textPrimary,
+                        border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        transition: 'background 0.2s',
+                    }} className="hover-bg-slate">
+                        <MessageSquare size={20} />
                     </button>
                 </div>
             </nav>
