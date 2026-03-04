@@ -454,6 +454,115 @@ export class TournamentsService {
         return table;
     }
 
+    // ═══════ PLAYER LEADERBOARD ═══════
+
+    async getPlayerLeaderboard(tournamentId: string) {
+        // Fetch all completed matches with player stats
+        const matches = await this.prisma.match.findMany({
+            where: { tournamentId, status: 'COMPLETED' },
+            include: {
+                playerStats: {
+                    include: {
+                        player: {
+                            include: {
+                                user: { select: { firstName: true, lastName: true } },
+                                teamPlayers: {
+                                    include: { team: { select: { name: true } } },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        // Aggregate stats per player
+        const playerMap = new Map<string, {
+            playerId: string;
+            playerName: string;
+            teamName: string;
+            runs: number;
+            wickets: number;
+            catches: number;
+            matches: number;
+        }>();
+
+        for (const match of matches) {
+            for (const stat of match.playerStats) {
+                let parsed: any = {};
+                try {
+                    parsed = stat.statsData ? (typeof stat.statsData === 'string' ? JSON.parse(stat.statsData) : stat.statsData) : {};
+                } catch { parsed = {}; }
+
+                const pid = stat.playerId;
+                const existing = playerMap.get(pid);
+                const pName = stat.player?.user
+                    ? `${stat.player.user.firstName} ${stat.player.user.lastName}`.trim()
+                    : `Player`;
+                const tName = stat.player?.teamPlayers?.[0]?.team?.name || 'Unknown Team';
+
+                if (existing) {
+                    existing.runs += Number(parsed.runs) || 0;
+                    existing.wickets += Number(parsed.wickets) || 0;
+                    existing.catches += Number(parsed.catches) || 0;
+                    existing.matches += 1;
+                } else {
+                    playerMap.set(pid, {
+                        playerId: pid,
+                        playerName: pName,
+                        teamName: tName,
+                        runs: Number(parsed.runs) || 0,
+                        wickets: Number(parsed.wickets) || 0,
+                        catches: Number(parsed.catches) || 0,
+                        matches: 1,
+                    });
+                }
+            }
+        }
+
+        const players = Array.from(playerMap.values());
+
+        // Most Runs — sorted by runs desc
+        const mostRuns = [...players]
+            .filter(p => p.runs > 0)
+            .sort((a, b) => b.runs - a.runs)
+            .slice(0, 10)
+            .map((p, i) => ({ rank: i + 1, ...p, value: p.runs }));
+
+        // Most Wickets — sorted by wickets desc
+        const mostWickets = [...players]
+            .filter(p => p.wickets > 0)
+            .sort((a, b) => b.wickets - a.wickets)
+            .slice(0, 10)
+            .map((p, i) => ({ rank: i + 1, ...p, value: p.wickets }));
+
+        // MVP — composite score: runs + (wickets × 25) + (catches × 10)
+        const mvp = [...players]
+            .map(p => ({ ...p, mvpScore: p.runs + (p.wickets * 25) + (p.catches * 10) }))
+            .filter(p => p.mvpScore > 0)
+            .sort((a, b) => b.mvpScore - a.mvpScore)
+            .slice(0, 10)
+            .map((p, i) => ({ rank: i + 1, ...p, value: p.mvpScore }));
+
+        // Emerging Player — same MVP formula but only players with ≤ 3 matches
+        const emergingPlayer = [...players]
+            .filter(p => p.matches <= 3)
+            .map(p => ({ ...p, mvpScore: p.runs + (p.wickets * 25) + (p.catches * 10) }))
+            .filter(p => p.mvpScore > 0)
+            .sort((a, b) => b.mvpScore - a.mvpScore)
+            .slice(0, 5)
+            .map((p, i) => ({ rank: i + 1, ...p, value: p.mvpScore }));
+
+        return {
+            totalCompletedMatches: matches.length,
+            totalPlayersTracked: players.length,
+            mostRuns,
+            mostWickets,
+            mvp,
+            emergingPlayer,
+        };
+    }
+
     // ═══════ CHAT ═══════
 
     async getChatMessages(tournamentId: string) {

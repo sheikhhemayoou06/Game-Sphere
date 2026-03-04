@@ -109,6 +109,11 @@ export class TournamentsController {
         return this.tournamentsService.getLeaderboard(id);
     }
 
+    @Get(':id/player-leaderboard')
+    getPlayerLeaderboard(@Param('id') id: string) {
+        return this.tournamentsService.getPlayerLeaderboard(id);
+    }
+
     // ═══════ Chat ═══════
 
     @Get(':id/chat')

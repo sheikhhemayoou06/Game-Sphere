@@ -199,6 +199,7 @@ export const api = {
         request<any>(`/tournaments/${id}/teams/${teamId}/reject`, { method: 'PUT' }),
     getTournamentFinancials: (id: string) => request<any>(`/tournaments/${id}/financials`),
     getLeaderboard: (id: string) => request<any[]>(`/tournaments/${id}/leaderboard`),
+    getPlayerLeaderboard: (id: string) => request<any>(`/tournaments/${id}/player-leaderboard`),
 
     // Tournament Auction
     getTournamentAuction: (id: string) => request<any>(`/tournaments/${id}/auction`),
