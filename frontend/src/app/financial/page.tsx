@@ -65,7 +65,7 @@ export default function FinancialPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)', flexWrap: 'wrap', gap: '12px' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <select value={selectedTournament?.id || ''} onChange={(e) => {
                         const t = tournaments.find(x => x.id === e.target.value);

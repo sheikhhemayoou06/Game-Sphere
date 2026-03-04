@@ -513,7 +513,7 @@ export default function TeamsPage() {
             {/* Header */}
             <div style={{ background: 'linear-gradient(135deg, #6d28d9, #7c3aed)', padding: '14px 32px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+                    <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
                         <span style={{ fontSize: '20px' }}>🌐</span>
                         <span style={{ color: 'white', fontWeight: 800, fontSize: '18px' }}>Game Sphere</span>
                     </Link>

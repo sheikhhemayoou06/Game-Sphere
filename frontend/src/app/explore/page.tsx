@@ -49,7 +49,7 @@ export default function ExplorePage() {
             <div style={{ background: '#1e1b4b', padding: '24px 40px', color: 'white' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1200px', margin: '0 auto', flexWrap: 'wrap', gap: '20px' }}>
                     <div>
-                        <Link href="/" style={{ color: '#818cf8', fontWeight: 600, textDecoration: 'none', fontSize: '14px', marginBottom: '8px', display: 'inline-block' }}>
+                        <Link href="/home" style={{ color: '#818cf8', fontWeight: 600, textDecoration: 'none', fontSize: '14px', marginBottom: '8px', display: 'inline-block' }}>
                             ← Back to Home
                         </Link>
                         <h1 style={{ fontSize: '32px', fontWeight: 800 }}>Global Fan Portal</h1>

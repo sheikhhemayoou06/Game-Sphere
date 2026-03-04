@@ -86,7 +86,7 @@ function MediaContent() {
         return (
             <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)' }}>
                 <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                    <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#9d174d', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                    <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#9d174d', textDecoration: 'none' }}>🌐 Game Sphere</Link>
                     <Link href="/dashboard" style={{ color: '#9d174d', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
                 </nav>
                 <div style={{ maxWidth: '600px', margin: '0 auto', padding: '80px 24px', textAlign: 'center' }}>
@@ -115,7 +115,7 @@ function MediaContent() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#9d174d', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#9d174d', textDecoration: 'none' }}>🌐 Game Sphere</Link>
                 <Link href={`/tournaments/${tournamentId}`} style={{ color: '#9d174d', fontWeight: 600, textDecoration: 'none' }}>← Tournament</Link>
             </nav>
 

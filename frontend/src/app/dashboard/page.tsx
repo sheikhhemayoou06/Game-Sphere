@@ -654,7 +654,7 @@ export default function DashboardPage() {
                 borderBottom: `1px solid ${theme.navBorder}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px'
             }}>
-                <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+                <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
                     <span style={{ fontSize: '24px' }}>🌐</span>
                     <span style={{
                         fontSize: '20px', fontWeight: 800,

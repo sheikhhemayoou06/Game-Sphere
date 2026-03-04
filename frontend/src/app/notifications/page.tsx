@@ -56,7 +56,7 @@ export default function NotificationsPage() {
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fef2f2 0%, #fff1f2 50%, #ffe4e6 100%)' }}>
             <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/" style={{ fontSize: '20px', fontWeight: 800, color: '#be123c', textDecoration: 'none' }}>🌐 Game Sphere</Link>
+                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#be123c', textDecoration: 'none' }}>🌐 Game Sphere</Link>
                 <Link href="/dashboard" style={{ color: '#be123c', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
             </nav>
 

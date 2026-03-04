@@ -42,7 +42,7 @@ export default function AboutPage() {
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontSize: '28px' }}>🌐</span>
-                    <Link href="/" style={{ textDecoration: 'none' }}>
+                    <Link href="/home" style={{ textDecoration: 'none' }}>
                         <span style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px' }}>
                             <span className="gradient-text">Game Sphere</span>
                         </span>
