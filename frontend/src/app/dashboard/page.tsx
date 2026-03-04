@@ -656,7 +656,14 @@ export default function DashboardPage() {
             }}>
                 <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
                     <span style={{ fontSize: '24px' }}>🌐</span>
-                    <span style={{ fontSize: '20px', fontWeight: 800, color: theme.textPrimary }}>Game Sphere</span>
+                    <span style={{
+                        fontSize: '20px', fontWeight: 800,
+                        background: 'linear-gradient(135deg, #4f46e5, #ec4899, #f43f5e)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        color: 'transparent'
+                    }}>Game Sphere</span>
                 </Link>
                 <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'flex-start' }}>
                     {theme.navLinks.map((link) => (
