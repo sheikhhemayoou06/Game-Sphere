@@ -8,8 +8,12 @@ import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/lib/store';
 
 export default function LoginPage() {
+    const [loginMethod, setLoginMethod] = useState<'email' | 'phone'>('email');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [phone, setPhone] = useState('');
+    const [otp, setOtp] = useState('');
+    const [isOtpSent, setIsOtpSent] = useState(false);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
@@ -23,20 +27,32 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            // 1. Authenticate with Supabase
-            const { error: sbError } = await supabase.auth.signInWithPassword({ email, password });
+            if (loginMethod === 'email') {
+                // 1. Authenticate with Supabase
+                const { error: sbError } = await supabase.auth.signInWithPassword({ email, password });
 
-            // If Supabase fails but it's an "Invalid login credentials", we should still try the backend 
-            // in case the user exists on the old backend but hasn't been migrated to Supabase yet.
-            // However, for consistency, we throw if Supabase fails.
-            if (sbError && sbError.message !== 'Invalid login credentials') {
-                throw sbError;
+                // If Supabase fails but it's an "Invalid login credentials", we should still try the backend 
+                // in case the user exists on the old backend but hasn't been migrated to Supabase yet.
+                // However, for consistency, we throw if Supabase fails.
+                if (sbError && sbError.message !== 'Invalid login credentials') {
+                    throw sbError;
+                }
+
+                // 2. Authenticate with Backend to get the custom JWT session
+                const res = await api.login({ email, password });
+                setAuth(res.user, res.accessToken);
+                router.push('/dashboard');
+            } else {
+                if (!isOtpSent) {
+                    await api.sendOtp({ phone });
+                    setIsOtpSent(true);
+                    setMessage(`OTP sent to ${phone}. Enter to continue.`);
+                } else {
+                    const res = await api.verifyOtp({ phone, otp });
+                    setAuth(res.user, res.accessToken);
+                    router.push('/dashboard');
+                }
             }
-
-            // 2. Authenticate with Backend to get the custom JWT session
-            const res = await api.login({ email, password });
-            setAuth(res.user, res.accessToken);
-            router.push('/dashboard');
         } catch (err: any) {
             const currentApiUrl = process.env.NODE_ENV === 'development' && typeof window !== 'undefined'
                 ? `http://${window.location.hostname}:4000/api` : 'production or unresolved';
@@ -87,29 +103,72 @@ export default function LoginPage() {
                     </div>
                 )}
 
+                {/* Login Method Toggle */}
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', background: '#f1f5f9', padding: '6px', borderRadius: '14px' }}>
+                    <button onClick={() => { setLoginMethod('email'); setIsOtpSent(false); setError(''); setMessage(''); }}
+                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '13px', background: loginMethod === 'email' ? 'white' : 'transparent', color: loginMethod === 'email' ? '#1e1b4b' : '#64748b', boxShadow: loginMethod === 'email' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none', transition: 'all 0.2s' }}>
+                        Email & Password
+                    </button>
+                    <button onClick={() => { setLoginMethod('phone'); setError(''); setMessage(''); }}
+                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '13px', background: loginMethod === 'phone' ? 'white' : 'transparent', color: loginMethod === 'phone' ? '#1e1b4b' : '#64748b', boxShadow: loginMethod === 'phone' ? '0 4px 12px rgba(0,0,0,0.05)' : 'none', transition: 'all 0.2s' }}>
+                        Phone OTP (Fans)
+                    </button>
+                </div>
+
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-                    <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
-                            Email
-                        </label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                            className="input-field" placeholder="you@example.com" required style={{ color: '#1e1b4b' }} />
-                    </div>
-                    <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
-                            Password
-                        </label>
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                            className="input-field" placeholder="••••••••" required style={{ color: '#1e1b4b' }} />
-                    </div>
+                    {loginMethod === 'email' ? (
+                        <>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                    Email
+                                </label>
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                                    className="input-field" placeholder="you@example.com" required style={{ color: '#1e1b4b' }} />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                    Password
+                                </label>
+                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                                    className="input-field" placeholder="••••••••" required style={{ color: '#1e1b4b' }} />
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                    Phone Number
+                                </label>
+                                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={isOtpSent}
+                                    className="input-field" placeholder="+91 98765 43210" required style={{ color: '#1e1b4b' }} />
+                            </div>
+                            {isOtpSent && (
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                        Enter 6-digit OTP
+                                    </label>
+                                    <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)}
+                                        className="input-field" placeholder="123456" required style={{ color: '#1e1b4b', letterSpacing: '4px', textAlign: 'center', fontSize: '20px', fontWeight: 700 }} maxLength={6} />
+                                </div>
+                            )}
+                        </>
+                    )}
 
                     <button type="submit" className="btn-primary" disabled={loading} style={{
                         width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px',
                         opacity: loading ? 0.7 : 1,
                     }}>
-                        {loading ? '⏳ Please wait...' : '🔐 Sign In'}
+                        {loading ? '⏳ Please wait...' : (loginMethod === 'email' ? '🔐 Sign In' : (isOtpSent ? '✅ Verify Origin' : '📩 Get OTP'))}
                     </button>
+
+                    {loginMethod === 'phone' && isOtpSent && (
+                        <button type="button" onClick={() => { setIsOtpSent(false); setOtp(''); setMessage(''); setError(''); }} style={{
+                            background: 'none', border: 'none', color: '#6366f1', fontSize: '12px', fontWeight: 600, cursor: 'pointer', marginTop: '-4px'
+                        }}>
+                            ← Change Phone Number
+                        </button>
+                    )}
                 </form>
 
                 <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#64748b' }}>
