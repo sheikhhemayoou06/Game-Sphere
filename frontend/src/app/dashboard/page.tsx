@@ -652,17 +652,113 @@ export default function DashboardPage() {
                 borderBottom: `1px solid ${theme.navBorder}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px'
             }}>
-                <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-                    <span style={{ fontSize: '24px' }}>🌐</span>
-                    <span style={{
-                        fontSize: '20px', fontWeight: 800,
-                        background: 'linear-gradient(135deg, #4f46e5, #ec4899, #f43f5e)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        color: 'transparent'
-                    }}>Game Sphere</span>
-                </Link>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    {/* Player Hamburger Menu - Left Side Drawer */}
+                    {roleGroup === 'player' && (
+                        <>
+                            <button
+                                onClick={() => setPlayerMenuOpen(true)}
+                                style={{
+                                    padding: '8px', borderRadius: '8px', cursor: 'pointer',
+                                    background: 'transparent',
+                                    color: theme.textPrimary,
+                                    border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    transition: 'all 0.2s',
+                                }}
+                                className="hover-bg-slate"
+                            >
+                                <Menu size={24} />
+                            </button>
+
+                            {/* Full Screen Overlay */}
+                            {playerMenuOpen && (
+                                <div
+                                    onClick={() => setPlayerMenuOpen(false)}
+                                    style={{
+                                        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+                                        backgroundColor: 'rgba(0,0,0,0.4)', zIndex: 998,
+                                        backdropFilter: 'blur(2px)'
+                                    }}
+                                />
+                            )}
+
+                            {/* Sliding Left Drawer */}
+                            <div style={{
+                                position: 'fixed', top: 0, left: 0, height: '100vh', width: '280px',
+                                backgroundColor: 'white', zIndex: 999,
+                                transform: playerMenuOpen ? 'translateX(0)' : 'translateX(-100%)',
+                                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                boxShadow: playerMenuOpen ? '4px 0 24px rgba(0,0,0,0.1)' : 'none',
+                                display: 'flex', flexDirection: 'column',
+                                overflowY: 'auto'
+                            }}>
+                                <div style={{ padding: '24px 20px', display: 'flex', alignItems: 'center', justifyItems: 'space-between', borderBottom: '1px solid #f1f5f9' }}>
+                                    <div style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b', display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                                        <span style={{ fontSize: '20px' }}>🌐</span> Menu
+                                    </div>
+                                    <button
+                                        onClick={() => setPlayerMenuOpen(false)}
+                                        style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b', padding: '4px', display: 'flex' }}
+                                    >
+                                        <X size={20} />
+                                    </button>
+                                </div>
+
+                                <div style={{ padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
+                                    <Link href="/profile" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <IdCard size={20} color="#475569" /> My Profile
+                                    </Link>
+                                    <Link href="/settings/security" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <ShieldCheck size={20} color="#475569" /> Security & Passwords
+                                    </Link>
+                                    <Link href="/certificates" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Award size={20} color="#475569" /> Certificates
+                                    </Link>
+                                    <Link href="/leaderboard" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Medal size={20} color="#475569" /> Leader Board
+                                    </Link>
+                                    <Link href="/calendar" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Calendar size={20} color="#475569" /> Calendar
+                                    </Link>
+                                    <Link href="/settings" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Settings size={20} color="#475569" /> Settings
+                                    </Link>
+                                    <Link href="/about" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <IdCard size={20} color="#475569" /> About the App
+                                    </Link>
+                                    <Link href="/media" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Camera size={20} color="#475569" /> Media
+                                    </Link>
+                                    <Link href="/help" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <HelpCircle size={20} color="#475569" /> Help & Support
+                                    </Link>
+                                </div>
+
+                                <div style={{ padding: '16px', borderTop: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <button onClick={() => { setPlayerMenuOpen(false); logout(); router.push('/'); }} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#ef4444', fontSize: '15px', fontWeight: 600, border: 'none', background: 'transparent', cursor: 'pointer', width: '100%', transition: 'background 0.2s', textAlign: 'left' }} className="hover-bg-red">
+                                        <LogOut size={20} /> Log Out
+                                    </button>
+                                    <button onClick={() => { setPlayerMenuOpen(false); alert("To delete your account, please contact support and verify your identity."); }} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#7f1d1d', fontSize: '15px', fontWeight: 600, border: 'none', background: '#fef2f2', cursor: 'pointer', width: '100%', transition: 'background 0.2s', textAlign: 'left' }}>
+                                        <Trash2 size={20} color="#ef4444" /> Delete Account
+                                    </button>
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginLeft: roleGroup === 'player' ? '4px' : '0' }}>
+                        <span style={{ fontSize: '24px' }}>🌐</span>
+                        <span style={{
+                            fontSize: '20px', fontWeight: 800,
+                            background: 'linear-gradient(135deg, #4f46e5, #ec4899, #f43f5e)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                            color: 'transparent'
+                        }}>Game Sphere</span>
+                    </Link>
+                </div>
+
                 <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'flex-start' }}>
                     {theme.navLinks.map((link) => (
                         <Link key={link.href} href={link.href} className="hide-mobile" style={{
@@ -688,74 +784,6 @@ export default function DashboardPage() {
                     }}>
                         Logout
                     </button>
-
-                    {/* Player Hamburger Menu */}
-                    {roleGroup === 'player' && (
-                        <div style={{ position: 'relative' }}>
-                            <button
-                                onClick={() => setPlayerMenuOpen(!playerMenuOpen)}
-                                style={{
-                                    padding: '8px', borderRadius: '8px', cursor: 'pointer',
-                                    background: playerMenuOpen ? theme.badgeBg : 'transparent',
-                                    color: playerMenuOpen ? theme.badgeText : theme.textPrimary,
-                                    border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    transition: 'all 0.2s', marginLeft: '4px'
-                                }}
-                            >
-                                {playerMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                            </button>
-
-                            {playerMenuOpen && (
-                                <div style={{
-                                    position: 'absolute', top: '100%', right: 0, marginTop: '12px', zIndex: 50,
-                                    background: 'white', borderRadius: '16px', border: '1px solid #e2e8f0',
-                                    boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)',
-                                    padding: '8px', width: '280px', display: 'flex', flexDirection: 'column', gap: '4px',
-                                }}>
-                                    <div style={{ padding: '12px 16px', borderBottom: '1px solid #f1f5f9', marginBottom: '4px' }}>
-                                        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>Player Options</div>
-                                    </div>
-
-                                    <Link href="/profile" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <IdCard size={18} /> My Profile
-                                    </Link>
-                                    <Link href="/settings/security" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <ShieldCheck size={18} /> Security & Passwords
-                                    </Link>
-                                    <Link href="/certificates" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <Award size={18} /> Certificates
-                                    </Link>
-                                    <Link href="/leaderboard" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <Medal size={18} /> Leader Board
-                                    </Link>
-                                    <Link href="/calendar" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <Calendar size={18} /> Calendar
-                                    </Link>
-                                    <Link href="/settings" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <Settings size={18} /> Settings
-                                    </Link>
-                                    <Link href="/about" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <IdCard size={18} /> About the App
-                                    </Link>
-                                    <Link href="/media" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <Camera size={18} /> Media
-                                    </Link>
-                                    <Link href="/help" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#475569', fontSize: '14px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <HelpCircle size={18} /> Help and Support
-                                    </Link>
-
-                                    <div style={{ height: '1px', background: '#f1f5f9', margin: '4px 0' }} />
-
-                                    <button onClick={() => { setPlayerMenuOpen(false); logout(); router.push('/'); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#ef4444', fontSize: '14px', fontWeight: 600, border: 'none', background: 'transparent', cursor: 'pointer', textAlign: 'left', width: '100%' }} className="hover-bg-red">
-                                        <LogOut size={18} /> Log Out
-                                    </button>
-                                    <button onClick={() => { setPlayerMenuOpen(false); alert("To delete your account, please contact support and verify your identity."); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', textDecoration: 'none', color: '#7f1d1d', fontSize: '14px', fontWeight: 600, border: 'none', background: '#fef2f2', cursor: 'pointer', textAlign: 'left', width: '100%' }} className="hover-bg-red">
-                                        <Trash2 size={18} color="#ef4444" /> Delete My Account
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    )}
                 </div>
             </nav>
 
