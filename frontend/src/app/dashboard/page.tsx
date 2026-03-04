@@ -720,17 +720,17 @@ export default function DashboardPage() {
                                     <Link href="/calendar" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
                                         <Calendar size={20} color="#475569" /> Calendar
                                     </Link>
-                                    <Link href="/settings" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <Settings size={20} color="#475569" /> Settings
-                                    </Link>
-                                    <Link href="/about" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <IdCard size={20} color="#475569" /> About the App
-                                    </Link>
                                     <Link href="/media" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
                                         <Camera size={20} color="#475569" /> Media
                                     </Link>
+                                    <Link href="/settings" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <Settings size={20} color="#475569" /> Settings
+                                    </Link>
                                     <Link href="/help" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
                                         <HelpCircle size={20} color="#475569" /> Help & Support
+                                    </Link>
+                                    <Link href="/about" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                        <IdCard size={20} color="#475569" /> About the App
                                     </Link>
                                 </div>
 
