@@ -244,16 +244,20 @@ export default function HomePage() {
         </div>
 
         {/* Drug Free Society Mission */}
-        <div style={{ position: 'relative', zIndex: 2, marginTop: '32px', textAlign: 'center' }}>
+        <div style={{ position: 'relative', zIndex: 2, marginTop: '40px', textAlign: 'center', width: '100%', maxWidth: '800px' }}>
           <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '8px',
-            background: 'rgba(0,0,0,0.2)', backdropFilter: 'blur(10px)',
-            padding: '12px 24px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.1)'
+            background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(12px)',
+            padding: '24px 32px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
           }}>
-            <span style={{ fontSize: '20px' }}>🛡️</span>
-            <span style={{ color: 'white', fontWeight: 600, fontSize: '15px', letterSpacing: '0.3px' }}>
-              Building a <strong style={{ color: '#fcd34d' }}>Drug-Free Society</strong> with the help of Game Sphere India
-            </span>
+            <h3 style={{ color: '#fcd34d', fontSize: '20px', fontWeight: 800, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '24px' }}>🛡️</span> Promoting a Drug-Free Society
+            </h3>
+            <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '15px', lineHeight: 1.6, fontWeight: 500 }}>
+              Game Sphere India is committed to empowering the youth and building a healthier nation.
+              We believe that actively engaging individuals in sports is the most powerful method to combat substance abuse.
+              By providing professional platforms for everyone to play and compete, we are championing a completely drug-free society.
+            </p>
           </div>
         </div>
       </section>
