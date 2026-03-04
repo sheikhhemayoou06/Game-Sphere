@@ -37,10 +37,8 @@ const PLAYER_CARDS = [
     { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: <Siren size={20} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
     { href: '/training', label: 'Training', desc: 'Coaching programs', icon: <Dumbbell size={20} />, gradient: 'linear-gradient(135deg, #115e59, #14b8a6)' },
     { href: '/teams', label: 'My Team', desc: 'Roster & teammates', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/messages', label: 'Messages', desc: 'Chat with team', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
     { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
-    { href: '/notifications', label: 'Notifications', desc: 'Activity alerts', icon: <Bell size={20} />, gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
 ];
 
 // ─── TEAM MANAGER: Team operations, apply for tournaments (no creation) ───
@@ -771,17 +769,27 @@ export default function DashboardPage() {
                         padding: '8px', borderRadius: '8px', cursor: 'pointer',
                         background: 'transparent', color: theme.textPrimary,
                         border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        transition: 'background 0.2s',
+                        transition: 'background 0.2s', position: 'relative'
                     }} className="hover-bg-slate">
                         <Bell size={20} />
+                        <span style={{
+                            position: 'absolute', top: '6px', right: '8px',
+                            width: '8px', height: '8px', backgroundColor: '#ef4444',
+                            borderRadius: '50%', border: '2px solid white'
+                        }}></span>
                     </button>
                     <button onClick={() => router.push('/messages')} style={{
                         padding: '8px', borderRadius: '8px', cursor: 'pointer',
                         background: 'transparent', color: theme.textPrimary,
                         border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        transition: 'background 0.2s',
+                        transition: 'background 0.2s', position: 'relative'
                     }} className="hover-bg-slate">
                         <MessageSquare size={20} />
+                        <span style={{
+                            position: 'absolute', top: '4px', right: '4px',
+                            width: '8px', height: '8px', backgroundColor: '#ef4444',
+                            borderRadius: '50%', border: '2px solid white'
+                        }}></span>
                     </button>
                 </div>
             </nav>
