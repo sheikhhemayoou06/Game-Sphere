@@ -63,7 +63,13 @@ export default function HomePage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '28px' }}>🌐</span>
           <span style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px' }}>
-            <span className="gradient-text">Game Sphere</span>
+            <span style={{
+              background: 'linear-gradient(135deg, #4f46e5, #ec4899, #f43f5e)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: 'transparent'
+            }}>Game Sphere</span>
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
