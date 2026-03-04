@@ -242,6 +242,20 @@ export default function HomePage() {
             </div>
           )}
         </div>
+
+        {/* Drug Free Society Mission */}
+        <div style={{ position: 'relative', zIndex: 2, marginTop: '32px', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            background: 'rgba(0,0,0,0.2)', backdropFilter: 'blur(10px)',
+            padding: '12px 24px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.1)'
+          }}>
+            <span style={{ fontSize: '20px' }}>🛡️</span>
+            <span style={{ color: 'white', fontWeight: 600, fontSize: '15px', letterSpacing: '0.3px' }}>
+              Building a <strong style={{ color: '#fcd34d' }}>Drug-Free Society</strong> with the help of Game Sphere India
+            </span>
+          </div>
+        </div>
       </section>
 
       {/* Sports carousel */}

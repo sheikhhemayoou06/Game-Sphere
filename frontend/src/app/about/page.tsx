@@ -82,6 +82,23 @@ export default function AboutPage() {
                         and elevate sports management across all governance levels, providing professional tools
                         for organizers, teams, and players.
                     </p>
+
+                    {/* Social Mission */}
+                    <div style={{
+                        marginTop: '40px', padding: '24px 32px', background: 'rgba(0,0,0,0.2)',
+                        borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', display: 'inline-block',
+                        maxWidth: '800px', backdropFilter: 'blur(10px)'
+                    }}>
+                        <h3 style={{ color: '#fcd34d', fontSize: '20px', fontWeight: 800, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                            <span style={{ fontSize: '24px' }}>🛡️</span> Promoting a Drug-Free Society
+                        </h3>
+                        <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', lineHeight: 1.6, fontWeight: 500 }}>
+                            Game Sphere India is deeply committed to empowering the youth and building a healthier nation.
+                            We believe that actively engaging individuals in sports and athletic communities is the most powerful
+                            proven method to combat substance abuse. By providing professional platforms for everyone to play,
+                            compete, and grow, we are championing a <strong>completely drug-free society</strong>.
+                        </p>
+                    </div>
                 </div>
             </section>
 
