@@ -289,23 +289,7 @@ export default function HomePage() {
 
       {/* Removed Features grid via User feedback targeting fan portal explicitly. Info moved to /about */}
 
-      {/* CTA */}
-      < section className="gradient-bg" style={{
-        padding: '80px 40px', textAlign: 'center',
-      }}>
-        <h2 style={{ fontSize: '36px', fontWeight: 900, color: 'white', marginBottom: '16px', letterSpacing: '-0.5px' }}>
-          Ready to Transform Sports in India?
-        </h2>
-        <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '36px', fontSize: '16px' }}>
-          Join the digital sports revolution. Register your school, college, or federation today.
-        </p>
-        <Link href="/register" className="btn-primary" style={{
-          padding: '18px 44px', fontSize: '17px', borderRadius: '14px',
-          background: 'white', color: '#4338ca',
-        }}>
-          🎯 Get Started for Free
-        </Link>
-      </section >
+
 
       {/* Footer */}
       < footer style={{
