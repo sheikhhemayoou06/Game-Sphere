@@ -864,6 +864,48 @@ export default function DashboardPage() {
                     </p>
                 </div>
 
+                {/* ─── Global Search Bar ─── */}
+                <div style={{ marginBottom: '32px' }}>
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            const formData = new FormData(e.currentTarget);
+                            const query = formData.get('q');
+                            if (query) router.push(`/search?q=${encodeURIComponent(query.toString())}`);
+                        }}
+                        style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '800px', margin: '0 auto', position: 'relative' }}
+                    >
+                        <div style={{ position: 'absolute', left: '16px', color: '#94a3b8', display: 'flex', alignItems: 'center' }}>
+                            <SearchIcon size={20} />
+                        </div>
+                        <input
+                            name="q"
+                            type="text"
+                            placeholder="Search players, teams, organizers, or tournaments..."
+                            style={{
+                                width: '100%', padding: '16px 16px 16px 48px', borderRadius: '16px',
+                                border: `2px solid ${theme.cardBorder}`, background: 'white',
+                                fontSize: '15px', color: theme.textPrimary, outline: 'none',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.03)', transition: 'all 0.2s',
+                            }}
+                            onFocus={(e) => e.currentTarget.style.borderColor = '#8b5cf6'}
+                            onBlur={(e) => e.currentTarget.style.borderColor = theme.cardBorder}
+                        />
+                        <button
+                            type="submit"
+                            style={{
+                                position: 'absolute', right: '8px', padding: '10px 20px', borderRadius: '12px',
+                                background: theme.textSecondary, color: 'white', border: 'none',
+                                fontSize: '14px', fontWeight: 700, cursor: 'pointer', transition: 'background 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = '#4c1d95'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = theme.textSecondary}
+                        >
+                            Search
+                        </button>
+                    </form>
+                </div>
+
                 {/* ─── Sport Selector Bar (Always visible to allow adding sports) ─── */}
                 {roleGroup !== 'organizer' && roleGroup !== 'admin' && (
                     <div className="flex-wrap-mobile" style={{
