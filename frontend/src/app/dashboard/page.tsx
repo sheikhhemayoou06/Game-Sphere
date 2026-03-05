@@ -1142,33 +1142,63 @@ export default function DashboardPage() {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
                             {/* Team Overview — from API data */}
                             {ownerDashData?.teams?.map((team: any) => (
-                                <div key={team.id} style={{ padding: '24px', borderRadius: '20px', background: 'linear-gradient(145deg, #ffffff, #faf5ff)', border: `1px solid ${selectedSport.accentColor || '#e9d5ff'}`, boxShadow: '0 8px 24px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden', marginBottom: '16px' }}>
+                                <div key={team.id}>
+                                    <div style={{ padding: '24px', borderRadius: '20px', background: 'linear-gradient(145deg, #ffffff, #faf5ff)', border: `1px solid ${selectedSport.accentColor || '#e9d5ff'}`, boxShadow: '0 8px 24px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden', marginBottom: '16px' }}>
 
-                                    {/* Decorative background circle */}
-                                    <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: `radial-gradient(circle, ${selectedSport.accentColor || '#7c3aed'}15 0%, transparent 70%)`, transform: 'translate(30%, -30%)', borderRadius: '50%' }}></div>
+                                        {/* Decorative background circle */}
+                                        <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: `radial-gradient(circle, ${selectedSport.accentColor || '#7c3aed'}15 0%, transparent 70%)`, transform: 'translate(30%, -30%)', borderRadius: '50%' }}></div>
 
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }} className="flex-wrap-mobile">
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                            <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', color: 'white', boxShadow: `0 4px 12px ${selectedSport.accentColor || '#7c3aed'}40` }}>
-                                                {selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}
-                                            </div>
-                                            <div>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-                                                    <h3 style={{ fontWeight: 900, fontSize: '22px', color: '#1e1b4b', margin: 0 }}>{team.name}</h3>
-                                                    <span style={{ padding: '4px 10px', borderRadius: '20px', background: `${selectedSport.accentColor || '#7c3aed'}15`, color: selectedSport.accentColor || '#7c3aed', fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                                                        {selectedSport.name}
-                                                    </span>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }} className="flex-wrap-mobile">
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                                <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', color: 'white', boxShadow: `0 4px 12px ${selectedSport.accentColor || '#7c3aed'}40` }}>
+                                                    {selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}
                                                 </div>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#64748b' }}>
-                                                    <Fingerprint size={14} color={selectedSport.accentColor || '#7c3aed'} />
-                                                    <span style={{ fontWeight: 600 }}>Team ID:</span>
-                                                    <span style={{ fontFamily: 'monospace', background: '#f1f5f9', padding: '4px 8px', borderRadius: '6px', color: '#1e293b', fontWeight: 700, letterSpacing: '1px' }}>
-                                                        {team.teamCode || team.id.substring(0, 8).toUpperCase()}
-                                                    </span>
+                                                <div>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                                                        <h3 style={{ fontWeight: 900, fontSize: '22px', color: '#1e1b4b', margin: 0 }}>{team.name}</h3>
+                                                        <span style={{ padding: '4px 10px', borderRadius: '20px', background: `${selectedSport.accentColor || '#7c3aed'}15`, color: selectedSport.accentColor || '#7c3aed', fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                                            {selectedSport.name}
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#64748b' }}>
+                                                        <Fingerprint size={14} color={selectedSport.accentColor || '#7c3aed'} />
+                                                        <span style={{ fontWeight: 600 }}>Team ID:</span>
+                                                        <span style={{ fontFamily: 'monospace', background: '#f1f5f9', padding: '4px 8px', borderRadius: '6px', color: '#1e293b', fontWeight: 700, letterSpacing: '1px' }}>
+                                                            {team.teamCode || team.id.substring(0, 8).toUpperCase()}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* ─── Team Specific Live Matches Bar ─── */}
+                                    {ownerDashData?.liveMatches && Array.isArray(ownerDashData.liveMatches) && ownerDashData.liveMatches.filter((m: any) => m.homeTeam?.id === team.id || m.awayTeam?.id === team.id).map((liveMatch: any) => (
+                                        <Link key={`live-${liveMatch.id}`} href={`/matches/${liveMatch.id}`} style={{
+                                            display: 'block', padding: '16px 20px', borderRadius: '16px',
+                                            background: 'linear-gradient(90deg, #fef2f2, #fff1f2)', border: '1px solid #fecaca',
+                                            marginBottom: '16px', textDecoration: 'none', color: '#991b1b',
+                                            boxShadow: '0 4px 12px rgba(220, 38, 38, 0.08)', position: 'relative', overflow: 'hidden'
+                                        }} className="hover:scale-[1.01] transition-transform">
+                                            <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px', background: '#ef4444' }}></div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} className="flex-wrap-mobile">
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                    <div style={{ background: '#ef4444', color: 'white', padding: '4px 10px', borderRadius: '8px', fontSize: '11px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                        <span className="live-pulse" style={{ background: 'white' }}></span> LIVE
+                                                    </div>
+                                                    <div style={{ fontWeight: 800, fontSize: '16px' }}>
+                                                        {liveMatch.homeTeam?.name || 'TBD'} <span style={{ color: '#ef4444', margin: '0 6px' }}>VS</span> {liveMatch.awayTeam?.name || 'TBD'}
+                                                    </div>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 600, color: '#b91c1c' }}>
+                                                    🏆 {liveMatch.tournament?.name}
+                                                    <span style={{ background: 'white', padding: '4px 12px', borderRadius: '20px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', marginLeft: '8px', fontSize: '12px' }}>
+                                                        Score Match →
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
                                 </div>
                             ))}
 
@@ -1208,8 +1238,7 @@ export default function DashboardPage() {
                                 )}
                             </div>
                         </div>
-                    )
-                }
+                    )}
 
                 {/* ─── No Sports Prompt ─── */}
                 {
@@ -1486,3 +1515,4 @@ export default function DashboardPage() {
         </div >
     );
 }
+
