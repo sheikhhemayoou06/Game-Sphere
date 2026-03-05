@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
+import { api } from '@/lib/api';
 import { roleLabels } from '@/lib/utils';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
@@ -11,12 +12,20 @@ export default function SettingsPage() {
     const { user, isAuthenticated, loadFromStorage, logout } = useAuthStore();
     const router = useRouter();
     const [loaded, setLoaded] = useState(false);
-    const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'preferences'>('profile');
-    const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '' });
+    const [activeTab, setActiveTab] = useState<'profile' | 'sports' | 'security' | 'preferences'>('profile');
+    const [form, setForm] = useState({
+        firstName: '', lastName: '', email: '', phone: '',
+        district: '', state: '', country: 'India',
+        heightCm: '', weight: '', gender: ''
+    });
+    const [userSports, setUserSports] = useState<any[]>([]);
+    const [userTeams, setUserTeams] = useState<any[]>([]);
     const [saved, setSaved] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
     const [emailNotifs, setEmailNotifs] = useState(true);
     const [pushNotifs, setPushNotifs] = useState(true);
+    const [pauseNotifs, setPauseNotifs] = useState(false);
+    const [sleepMode, setSleepMode] = useState(false);
     const [themePreference, setThemePreference] = useState<'system' | 'light' | 'dark'>('system');
     const [emailNotifications, setEmailNotifications] = useState(true);
     const [smsNotifications, setSmsNotifications] = useState(false);
@@ -31,7 +40,34 @@ export default function SettingsPage() {
 
     useEffect(() => {
         if (loaded && isAuthenticated && user) {
-            setForm({ firstName: user.firstName || '', lastName: user.lastName || '', email: user.email || '', phone: '' });
+            setForm({
+                firstName: user.firstName || '',
+                lastName: user.lastName || '',
+                email: user.email || '',
+                phone: user.phone || '',
+                district: user.player?.district || '',
+                state: user.player?.state || '',
+                country: user.player?.country || 'India',
+                heightCm: user.player?.heightCm?.toString() || '',
+                weight: user.player?.weight || '',
+                gender: user.player?.gender || ''
+            });
+
+            if (user.player) {
+                // Map player's registered sports
+                const s = user.player.playerSports || [];
+                setUserSports(s.map((ps: any) => ({
+                    id: ps.sportId,
+                    name: ps.sport?.name || 'Unknown',
+                    code: ps.sportCode,
+                    meta: ps.metadata ? (typeof ps.metadata === 'string' ? JSON.parse(ps.metadata) : ps.metadata) : {}
+                })));
+
+                // Fetch teams this player belongs to
+                api.getMyTeams().then((teams: any[]) => {
+                    setUserTeams(teams || []);
+                }).catch(() => { });
+            }
         }
     }, [loaded, isAuthenticated, user]);
 
@@ -43,10 +79,49 @@ export default function SettingsPage() {
         );
     }
 
-    const handleSave = () => { setSaved(true); setTimeout(() => setSaved(false), 2000); };
+    const handleSave = async () => {
+        try {
+            const updatedUser = await api.updateProfile(form);
+            const token = localStorage.getItem('token');
+            if (updatedUser && token) {
+                useAuthStore.getState().setAuth(updatedUser, token);
+            }
+            setSaved(true);
+            setTimeout(() => setSaved(false), 2000);
+        } catch (error) {
+            console.error('Failed to save profile settings', error);
+            alert('Failed to save profile. Please try again.');
+        }
+    };
+
+    const handleDeleteSport = async (sportId: string) => {
+        if (!window.confirm("Are you sure you want to permanently delete this sport profile?")) return;
+        try {
+            await api.removePlayerSport(sportId);
+            setUserSports(prev => prev.filter(s => s.id !== sportId));
+            alert("Sport profile deleted successfully.");
+        } catch (err: any) {
+            console.error(err);
+            alert(err.response?.data?.message || "Failed to delete sport.");
+        }
+    };
+
+    const handleExitTeam = async (teamId: string) => {
+        if (!user || (!user.id && !user.player?.id)) return;
+        if (!window.confirm("Are you sure you want to exit this team?")) return;
+        try {
+            await api.leaveTeam(teamId, user.id);
+            setUserTeams(prev => prev.filter(t => t.id !== teamId));
+            alert("You have exited the team.");
+        } catch (err: any) {
+            console.error(err);
+            alert(err.response?.data?.message || "Failed to exit team.");
+        }
+    };
 
     const tabs = [
         { id: 'profile' as const, label: '👤 Profile', desc: 'Manage your personal info' },
+        { id: 'sports' as const, label: '🏅 Sports & Teams', desc: 'Manage sports & roster spots' },
         { id: 'security' as const, label: '🔒 Security', desc: 'Password & authentication' },
         { id: 'preferences' as const, label: '⚙️ Preferences', desc: 'App settings & notifications' },
     ];
@@ -102,15 +177,36 @@ export default function SettingsPage() {
                                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Personal Information</h2>
                                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                                     {[
-                                        { label: 'First Name', key: 'firstName' as const },
-                                        { label: 'Last Name', key: 'lastName' as const },
-                                        { label: 'Email Address', key: 'email' as const },
-                                        { label: 'Phone Number', key: 'phone' as const },
+                                        { label: 'First Name', key: 'firstName' as const, type: 'text' },
+                                        { label: 'Last Name', key: 'lastName' as const, type: 'text' },
+                                        { label: 'Email Address', key: 'email' as const, type: 'email' },
+                                        { label: 'Phone Number', key: 'phone' as const, type: 'tel' },
+                                        { label: 'District', key: 'district' as const, type: 'text' },
+                                        { label: 'State', key: 'state' as const, type: 'text' },
+                                        { label: 'Country', key: 'country' as const, type: 'text' },
+                                        { label: 'Height (cm)', key: 'heightCm' as const, type: 'number' },
+                                        { label: 'Weight', key: 'weight' as const, type: 'text' },
+                                        { label: 'Gender', key: 'gender' as const, type: 'select', options: ['Male', 'Female', 'Not Specified'] },
                                     ].map((field) => (
                                         <div key={field.key}>
                                             <label style={{ fontSize: '13px', fontWeight: 600, color: '#64748b', display: 'block', marginBottom: '6px' }}>{field.label}</label>
-                                            <input value={form[field.key]} onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
-                                                style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', boxSizing: 'border-box' }} />
+                                            {field.type === 'select' ? (
+                                                <select
+                                                    value={form[field.key]}
+                                                    onChange={e => setForm({ ...form, [field.key]: e.target.value })}
+                                                    style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', boxSizing: 'border-box', background: '#fff' }}
+                                                >
+                                                    <option value="">Select</option>
+                                                    {field.options?.map(o => <option key={o} value={o}>{o}</option>)}
+                                                </select>
+                                            ) : (
+                                                <input
+                                                    type={field.type}
+                                                    value={form[field.key]}
+                                                    onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
+                                                    style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', boxSizing: 'border-box' }}
+                                                />
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -120,6 +216,59 @@ export default function SettingsPage() {
                                 }}>
                                     {saved ? '✓ Saved!' : 'Save Changes'}
                                 </button>
+                            </div>
+                        )}
+
+                        {activeTab === 'sports' && (
+                            <div>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Registered Sports</h2>
+                                {userSports.length === 0 ? (
+                                    <div style={{ padding: '24px', background: '#f8fafc', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center', marginBottom: '32px' }}>
+                                        <div style={{ fontSize: '24px', marginBottom: '8px' }}>🏏</div>
+                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#475569' }}>Not registered for any sports yet.</div>
+                                    </div>
+                                ) : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
+                                        {userSports.map((sport, i) => (
+                                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                                                <div>
+                                                    <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>{sport.name} <span style={{ padding: '2px 8px', borderRadius: '6px', background: '#e0e7ff', color: '#4338ca', fontSize: '11px', marginLeft: '8px' }}>{sport.code || 'Pending'}</span></div>
+                                                    <div style={{ fontSize: '13px', color: '#64748b', marginTop: '2px' }}>Role: {sport.meta?.role || 'Player'} {sport.meta?.jerseyNo ? `• #${sport.meta.jerseyNo}` : ''}</div>
+                                                </div>
+                                                <button onClick={() => handleDeleteSport(sport.id)} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#fef2f2', color: '#ef4444', fontWeight: 700, fontSize: '12px', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 1px 2px rgba(239, 68, 68, 0.1)' }}>
+                                                    Delete Profile
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px', paddingTop: '12px', borderTop: '1px solid #e2e8f0' }}>My Teams</h2>
+                                {userTeams.length === 0 ? (
+                                    <div style={{ padding: '24px', background: '#f8fafc', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                                        <div style={{ fontSize: '24px', marginBottom: '8px' }}>🛡️</div>
+                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#475569' }}>You haven't joined any teams.</div>
+                                    </div>
+                                ) : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                        {userTeams.map((team, idx) => (
+                                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+                                                        {team.logo && team.logo.startsWith('http') ? <img src={team.logo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} /> : '⚡'}
+                                                    </div>
+                                                    <div>
+                                                        <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>{team.name}</div>
+                                                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>{team.sport?.name || 'Sport'} • {team.city || 'Location'}</div>
+                                                    </div>
+                                                </div>
+                                                <button onClick={() => handleExitTeam(team.id)} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#fff', borderBlock: '1px solid #e2e8f0', color: '#ef4444', fontWeight: 700, fontSize: '12px', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                                                    Exit Team
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -160,6 +309,8 @@ export default function SettingsPage() {
                                     { label: 'Dark Mode', desc: 'Switch to dark theme', value: darkMode, toggle: () => setDarkMode(!darkMode) },
                                     { label: 'Email Notifications', desc: 'Receive email updates for matches and tournaments', value: emailNotifs, toggle: () => setEmailNotifs(!emailNotifs) },
                                     { label: 'Push Notifications', desc: 'Get real-time alerts on your device', value: pushNotifs, toggle: () => setPushNotifs(!pushNotifs) },
+                                    { label: 'Pause Notifications (1 Hour)', desc: 'Temporarily mute all incoming app alerts', value: pauseNotifs, toggle: () => setPauseNotifs(!pauseNotifs) },
+                                    { label: 'Sleep Mode (10PM - 8AM)', desc: 'Automatically silence notifications overnight', value: sleepMode, toggle: () => setSleepMode(!sleepMode) },
                                 ].map((pref) => (
                                     <div key={pref.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: '#f8fafc', marginBottom: '10px' }}>
                                         <div>

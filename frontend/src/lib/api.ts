@@ -77,6 +77,7 @@ export const api = {
         request<any>('/auth/verify-otp', { method: 'POST', body: JSON.stringify(data) }),
     getProfile: () => request<any>('/auth/profile'),
     updateProfile: (data: any) => request<any>('/auth/profile', { method: 'PATCH', body: JSON.stringify(data) }),
+    removePlayerSport: (sportId: string) => request<any>(`/auth/profile/sports/${sportId}`, { method: 'DELETE' }),
 
     // Sports
     getSports: () => request<any[]>('/sports'),
@@ -135,6 +136,8 @@ export const api = {
     getOwnerDashboard: (sportId: string) => request<any>(`/teams/dashboard?sportId=${sportId}`),
     createTeam: (data: any) =>
         request<any>('/teams', { method: 'POST', body: JSON.stringify(data) }),
+    leaveTeam: (teamId: string, playerId: string) =>
+        request<any>(`/teams/${teamId}/players/${playerId}`, { method: 'DELETE' }),
 
     // Rankings
     getRankings: (params?: Record<string, string>) => {

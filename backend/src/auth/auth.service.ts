@@ -287,6 +287,27 @@ export class AuthService {
         return this.getProfile(userId);
     }
 
+    async deletePlayerSport(userId: string, sportId: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            include: { player: true },
+        });
+
+        if (!user || !user.player) {
+            throw new UnauthorizedException('Player profile not found');
+        }
+
+        // Delete the relation bridging the player and the sport
+        await this.prisma.playerSport.deleteMany({
+            where: {
+                playerId: user.player.id,
+                sportId: sportId
+            }
+        });
+
+        return { message: 'Sport profile deleted successfully' };
+    }
+
     private generateToken(user: { id: string; email: string; role: string }) {
         return this.jwtService.sign({
             sub: user.id,

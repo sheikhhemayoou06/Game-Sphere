@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request, Query, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Query, Patch, Delete, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
@@ -71,5 +71,11 @@ export class AuthController {
     @Patch('profile')
     async updateProfile(@Request() req: any, @Body() dto: any) {
         return this.authService.updateProfile(req.user.sub, dto);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('profile/sports/:sportId')
+    async deletePlayerSport(@Request() req: any, @Param('sportId') sportId: string) {
+        return this.authService.deletePlayerSport(req.user.sub, sportId);
     }
 }

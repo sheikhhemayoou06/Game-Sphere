@@ -224,36 +224,6 @@ export default function PlayerProfilePage() {
         performanceIndex,
     };
 
-    const [form, setForm] = useState({
-        name: dynamicPlayer.name, phone: user?.phone || dynamicPlayer.phone, email: dynamicPlayer.email,
-        district: dynamicPlayer.district, state: dynamicPlayer.state, country: dynamicPlayer.country,
-        height: user?.player?.heightCm?.toString() || dynamicPlayer.height, gender: dynamicPlayer.gender,
-        weight: dynamicPlayer.weight, battingStyle: dynamicPlayer.battingStyle, bowlingStyle: dynamicPlayer.bowlingStyle,
-    });
-
-    const [saving, setSaving] = useState(false);
-
-    const handleSave = async () => {
-        if (!editMode) {
-            setEditMode(true);
-            return;
-        }
-        setSaving(true);
-        try {
-            const updatedUser = await api.updateProfile(form);
-            const token = localStorage.getItem('token');
-            if (updatedUser && token) {
-                useAuthStore.getState().setAuth(updatedUser, token);
-            }
-            setEditMode(false);
-        } catch (error) {
-            console.error('Failed to save profile', error);
-            alert('Failed to save profile. Please try again.');
-        } finally {
-            setSaving(false);
-        }
-    };
-
     const cs = careerStats.cricket;
     const fs = careerStats.football;
     const totalMatches = cs.matches + fs.matches;
@@ -323,13 +293,13 @@ export default function PlayerProfilePage() {
                     <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
                     <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                         <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-                        <button onClick={handleSave} disabled={saving} style={{
+                        <Link href="/settings" style={{
                             padding: '8px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)',
-                            background: editMode ? '#22c55e' : 'rgba(255,255,255,0.1)', color: '#fff',
-                            fontWeight: 700, fontSize: '13px', cursor: 'pointer', opacity: saving ? 0.7 : 1
+                            background: 'rgba(255,255,255,0.1)', color: '#fff', textDecoration: 'none',
+                            fontWeight: 700, fontSize: '13px', cursor: 'pointer'
                         }}>
-                            {saving ? 'Saving...' : editMode ? '✓ Save Profile' : '✏️ Edit Profile'}
-                        </button>
+                            ⚙️ Settings
+                        </Link>
                     </div>
                 </nav>
 
@@ -357,19 +327,14 @@ export default function PlayerProfilePage() {
                                 </div>
                                 <div style={{ flex: 1 }}>
                                     <div style={{ flex: 1 }}>
-                                        {editMode ? (
-                                            <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                                                style={{ fontSize: '28px', fontWeight: 900, color: '#fff', background: 'rgba(255,255,255,0.1)', border: '2px solid #6366f1', borderRadius: '8px', padding: '4px 12px', marginBottom: '6px' }} />
-                                        ) : (
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
-                                                <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', margin: 0 }}>{teamName}</h1>
-                                                {td?.teamCode && (
-                                                    <span style={{ padding: '4px 10px', borderRadius: '8px', background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', fontSize: '14px', fontWeight: 800, border: '1px dashed rgba(99,102,241,0.4)' }}>
-                                                        {td.teamCode}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        )}
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
+                                            <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', margin: 0 }}>{teamName}</h1>
+                                            {td?.teamCode && (
+                                                <span style={{ padding: '4px 10px', borderRadius: '8px', background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', fontSize: '14px', fontWeight: 800, border: '1px dashed rgba(99,102,241,0.4)' }}>
+                                                    {td.teamCode}
+                                                </span>
+                                            )}
+                                        </div>
                                         <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px' }}>🏏 {teamSport} • 📍 {teamCity} • 👥 {playerCount} Players</div>
                                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>
                                             {[`👤 Manager: ${managerName}`, `📅 Est. ${teamCreated}`, `🏆 ${tournamentCount} Tournaments`].map(tag => (
@@ -381,28 +346,11 @@ export default function PlayerProfilePage() {
                                 {/* Manager Contact Details */}
                                 <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '14px', padding: '16px', minWidth: '220px' }}>
                                     <div style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px' }}>CONTACT DETAILS</div>
-                                    {editMode ? (
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                            {[
-                                                { label: 'Phone', key: 'phone' as const },
-                                                { label: 'Email', key: 'email' as const },
-                                                { label: 'District', key: 'district' as const },
-                                                { label: 'State', key: 'state' as const },
-                                            ].map(f => (
-                                                <div key={f.key} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                                    <span style={{ fontSize: '11px', color: '#64748b', width: '60px' }}>{f.label}:</span>
-                                                    <input value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-                                                        style={{ flex: 1, padding: '5px 10px', borderRadius: '6px', border: '1px solid #4338ca', background: 'rgba(255,255,255,0.05)', color: '#e2e8f0', fontSize: '12px' }} />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
-                                            <span>📞 {form.phone}</span>
-                                            <span>📧 {form.email}</span>
-                                            <span>📍 {form.district}, {form.state}, {form.country}</span>
-                                        </div>
-                                    )}
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
+                                        <span>📞 {dynamicPlayer.phone}</span>
+                                        <span>📧 {dynamicPlayer.email}</span>
+                                        <span>📍 {dynamicPlayer.district}, {dynamicPlayer.state}, {dynamicPlayer.country}</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -440,7 +388,7 @@ export default function PlayerProfilePage() {
                                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                                     <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
                                         <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏟️ Team Details</h3>
-                                        {[{ l: 'Team Name', v: teamName }, { l: 'Sport', v: teamSport }, { l: 'City', v: teamCity }, { l: 'State', v: td?.state || form.state || 'Not set' }, { l: 'Founded', v: teamCreated }, { l: 'Manager', v: managerName }].map(r => (
+                                        {[{ l: 'Team Name', v: teamName }, { l: 'Sport', v: teamSport }, { l: 'City', v: teamCity }, { l: 'State', v: td?.state || dynamicPlayer.state || 'Not set' }, { l: 'Founded', v: teamCreated }, { l: 'Manager', v: managerName }].map(r => (
                                             <div key={r.l} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                                                 <span style={{ fontSize: '13px', color: '#94a3b8' }}>{r.l}</span>
                                                 <span style={{ fontSize: '13px', fontWeight: 700, color: '#e2e8f0' }}>{r.v}</span>
@@ -579,13 +527,13 @@ export default function PlayerProfilePage() {
                 <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                     <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-                    <button onClick={handleSave} disabled={saving} style={{
+                    <Link href="/settings" style={{
                         padding: '8px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)',
-                        background: editMode ? '#22c55e' : 'rgba(255,255,255,0.1)', color: '#fff',
-                        fontWeight: 700, fontSize: '13px', cursor: 'pointer', opacity: saving ? 0.7 : 1
+                        background: 'rgba(255,255,255,0.1)', color: '#fff', textDecoration: 'none',
+                        fontWeight: 700, fontSize: '13px', cursor: 'pointer'
                     }}>
-                        {saving ? 'Saving...' : editMode ? '✓ Save Profile' : '✏️ Edit Profile'}
-                    </button>
+                        ⚙️ Settings
+                    </Link>
                 </div>
             </nav>
 
@@ -597,12 +545,7 @@ export default function PlayerProfilePage() {
                     </div>
                     <div style={{ flex: 1, minWidth: '280px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                            {editMode ? (
-                                <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                                    style={{ fontSize: '28px', fontWeight: 900, color: '#fff', background: 'rgba(255,255,255,0.1)', border: '2px solid #6366f1', borderRadius: '8px', padding: '4px 12px' }} />
-                            ) : (
-                                <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff' }}>{form.name}</h1>
-                            )}
+                            <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff' }}>{dynamicPlayer.name}</h1>
                             {dynamicPlayer.verified && <span style={{ padding: '3px 10px', borderRadius: '6px', background: '#22c55e', color: '#fff', fontSize: '11px', fontWeight: 700 }}>✓ Verified</span>}
                         </div>
                         <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -652,34 +595,15 @@ export default function PlayerProfilePage() {
                     {/* Contact info (editable) */}
                     <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '14px', padding: '16px', minWidth: '220px' }}>
                         <div style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px' }}>CONTACT & DETAILS</div>
-                        {editMode ? (
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                {[
-                                    { label: 'Phone', key: 'phone' as const },
-                                    { label: 'Email', key: 'email' as const },
-                                    { label: 'District', key: 'district' as const },
-                                    { label: 'State', key: 'state' as const },
-                                    { label: 'Height', key: 'height' as const },
-                                    { label: 'Weight', key: 'weight' as const },
-                                ].map(f => (
-                                    <div key={f.key} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                        <span style={{ fontSize: '11px', color: '#64748b', width: '60px' }}>{f.label}:</span>
-                                        <input value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-                                            style={{ flex: 1, padding: '5px 10px', borderRadius: '6px', border: '1px solid #4338ca', background: 'rgba(255,255,255,0.05)', color: '#e2e8f0', fontSize: '12px' }} />
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
-                                <span>📞 {form.phone}</span>
-                                <span>📧 {form.email}</span>
-                                <span>📍 {form.district}, {form.state}, {form.country}</span>
-                                <span>👤 {form.gender}</span>
-                                <span>📏 {form.height} • {form.weight}</span>
-                                <span>🏏 {form.battingStyle}</span>
-                                <span>⚾ {form.bowlingStyle}</span>
-                            </div>
-                        )}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
+                            <span>📞 {dynamicPlayer.phone}</span>
+                            <span>📧 {dynamicPlayer.email}</span>
+                            <span>📍 {dynamicPlayer.district}, {dynamicPlayer.state}, {dynamicPlayer.country}</span>
+                            <span>👤 {dynamicPlayer.gender}</span>
+                            <span>📏 {dynamicPlayer.height} • {dynamicPlayer.weight}</span>
+                            <span>🏏 {dynamicPlayer.battingStyle}</span>
+                            <span>⚾ {dynamicPlayer.bowlingStyle}</span>
+                        </div>
                     </div>
                 </div>
 

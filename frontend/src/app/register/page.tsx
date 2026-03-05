@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/lib/store';
 import { roleLabels } from '@/lib/utils';
 import { Country, State, City } from 'country-state-city';
+import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
 const roles = ['PLAYER', 'TEAM_MANAGER', 'ORGANIZER', 'OFFICIAL'];
 
@@ -184,267 +185,274 @@ export default function RegisterWizard() {
             padding: '20px',
         }}>
             <div style={{
-                width: '100%', maxWidth: '520px', padding: '40px',
+                width: '100%', maxWidth: '520px', minHeight: '400px', padding: '40px',
                 borderRadius: '24px', background: 'white',
                 boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
+                display: 'flex', flexDirection: 'column', justifyContent: 'center'
             }}>
-                <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                    <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#1e1b4b' }}>
-                        {step === 1 && "Start Your Journey"}
-                        {step === 2 && "Where are you based?"}
-                        {step === 3 && "Complete Your Profile"}
-                        {step === 4 && "Verify Your Email"}
-                    </h1>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
-                        {[1, 2, 3, 4].map(s => (
-                            <div key={s} style={{
-                                width: '32px', height: '6px', borderRadius: '4px',
-                                background: step >= s ? '#6366f1' : '#e2e8f0',
-                                transition: 'all 0.3s'
-                            }} />
-                        ))}
-                    </div>
-                </div>
-
-                {error && (
-                    <div style={{
-                        padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
-                        background: '#fef2f2', color: '#dc2626', fontSize: '13px', fontWeight: 600,
-                        border: '1px solid #fecaca',
-                    }}>
-                        {error}
-                    </div>
-                )}
-
-                {/* ───────────────── STEP 1: IDENTITY & OTP ───────────────── */}
-                {step === 1 && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                        <div>
-                            <label className="form-label">Account Role</label>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '16px' }}>
-                                {roles.map((r) => (
-                                    <button type="button" key={r} onClick={() => updateCore('role', r)} style={{
-                                        padding: '10px', borderRadius: '10px', fontSize: '12px', fontWeight: 600,
-                                        border: `2px solid ${form.role === r ? '#6366f1' : '#e2e8f0'}`,
-                                        background: form.role === r ? '#eef2ff' : 'white',
-                                        color: form.role === r ? '#4338ca' : '#64748b',
-                                        cursor: 'pointer', transition: 'all 0.2s',
-                                    }}>
-                                        {roleLabels[r] || r}
-                                    </button>
+                {loading ? (
+                    <RunningAthleteLoader />
+                ) : (
+                    <>
+                        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                            <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#1e1b4b' }}>
+                                {step === 1 && "Start Your Journey"}
+                                {step === 2 && "Where are you based?"}
+                                {step === 3 && "Complete Your Profile"}
+                                {step === 4 && "Verify Your Email"}
+                            </h1>
+                            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
+                                {[1, 2, 3, 4].map(s => (
+                                    <div key={s} style={{
+                                        width: '32px', height: '6px', borderRadius: '4px',
+                                        background: step >= s ? '#6366f1' : '#e2e8f0',
+                                        transition: 'all 0.3s'
+                                    }} />
                                 ))}
                             </div>
                         </div>
 
-                        {form.role === 'ORGANIZER' ? (
-                            <div>
-                                <label className="form-label">Organization / Full Name</label>
-                                <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="e.g. Delhi Sports Association" required />
-                                <input type="hidden" value="..." onChange={(e) => updateCore('lastName', e.target.value)} />
-                            </div>
-                        ) : form.role === 'TEAM_MANAGER' ? (
-                            <div>
-                                <label className="form-label">Team Name</label>
-                                <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="e.g. Mumbai Strikers" required />
-                                <input type="hidden" value="..." onChange={(e) => updateCore('lastName', e.target.value)} />
-                            </div>
-                        ) : (
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                                <div>
-                                    <label className="form-label">First Name</label>
-                                    <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="John" required />
-                                </div>
-                                <div>
-                                    <label className="form-label">Last Name</label>
-                                    <input type="text" value={form.lastName} onChange={(e) => updateCore('lastName', e.target.value)} className="input-field" placeholder="Doe" required />
-                                </div>
+                        {error && (
+                            <div style={{
+                                padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
+                                background: '#fef2f2', color: '#dc2626', fontSize: '13px', fontWeight: 600,
+                                border: '1px solid #fecaca',
+                            }}>
+                                {error}
                             </div>
                         )}
 
-                        <div>
-                            <label className="form-label">Email</label>
-                            <input type="email" value={form.email} onChange={(e) => updateCore('email', e.target.value)} className="input-field" placeholder="you@example.com" />
-                            <small style={{ color: '#64748b', fontSize: '11px', marginTop: '4px', display: 'block' }}>Email verification link will be sent after registration.</small>
-                        </div>
-
-                        <div>
-                            <label className="form-label">Password</label>
-                            <input type="password" value={form.password} onChange={(e) => updateCore('password', e.target.value)} className="input-field" placeholder="Min 6 characters" />
-                        </div>
-
-
-
-                        {/* Phone Section */}
-                        <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                            <label className="form-label">Phone Number</label>
-                            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                                <select
-                                    value={phoneData.countryCode}
-                                    onChange={(e) => updatePhone('countryCode', e.target.value)}
-                                    className="input-field" style={{ width: '90px', padding: '0 8px' }}
-                                >
-                                    <option value="+91">+91 (IN)</option>
-                                    <option value="+1">+1 (US)</option>
-                                    <option value="+44">+44 (UK)</option>
-                                    <option value="+61">+61 (AU)</option>
-                                </select>
-                                <input
-                                    type="tel" value={phoneData.phone} onChange={(e) => updatePhone('phone', e.target.value)}
-                                    className="input-field" placeholder="Phone Number" style={{ flex: 1 }}
-                                />
-                            </div>
-                        </div>
-
-                        <button type="button" onClick={handleNextStep1} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px' }}>
-                            Next Step →
-                        </button>
-                    </div>
-                )}
-
-                {/* ───────────────── STEP 2: LOCATION ───────────────── */}
-                {step === 2 && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        <div>
-                            <label className="form-label">Country</label>
-                            <select value={location.countryIso} onChange={(e) => {
-                                updateLoc('countryIso', e.target.value);
-                                setLocation((prev) => ({ ...prev, stateIso: '', districtName: '' })); // Reset State & District securely
-                            }} className="input-field">
-                                {countries.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="form-label">State / Province</label>
-                            <select value={location.stateIso} onChange={(e) => {
-                                updateLoc('stateIso', e.target.value);
-                                setLocation((prev) => ({ ...prev, districtName: '' })); // Reset District securely
-                            }} className="input-field">
-                                <option value="">-- Select State --</option>
-                                {states.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="form-label">City / District</label>
-                            <select value={location.districtName} onChange={(e) => updateLoc('districtName', e.target.value)} className="input-field" disabled={!location.stateIso}>
-                                <option value="">-- Select District --</option>
-                                {cities.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
-                            </select>
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-                            <button type="button" onClick={() => setStep(1)} style={{
-                                flex: 1, padding: '14px', borderRadius: '12px', background: '#f1f5f9', color: '#475569', fontWeight: 600, border: 'none', cursor: 'pointer'
-                            }}>
-                                ← Back
-                            </button>
-                            <button type="button" onClick={handleNextStep2} className="btn-primary" style={{ flex: 1, justifyContent: 'center', padding: '14px' }}>
-                                Next Step →
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-                {/* ───────────────── STEP 3: DEMOGRAPHICS ───────────────── */}
-                {step === 3 && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        {form.role === 'PLAYER' && (
-                            <>
+                        {/* ───────────────── STEP 1: IDENTITY & OTP ───────────────── */}
+                        {step === 1 && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                                 <div>
-                                    <label className="form-label">Gender</label>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                                        {['Male', 'Female', 'Other', 'Prefer not to say'].map(g => (
-                                            <button type="button" key={g} onClick={() => updateDemo('gender', g)} style={{
-                                                padding: '10px', borderRadius: '8px', fontSize: '13px', fontWeight: 500,
-                                                border: `1px solid ${demographics.gender === g ? '#6366f1' : '#cbd5e1'}`,
-                                                background: demographics.gender === g ? '#eef2ff' : 'white',
-                                                color: demographics.gender === g ? '#4338ca' : '#475569',
-                                                cursor: 'pointer'
+                                    <label className="form-label">Account Role</label>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '16px' }}>
+                                        {roles.map((r) => (
+                                            <button type="button" key={r} onClick={() => updateCore('role', r)} style={{
+                                                padding: '10px', borderRadius: '10px', fontSize: '12px', fontWeight: 600,
+                                                border: `2px solid ${form.role === r ? '#6366f1' : '#e2e8f0'}`,
+                                                background: form.role === r ? '#eef2ff' : 'white',
+                                                color: form.role === r ? '#4338ca' : '#64748b',
+                                                cursor: 'pointer', transition: 'all 0.2s',
                                             }}>
-                                                {g}
+                                                {roleLabels[r] || r}
                                             </button>
                                         ))}
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label className="form-label">Height (cm) <span style={{ fontWeight: 400, color: '#94a3b8' }}>(Optional)</span></label>
-                                    <input type="number" value={demographics.heightCm} onChange={(e) => updateDemo('heightCm', e.target.value)} className="input-field" placeholder="175" />
-                                </div>
-                            </>
-                        )}
-
-                        <div>
-                            <label className="form-label">
-                                Profile Photo
-                                {form.role === 'PLAYER' && <span style={{ color: '#dc2626', marginLeft: '4px' }}>*</span>}
-                            </label>
-                            <div style={{
-                                border: '2px dashed #cbd5e1', borderRadius: '12px', padding: '24px', textAlign: 'center', background: '#f8fafc',
-                                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px'
-                            }}>
-                                {demographics.avatar ? (
-                                    <div style={{ width: '80px', height: '80px', borderRadius: '40px', overflow: 'hidden', border: '3px solid #6366f1' }}>
-                                        <img src={demographics.avatar} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                {form.role === 'ORGANIZER' ? (
+                                    <div>
+                                        <label className="form-label">Organization / Full Name</label>
+                                        <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="e.g. Delhi Sports Association" required />
+                                        <input type="hidden" value="..." onChange={(e) => updateCore('lastName', e.target.value)} />
+                                    </div>
+                                ) : form.role === 'TEAM_MANAGER' ? (
+                                    <div>
+                                        <label className="form-label">Team Name</label>
+                                        <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="e.g. Mumbai Strikers" required />
+                                        <input type="hidden" value="..." onChange={(e) => updateCore('lastName', e.target.value)} />
                                     </div>
                                 ) : (
-                                    <span style={{ fontSize: '32px' }}>📸</span>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                                        <div>
+                                            <label className="form-label">First Name</label>
+                                            <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="John" required />
+                                        </div>
+                                        <div>
+                                            <label className="form-label">Last Name</label>
+                                            <input type="text" value={form.lastName} onChange={(e) => updateCore('lastName', e.target.value)} className="input-field" placeholder="Doe" required />
+                                        </div>
+                                    </div>
                                 )}
+
                                 <div>
-                                    <label style={{ display: 'inline-block', background: '#e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, color: '#475569', cursor: 'pointer' }}>
-                                        Upload Image
-                                        <input type="file" accept="image/*" onChange={handlePhotoUpload} style={{ display: 'none' }} />
-                                    </label>
-                                    <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '6px' }}>Max 2MB. Jpeg, Png.</p>
+                                    <label className="form-label">Email</label>
+                                    <input type="email" value={form.email} onChange={(e) => updateCore('email', e.target.value)} className="input-field" placeholder="you@example.com" />
+                                    <small style={{ color: '#64748b', fontSize: '11px', marginTop: '4px', display: 'block' }}>Email verification link will be sent after registration.</small>
+                                </div>
+
+                                <div>
+                                    <label className="form-label">Password</label>
+                                    <input type="password" value={form.password} onChange={(e) => updateCore('password', e.target.value)} className="input-field" placeholder="Min 6 characters" />
+                                </div>
+
+
+
+                                {/* Phone Section */}
+                                <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                                    <label className="form-label">Phone Number</label>
+                                    <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                                        <select
+                                            value={phoneData.countryCode}
+                                            onChange={(e) => updatePhone('countryCode', e.target.value)}
+                                            className="input-field" style={{ width: '90px', padding: '0 8px' }}
+                                        >
+                                            <option value="+91">+91 (IN)</option>
+                                            <option value="+1">+1 (US)</option>
+                                            <option value="+44">+44 (UK)</option>
+                                            <option value="+61">+61 (AU)</option>
+                                        </select>
+                                        <input
+                                            type="tel" value={phoneData.phone} onChange={(e) => updatePhone('phone', e.target.value)}
+                                            className="input-field" placeholder="Phone Number" style={{ flex: 1 }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <button type="button" onClick={handleNextStep1} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px' }}>
+                                    Next Step →
+                                </button>
+                            </div>
+                        )}
+
+                        {/* ───────────────── STEP 2: LOCATION ───────────────── */}
+                        {step === 2 && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div>
+                                    <label className="form-label">Country</label>
+                                    <select value={location.countryIso} onChange={(e) => {
+                                        updateLoc('countryIso', e.target.value);
+                                        setLocation((prev) => ({ ...prev, stateIso: '', districtName: '' })); // Reset State & District securely
+                                    }} className="input-field">
+                                        {countries.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="form-label">State / Province</label>
+                                    <select value={location.stateIso} onChange={(e) => {
+                                        updateLoc('stateIso', e.target.value);
+                                        setLocation((prev) => ({ ...prev, districtName: '' })); // Reset District securely
+                                    }} className="input-field">
+                                        <option value="">-- Select State --</option>
+                                        {states.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="form-label">City / District</label>
+                                    <select value={location.districtName} onChange={(e) => updateLoc('districtName', e.target.value)} className="input-field" disabled={!location.stateIso}>
+                                        <option value="">-- Select District --</option>
+                                        {cities.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
+                                    </select>
+                                </div>
+
+                                <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+                                    <button type="button" onClick={() => setStep(1)} style={{
+                                        flex: 1, padding: '14px', borderRadius: '12px', background: '#f1f5f9', color: '#475569', fontWeight: 600, border: 'none', cursor: 'pointer'
+                                    }}>
+                                        ← Back
+                                    </button>
+                                    <button type="button" onClick={handleNextStep2} className="btn-primary" style={{ flex: 1, justifyContent: 'center', padding: '14px' }}>
+                                        Next Step →
+                                    </button>
                                 </div>
                             </div>
-                        </div>
+                        )}
 
-                        <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-                            <button type="button" onClick={() => setStep(2)} style={{
-                                flex: 1, padding: '14px', borderRadius: '12px', background: '#f1f5f9', color: '#475569', fontWeight: 600, border: 'none', cursor: 'pointer'
-                            }}>
-                                ← Back
-                            </button>
-                            <button type="button" onClick={handleSignupInit} className="btn-primary" disabled={loading} style={{
-                                flex: 2, justifyContent: 'center', padding: '14px', opacity: loading ? 0.7 : 1
-                            }}>
-                                {loading ? '⏳ Sending OTP...' : '✨ Next: Verify Email'}
-                            </button>
-                        </div>
-                    </div>
-                )}
+                        {/* ───────────────── STEP 3: DEMOGRAPHICS ───────────────── */}
+                        {step === 3 && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                {form.role === 'PLAYER' && (
+                                    <>
+                                        <div>
+                                            <label className="form-label">Gender</label>
+                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                                                {['Male', 'Female', 'Other', 'Prefer not to say'].map(g => (
+                                                    <button type="button" key={g} onClick={() => updateDemo('gender', g)} style={{
+                                                        padding: '10px', borderRadius: '8px', fontSize: '13px', fontWeight: 500,
+                                                        border: `1px solid ${demographics.gender === g ? '#6366f1' : '#cbd5e1'}`,
+                                                        background: demographics.gender === g ? '#eef2ff' : 'white',
+                                                        color: demographics.gender === g ? '#4338ca' : '#475569',
+                                                        cursor: 'pointer'
+                                                    }}>
+                                                        {g}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
 
-                {/* ───────────────── STEP 4: EMAIL OTP VERIFICATION ───────────────── */}
-                {step === 4 && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '48px', marginBottom: '8px' }}>✉️</div>
-                        <h3 style={{ fontSize: '18px', color: '#1e293b', fontWeight: 600 }}>We sent you a code</h3>
-                        <p style={{ color: '#475569', fontSize: '14px', marginBottom: '16px' }}>
-                            Please check <strong style={{ color: '#1e1b4b' }}>{form.email}</strong> for a 6-digit verification code from Supabase.
-                        </p>
+                                        <div>
+                                            <label className="form-label">Height (cm) <span style={{ fontWeight: 400, color: '#94a3b8' }}>(Optional)</span></label>
+                                            <input type="number" value={demographics.heightCm} onChange={(e) => updateDemo('heightCm', e.target.value)} className="input-field" placeholder="175" />
+                                        </div>
+                                    </>
+                                )}
 
-                        <div>
-                            <input
-                                type="text"
-                                value={emailOtp}
-                                onChange={(e) => setEmailOtp(e.target.value)}
-                                className="input-field"
-                                placeholder="Enter 6-digit OTP"
-                                style={{ letterSpacing: '4px', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}
-                                maxLength={6}
-                            />
-                        </div>
+                                <div>
+                                    <label className="form-label">
+                                        Profile Photo
+                                        {form.role === 'PLAYER' && <span style={{ color: '#dc2626', marginLeft: '4px' }}>*</span>}
+                                    </label>
+                                    <div style={{
+                                        border: '2px dashed #cbd5e1', borderRadius: '12px', padding: '24px', textAlign: 'center', background: '#f8fafc',
+                                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px'
+                                    }}>
+                                        {demographics.avatar ? (
+                                            <div style={{ width: '80px', height: '80px', borderRadius: '40px', overflow: 'hidden', border: '3px solid #6366f1' }}>
+                                                <img src={demographics.avatar} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            </div>
+                                        ) : (
+                                            <span style={{ fontSize: '32px' }}>📸</span>
+                                        )}
+                                        <div>
+                                            <label style={{ display: 'inline-block', background: '#e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, color: '#475569', cursor: 'pointer' }}>
+                                                Upload Image
+                                                <input type="file" accept="image/*" onChange={handlePhotoUpload} style={{ display: 'none' }} />
+                                            </label>
+                                            <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '6px' }}>Max 2MB. Jpeg, Png.</p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-                            <button type="button" onClick={handleVerifyEmailOtp} className="btn-primary" disabled={loading} style={{
-                                width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.7 : 1
-                            }}>
-                                {loading ? '⏳ Verifying...' : '✅ Verify & Enter Dashboard'}
-                            </button>
-                        </div>
-                    </div>
+                                <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+                                    <button type="button" onClick={() => setStep(2)} style={{
+                                        flex: 1, padding: '14px', borderRadius: '12px', background: '#f1f5f9', color: '#475569', fontWeight: 600, border: 'none', cursor: 'pointer'
+                                    }}>
+                                        ← Back
+                                    </button>
+                                    <button type="button" onClick={handleSignupInit} className="btn-primary" style={{
+                                        flex: 2, justifyContent: 'center', padding: '14px'
+                                    }}>
+                                        ✨ Next: Verify Email
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ───────────────── STEP 4: EMAIL OTP VERIFICATION ───────────────── */}
+                        {step === 4 && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '48px', marginBottom: '8px' }}>✉️</div>
+                                <h3 style={{ fontSize: '18px', color: '#1e293b', fontWeight: 600 }}>We sent you a code</h3>
+                                <p style={{ color: '#475569', fontSize: '14px', marginBottom: '16px' }}>
+                                    Please check <strong style={{ color: '#1e1b4b' }}>{form.email}</strong> for a 6-digit verification code from Supabase.
+                                </p>
+
+                                <div>
+                                    <input
+                                        type="text"
+                                        value={emailOtp}
+                                        onChange={(e) => setEmailOtp(e.target.value)}
+                                        className="input-field"
+                                        placeholder="Enter 6-digit OTP"
+                                        style={{ letterSpacing: '4px', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}
+                                        maxLength={6}
+                                    />
+                                </div>
+
+                                <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+                                    <button type="button" onClick={handleVerifyEmailOtp} className="btn-primary" style={{
+                                        width: '100%', justifyContent: 'center', padding: '14px'
+                                    }}>
+                                        ✅ Verify & Enter Dashboard
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </>
                 )}
 
                 <style jsx>{`

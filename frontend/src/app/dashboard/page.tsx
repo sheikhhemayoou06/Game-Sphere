@@ -46,17 +46,12 @@ const PLAYER_CARDS = [
 const TEAM_MANAGER_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & apply for events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
     { href: '/teams', label: 'My Team', desc: 'Manage roster & squad', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/profile', label: 'Team Profile', desc: 'Your team\'s public profile', icon: <IdCard size={20} />, gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
-    { href: '/fixtures', label: 'Fixtures', desc: 'Upcoming matches', icon: <ClipboardList size={20} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
     { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: <Siren size={20} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
     { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: <DollarSign size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
     { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: <ArrowLeftRight size={20} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
-    { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: <Medal size={20} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-    { href: '/calendar', label: 'Calendar', desc: 'Event schedule', icon: <Calendar size={20} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
     { href: '/messages', label: 'Messages', desc: 'Communication hub', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
     { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
-    { href: '/help', label: 'Help & Support', desc: 'FAQ & contact', icon: <HelpCircle size={20} />, gradient: 'linear-gradient(135deg, #854d0e, #d97706)' },
 ];
 
 // ─── ORGANIZER: Event management & tournament creation ───
@@ -652,8 +647,8 @@ export default function DashboardPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    {/* Player Hamburger Menu - Left Side Drawer */}
-                    {roleGroup === 'player' && (
+                    {/* Hamburger Menu - Left Side Drawer (Player & Team Manager) */}
+                    {(roleGroup === 'player' || roleGroup === 'team_manager') && (
                         <>
                             <button
                                 onClick={() => setPlayerMenuOpen(true)}
@@ -705,20 +700,25 @@ export default function DashboardPage() {
 
                                 <div style={{ padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
                                     <Link href="/profile" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <IdCard size={20} color="#475569" /> My Profile
+                                        <IdCard size={20} color="#475569" /> {roleGroup === 'team_manager' ? 'Team Profile' : 'My Profile'}
                                     </Link>
                                     <Link href="/settings/security" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
                                         <ShieldCheck size={20} color="#475569" /> Security & Passwords
                                     </Link>
                                     <Link href="/certificates" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <Award size={20} color="#475569" /> Certificates
+                                        <Award size={20} color="#475569" /> Certificates & Awards
                                     </Link>
                                     <Link href="/leaderboard" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
-                                        <Medal size={20} color="#475569" /> Leader Board
+                                        <Medal size={20} color="#475569" /> Leaderboard
                                     </Link>
                                     <Link href="/calendar" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
                                         <Calendar size={20} color="#475569" /> Calendar
                                     </Link>
+                                    {roleGroup === 'team_manager' && (
+                                        <Link href="/fixtures" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
+                                            <ClipboardList size={20} color="#475569" /> Fixtures
+                                        </Link>
+                                    )}
                                     <Link href="/media" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', borderRadius: '12px', textDecoration: 'none', color: '#334155', fontSize: '15px', fontWeight: 600 }} className="hover-bg-slate">
                                         <Camera size={20} color="#475569" /> Media
                                     </Link>
@@ -745,7 +745,7 @@ export default function DashboardPage() {
                         </>
                     )}
 
-                    <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginLeft: roleGroup === 'player' ? '4px' : '0' }}>
+                    <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginLeft: (roleGroup === 'player' || roleGroup === 'team_manager') ? '4px' : '0' }}>
                         <span style={{ fontSize: '24px' }}>🌐</span>
                         <span style={{
                             fontSize: '20px', fontWeight: 800,

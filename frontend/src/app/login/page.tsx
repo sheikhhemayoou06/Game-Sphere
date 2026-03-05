@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/lib/store';
+import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -54,70 +55,76 @@ export default function LoginPage() {
             padding: '20px',
         }}>
             <div style={{
-                width: '100%', maxWidth: '440px', padding: '48px 40px',
+                width: '100%', maxWidth: '440px', minHeight: '400px', padding: '48px 40px',
                 borderRadius: '24px', background: 'white',
                 boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
+                display: 'flex', flexDirection: 'column', justifyContent: 'center'
             }}>
-                <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-                    <span style={{ fontSize: '40px' }}>🌐</span>
-                    <h1 style={{ fontSize: '28px', fontWeight: 800, marginTop: '12px', color: '#1e1b4b', letterSpacing: '-0.5px' }}>
-                        Welcome Back
-                    </h1>
-                    <p style={{ color: '#64748b', fontSize: '14px', marginTop: '6px' }}>
-                        Sign in to Game Sphere
-                    </p>
-                </div>
+                {loading ? (
+                    <RunningAthleteLoader />
+                ) : (
+                    <>
+                        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+                            <span style={{ fontSize: '40px' }}>🌐</span>
+                            <h1 style={{ fontSize: '28px', fontWeight: 800, marginTop: '12px', color: '#1e1b4b', letterSpacing: '-0.5px' }}>
+                                Welcome Back
+                            </h1>
+                            <p style={{ color: '#64748b', fontSize: '14px', marginTop: '6px' }}>
+                                Sign in to Game Sphere
+                            </p>
+                        </div>
 
-                {error && (
-                    <div style={{
-                        padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
-                        background: '#fef2f2', color: '#dc2626', fontSize: '14px', fontWeight: 500,
-                        border: '1px solid #fecaca',
-                    }}>
-                        {error}
-                    </div>
+                        {error && (
+                            <div style={{
+                                padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
+                                background: '#fef2f2', color: '#dc2626', fontSize: '14px', fontWeight: 500,
+                                border: '1px solid #fecaca',
+                            }}>
+                                {error}
+                            </div>
+                        )}
+                        {message && (
+                            <div style={{
+                                padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
+                                background: '#f0fdf4', color: '#16a34a', fontSize: '14px', fontWeight: 500,
+                                border: '1px solid #bbf7d0',
+                            }}>
+                                {message}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+                            <div>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                    Email
+                                </label>
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                                    className="input-field" placeholder="you@example.com" required style={{ color: '#1e1b4b' }} />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                    Password
+                                </label>
+                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                                    className="input-field" placeholder="••••••••" required style={{ color: '#1e1b4b' }} />
+                            </div>
+
+                            <button type="submit" className="btn-primary" style={{
+                                width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px'
+                            }}>
+                                🔐 Sign In
+                            </button>
+                        </form>
+
+                        <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#64748b' }}>
+                            Don&apos;t have an account?{' '}
+                            <Link href="/register" style={{ color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>
+                                Register
+                            </Link>
+                        </p>
+                    </>
                 )}
-                {message && (
-                    <div style={{
-                        padding: '12px 16px', borderRadius: '10px', marginBottom: '20px',
-                        background: '#f0fdf4', color: '#16a34a', fontSize: '14px', fontWeight: 500,
-                        border: '1px solid #bbf7d0',
-                    }}>
-                        {message}
-                    </div>
-                )}
-
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-
-                    <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
-                            Email
-                        </label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                            className="input-field" placeholder="you@example.com" required style={{ color: '#1e1b4b' }} />
-                    </div>
-                    <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
-                            Password
-                        </label>
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                            className="input-field" placeholder="••••••••" required style={{ color: '#1e1b4b' }} />
-                    </div>
-
-                    <button type="submit" className="btn-primary" disabled={loading} style={{
-                        width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px',
-                        opacity: loading ? 0.7 : 1,
-                    }}>
-                        {loading ? '⏳ Please wait...' : '🔐 Sign In'}
-                    </button>
-                </form>
-
-                <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#64748b' }}>
-                    Don&apos;t have an account?{' '}
-                    <Link href="/register" style={{ color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>
-                        Register
-                    </Link>
-                </p>
             </div>
         </div>
     );
