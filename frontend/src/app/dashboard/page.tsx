@@ -35,7 +35,6 @@ function getRoleGroup(role: string): RoleGroup {
 // ─── PLAYER: Sports-focused, personal experience ───
 const PLAYER_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & join events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-    { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: <Siren size={20} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
     { href: '/training', label: 'Training', desc: 'Coaching programs', icon: <Dumbbell size={20} />, gradient: 'linear-gradient(135deg, #115e59, #14b8a6)' },
     { href: '/teams', label: 'My Team', desc: 'Roster & teammates', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
@@ -46,7 +45,6 @@ const PLAYER_CARDS = [
 const TEAM_MANAGER_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & apply for events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
     { href: '/teams', label: 'My Team', desc: 'Manage roster & squad', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-    { href: '/scoring', label: 'Live Scores', desc: 'Real-time match updates', icon: <Siren size={20} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
     { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: <DollarSign size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
     { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: <ArrowLeftRight size={20} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
@@ -746,6 +744,9 @@ export default function DashboardPage() {
 
                                 {/* ── Menu Group 2: Features ── */}
                                 <div style={{ padding: '4px 14px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <Link href="/scoring" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
+                                        <Siren size={18} color="#dc2626" /> Live Scores
+                                    </Link>
                                     <Link href="/calendar" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Calendar size={18} color="#64748b" /> Calendar
                                     </Link>
