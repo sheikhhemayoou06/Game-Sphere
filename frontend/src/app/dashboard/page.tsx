@@ -1169,7 +1169,7 @@ export default function DashboardPage() {
                                     </div>
 
                                     {/* ─── Team Specific Live Matches Bar ─── */}
-                                    {ownerDashData?.liveMatches && Array.isArray(ownerDashData.liveMatches) && ownerDashData.liveMatches.filter((m: any) => m.homeTeam?.id === team.id || m.awayTeam?.id === team.id).map((liveMatch: any) => (
+                                    {liveMatches && Array.isArray(liveMatches) && liveMatches.filter((m: any) => m.homeTeam?.id === team.id || m.awayTeam?.id === team.id).map((liveMatch: any) => (
                                         <Link key={`live-${liveMatch.id}`} href={`/matches/${liveMatch.id}`} style={{
                                             display: 'block', padding: '16px 20px', borderRadius: '16px',
                                             background: 'linear-gradient(90deg, #fef2f2, #fff1f2)', border: '1px solid #fecaca',
