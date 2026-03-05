@@ -47,7 +47,6 @@ const TEAM_MANAGER_CARDS = [
     { href: '/teams', label: 'My Team', desc: 'Manage roster & squad', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
     { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: <ArrowLeftRight size={20} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
-    { href: '/messages', label: 'Messages', desc: 'Communication hub', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
     { href: '/payments', label: 'Payments', desc: 'Finance & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
 ];
 
@@ -63,7 +62,6 @@ const ORGANIZER_CARDS = [
     { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: <ArrowLeftRight size={20} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
     { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: <Medal size={20} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
     { href: '/calendar', label: 'Calendar', desc: 'Event schedule', icon: <Calendar size={20} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
-    { href: '/messages', label: 'Messages', desc: 'Communication hub', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
     { href: '/reports', label: 'Match Reports', desc: 'Reports & protests', icon: <FileText size={20} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
     { href: '/auction', label: 'Player Auction', desc: 'Run & manage auctions', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
     { href: '/payments', label: 'Payments', desc: 'Revenue & payouts', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
@@ -84,7 +82,6 @@ const OFFICIAL_CARDS = [
     { href: '/leaderboard', label: 'Leaderboard', desc: 'Rankings overview', icon: <Medal size={20} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
     { href: '/profile', label: 'My Profile', desc: 'Official profile', icon: <IdCard size={20} />, gradient: 'linear-gradient(135deg, #3730a3, #4f46e5)' },
     { href: '/payments', label: 'Payments', desc: 'Match fees & payouts', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
-    { href: '/messages', label: 'Messages', desc: 'Communication', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
     { href: '/notifications', label: 'Notifications', desc: 'Alerts & updates', icon: <Bell size={20} />, gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
 ];
 
@@ -109,7 +106,6 @@ const ADMIN_CARDS = [
     { href: '/leaderboard', label: 'Leaderboard', desc: 'Player rankings', icon: <Medal size={20} />, gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
     { href: '/teams', label: 'All Teams', desc: 'Manage rosters', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
     { href: '/training', label: 'Training', desc: 'Coaching programs', icon: <Dumbbell size={20} />, gradient: 'linear-gradient(135deg, #115e59, #14b8a6)' },
-    { href: '/messages', label: 'Messages', desc: 'Internal chat', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
     { href: '/reports', label: 'Match Reports', desc: 'Reports & protests', icon: <FileText size={20} />, gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
     { href: '/notifications', label: 'Notifications', desc: 'System alerts', icon: <Bell size={20} />, gradient: 'linear-gradient(135deg, #9f1239, #be123c)' },
     { href: '/calendar', label: 'Calendar', desc: 'All events', icon: <Calendar size={20} />, gradient: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
@@ -826,7 +822,7 @@ export default function DashboardPage() {
                         border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'background 0.2s', position: 'relative'
                     }} className="hover-bg-slate">
-                        <Bell size={20} />
+                        <Bell size={20} strokeWidth={2.5} />
                         <span style={{
                             position: 'absolute', top: '6px', right: '8px',
                             width: '8px', height: '8px', backgroundColor: '#ef4444',
@@ -839,7 +835,7 @@ export default function DashboardPage() {
                         border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'background 0.2s', position: 'relative'
                     }} className="hover-bg-slate">
-                        <MessageSquare size={20} />
+                        <MessageSquare size={20} strokeWidth={2.5} />
                         <span style={{
                             position: 'absolute', top: '4px', right: '4px',
                             width: '8px', height: '8px', backgroundColor: '#ef4444',
