@@ -1142,23 +1142,46 @@ export default function DashboardPage() {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
                             {/* Team Overview — from API data */}
                             {ownerDashData?.teams?.map((team: any) => (
-                                <div key={team.id} style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
-                                        <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}</div>
-                                        <div>
-                                            <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{team.name}</div>
-                                            <div style={{ fontSize: '12px', color: selectedSport.accentColor || '#6d28d9' }}>{selectedSport.icon || sportIcons[selectedSport.name]} {selectedSport.name}</div>
+                                <div key={team.id} style={{ padding: '24px', borderRadius: '20px', background: 'linear-gradient(145deg, #ffffff, #faf5ff)', border: `1px solid ${selectedSport.accentColor || '#e9d5ff'}`, boxShadow: '0 8px 24px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden', marginBottom: '16px' }}>
+
+                                    {/* Decorative background circle */}
+                                    <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: `radial-gradient(circle, ${selectedSport.accentColor || '#7c3aed'}15 0%, transparent 70%)`, transform: 'translate(30%, -30%)', borderRadius: '50%' }}></div>
+
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', position: 'relative', zIndex: 1 }} className="flex-wrap-mobile">
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                            <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', color: 'white', boxShadow: `0 4px 12px ${selectedSport.accentColor || '#7c3aed'}40` }}>
+                                                {selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}
+                                            </div>
+                                            <div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                                                    <h3 style={{ fontWeight: 900, fontSize: '22px', color: '#1e1b4b', margin: 0 }}>{team.name}</h3>
+                                                    <span style={{ padding: '4px 10px', borderRadius: '20px', background: `${selectedSport.accentColor || '#7c3aed'}15`, color: selectedSport.accentColor || '#7c3aed', fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                                        {selectedSport.name}
+                                                    </span>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#64748b' }}>
+                                                    <Fingerprint size={14} color={selectedSport.accentColor || '#7c3aed'} />
+                                                    <span style={{ fontWeight: 600 }}>Team ID:</span>
+                                                    <span style={{ fontFamily: 'monospace', background: '#f1f5f9', padding: '4px 8px', borderRadius: '6px', color: '#1e293b', fontWeight: 700, letterSpacing: '1px' }}>
+                                                        {team.teamCode || team.id.substring(0, 8).toUpperCase()}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+
+                                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)', gap: '12px', position: 'relative', zIndex: 1 }}>
                                         {[
-                                            { label: 'Record', value: `${ownerDashData.stats?.wins || 0}W-${ownerDashData.stats?.losses || 0}L`, color: "inherit" },
-                                            { label: 'Players', value: team.playerCount, color: selectedSport.accentColor || '#7c3aed' },
-                                            { label: 'Tournaments', value: team.tournamentCount, color: "inherit" },
+                                            { label: 'Win/Loss Record', value: `${ownerDashData.stats?.wins || 0}W - ${ownerDashData.stats?.losses || 0}L`, color: '#10b981', icon: '🏆', bg: '#ecfdf5' },
+                                            { label: 'Active Roster', value: team.playerCount, color: selectedSport.accentColor || '#7c3aed', icon: '👥', bg: `${selectedSport.accentColor || '#7c3aed'}15` },
+                                            { label: 'Tournaments Played', value: team.tournamentCount, color: '#f59e0b', icon: '🏅', bg: '#fffbeb' },
                                         ].map((s: any, i: number) => (
-                                            <div key={i} style={{ textAlign: 'center', padding: '8px', borderRadius: '8px', background: '#faf5ff' }}>
-                                                <div style={{ fontSize: '16px', fontWeight: 800, color: s.color }}>{s.value}</div>
-                                                <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
+                                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '16px', borderRadius: '16px', background: s.bg, border: `1px solid ${s.color}20`, transition: 'transform 0.2s', cursor: 'default' }} className="hover:scale-105">
+                                                <div style={{ fontSize: '28px' }}>{s.icon}</div>
+                                                <div>
+                                                    <div style={{ fontSize: '18px', fontWeight: 900, color: s.color }}>{s.value}</div>
+                                                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '2px' }}>{s.label}</div>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
