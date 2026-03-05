@@ -46,10 +46,9 @@ const TEAM_MANAGER_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & apply for events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
     { href: '/teams', label: 'My Team', desc: 'Manage roster & squad', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
-    { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: <DollarSign size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
     { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: <ArrowLeftRight size={20} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
     { href: '/messages', label: 'Messages', desc: 'Communication hub', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #5b21b6, #7c3aed)' },
-    { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
+    { href: '/payments', label: 'Payments', desc: 'Finance & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
 ];
 
 // ─── ORGANIZER: Event management & tournament creation ───
@@ -59,7 +58,6 @@ const ORGANIZER_CARDS = [
     { href: '/scoring', label: 'Live Scoring', desc: 'Score ongoing matches', icon: <Siren size={20} />, gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
     { href: '/teams', label: 'Teams', desc: 'Manage all rosters', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
     { href: '/venues', label: 'Venues', desc: 'Stadiums & facilities', icon: <Landmark size={20} />, gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
-    { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: <DollarSign size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
     { href: '/sponsorships', label: 'Sponsorships', desc: 'Sponsors & ad revenue', icon: <Gem size={20} />, gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
     { href: '/certificates', label: 'Certificates', desc: 'Award certificates', icon: <Award size={20} />, gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
     { href: '/transfers', label: 'Transfers', desc: 'Player movement hub', icon: <ArrowLeftRight size={20} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
