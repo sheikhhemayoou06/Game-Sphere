@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,11 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         @page {
             size: A4;
@@ -22,7 +27,9 @@
             font-size: 11pt;
         }
 
-        .page-break { page-break-before: always; }
+        .page-break {
+            page-break-before: always;
+        }
 
         /* Cover Page */
         .cover {
@@ -37,36 +44,82 @@
             padding: 60px 40px;
         }
 
-        .cover-icon { font-size: 80px; margin-bottom: 20px; }
-        .cover h1 { font-size: 48px; font-weight: 900; margin-bottom: 8px; letter-spacing: -1px; }
-        .cover .subtitle { font-size: 20px; color: #a5b4fc; margin-bottom: 40px; font-weight: 500; }
+        .cover-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .cover h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .cover .subtitle {
+            font-size: 20px;
+            color: #a5b4fc;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
         .cover .meta-box {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 28px 48px;
             margin-top: 20px;
         }
+
         .cover .meta-box p {
             font-size: 14px;
             color: #cbd5e1;
             margin: 6px 0;
         }
-        .cover .meta-box strong { color: #fff; }
-        .cover .badge-row { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+
+        .cover .meta-box strong {
+            color: #fff;
+        }
+
+        .cover .badge-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
         .cover .badge {
             padding: 8px 20px;
             border-radius: 8px;
             font-weight: 700;
             font-size: 14px;
         }
-        .badge-blue { background: #3b82f6; color: #fff; }
-        .badge-green { background: #22c55e; color: #fff; }
-        .badge-purple { background: #7c3aed; color: #fff; }
-        .badge-amber { background: #f59e0b; color: #fff; }
+
+        .badge-blue {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .badge-green {
+            background: #22c55e;
+            color: #fff;
+        }
+
+        .badge-purple {
+            background: #7c3aed;
+            color: #fff;
+        }
+
+        .badge-amber {
+            background: #f59e0b;
+            color: #fff;
+        }
 
         /* Content */
-        .content { padding: 0; }
+        .content {
+            padding: 0;
+        }
 
         h2 {
             font-size: 24px;
@@ -91,7 +144,10 @@
             margin: 16px 0 8px;
         }
 
-        p { margin: 8px 0; color: #475569; }
+        p {
+            margin: 8px 0;
+            color: #475569;
+        }
 
         /* Tables */
         table {
@@ -116,7 +172,9 @@
             color: #334155;
         }
 
-        tr:nth-child(even) { background: #f8fafc; }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
 
         .status-badge {
             display: inline-block;
@@ -126,8 +184,15 @@
             font-size: 10px;
         }
 
-        .status-complete { background: #dcfce7; color: #16a34a; }
-        .status-active { background: #dbeafe; color: #2563eb; }
+        .status-complete {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-active {
+            background: #dbeafe;
+            color: #2563eb;
+        }
 
         /* Stats Grid */
         .stats-grid {
@@ -172,7 +237,11 @@
             color: #0f172a;
         }
 
-        .page-list { list-style: none; padding: 0; }
+        .page-list {
+            list-style: none;
+            padding: 0;
+        }
+
         .page-list li {
             padding: 6px 0;
             border-bottom: 1px solid #f1f5f9;
@@ -180,9 +249,24 @@
             justify-content: space-between;
             align-items: center;
         }
-        .page-list li:last-child { border-bottom: none; }
-        .page-name { font-weight: 600; color: #1e293b; }
-        .page-route { font-family: 'Courier New', monospace; font-size: 10pt; color: #7c3aed; background: #f5f3ff; padding: 2px 8px; border-radius: 4px; }
+
+        .page-list li:last-child {
+            border-bottom: none;
+        }
+
+        .page-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .page-route {
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            color: #7c3aed;
+            background: #f5f3ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
 
         /* Tech Stack */
         .tech-grid {
@@ -199,8 +283,17 @@
             padding: 14px 18px;
         }
 
-        .tech-card h4 { margin: 0 0 4px; color: #0f172a; font-size: 13px; }
-        .tech-card p { margin: 0; font-size: 11px; color: #64748b; }
+        .tech-card h4 {
+            margin: 0 0 4px;
+            color: #0f172a;
+            font-size: 13px;
+        }
+
+        .tech-card p {
+            margin: 0;
+            font-size: 11px;
+            color: #64748b;
+        }
 
         /* Feature list */
         .feature-grid {
@@ -220,8 +313,14 @@
             font-size: 11pt;
         }
 
-        .feature-item .emoji { font-size: 16px; }
-        .feature-item .text { font-weight: 500; color: #334155; }
+        .feature-item .emoji {
+            font-size: 16px;
+        }
+
+        .feature-item .text {
+            font-weight: 500;
+            color: #334155;
+        }
 
         .footer {
             text-align: center;
@@ -233,442 +332,1042 @@
         }
 
         @media print {
-            .cover { min-height: 100vh; }
-            .page-break { page-break-before: always; }
-            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .cover {
+                min-height: 100vh;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<!-- ==================== COVER PAGE ==================== -->
-<div class="cover">
-    <div class="cover-icon">🌐</div>
-    <h1>Game Sphere</h1>
-    <div class="subtitle">India's National Sports Digital Infrastructure</div>
-    <p style="font-size: 16px; color: #94a3b8; margin-bottom: 8px;">Powering Every Game. Everywhere.</p>
+    <!-- ==================== COVER PAGE ==================== -->
+    <div class="cover">
+        <div class="cover-icon">🌐</div>
+        <h1>Game Sphere</h1>
+        <div class="subtitle">India's National Sports Digital Infrastructure</div>
+        <p style="font-size: 16px; color: #94a3b8; margin-bottom: 8px;">Powering Every Game. Everywhere.</p>
 
-    <div class="meta-box">
-        <p><strong>Project Type:</strong> Full-Stack Web Application (MVP)</p>
-        <p><strong>Version:</strong> 1.0 — Phase 7 Complete</p>
-        <p><strong>Date:</strong> February 21, 2026</p>
-        <p><strong>Developer:</strong> Sheikh Hemayoou Javed</p>
-    </div>
+        <div class="meta-box">
+            <p><strong>Project Type:</strong> Full-Stack Web Application (MVP)</p>
+            <p><strong>Version:</strong> 1.1 — Phase 8 Complete</p>
+            <p><strong>Date:</strong> March 5, 2026</p>
+            <p><strong>Developer:</strong> Sheikh Hemayoou Javed</p>
+        </div>
 
-    <div class="badge-row">
-        <div class="badge badge-blue">36 Pages</div>
-        <div class="badge badge-green">13 Backend Modules</div>
-        <div class="badge badge-purple">18 Prisma Models</div>
-        <div class="badge badge-amber">7 Phases Complete</div>
-    </div>
-</div>
-
-<!-- ==================== TABLE OF CONTENTS ==================== -->
-<div class="content page-break">
-    <h2>📋 Table of Contents</h2>
-    <table>
-        <tr><th style="width:40px">#</th><th>Section</th><th style="width:80px">Page</th></tr>
-        <tr><td>1</td><td>Executive Summary</td><td>3</td></tr>
-        <tr><td>2</td><td>Technology Stack</td><td>3</td></tr>
-        <tr><td>3</td><td>Platform Statistics</td><td>4</td></tr>
-        <tr><td>4</td><td>Phase 1 — MVP Foundation</td><td>4</td></tr>
-        <tr><td>5</td><td>Phase 2 — Analytics & Engagement</td><td>5</td></tr>
-        <tr><td>6</td><td>Phase 3 — Polish & Compliance</td><td>5</td></tr>
-        <tr><td>7</td><td>Phase 4 — Sports Engine</td><td>6</td></tr>
-        <tr><td>8</td><td>Phase 5 — Platform Ecosystem</td><td>6</td></tr>
-        <tr><td>9</td><td>Phase 6 — Advanced Features</td><td>7</td></tr>
-        <tr><td>10</td><td>Phase 7 — Operations Suite</td><td>7</td></tr>
-        <tr><td>11</td><td>Complete Route Table</td><td>8</td></tr>
-        <tr><td>12</td><td>Database Schema</td><td>9</td></tr>
-        <tr><td>13</td><td>Backend API Modules</td><td>9</td></tr>
-        <tr><td>14</td><td>Key Features Summary</td><td>10</td></tr>
-    </table>
-
-    <!-- ==================== EXECUTIVE SUMMARY ==================== -->
-    <h2>1. Executive Summary</h2>
-    <p>
-        <strong>Game Sphere</strong> is India's comprehensive National Sports Digital Infrastructure platform, designed to digitise and modernise sports management across the country — from national federations to district-level grassroots sports.
-    </p>
-    <p>
-        The platform provides an end-to-end solution covering <strong>tournament management</strong>, <strong>player registration with Unique Sports Identifiers (USI)</strong>, <strong>real-time match scoring</strong>, <strong>financial tracking</strong>, <strong>team management</strong>, <strong>venue booking</strong>, <strong>grievance resolution</strong>, and much more.
-    </p>
-    <p>
-        Built across <strong>7 development phases</strong>, the MVP now contains <strong>36 distinct pages</strong> powered by a robust NestJS backend with <strong>13 modules</strong> and <strong>18 Prisma database models</strong>.
-    </p>
-
-    <!-- ==================== TECH STACK ==================== -->
-    <h2>2. Technology Stack</h2>
-    <div class="tech-grid">
-        <div class="tech-card">
-            <h4>⚡ Frontend — Next.js 16</h4>
-            <p>React 19, TypeScript, App Router, Turbopack, Server-Side Rendering</p>
-        </div>
-        <div class="tech-card">
-            <h4>🔧 Backend — NestJS</h4>
-            <p>TypeScript, Modular Architecture, REST API, Guards, Decorators</p>
-        </div>
-        <div class="tech-card">
-            <h4>🗃️ Database — Prisma + PostgreSQL</h4>
-            <p>18 Models, Type-Safe ORM, Migrations, Relations</p>
-        </div>
-        <div class="tech-card">
-            <h4>🔐 Authentication — JWT</h4>
-            <p>Passport.js, bcrypt, Role-Based Access Control (RBAC)</p>
-        </div>
-        <div class="tech-card">
-            <h4>📦 Package Manager — npm</h4>
-            <p>Monorepo structure: /frontend + /backend</p>
-        </div>
-        <div class="tech-card">
-            <h4>🎨 Styling — CSS-in-JS</h4>
-            <p>Inline styles, custom design system, responsive layouts</p>
-        </div>
-    </div>
-</div>
-
-<!-- ==================== PLATFORM STATISTICS ==================== -->
-<div class="content page-break">
-    <h2>3. Platform Statistics</h2>
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="value">36</div>
-            <div class="label">TOTAL PAGES</div>
-        </div>
-        <div class="stat-card">
-            <div class="value">13</div>
-            <div class="label">BACKEND MODULES</div>
-        </div>
-        <div class="stat-card">
-            <div class="value">18</div>
-            <div class="label">DATABASE MODELS</div>
-        </div>
-        <div class="stat-card">
-            <div class="value">~50</div>
-            <div class="label">API ENDPOINTS</div>
-        </div>
-        <div class="stat-card">
-            <div class="value">7</div>
-            <div class="label">DEV PHASES</div>
-        </div>
-        <div class="stat-card">
-            <div class="value">8</div>
-            <div class="label">USER ROLES</div>
-        </div>
-        <div class="stat-card">
-            <div class="value">24</div>
-            <div class="label">DASHBOARD CARDS</div>
-        </div>
-        <div class="stat-card">
-            <div class="value">0</div>
-            <div class="label">BUILD ERRORS</div>
+        <div class="badge-row">
+            <div class="badge badge-blue">36 Pages</div>
+            <div class="badge badge-green">13 Backend Modules</div>
+            <div class="badge badge-purple">18 Prisma Models</div>
+            <div class="badge badge-amber">8 Phases Complete</div>
         </div>
     </div>
 
-    <h2>4. Phase 1 — MVP Foundation</h2>
-    <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp; <strong>Pages:</strong> 10</p>
-    <p>Core platform setup with authentication, tournament lifecycle, and admin tools.</p>
-    <div class="phase-section">
-        <ul class="page-list">
-            <li><span class="page-name">🌐 Landing Page</span> <span class="page-route">/</span></li>
-            <li><span class="page-name">🔑 Login</span> <span class="page-route">/login</span></li>
-            <li><span class="page-name">📝 Register</span> <span class="page-route">/register</span></li>
-            <li><span class="page-name">📊 Dashboard</span> <span class="page-route">/dashboard</span></li>
-            <li><span class="page-name">🏆 Tournament List</span> <span class="page-route">/tournaments</span></li>
-            <li><span class="page-name">➕ Create Tournament</span> <span class="page-route">/tournaments/create</span></li>
-            <li><span class="page-name">📄 Tournament Detail</span> <span class="page-route">/tournaments/[id]</span></li>
-            <li><span class="page-name">⚽ Match Detail</span> <span class="page-route">/matches/[id]</span></li>
-            <li><span class="page-name">🏃 Player Detail</span> <span class="page-route">/players/[id]</span></li>
-            <li><span class="page-name">🛡️ Admin Panel</span> <span class="page-route">/admin</span></li>
-        </ul>
-    </div>
-    <h4>Key Features:</h4>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">🔐</span><span class="text">JWT Authentication & Registration</span></div>
-        <div class="feature-item"><span class="emoji">🏆</span><span class="text">Full Tournament CRUD</span></div>
-        <div class="feature-item"><span class="emoji">⚽</span><span class="text">Match Management</span></div>
-        <div class="feature-item"><span class="emoji">🛡️</span><span class="text">Admin Panel with Stats</span></div>
-    </div>
-</div>
+    <!-- ==================== TABLE OF CONTENTS ==================== -->
+    <div class="content page-break">
+        <h2>📋 Table of Contents</h2>
+        <table>
+            <tr>
+                <th style="width:40px">#</th>
+                <th>Section</th>
+                <th style="width:80px">Page</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Executive Summary</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Technology Stack</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Platform Statistics</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Phase 1 — MVP Foundation</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Phase 2 — Analytics & Engagement</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Phase 3 — Polish & Compliance</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Phase 4 — Sports Engine</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Phase 5 — Platform Ecosystem</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Phase 6 — Advanced Features</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Phase 7 — Operations Suite</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Phase 8 — Advanced Auth & UI</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>Complete Route Table</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>Database Schema</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>Backend API Modules</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>Key Features Summary</td>
+                <td>11</td>
+            </tr>
+        </table>
 
-<!-- ==================== PHASES 2-3 ==================== -->
-<div class="content page-break">
-    <h2>5. Phase 2 — Analytics & Engagement</h2>
-    <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp; <strong>Pages:</strong> 4</p>
-    <p>Data visualization, competitive rankings, player achievements, and transfer management.</p>
-    <div class="phase-section">
-        <ul class="page-list">
-            <li><span class="page-name">🏅 Leaderboard</span> <span class="page-route">/leaderboard</span></li>
-            <li><span class="page-name">🏆 Certificates</span> <span class="page-route">/certificates</span></li>
-            <li><span class="page-name">🔄 Transfers</span> <span class="page-route">/transfers</span></li>
-            <li><span class="page-name">📊 Analytics</span> <span class="page-route">/analytics</span></li>
-        </ul>
-    </div>
-    <h4>Key Features:</h4>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">📊</span><span class="text">Interactive Analytics Dashboard</span></div>
-        <div class="feature-item"><span class="emoji">🏅</span><span class="text">Rankings with Gold/Silver/Bronze</span></div>
-        <div class="feature-item"><span class="emoji">🏆</span><span class="text">Digital Certificate Generation</span></div>
-        <div class="feature-item"><span class="emoji">🔄</span><span class="text">Player Transfer System</span></div>
-    </div>
+        <!-- ==================== EXECUTIVE SUMMARY ==================== -->
+        <h2>1. Executive Summary</h2>
+        <p>
+            <strong>Game Sphere</strong> is India's comprehensive National Sports Digital Infrastructure platform,
+            designed to digitise and modernise sports management across the country — from national federations to
+            district-level grassroots sports.
+        </p>
+        <p>
+            The platform provides an end-to-end solution covering <strong>tournament management</strong>, <strong>player
+                registration with Unique Sports Identifiers (USI)</strong>, <strong>real-time match scoring</strong>,
+            <strong>financial tracking</strong>, <strong>team management</strong>, <strong>venue booking</strong>,
+            <strong>grievance resolution</strong>, and much more.
+        </p>
+        <p>
+            Built across <strong>8 development phases</strong>, the platform now contains <strong>36 distinct
+                pages</strong> powered by a robust NestJS backend with <strong>13 modules</strong> and <strong>18 Prisma
+                database models</strong>.
+        </p>
 
-    <h2>6. Phase 3 — Polish & Compliance</h2>
-    <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp; <strong>Pages:</strong> 6</p>
-    <p>Document management, notifications, settings, match reports, and financial tracking.</p>
-    <div class="phase-section">
-        <ul class="page-list">
-            <li><span class="page-name">📁 Documents</span> <span class="page-route">/documents</span></li>
-            <li><span class="page-name">🔔 Notifications</span> <span class="page-route">/notifications</span></li>
-            <li><span class="page-name">⚙️ Settings</span> <span class="page-route">/settings</span></li>
-            <li><span class="page-name">📝 Match Reports</span> <span class="page-route">/reports</span></li>
-            <li><span class="page-name">💰 Financial Dashboard</span> <span class="page-route">/financial</span></li>
-            <li><span class="page-name">🚫 404 Page</span> <span class="page-route">/_not-found</span></li>
-        </ul>
-    </div>
-    <h4>Key Features:</h4>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">📁</span><span class="text">Document Upload & Verification</span></div>
-        <div class="feature-item"><span class="emoji">🔔</span><span class="text">Real-Time Notifications</span></div>
-        <div class="feature-item"><span class="emoji">💰</span><span class="text">Financial Tracking (₹ INR)</span></div>
-        <div class="feature-item"><span class="emoji">📝</span><span class="text">Detailed Match Reports</span></div>
-    </div>
-</div>
-
-<!-- ==================== PHASES 4-5 ==================== -->
-<div class="content page-break">
-    <h2>7. Phase 4 — Sports Engine</h2>
-    <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp; <strong>Pages:</strong> 4</p>
-    <p>Core sports infrastructure — fixture generation, live scoring, player profiles with USI, sponsorships.</p>
-    <div class="phase-section">
-        <ul class="page-list">
-            <li><span class="page-name">📋 Fixture Generator</span> <span class="page-route">/fixtures</span></li>
-            <li><span class="page-name">🏏 Live Scoring</span> <span class="page-route">/scoring</span></li>
-            <li><span class="page-name">🪪 Player Profile (USI)</span> <span class="page-route">/profile</span></li>
-            <li><span class="page-name">💎 Sponsorships & Ads</span> <span class="page-route">/sponsorships</span></li>
-        </ul>
-    </div>
-    <h4>Key Features:</h4>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">📋</span><span class="text">Round-Robin & Knockout Fixtures</span></div>
-        <div class="feature-item"><span class="emoji">🏏</span><span class="text">Ball-by-Ball Live Scoring</span></div>
-        <div class="feature-item"><span class="emoji">🪪</span><span class="text">Unique Sports Identifier (USI)</span></div>
-        <div class="feature-item"><span class="emoji">💎</span><span class="text">Sponsorship Management (₹5L+)</span></div>
-    </div>
-
-    <h2>8. Phase 5 — Platform Ecosystem</h2>
-    <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp; <strong>Pages:</strong> 4</p>
-    <p>Venues, scheduling, team management, and user support infrastructure.</p>
-    <div class="phase-section">
-        <ul class="page-list">
-            <li><span class="page-name">🏟️ Venues & Facilities</span> <span class="page-route">/venues</span></li>
-            <li><span class="page-name">📅 Calendar</span> <span class="page-route">/calendar</span></li>
-            <li><span class="page-name">⚡ Teams Management</span> <span class="page-route">/teams</span></li>
-            <li><span class="page-name">🤝 Help & Support</span> <span class="page-route">/help</span></li>
-        </ul>
-    </div>
-    <h4>Key Features:</h4>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">🏟️</span><span class="text">6 Real Indian Venues (Wankhede, etc.)</span></div>
-        <div class="feature-item"><span class="emoji">📅</span><span class="text">Monthly Calendar with Events</span></div>
-        <div class="feature-item"><span class="emoji">⚡</span><span class="text">Team Creation & Roster Management</span></div>
-        <div class="feature-item"><span class="emoji">🤝</span><span class="text">FAQ, Guides, Contact Support</span></div>
-    </div>
-</div>
-
-<!-- ==================== PHASES 6-7 ==================== -->
-<div class="content page-break">
-    <h2>9. Phase 6 — Advanced Features</h2>
-    <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp; <strong>Pages:</strong> 4</p>
-    <p>Audit logging, media management, training programs, and dispute resolution.</p>
-    <div class="phase-section">
-        <ul class="page-list">
-            <li><span class="page-name">📝 Audit Log</span> <span class="page-route">/audit</span></li>
-            <li><span class="page-name">📸 Media Gallery</span> <span class="page-route">/media</span></li>
-            <li><span class="page-name">🏋️ Training & Coaching Hub</span> <span class="page-route">/training</span></li>
-            <li><span class="page-name">⚖️ Grievance Resolution</span> <span class="page-route">/grievances</span></li>
-        </ul>
-    </div>
-    <h4>Key Features:</h4>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">📝</span><span class="text">12 Activity Types with IP Tracking</span></div>
-        <div class="feature-item"><span class="emoji">📸</span><span class="text">Tournament Photo & Video Albums</span></div>
-        <div class="feature-item"><span class="emoji">🏋️</span><span class="text">6 Training Programs with Enrollment</span></div>
-        <div class="feature-item"><span class="emoji">⚖️</span><span class="text">Priority-Based Grievance Tracking</span></div>
-    </div>
-
-    <h2>10. Phase 7 — Operations Suite</h2>
-    <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp; <strong>Pages:</strong> 4</p>
-    <p>Equipment management, internal communications, role governance, and data export.</p>
-    <div class="phase-section">
-        <ul class="page-list">
-            <li><span class="page-name">📦 Inventory & Equipment</span> <span class="page-route">/inventory</span></li>
-            <li><span class="page-name">💬 Messages</span> <span class="page-route">/messages</span></li>
-            <li><span class="page-name">🛡️ Roles & Permissions</span> <span class="page-route">/roles</span></li>
-            <li><span class="page-name">📤 Reports Center</span> <span class="page-route">/exports</span></li>
-        </ul>
-    </div>
-    <h4>Key Features:</h4>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">📦</span><span class="text">10 Equipment Types, ₹11.8L Portfolio</span></div>
-        <div class="feature-item"><span class="emoji">💬</span><span class="text">Split-Pane Chat with 8 Conversations</span></div>
-        <div class="feature-item"><span class="emoji">🛡️</span><span class="text">8 Roles, 48 Permissions, RBAC Matrix</span></div>
-        <div class="feature-item"><span class="emoji">📤</span><span class="text">8 Report Templates (PDF/XLSX/CSV)</span></div>
-    </div>
-</div>
-
-<!-- ==================== COMPLETE ROUTE TABLE ==================== -->
-<div class="content page-break">
-    <h2>11. Complete Route Table — All 36 Pages</h2>
-    <table>
-        <tr><th>#</th><th>Route</th><th>Page</th><th>Phase</th><th>Type</th></tr>
-        <tr><td>1</td><td><code>/</code></td><td>Landing Page</td><td>1</td><td>Static</td></tr>
-        <tr><td>2</td><td><code>/login</code></td><td>Login</td><td>1</td><td>Static</td></tr>
-        <tr><td>3</td><td><code>/register</code></td><td>Register</td><td>1</td><td>Static</td></tr>
-        <tr><td>4</td><td><code>/dashboard</code></td><td>Dashboard (24-card hub)</td><td>1</td><td>Static</td></tr>
-        <tr><td>5</td><td><code>/tournaments</code></td><td>Tournament List</td><td>1</td><td>Static</td></tr>
-        <tr><td>6</td><td><code>/tournaments/create</code></td><td>Create Tournament</td><td>1</td><td>Static</td></tr>
-        <tr><td>7</td><td><code>/tournaments/[id]</code></td><td>Tournament Detail</td><td>1</td><td>Dynamic</td></tr>
-        <tr><td>8</td><td><code>/matches/[id]</code></td><td>Match Detail</td><td>1</td><td>Dynamic</td></tr>
-        <tr><td>9</td><td><code>/players/[id]</code></td><td>Player Detail</td><td>1</td><td>Dynamic</td></tr>
-        <tr><td>10</td><td><code>/admin</code></td><td>Admin Panel</td><td>1</td><td>Static</td></tr>
-        <tr><td>11</td><td><code>/leaderboard</code></td><td>Leaderboard</td><td>2</td><td>Static</td></tr>
-        <tr><td>12</td><td><code>/certificates</code></td><td>Certificates</td><td>2</td><td>Static</td></tr>
-        <tr><td>13</td><td><code>/transfers</code></td><td>Transfers</td><td>2</td><td>Static</td></tr>
-        <tr><td>14</td><td><code>/analytics</code></td><td>Analytics</td><td>2</td><td>Static</td></tr>
-        <tr><td>15</td><td><code>/documents</code></td><td>Documents</td><td>3</td><td>Static</td></tr>
-        <tr><td>16</td><td><code>/notifications</code></td><td>Notifications</td><td>3</td><td>Static</td></tr>
-        <tr><td>17</td><td><code>/settings</code></td><td>Settings</td><td>3</td><td>Static</td></tr>
-        <tr><td>18</td><td><code>/reports</code></td><td>Match Reports</td><td>3</td><td>Static</td></tr>
-        <tr><td>19</td><td><code>/financial</code></td><td>Financial Dashboard</td><td>3</td><td>Static</td></tr>
-        <tr><td>20</td><td><code>/fixtures</code></td><td>Fixture Generator</td><td>4</td><td>Static</td></tr>
-        <tr><td>21</td><td><code>/scoring</code></td><td>Live Scoring</td><td>4</td><td>Static</td></tr>
-        <tr><td>22</td><td><code>/profile</code></td><td>Player Profile (USI)</td><td>4</td><td>Static</td></tr>
-        <tr><td>23</td><td><code>/sponsorships</code></td><td>Sponsorships & Ads</td><td>4</td><td>Static</td></tr>
-        <tr><td>24</td><td><code>/venues</code></td><td>Venues & Facilities</td><td>5</td><td>Static</td></tr>
-        <tr><td>25</td><td><code>/calendar</code></td><td>Calendar</td><td>5</td><td>Static</td></tr>
-        <tr><td>26</td><td><code>/teams</code></td><td>Teams Management</td><td>5</td><td>Static</td></tr>
-        <tr><td>27</td><td><code>/help</code></td><td>Help & Support</td><td>5</td><td>Static</td></tr>
-        <tr><td>28</td><td><code>/audit</code></td><td>Audit Log</td><td>6</td><td>Static</td></tr>
-        <tr><td>29</td><td><code>/media</code></td><td>Media Gallery</td><td>6</td><td>Static</td></tr>
-        <tr><td>30</td><td><code>/training</code></td><td>Training & Coaching</td><td>6</td><td>Static</td></tr>
-        <tr><td>31</td><td><code>/grievances</code></td><td>Grievance Resolution</td><td>6</td><td>Static</td></tr>
-        <tr><td>32</td><td><code>/inventory</code></td><td>Inventory & Equipment</td><td>7</td><td>Static</td></tr>
-        <tr><td>33</td><td><code>/messages</code></td><td>Messages</td><td>7</td><td>Static</td></tr>
-        <tr><td>34</td><td><code>/roles</code></td><td>Roles & Permissions</td><td>7</td><td>Static</td></tr>
-        <tr><td>35</td><td><code>/exports</code></td><td>Reports Center</td><td>7</td><td>Static</td></tr>
-        <tr><td>36</td><td><code>/_not-found</code></td><td>404 Page</td><td>—</td><td>Static</td></tr>
-    </table>
-</div>
-
-<!-- ==================== DATABASE & API ==================== -->
-<div class="content page-break">
-    <h2>12. Database Schema — 18 Prisma Models</h2>
-    <table>
-        <tr><th>#</th><th>Model</th><th>Description</th><th>Key Fields</th></tr>
-        <tr><td>1</td><td>User</td><td>Platform users (players, admins, coaches)</td><td>email, password, role, firstName, lastName</td></tr>
-        <tr><td>2</td><td>Player</td><td>Athlete profiles with USI</td><td>usi, sport, dateOfBirth, state, district</td></tr>
-        <tr><td>3</td><td>Tournament</td><td>Competition management</td><td>name, sport, startDate, endDate, status</td></tr>
-        <tr><td>4</td><td>Match</td><td>Individual match records</td><td>teams, scores, venue, date, status</td></tr>
-        <tr><td>5</td><td>Team</td><td>Team rosters</td><td>name, sport, captain, players</td></tr>
-        <tr><td>6</td><td>Venue</td><td>Facility management</td><td>name, city, capacity, surface, sports</td></tr>
-        <tr><td>7</td><td>Document</td><td>Uploaded documents</td><td>type, fileName, status, uploadedBy</td></tr>
-        <tr><td>8</td><td>Certificate</td><td>Achievement certificates</td><td>title, player, tournament, verificationCode</td></tr>
-        <tr><td>9</td><td>Transfer</td><td>Player transfers</td><td>player, fromTeam, toTeam, status, fee</td></tr>
-        <tr><td>10</td><td>Notification</td><td>System & user alerts</td><td>title, message, type, read, userId</td></tr>
-        <tr><td>11</td><td>Fixture</td><td>Generated match fixtures</td><td>round, matchOrder, teams, tournament</td></tr>
-        <tr><td>12</td><td>Score</td><td>Match scoring events</td><td>runs, wickets, overs, matchId</td></tr>
-        <tr><td>13</td><td>Sponsorship</td><td>Sponsor agreements</td><td>name, amount, duration, tier</td></tr>
-        <tr><td>14</td><td>Financial</td><td>Revenue & expenses</td><td>type, amount, category, date</td></tr>
-        <tr><td>15</td><td>Report</td><td>Match & event reports</td><td>title, content, matchId, status</td></tr>
-        <tr><td>16</td><td>AuditLog</td><td>Activity tracking</td><td>action, userId, ip, timestamp</td></tr>
-        <tr><td>17</td><td>Grievance</td><td>Disputes & complaints</td><td>title, priority, status, sport</td></tr>
-        <tr><td>18</td><td>TrainingProgram</td><td>Coaching programs</td><td>title, coach, sport, level, duration</td></tr>
-    </table>
-
-    <h2>13. Backend API Modules</h2>
-    <table>
-        <tr><th>#</th><th>Module</th><th>Description</th><th>Endpoints</th></tr>
-        <tr><td>1</td><td>AuthModule</td><td>JWT auth, login, register, guards</td><td>3</td></tr>
-        <tr><td>2</td><td>UsersModule</td><td>User CRUD, profile management</td><td>5</td></tr>
-        <tr><td>3</td><td>PlayersModule</td><td>Player registration, USI generation</td><td>5</td></tr>
-        <tr><td>4</td><td>TournamentsModule</td><td>Tournament lifecycle management</td><td>6</td></tr>
-        <tr><td>5</td><td>MatchesModule</td><td>Match creation, scoring, results</td><td>5</td></tr>
-        <tr><td>6</td><td>TeamsModule</td><td>Team management, rosters</td><td>5</td></tr>
-        <tr><td>7</td><td>DocumentsModule</td><td>File upload, verification</td><td>4</td></tr>
-        <tr><td>8</td><td>CertificatesModule</td><td>Digital certificate generation</td><td>3</td></tr>
-        <tr><td>9</td><td>TransfersModule</td><td>Player transfer system</td><td>4</td></tr>
-        <tr><td>10</td><td>NotificationsModule</td><td>Alert system, read/unread</td><td>4</td></tr>
-        <tr><td>11</td><td>LeaderboardModule</td><td>Rankings & statistics</td><td>3</td></tr>
-        <tr><td>12</td><td>FinancialModule</td><td>Revenue, expenses, sponsors</td><td>4</td></tr>
-        <tr><td>13</td><td>PrismaModule</td><td>Database connection service</td><td>—</td></tr>
-    </table>
-</div>
-
-<!-- ==================== KEY FEATURES ==================== -->
-<div class="content page-break">
-    <h2>14. Key Features Summary</h2>
-
-    <h3>🏆 Sports Management</h3>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">🏆</span><span class="text">Full tournament lifecycle (Create → Fixtures → Score → Results)</span></div>
-        <div class="feature-item"><span class="emoji">📋</span><span class="text">Round-Robin & Knockout fixture generation</span></div>
-        <div class="feature-item"><span class="emoji">🏏</span><span class="text">Ball-by-ball live scoring with commentary</span></div>
-        <div class="feature-item"><span class="emoji">🏅</span><span class="text">Leaderboards with Gold/Silver/Bronze rankings</span></div>
-        <div class="feature-item"><span class="emoji">🔄</span><span class="text">Player transfer system with status tracking</span></div>
-        <div class="feature-item"><span class="emoji">🏟️</span><span class="text">6 real Indian venues with capacity tracking</span></div>
+        <!-- ==================== TECH STACK ==================== -->
+        <h2>2. Technology Stack</h2>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <h4>⚡ Frontend — Next.js 16</h4>
+                <p>React 19, TypeScript, App Router, Turbopack, Server-Side Rendering</p>
+            </div>
+            <div class="tech-card">
+                <h4>🔧 Backend — NestJS</h4>
+                <p>TypeScript, Modular Architecture, REST API, Guards, Decorators</p>
+            </div>
+            <div class="tech-card">
+                <h4>🗃️ Database — Prisma + PostgreSQL</h4>
+                <p>18 Models, Type-Safe ORM, Migrations, Relations</p>
+            </div>
+            <div class="tech-card">
+                <h4>🔐 Authentication — JWT</h4>
+                <p>Passport.js, bcrypt, Role-Based Access Control (RBAC)</p>
+            </div>
+            <div class="tech-card">
+                <h4>📦 Package Manager — npm</h4>
+                <p>Monorepo structure: /frontend + /backend</p>
+            </div>
+            <div class="tech-card">
+                <h4>🎨 Styling — CSS-in-JS</h4>
+                <p>Inline styles, custom design system, responsive layouts</p>
+            </div>
+        </div>
     </div>
 
-    <h3>👥 User Management</h3>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">🪪</span><span class="text">Unique Sports Identifier (USI) for every athlete</span></div>
-        <div class="feature-item"><span class="emoji">🛡️</span><span class="text">8 hierarchical roles (Super Admin → Viewer)</span></div>
-        <div class="feature-item"><span class="emoji">📋</span><span class="text">48 granular permissions with RBAC matrix</span></div>
-        <div class="feature-item"><span class="emoji">⚡</span><span class="text">Team creation and roster management</span></div>
+    <!-- ==================== PLATFORM STATISTICS ==================== -->
+    <div class="content page-break">
+        <h2>3. Platform Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="value">36</div>
+                <div class="label">TOTAL PAGES</div>
+            </div>
+            <div class="stat-card">
+                <div class="value">13</div>
+                <div class="label">BACKEND MODULES</div>
+            </div>
+            <div class="stat-card">
+                <div class="value">18</div>
+                <div class="label">DATABASE MODELS</div>
+            </div>
+            <div class="stat-card">
+                <div class="value">~50</div>
+                <div class="label">API ENDPOINTS</div>
+            </div>
+            <div class="stat-card">
+                <div class="value">8</div>
+                <div class="label">DEV PHASES</div>
+            </div>
+            <div class="stat-card">
+                <div class="value">8</div>
+                <div class="label">USER ROLES</div>
+            </div>
+            <div class="stat-card">
+                <div class="value">24</div>
+                <div class="label">DASHBOARD CARDS</div>
+            </div>
+            <div class="stat-card">
+                <div class="value">0</div>
+                <div class="label">BUILD ERRORS</div>
+            </div>
+        </div>
+
+        <h2>4. Phase 1 — MVP Foundation</h2>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp;
+            <strong>Pages:</strong> 10</p>
+        <p>Core platform setup with authentication, tournament lifecycle, and admin tools.</p>
+        <div class="phase-section">
+            <ul class="page-list">
+                <li><span class="page-name">🌐 Landing Page</span> <span class="page-route">/</span></li>
+                <li><span class="page-name">🔑 Login</span> <span class="page-route">/login</span></li>
+                <li><span class="page-name">📝 Register</span> <span class="page-route">/register</span></li>
+                <li><span class="page-name">📊 Dashboard</span> <span class="page-route">/dashboard</span></li>
+                <li><span class="page-name">🏆 Tournament List</span> <span class="page-route">/tournaments</span></li>
+                <li><span class="page-name">➕ Create Tournament</span> <span
+                        class="page-route">/tournaments/create</span></li>
+                <li><span class="page-name">📄 Tournament Detail</span> <span
+                        class="page-route">/tournaments/[id]</span></li>
+                <li><span class="page-name">⚽ Match Detail</span> <span class="page-route">/matches/[id]</span></li>
+                <li><span class="page-name">🏃 Player Detail</span> <span class="page-route">/players/[id]</span></li>
+                <li><span class="page-name">🛡️ Admin Panel</span> <span class="page-route">/admin</span></li>
+            </ul>
+        </div>
+        <h4>Key Features:</h4>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">🔐</span><span class="text">JWT Authentication &
+                    Registration</span></div>
+            <div class="feature-item"><span class="emoji">🏆</span><span class="text">Full Tournament CRUD</span></div>
+            <div class="feature-item"><span class="emoji">⚽</span><span class="text">Match Management</span></div>
+            <div class="feature-item"><span class="emoji">🛡️</span><span class="text">Admin Panel with Stats</span>
+            </div>
+        </div>
     </div>
 
-    <h3>📊 Analytics & Reporting</h3>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">📊</span><span class="text">Interactive analytics with sport distribution charts</span></div>
-        <div class="feature-item"><span class="emoji">💰</span><span class="text">Financial dashboard with ₹ INR tracking</span></div>
-        <div class="feature-item"><span class="emoji">📤</span><span class="text">8 export templates (PDF, XLSX, CSV)</span></div>
-        <div class="feature-item"><span class="emoji">📝</span><span class="text">Detailed audit log with IP tracking</span></div>
+    <!-- ==================== PHASES 2-3 ==================== -->
+    <div class="content page-break">
+        <h2>5. Phase 2 — Analytics & Engagement</h2>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp;
+            <strong>Pages:</strong> 4</p>
+        <p>Data visualization, competitive rankings, player achievements, and transfer management.</p>
+        <div class="phase-section">
+            <ul class="page-list">
+                <li><span class="page-name">🏅 Leaderboard</span> <span class="page-route">/leaderboard</span></li>
+                <li><span class="page-name">🏆 Certificates</span> <span class="page-route">/certificates</span></li>
+                <li><span class="page-name">🔄 Transfers</span> <span class="page-route">/transfers</span></li>
+                <li><span class="page-name">📊 Analytics</span> <span class="page-route">/analytics</span></li>
+            </ul>
+        </div>
+        <h4>Key Features:</h4>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">📊</span><span class="text">Interactive Analytics
+                    Dashboard</span></div>
+            <div class="feature-item"><span class="emoji">🏅</span><span class="text">Rankings with
+                    Gold/Silver/Bronze</span></div>
+            <div class="feature-item"><span class="emoji">🏆</span><span class="text">Digital Certificate
+                    Generation</span></div>
+            <div class="feature-item"><span class="emoji">🔄</span><span class="text">Player Transfer System</span>
+            </div>
+        </div>
+
+        <h2>6. Phase 3 — Polish & Compliance</h2>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp;
+            <strong>Pages:</strong> 6</p>
+        <p>Document management, notifications, settings, match reports, and financial tracking.</p>
+        <div class="phase-section">
+            <ul class="page-list">
+                <li><span class="page-name">📁 Documents</span> <span class="page-route">/documents</span></li>
+                <li><span class="page-name">🔔 Notifications</span> <span class="page-route">/notifications</span></li>
+                <li><span class="page-name">⚙️ Settings</span> <span class="page-route">/settings</span></li>
+                <li><span class="page-name">📝 Match Reports</span> <span class="page-route">/reports</span></li>
+                <li><span class="page-name">💰 Financial Dashboard</span> <span class="page-route">/financial</span>
+                </li>
+                <li><span class="page-name">🚫 404 Page</span> <span class="page-route">/_not-found</span></li>
+            </ul>
+        </div>
+        <h4>Key Features:</h4>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">📁</span><span class="text">Document Upload &
+                    Verification</span></div>
+            <div class="feature-item"><span class="emoji">🔔</span><span class="text">Real-Time Notifications</span>
+            </div>
+            <div class="feature-item"><span class="emoji">💰</span><span class="text">Financial Tracking (₹ INR)</span>
+            </div>
+            <div class="feature-item"><span class="emoji">📝</span><span class="text">Detailed Match Reports</span>
+            </div>
+        </div>
     </div>
 
-    <h3>🛠️ Platform Operations</h3>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">📦</span><span class="text">Sports equipment inventory (₹11.8L portfolio)</span></div>
-        <div class="feature-item"><span class="emoji">💬</span><span class="text">Internal messaging with DM/Group/Team chat</span></div>
-        <div class="feature-item"><span class="emoji">📁</span><span class="text">Document management and verification</span></div>
-        <div class="feature-item"><span class="emoji">🔔</span><span class="text">Real-time notification system</span></div>
+    <!-- ==================== PHASES 4-5 ==================== -->
+    <div class="content page-break">
+        <h2>7. Phase 4 — Sports Engine</h2>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp;
+            <strong>Pages:</strong> 4</p>
+        <p>Core sports infrastructure — fixture generation, live scoring, player profiles with USI, sponsorships.</p>
+        <div class="phase-section">
+            <ul class="page-list">
+                <li><span class="page-name">📋 Fixture Generator</span> <span class="page-route">/fixtures</span></li>
+                <li><span class="page-name">🏏 Live Scoring</span> <span class="page-route">/scoring</span></li>
+                <li><span class="page-name">🪪 Player Profile (USI)</span> <span class="page-route">/profile</span></li>
+                <li><span class="page-name">💎 Sponsorships & Ads</span> <span class="page-route">/sponsorships</span>
+                </li>
+            </ul>
+        </div>
+        <h4>Key Features:</h4>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">📋</span><span class="text">Round-Robin & Knockout
+                    Fixtures</span></div>
+            <div class="feature-item"><span class="emoji">🏏</span><span class="text">Ball-by-Ball Live Scoring</span>
+            </div>
+            <div class="feature-item"><span class="emoji">🪪</span><span class="text">Unique Sports Identifier
+                    (USI)</span></div>
+            <div class="feature-item"><span class="emoji">💎</span><span class="text">Sponsorship Management
+                    (₹5L+)</span></div>
+        </div>
+
+        <h2>8. Phase 5 — Platform Ecosystem</h2>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp;
+            <strong>Pages:</strong> 4</p>
+        <p>Venues, scheduling, team management, and user support infrastructure.</p>
+        <div class="phase-section">
+            <ul class="page-list">
+                <li><span class="page-name">🏟️ Venues & Facilities</span> <span class="page-route">/venues</span></li>
+                <li><span class="page-name">📅 Calendar</span> <span class="page-route">/calendar</span></li>
+                <li><span class="page-name">⚡ Teams Management</span> <span class="page-route">/teams</span></li>
+                <li><span class="page-name">🤝 Help & Support</span> <span class="page-route">/help</span></li>
+            </ul>
+        </div>
+        <h4>Key Features:</h4>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">🏟️</span><span class="text">6 Real Indian Venues (Wankhede,
+                    etc.)</span></div>
+            <div class="feature-item"><span class="emoji">📅</span><span class="text">Monthly Calendar with
+                    Events</span></div>
+            <div class="feature-item"><span class="emoji">⚡</span><span class="text">Team Creation & Roster
+                    Management</span></div>
+            <div class="feature-item"><span class="emoji">🤝</span><span class="text">FAQ, Guides, Contact
+                    Support</span></div>
+        </div>
     </div>
 
-    <h3>🎓 Training & Support</h3>
-    <div class="feature-grid">
-        <div class="feature-item"><span class="emoji">🏋️</span><span class="text">6 training programs with enrollment tracking</span></div>
-        <div class="feature-item"><span class="emoji">⚖️</span><span class="text">Grievance resolution with priority badges</span></div>
-        <div class="feature-item"><span class="emoji">🏆</span><span class="text">Digital certificate generation</span></div>
-        <div class="feature-item"><span class="emoji">🤝</span><span class="text">FAQ, Guides, and Contact support</span></div>
+    <!-- ==================== PHASES 6-7 ==================== -->
+    <div class="content page-break">
+        <h2>9. Phase 6 — Advanced Features</h2>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp;
+            <strong>Pages:</strong> 4</p>
+        <p>Audit logging, media management, training programs, and dispute resolution.</p>
+        <div class="phase-section">
+            <ul class="page-list">
+                <li><span class="page-name">📝 Audit Log</span> <span class="page-route">/audit</span></li>
+                <li><span class="page-name">📸 Media Gallery</span> <span class="page-route">/media</span></li>
+                <li><span class="page-name">🏋️ Training & Coaching Hub</span> <span class="page-route">/training</span>
+                </li>
+                <li><span class="page-name">⚖️ Grievance Resolution</span> <span class="page-route">/grievances</span>
+                </li>
+            </ul>
+        </div>
+        <h4>Key Features:</h4>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">📝</span><span class="text">12 Activity Types with IP
+                    Tracking</span></div>
+            <div class="feature-item"><span class="emoji">📸</span><span class="text">Tournament Photo & Video
+                    Albums</span></div>
+            <div class="feature-item"><span class="emoji">🏋️</span><span class="text">6 Training Programs with
+                    Enrollment</span></div>
+            <div class="feature-item"><span class="emoji">⚖️</span><span class="text">Priority-Based Grievance
+                    Tracking</span></div>
+        </div>
+
+        <h2>10. Phase 7 — Operations Suite</h2>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp;
+            <strong>Pages:</strong> 4</p>
+        <p>Equipment management, internal communications, role governance, and data export.</p>
+        <div class="phase-section">
+            <ul class="page-list">
+                <li><span class="page-name">📦 Inventory & Equipment</span> <span class="page-route">/inventory</span>
+                </li>
+                <li><span class="page-name">💬 Messages</span> <span class="page-route">/messages</span></li>
+                <li><span class="page-name">🛡️ Roles & Permissions</span> <span class="page-route">/roles</span></li>
+                <li><span class="page-name">📤 Reports Center</span> <span class="page-route">/exports</span></li>
+            </ul>
+        </div>
+        <h4>Key Features:</h4>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">📦</span><span class="text">10 Equipment Types, ₹11.8L
+                    Portfolio</span></div>
+            <div class="feature-item"><span class="emoji">💬</span><span class="text">Split-Pane Chat with 8
+                    Conversations</span></div>
+            <div class="feature-item"><span class="emoji">🛡️</span><span class="text">8 Roles, 48 Permissions, RBAC
+                    Matrix</span></div>
+            <div class="feature-item"><span class="emoji">📤</span><span class="text">8 Report Templates
+                    (PDF/XLSX/CSV)</span></div>
+        </div>
     </div>
 
-    <h3>🏡 Multi-Sport Coverage</h3>
-    <table>
-        <tr><th>Sport</th><th>Icon</th><th>Features</th></tr>
-        <tr><td>Cricket</td><td>🏏</td><td>Ball-by-ball scoring, batting masterclass training</td></tr>
-        <tr><td>Football</td><td>⚽</td><td>FIFA-certified equipment, league management</td></tr>
-        <tr><td>Kabaddi</td><td>🤼</td><td>Raiding technique programs, mat management</td></tr>
-        <tr><td>Basketball</td><td>🏀</td><td>Shooting clinics, court management</td></tr>
-        <tr><td>Athletics</td><td>🏃</td><td>Sprint training, javelin equipment</td></tr>
-        <tr><td>Swimming</td><td>🏊</td><td>Stroke techniques, pool facility tracking</td></tr>
-        <tr><td>Hockey</td><td>🏑</td><td>Composite sticks, field management</td></tr>
-        <tr><td>Badminton</td><td>🏸</td><td>Indoor hall venues, racket inventory</td></tr>
-    </table>
-
-    <div class="footer">
-        <p><strong>Game Sphere</strong> — India's National Sports Digital Infrastructure</p>
-        <p>Powering Every Game. Everywhere. 🌐</p>
-        <p style="margin-top: 8px;">Project Report Generated: February 21, 2026 • Version 1.0 • All 7 Phases Complete</p>
-        <p>© 2026 Sheikh Hemayoou Javed. All rights reserved.</p>
+    <!-- ==================== PHASE 8 ==================== -->
+    <div class="content page-break">
+        <h2>11. Phase 8 — Advanced Auth & Centralized UI</h2>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">✅ COMPLETE</span> &nbsp;
+            <strong>Pages/Components:</strong> 4</p>
+        <p>Phone login gateway, responsive hamburger navigation, centralized settings hub, and new application loaders.
+        </p>
+        <div class="phase-section">
+            <ul class="page-list">
+                <li><span class="page-name">📱 Phone Login Gateway</span> <span class="page-route">/</span></li>
+                <li><span class="page-name">🍔 Hamburger Navigation</span> <span class="page-route">Global
+                        Component</span></li>
+                <li><span class="page-name">🏃 Athlete Loader</span> <span class="page-route">Global Component</span>
+                </li>
+                <li><span class="page-name">💼 Centralized Settings</span> <span class="page-route">/settings</span>
+                </li>
+            </ul>
+        </div>
+        <h4>Key Features:</h4>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">📱</span><span class="text">Phone + OTP Authentication
+                    Flow</span></div>
+            <div class="feature-item"><span class="emoji">🍔</span><span class="text">Instagram-style Sidebar
+                    Drawer</span></div>
+            <div class="feature-item"><span class="emoji">💼</span><span class="text">Centralized Sports & Teams
+                    Edits</span></div>
+            <div class="feature-item"><span class="emoji">🏃</span><span class="text">Animated SVG Athlete Loading
+                    UI</span></div>
+        </div>
     </div>
-</div>
+
+    <!-- ==================== COMPLETE ROUTE TABLE ==================== -->
+    <div class="content page-break">
+        <h2>12. Complete Route Table — All 36 Pages</h2>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Route</th>
+                <th>Page</th>
+                <th>Phase</th>
+                <th>Type</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td><code>/</code></td>
+                <td>Landing Page</td>
+                <td>1</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><code>/login</code></td>
+                <td>Login</td>
+                <td>1</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><code>/register</code></td>
+                <td>Register</td>
+                <td>1</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><code>/dashboard</code></td>
+                <td>Dashboard (24-card hub)</td>
+                <td>1</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><code>/tournaments</code></td>
+                <td>Tournament List</td>
+                <td>1</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><code>/tournaments/create</code></td>
+                <td>Create Tournament</td>
+                <td>1</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><code>/tournaments/[id]</code></td>
+                <td>Tournament Detail</td>
+                <td>1</td>
+                <td>Dynamic</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><code>/matches/[id]</code></td>
+                <td>Match Detail</td>
+                <td>1</td>
+                <td>Dynamic</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td><code>/players/[id]</code></td>
+                <td>Player Detail</td>
+                <td>1</td>
+                <td>Dynamic</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td><code>/admin</code></td>
+                <td>Admin Panel</td>
+                <td>1</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td><code>/leaderboard</code></td>
+                <td>Leaderboard</td>
+                <td>2</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td><code>/certificates</code></td>
+                <td>Certificates</td>
+                <td>2</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td><code>/transfers</code></td>
+                <td>Transfers</td>
+                <td>2</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td><code>/analytics</code></td>
+                <td>Analytics</td>
+                <td>2</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td><code>/documents</code></td>
+                <td>Documents</td>
+                <td>3</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td><code>/notifications</code></td>
+                <td>Notifications</td>
+                <td>3</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td><code>/settings</code></td>
+                <td>Settings</td>
+                <td>3</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>18</td>
+                <td><code>/reports</code></td>
+                <td>Match Reports</td>
+                <td>3</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>19</td>
+                <td><code>/financial</code></td>
+                <td>Financial Dashboard</td>
+                <td>3</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td><code>/fixtures</code></td>
+                <td>Fixture Generator</td>
+                <td>4</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td><code>/scoring</code></td>
+                <td>Live Scoring</td>
+                <td>4</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>22</td>
+                <td><code>/profile</code></td>
+                <td>Player Profile (USI)</td>
+                <td>4</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td><code>/sponsorships</code></td>
+                <td>Sponsorships & Ads</td>
+                <td>4</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td><code>/venues</code></td>
+                <td>Venues & Facilities</td>
+                <td>5</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td><code>/calendar</code></td>
+                <td>Calendar</td>
+                <td>5</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>26</td>
+                <td><code>/teams</code></td>
+                <td>Teams Management</td>
+                <td>5</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>27</td>
+                <td><code>/help</code></td>
+                <td>Help & Support</td>
+                <td>5</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td><code>/audit</code></td>
+                <td>Audit Log</td>
+                <td>6</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td><code>/media</code></td>
+                <td>Media Gallery</td>
+                <td>6</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td><code>/training</code></td>
+                <td>Training & Coaching</td>
+                <td>6</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>31</td>
+                <td><code>/grievances</code></td>
+                <td>Grievance Resolution</td>
+                <td>6</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>32</td>
+                <td><code>/inventory</code></td>
+                <td>Inventory & Equipment</td>
+                <td>7</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>33</td>
+                <td><code>/messages</code></td>
+                <td>Messages</td>
+                <td>7</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>34</td>
+                <td><code>/roles</code></td>
+                <td>Roles & Permissions</td>
+                <td>7</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>35</td>
+                <td><code>/exports</code></td>
+                <td>Reports Center</td>
+                <td>7</td>
+                <td>Static</td>
+            </tr>
+            <tr>
+                <td>36</td>
+                <td><code>/_not-found</code></td>
+                <td>404 Page</td>
+                <td>—</td>
+                <td>Static</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ==================== DATABASE & API ==================== -->
+    <div class="content page-break">
+        <h2>13. Database Schema — 18 Prisma Models</h2>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Model</th>
+                <th>Description</th>
+                <th>Key Fields</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>User</td>
+                <td>Platform users (players, admins, coaches)</td>
+                <td>email, password, role, firstName, lastName</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Player</td>
+                <td>Athlete profiles with USI</td>
+                <td>usi, sport, dateOfBirth, state, district</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tournament</td>
+                <td>Competition management</td>
+                <td>name, sport, startDate, endDate, status</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Match</td>
+                <td>Individual match records</td>
+                <td>teams, scores, venue, date, status</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Team</td>
+                <td>Team rosters</td>
+                <td>name, sport, captain, players</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Venue</td>
+                <td>Facility management</td>
+                <td>name, city, capacity, surface, sports</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Document</td>
+                <td>Uploaded documents</td>
+                <td>type, fileName, status, uploadedBy</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Certificate</td>
+                <td>Achievement certificates</td>
+                <td>title, player, tournament, verificationCode</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Transfer</td>
+                <td>Player transfers</td>
+                <td>player, fromTeam, toTeam, status, fee</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Notification</td>
+                <td>System & user alerts</td>
+                <td>title, message, type, read, userId</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Fixture</td>
+                <td>Generated match fixtures</td>
+                <td>round, matchOrder, teams, tournament</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>Score</td>
+                <td>Match scoring events</td>
+                <td>runs, wickets, overs, matchId</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>Sponsorship</td>
+                <td>Sponsor agreements</td>
+                <td>name, amount, duration, tier</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>Financial</td>
+                <td>Revenue & expenses</td>
+                <td>type, amount, category, date</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>Report</td>
+                <td>Match & event reports</td>
+                <td>title, content, matchId, status</td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td>AuditLog</td>
+                <td>Activity tracking</td>
+                <td>action, userId, ip, timestamp</td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td>Grievance</td>
+                <td>Disputes & complaints</td>
+                <td>title, priority, status, sport</td>
+            </tr>
+            <tr>
+                <td>18</td>
+                <td>TrainingProgram</td>
+                <td>Coaching programs</td>
+                <td>title, coach, sport, level, duration</td>
+            </tr>
+        </table>
+
+        <h2>14. Backend API Modules</h2>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Module</th>
+                <th>Description</th>
+                <th>Endpoints</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>AuthModule</td>
+                <td>JWT auth, login, register, guards</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>UsersModule</td>
+                <td>User CRUD, profile management</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>PlayersModule</td>
+                <td>Player registration, USI generation</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>TournamentsModule</td>
+                <td>Tournament lifecycle management</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>MatchesModule</td>
+                <td>Match creation, scoring, results</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>TeamsModule</td>
+                <td>Team management, rosters</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>DocumentsModule</td>
+                <td>File upload, verification</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>CertificatesModule</td>
+                <td>Digital certificate generation</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>TransfersModule</td>
+                <td>Player transfer system</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>NotificationsModule</td>
+                <td>Alert system, read/unread</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>LeaderboardModule</td>
+                <td>Rankings & statistics</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>FinancialModule</td>
+                <td>Revenue, expenses, sponsors</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>PrismaModule</td>
+                <td>Database connection service</td>
+                <td>—</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ==================== KEY FEATURES ==================== -->
+    <div class="content page-break">
+        <h2>15. Key Features Summary</h2>
+
+        <h3>🏆 Sports Management</h3>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">🏆</span><span class="text">Full tournament lifecycle (Create
+                    → Fixtures → Score → Results)</span></div>
+            <div class="feature-item"><span class="emoji">📋</span><span class="text">Round-Robin & Knockout fixture
+                    generation</span></div>
+            <div class="feature-item"><span class="emoji">🏏</span><span class="text">Ball-by-ball live scoring with
+                    commentary</span></div>
+            <div class="feature-item"><span class="emoji">🏅</span><span class="text">Leaderboards with
+                    Gold/Silver/Bronze rankings</span></div>
+            <div class="feature-item"><span class="emoji">🔄</span><span class="text">Player transfer system with status
+                    tracking</span></div>
+            <div class="feature-item"><span class="emoji">🏟️</span><span class="text">6 real Indian venues with
+                    capacity tracking</span></div>
+        </div>
+
+        <h3>👥 User Management</h3>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">🪪</span><span class="text">Unique Sports Identifier (USI) for
+                    every athlete</span></div>
+            <div class="feature-item"><span class="emoji">🛡️</span><span class="text">8 hierarchical roles (Super Admin
+                    → Viewer)</span></div>
+            <div class="feature-item"><span class="emoji">📋</span><span class="text">48 granular permissions with RBAC
+                    matrix</span></div>
+            <div class="feature-item"><span class="emoji">⚡</span><span class="text">Team creation and roster
+                    management</span></div>
+        </div>
+
+        <h3>📊 Analytics & Reporting</h3>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">📊</span><span class="text">Interactive analytics with sport
+                    distribution charts</span></div>
+            <div class="feature-item"><span class="emoji">💰</span><span class="text">Financial dashboard with ₹ INR
+                    tracking</span></div>
+            <div class="feature-item"><span class="emoji">📤</span><span class="text">8 export templates (PDF, XLSX,
+                    CSV)</span></div>
+            <div class="feature-item"><span class="emoji">📝</span><span class="text">Detailed audit log with IP
+                    tracking</span></div>
+        </div>
+
+        <h3>🛠️ Platform Operations</h3>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">📦</span><span class="text">Sports equipment inventory (₹11.8L
+                    portfolio)</span></div>
+            <div class="feature-item"><span class="emoji">💬</span><span class="text">Internal messaging with
+                    DM/Group/Team chat</span></div>
+            <div class="feature-item"><span class="emoji">📁</span><span class="text">Document management and
+                    verification</span></div>
+            <div class="feature-item"><span class="emoji">🔔</span><span class="text">Real-time notification
+                    system</span></div>
+        </div>
+
+        <h3>🎓 Training & Support</h3>
+        <div class="feature-grid">
+            <div class="feature-item"><span class="emoji">🏋️</span><span class="text">6 training programs with
+                    enrollment tracking</span></div>
+            <div class="feature-item"><span class="emoji">⚖️</span><span class="text">Grievance resolution with priority
+                    badges</span></div>
+            <div class="feature-item"><span class="emoji">🏆</span><span class="text">Digital certificate
+                    generation</span></div>
+            <div class="feature-item"><span class="emoji">🤝</span><span class="text">FAQ, Guides, and Contact
+                    support</span></div>
+        </div>
+
+        <h3>🏡 Multi-Sport Coverage</h3>
+        <table>
+            <tr>
+                <th>Sport</th>
+                <th>Icon</th>
+                <th>Features</th>
+            </tr>
+            <tr>
+                <td>Cricket</td>
+                <td>🏏</td>
+                <td>Ball-by-ball scoring, batting masterclass training</td>
+            </tr>
+            <tr>
+                <td>Football</td>
+                <td>⚽</td>
+                <td>FIFA-certified equipment, league management</td>
+            </tr>
+            <tr>
+                <td>Kabaddi</td>
+                <td>🤼</td>
+                <td>Raiding technique programs, mat management</td>
+            </tr>
+            <tr>
+                <td>Basketball</td>
+                <td>🏀</td>
+                <td>Shooting clinics, court management</td>
+            </tr>
+            <tr>
+                <td>Athletics</td>
+                <td>🏃</td>
+                <td>Sprint training, javelin equipment</td>
+            </tr>
+            <tr>
+                <td>Swimming</td>
+                <td>🏊</td>
+                <td>Stroke techniques, pool facility tracking</td>
+            </tr>
+            <tr>
+                <td>Hockey</td>
+                <td>🏑</td>
+                <td>Composite sticks, field management</td>
+            </tr>
+            <tr>
+                <td>Badminton</td>
+                <td>🏸</td>
+                <td>Indoor hall venues, racket inventory</td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            <p><strong>Game Sphere</strong> — India's National Sports Digital Infrastructure</p>
+            <p>Powering Every Game. Everywhere. 🌐</p>
+            <p style="margin-top: 8px;">Project Report Generated: March 5, 2026 • Version 1.1 • All 8 Phases Complete
+            </p>
+            <p>© 2026 Sheikh Hemayoou Javed. All rights reserved.</p>
+        </div>
+    </div>
 
 </body>
+
 </html>

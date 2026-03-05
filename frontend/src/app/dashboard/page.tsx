@@ -1165,60 +1165,6 @@ export default function DashboardPage() {
                                 </div>
                             ))}
 
-                            {/* Roster Management — from API data */}
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '12px' }}>👥 {selectedSport.name?.toUpperCase()} ROSTER</div>
-                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
-                                    {[
-                                        { label: 'Active Players', value: ownerDashData?.stats?.totalPlayers || 0, icon: '🟢' },
-                                        { label: 'Total Matches', value: ownerDashData?.stats?.totalMatches || 0, icon: '🏏' },
-                                        { label: 'Upcoming', value: ownerDashData?.stats?.upcomingCount || 0, icon: '📅' },
-                                        { label: 'Live Now', value: ownerDashData?.stats?.liveCount || 0, icon: '🔴' },
-                                    ].map((s, i) => (
-                                        <div key={i} style={{ padding: '8px', borderRadius: '8px', background: '#faf5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                            <span>{s.icon}</span>
-                                            <div>
-                                                <div style={{ fontSize: '15px', fontWeight: 800, color: "inherit" }}>{s.value}</div>
-                                                <div style={{ fontSize: '10px', color: "inherit" }}>{s.label}</div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                <Link href="/teams" style={{ fontSize: '12px', color: selectedSport.accentColor || '#7c3aed', fontWeight: 600, textDecoration: 'none' }}>Manage roster →</Link>
-                            </div>
-
-                            {/* Player List (from roster) */}
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '10px' }}>📋 PLAYERS ({ownerDashData?.roster?.length || 0})</div>
-                                {(ownerDashData?.roster || []).slice(0, 6).map((p: any, i: number) => (
-                                    <div key={i} style={{ padding: '5px 0', borderBottom: i < 5 ? '1px solid #f3e8ff' : 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                            <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#6366f1'}, ${selectedSport.accentColor || '#6366f1'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '11px' }}>{p.name?.charAt(0)}</div>
-                                            <div>
-                                                <div style={{ fontSize: '12px', fontWeight: 700, color: "inherit" }}>{p.name}</div>
-                                                <div style={{ fontSize: '10px', color: "inherit" }}>{p.role || 'Player'} • #{p.jersey || '–'}</div>
-                                            </div>
-                                        </div>
-                                        <span style={{ fontSize: '10px', color: "inherit" }}>{p.sportMatchCount || 0} matches</span>
-                                    </div>
-                                ))}
-                                {(ownerDashData?.roster?.length || 0) > 6 && (
-                                    <Link href="/teams" style={{ fontSize: '11px', color: selectedSport.accentColor || '#7c3aed', fontWeight: 600, textDecoration: 'none', display: 'block', marginTop: '6px' }}>View all {ownerDashData.roster.length} players →</Link>
-                                )}
-                            </div>
-
-                            {/* Tournaments for this sport */}
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: '1px solid #f3e8ff' }}>
-                                <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9', marginBottom: '10px' }}>🏆 {selectedSport.name?.toUpperCase()} TOURNAMENTS</div>
-                                {(ownerDashData?.tournaments || []).length === 0 ? (
-                                    <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No {selectedSport.name} tournaments yet</div>
-                                ) : (ownerDashData?.tournaments || []).slice(0, 5).map((t: any, i: number) => (
-                                    <div key={i} style={{ padding: '5px 0', borderBottom: i < 4 ? '1px solid #f3e8ff' : 'none' }}>
-                                        <div style={{ fontWeight: 700, fontSize: '12px', color: "inherit" }}>{t.name}</div>
-                                        <div style={{ fontSize: '10px', color: "inherit" }}>{t.format} • {t.status} • Team: {t.teamName}</div>
-                                    </div>
-                                ))}
-                            </div>
 
                             {/* Upcoming Fixtures — from API data */}
                             <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
