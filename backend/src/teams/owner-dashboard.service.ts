@@ -101,6 +101,7 @@ export class OwnerDashboardService {
             teams: teams.map(t => ({
                 id: t.id,
                 name: t.name,
+                teamCode: t.teamCode,
                 logo: (t as any).logo,
                 playerCount: t.players.length,
                 tournamentCount: t._count.tournaments,
