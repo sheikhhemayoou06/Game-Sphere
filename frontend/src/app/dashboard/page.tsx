@@ -1147,7 +1147,7 @@ export default function DashboardPage() {
                                     {/* Decorative background circle */}
                                     <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: `radial-gradient(circle, ${selectedSport.accentColor || '#7c3aed'}15 0%, transparent 70%)`, transform: 'translate(30%, -30%)', borderRadius: '50%' }}></div>
 
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', position: 'relative', zIndex: 1 }} className="flex-wrap-mobile">
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }} className="flex-wrap-mobile">
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                                             <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', color: 'white', boxShadow: `0 4px 12px ${selectedSport.accentColor || '#7c3aed'}40` }}>
                                                 {selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}
@@ -1168,22 +1168,6 @@ export default function DashboardPage() {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)', gap: '12px', position: 'relative', zIndex: 1 }}>
-                                        {[
-                                            { label: 'Win/Loss Record', value: `${ownerDashData.stats?.wins || 0}W - ${ownerDashData.stats?.losses || 0}L`, color: '#10b981', icon: '🏆', bg: '#ecfdf5' },
-                                            { label: 'Active Roster', value: team.playerCount, color: selectedSport.accentColor || '#7c3aed', icon: '👥', bg: `${selectedSport.accentColor || '#7c3aed'}15` },
-                                            { label: 'Tournaments Played', value: team.tournamentCount, color: '#f59e0b', icon: '🏅', bg: '#fffbeb' },
-                                        ].map((s: any, i: number) => (
-                                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '16px', borderRadius: '16px', background: s.bg, border: `1px solid ${s.color}20`, transition: 'transform 0.2s', cursor: 'default' }} className="hover:scale-105">
-                                                <div style={{ fontSize: '28px' }}>{s.icon}</div>
-                                                <div>
-                                                    <div style={{ fontSize: '18px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                                                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '2px' }}>{s.label}</div>
-                                                </div>
-                                            </div>
-                                        ))}
                                     </div>
                                 </div>
                             ))}
