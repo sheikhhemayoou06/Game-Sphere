@@ -624,11 +624,11 @@ export default function DashboardPage() {
     };
 
     const bannerSubtitles: Record<RoleGroup, string> = {
-        admin: `Platform Administrator Dashboard — ${sportLabel} Management`,
-        organizer: `${sportIcon} ${sportLabel} Tournament Management`,
-        team_manager: `${sportIcon} ${sportLabel} Team Management Dashboard`,
-        official: `${sportIcon} ${sportLabel} Match Official Dashboard`,
-        player: `Your Dashboard`,
+        admin: `🚀 Command Center — Powering ${sportLabel} Across India`,
+        organizer: `${sportIcon} Orchestrating ${sportLabel} Excellence — Let's Build Champions`,
+        team_manager: `${sportIcon} Leading Your ${sportLabel} Squad to Victory`,
+        official: `${sportIcon} Enforcing Fair Play — ${sportLabel} Match Operations`,
+        player: `🔥 Your Arena, Your Rules — Dominate the Game`,
     };
 
     return (
@@ -637,7 +637,8 @@ export default function DashboardPage() {
             <nav style={{
                 padding: '16px 32px', background: theme.navBg,
                 borderBottom: `1px solid ${theme.navBorder}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px'
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px',
+                position: 'relative'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     {/* Hamburger Menu - Left Side Drawer (Player & Team Manager) */}
@@ -804,28 +805,23 @@ export default function DashboardPage() {
                             </div>
                         </>
                     )}
-
-                    <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginLeft: (roleGroup === 'player' || roleGroup === 'team_manager') ? '4px' : '0' }}>
-                        <span style={{ fontSize: '24px' }}>🌐</span>
-                        <span style={{
-                            fontSize: '20px', fontWeight: 800,
-                            background: 'linear-gradient(135deg, #4f46e5, #ec4899, #f43f5e)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            color: 'transparent'
-                        }}>Game Sphere</span>
-                    </Link>
                 </div>
 
-                <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'flex-start' }}>
-                    {theme.navLinks.map((link) => (
-                        <Link key={link.href} href={link.href} className="hide-mobile" style={{
-                            fontSize: '14px', fontWeight: 500, color: theme.textSecondary, textDecoration: 'none',
-                        }}>
-                            {link.label}
-                        </Link>
-                    ))}
+                {/* Centered Logo */}
+                <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+                    <span style={{ fontSize: '28px' }}>🌐</span>
+                    <span style={{
+                        fontSize: '22px', fontWeight: 800,
+                        background: 'linear-gradient(135deg, #4f46e5, #ec4899, #f43f5e)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        color: 'transparent'
+                    }}>Game Sphere</span>
+                </Link>
+
+                {/* Right Side: Notifications and Messages */}
+                <div className="flex-wrap-mobile" style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'flex-end' }}>
                     <button onClick={() => router.push('/notifications')} style={{
                         padding: '8px', borderRadius: '8px', cursor: 'pointer',
                         background: 'transparent', color: theme.textPrimary,
