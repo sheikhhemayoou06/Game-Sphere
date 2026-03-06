@@ -961,14 +961,7 @@ export default function DashboardPage() {
 
             <div className="mobile-padding" style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px', paddingBottom: roleGroup === 'player' ? '100px' : '32px' }}>
 
-                {/* ─── Global Search Bar ─── */}
-                <div style={{ marginBottom: '32px' }}>
-                    <SmartSearch
-                        activeSportId={selectedSport?.id || 'ALL'}
-                        placeholder="Search players, teams, organizers, or tournaments..."
-                        dark={true}
-                    />
-                </div>
+
 
 
 
