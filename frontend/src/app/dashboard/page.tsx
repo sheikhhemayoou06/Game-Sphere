@@ -568,25 +568,25 @@ export default function DashboardPage() {
     /* ─── Role-specific stats ─── */
     const statsMap: Record<RoleGroup, { label: string; value: any; icon: any; color: string }[]> = {
         admin: [
-            { label: 'Admin ID', value: user?.id?.substring(0, 8) || 'N/A', icon: <Fingerprint size={20} />, color: "inherit" },
+            { label: 'Admin ID', value: user?.player?.sportsId || 'USI Pending', icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Matches', value: liveMatches.length, icon: <Radio size={20} />, color: "inherit" },
             { label: 'Platform Users', value: 12450, icon: <Users size={20} />, color: "inherit" },
             { label: 'Admin Level', value: roleLabels[role] || role, icon: <Shield size={20} />, color: "inherit" },
         ],
         organizer: [
-            { label: 'Organizer ID', value: user?.id?.substring(0, 8) || 'N/A', icon: <Fingerprint size={20} />, color: "inherit" },
+            { label: 'Organizer ID', value: user?.player?.sportsId || 'USI Pending', icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: <Radio size={20} />, color: "inherit" },
             { label: 'Active Teams', value: ownerDashData?.teams?.length || 0, icon: <Users size={20} />, color: "inherit" },
             { label: 'Role', value: roleLabels[role] || role, icon: <Shield size={20} />, color: "inherit" },
         ],
         team_manager: [
-            { label: 'Manager ID', value: user?.id?.substring(0, 8) || 'N/A', icon: <Fingerprint size={20} />, color: "inherit" },
+            { label: 'Manager ID', value: user?.player?.sportsId || 'USI Pending', icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: <Radio size={20} />, color: "inherit" },
             { label: 'My Teams', value: ownerDashData?.teams?.length || 0, icon: <Users size={20} />, color: "inherit" },
             { label: 'Role', value: roleLabels[role] || role, icon: <Shield size={20} />, color: "inherit" },
         ],
         official: [
-            { label: 'Official ID', value: user?.id?.substring(0, 8) || 'N/A', icon: <Fingerprint size={20} />, color: "inherit" },
+            { label: 'Official ID', value: user?.player?.sportsId || 'USI Pending', icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Matches', value: liveMatches.length, icon: <Radio size={20} />, color: "inherit" },
             { label: 'Matches Reffed', value: 34, icon: <ClipboardList size={20} />, color: "inherit" },
             { label: 'Role', value: roleLabels[role] || role, icon: <Scale size={20} />, color: "inherit" },
@@ -712,7 +712,7 @@ export default function DashboardPage() {
                                         {user?.email || ''}
                                     </div>
                                     <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', background: '#f1f5f9', padding: '4px 8px', borderRadius: '12px', width: 'fit-content', margin: '6px auto 0' }}>
-                                        <IdCard size={12} /> {user?.id || 'ID not available'}
+                                        <IdCard size={12} /> {user?.player?.sportsId || 'USI Pending'}
                                     </div>
 
                                     {/* Sport Dropdown (in profile corner) */}
