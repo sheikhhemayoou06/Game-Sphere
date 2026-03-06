@@ -223,6 +223,9 @@ export default function DashboardPage() {
     const [playerMenuOpen, setPlayerMenuOpen] = useState(false);
     const [sportDropdownOpen, setSportDropdownOpen] = useState(false);
 
+    // Rotating Advertisement State
+    const [adIndex, setAdIndex] = useState(0);
+
     const router = useRouter();
 
     const handleSelectNewSport = (sp: any) => {
@@ -398,6 +401,14 @@ export default function DashboardPage() {
                 .finally(() => setSportLoading(false));
         }
     }, [selectedSport?.id, isOwnerRole]);
+
+    // Advertisement Rotation Effect
+    useEffect(() => {
+        const adTimer = setInterval(() => {
+            setAdIndex(prev => (prev + 1) % 3);
+        }, 3000);
+        return () => clearInterval(adTimer);
+    }, []);
 
     // Show sport picker overlay when user hasn't chosen any sports yet
     // Skip this overlay completely for Admin and Organizer roles
@@ -1405,53 +1416,80 @@ export default function DashboardPage() {
 
                 {/* ─── Advertisement Bar (Player Only) ─── */}
                 {
-                    roleGroup === 'player' && (
-                        <div style={{
-                            marginTop: '24px',
-                            marginBottom: '32px',
-                            background: 'linear-gradient(135deg, #1e293b, #0f172a)',
-                            borderRadius: '16px',
-                            padding: '24px',
-                            position: 'relative',
-                            overflow: 'hidden',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            border: '1px solid #334155',
-                            boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
-                        }}>
-                            {/* Decorative Elements */}
-                            <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', background: 'rgba(56, 189, 248, 0.1)', borderRadius: '50%', filter: 'blur(20px)' }}></div>
-                            <div style={{ position: 'absolute', bottom: '-20px', left: '20%', width: '120px', height: '120px', background: 'rgba(168, 85, 247, 0.1)', borderRadius: '50%', filter: 'blur(30px)' }}></div>
-
-                            <div style={{ position: 'relative', zIndex: 1 }}>
-                                <div style={{ fontSize: '11px', fontWeight: 800, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-                                    Sponsored
-                                </div>
-                                <h3 style={{ fontSize: '20px', fontWeight: 800, color: 'white', marginBottom: '4px', letterSpacing: '-0.5px' }}>
-                                    Level Up Your Game
-                                </h3>
-                                <p style={{ fontSize: '14px', color: '#94a3b8', maxWidth: '300px', lineHeight: 1.5 }}>
-                                    Get 20% off all professional cricket bats and football boots this week only.
-                                </p>
-                            </div>
-
-                            <a href="#" style={{
-                                position: 'relative', zIndex: 1,
-                                padding: '12px 24px',
-                                background: '#38bdf8',
-                                color: '#0f172a',
-                                fontWeight: 800,
-                                fontSize: '14px',
-                                borderRadius: '12px',
-                                textDecoration: 'none',
-                                whiteSpace: 'nowrap',
-                                transition: 'transform 0.2s',
+                    roleGroup === 'player' && (() => {
+                        const ADS = [
+                            {
+                                tag: "Pro Shop Offers",
+                                title: "Level Up Your Equipment",
+                                desc: "Get 20% off all professional cricket bats and football boots this week only in the Pro Shop.",
+                                link: "/pro-shop", btn: "Shop Now",
+                                bg: "linear-gradient(135deg, #1e293b, #0f172a)",
+                                accent1: "rgba(56, 189, 248, 0.1)", accent2: "rgba(168, 85, 247, 0.1)",
+                                textHighlight: "#38bdf8", btnBg: "#38bdf8", btnText: "#0f172a"
+                            },
+                            {
+                                tag: "Mega Auction",
+                                title: "Register for the Auction",
+                                desc: "Don't miss the upcoming premier league mega auction. Secure your spot & verify your stats today.",
+                                link: "/auction", btn: "Register Now",
+                                bg: "linear-gradient(135deg, #4c1d95, #2e1065)",
+                                accent1: "rgba(244, 114, 182, 0.15)", accent2: "rgba(167, 139, 250, 0.1)",
+                                textHighlight: "#f472b6", btnBg: "#f472b6", btnText: "#4c1d95"
+                            },
+                            {
+                                tag: "Open Team Trials",
+                                title: "Prove Your Skills",
+                                desc: "Local professional teams are hosting open field trials next weekend! Find an event near your city.",
+                                link: "/calendar", btn: "Find Trials",
+                                bg: "linear-gradient(135deg, #064e3b, #022c22)",
+                                accent1: "rgba(52, 211, 153, 0.1)", accent2: "rgba(250, 204, 21, 0.1)",
+                                textHighlight: "#34d399", btnBg: "#fbbf24", btnText: "#064e3b"
+                            }
+                        ];
+                        return (
+                            <div style={{
+                                marginTop: '24px', marginBottom: '32px', position: 'relative',
+                                height: '145px', overflow: 'hidden', borderRadius: '16px',
+                                boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '1px solid #334155'
                             }}>
-                                Shop Now
-                            </a>
-                        </div>
-                    )
+                                {ADS.map((ad, idx) => (
+                                    <div key={idx} style={{
+                                        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                                        background: ad.bg, padding: '24px',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                        opacity: adIndex === idx ? 1 : 0,
+                                        pointerEvents: adIndex === idx ? 'auto' : 'none',
+                                        transform: adIndex === idx ? 'translateY(0)' : (adIndex > idx ? 'translateY(-20px)' : 'translateY(20px)'),
+                                        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    }}>
+                                        {/* Decorative Elements */}
+                                        <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', background: ad.accent1, borderRadius: '50%', filter: 'blur(20px)' }}></div>
+                                        <div style={{ position: 'absolute', bottom: '-20px', left: '20%', width: '120px', height: '120px', background: ad.accent2, borderRadius: '50%', filter: 'blur(30px)' }}></div>
+
+                                        <div style={{ position: 'relative', zIndex: 1 }}>
+                                            <div style={{ fontSize: '11px', fontWeight: 800, color: ad.textHighlight, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+                                                {ad.tag}
+                                            </div>
+                                            <h3 style={{ fontSize: '20px', fontWeight: 800, color: 'white', marginBottom: '4px', letterSpacing: '-0.5px' }}>
+                                                {ad.title}
+                                            </h3>
+                                            <p style={{ fontSize: '14px', color: '#cbd5e1', maxWidth: '320px', lineHeight: 1.5 }}>
+                                                {ad.desc}
+                                            </p>
+                                        </div>
+
+                                        <Link href={ad.link} style={{
+                                            position: 'relative', zIndex: 1, padding: '12px 24px', background: ad.btnBg, color: ad.btnText,
+                                            fontWeight: 800, fontSize: '14px', borderRadius: '12px', textDecoration: 'none', whiteSpace: 'nowrap',
+                                            transition: 'transform 0.2s', boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+                                        }} className="card-hover">
+                                            {ad.btn}
+                                        </Link>
+                                    </div>
+                                ))}
+                            </div>
+                        );
+                    })()
                 }
 
                 {/* ─── Live Matches (filtered by selected sport) ─── */}
