@@ -39,6 +39,7 @@ const PLAYER_CARDS = [
     { href: '/teams', label: 'My Team', desc: 'Roster & teammates', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
     { href: '/explore', label: 'Search', desc: 'Find anything', icon: <SearchIcon size={20} />, gradient: 'linear-gradient(135deg, #0f172a, #334155)' },
     { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
+    { href: '/messages', label: 'Messages', desc: 'Chat & Comm', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #4338ca, #312e81)' },
 ];
 
 // ─── TEAM MANAGER: Team operations, apply for tournaments (no creation) ───
@@ -929,19 +930,21 @@ export default function DashboardPage() {
                             borderRadius: '50%', border: '2px solid white'
                         }}></span>
                     </button>
-                    <button onClick={() => router.push('/messages')} style={{
-                        padding: '8px', borderRadius: '8px', cursor: 'pointer',
-                        background: 'transparent', color: theme.textPrimary,
-                        border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        transition: 'background 0.2s', position: 'relative'
-                    }} className="hover-bg-slate nav-icon-btn">
-                        <MessageSquare size={36} strokeWidth={2.5} />
-                        <span style={{
-                            position: 'absolute', top: '4px', right: '4px',
-                            width: '8px', height: '8px', backgroundColor: '#ef4444',
-                            borderRadius: '50%', border: '2px solid white'
-                        }}></span>
-                    </button>
+                    {roleGroup !== 'player' && (
+                        <button onClick={() => router.push('/messages')} style={{
+                            padding: '8px', borderRadius: '8px', cursor: 'pointer',
+                            background: 'transparent', color: theme.textPrimary,
+                            border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            transition: 'background 0.2s', position: 'relative'
+                        }} className="hover-bg-slate nav-icon-btn">
+                            <MessageSquare size={36} strokeWidth={2.5} />
+                            <span style={{
+                                position: 'absolute', top: '4px', right: '4px',
+                                width: '8px', height: '8px', backgroundColor: '#ef4444',
+                                borderRadius: '50%', border: '2px solid white'
+                            }}></span>
+                        </button>
+                    )}
                 </div>
             </nav>
 
