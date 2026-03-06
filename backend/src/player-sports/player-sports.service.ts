@@ -52,8 +52,10 @@ export class PlayerSportsService {
 
         const role = player.user.role;
         let rolePrefix = 'P'; // Default PLAYER
-        if (role === 'ORGANIZER') rolePrefix = 'OR';
-        else if (role === 'OFFICIAL') rolePrefix = 'OF';
+        if (role === 'ORGANIZER') rolePrefix = 'ORZ';
+        else if (role === 'OFFICIAL') rolePrefix = 'OFC';
+        else if (role === 'TEAM_MANAGER') rolePrefix = 'TMM';
+        else if (role === 'ADMIN') rolePrefix = 'ADM';
 
         const prefix = SPORT_PREFIXES[sport.name] || sport.name.substring(0, 3).toUpperCase();
 

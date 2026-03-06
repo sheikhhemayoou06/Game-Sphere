@@ -70,9 +70,6 @@ export class AuthService {
             const numbers = Math.floor(10000 + Math.random() * 90000);
             let sportsId = `${firstLetter}${numbers}${lastLetter}`;
 
-            if (user.role === 'ORGANIZER') {
-                sportsId = `ORZ-${sportsId}`;
-            }
             await this.prisma.player.create({
                 data: {
                     userId: user.id,
