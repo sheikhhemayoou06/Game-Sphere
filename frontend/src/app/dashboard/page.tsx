@@ -871,22 +871,27 @@ export default function DashboardPage() {
                                         <Camera size={18} color="#64748b" /> Media
                                     </Link>
 
-                                    {/* 10. Sponsorship & Rankings */}
+                                    {/* 10. Sponsorships */}
                                     <Link href="/sponsorships" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
-                                        <Gem size={18} color="#64748b" /> Sponsorship & Rankings
+                                        <Gem size={18} color="#64748b" /> Sponsorships
                                     </Link>
 
-                                    {/* 11. Pro Shop */}
+                                    {/* 11. Rankings */}
+                                    <Link href="/rankings" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
+                                        <Trophy size={18} color="#64748b" /> Rankings
+                                    </Link>
+
+                                    {/* 12. Pro Shop */}
                                     <Link href="/pro-shop" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Package size={18} color="#64748b" /> Pro Shop
                                     </Link>
 
-                                    {/* 12. Subscription */}
+                                    {/* 13. Subscription */}
                                     <Link href="/subscription" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <IdCard size={18} color="#64748b" /> Subscription
                                     </Link>
 
-                                    {/* 13. Settings */}
+                                    {/* 14. Settings */}
                                     <Link href="/settings" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Settings size={18} color="#64748b" /> Settings
                                     </Link>
@@ -898,7 +903,7 @@ export default function DashboardPage() {
 
                                 {/* ── Menu Group 2: Support ── */}
                                 <div style={{ padding: '4px 14px 12px', display: 'flex', flexDirection: 'column', gap: '2px', flex: 1 }}>
-                                    {/* 14. Help of Sports */}
+                                    {/* 15. Help of Sports */}
                                     <Link href="/help" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <HelpCircle size={18} color="#64748b" /> Help of Sports
                                     </Link>
@@ -906,7 +911,7 @@ export default function DashboardPage() {
 
                                 {/* ── Logout Footer ── */}
                                 <div style={{ padding: '16px 20px', borderTop: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    {/* 15. Logout */}
+                                    {/* 16. Logout */}
                                     <button onClick={() => { setPlayerMenuOpen(false); logout(); router.push('/'); }} style={{
                                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                                         padding: '12px', borderRadius: '12px', width: '100%',
