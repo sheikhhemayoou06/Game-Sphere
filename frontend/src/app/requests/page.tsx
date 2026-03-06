@@ -25,7 +25,7 @@ export default function RequestsPage() {
             }}>
                 <div style={{
                     maxWidth: '1100px', margin: '0 auto', padding: '0 32px',
-                    display: 'flex', gap: '0',
+                    display: 'flex', gap: '0', justifyContent: 'center',
                 }}>
                     {TABS.map(tab => (
                         <button
