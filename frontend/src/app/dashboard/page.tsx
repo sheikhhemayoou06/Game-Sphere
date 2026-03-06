@@ -1449,6 +1449,61 @@ export default function DashboardPage() {
                         ) : null;
                     })()
                 }
+
+                {/* ─── My Updates & News Feed (Player Only) ─── */}
+                {
+                    roleGroup === 'player' && (
+                        <div style={{ marginBottom: '32px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                                <h2 style={{ fontSize: '20px', fontWeight: 700, color: theme.textPrimary, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <Bell size={20} className="text-indigo-600" /> Latest Updates
+                                </h2>
+                                <Link href="/news" style={{ fontSize: '13px', color: '#6366f1', fontWeight: 600, textDecoration: 'none', background: '#eef2ff', padding: '6px 12px', borderRadius: '20px' }}>View All</Link>
+                            </div>
+
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                {/* Dummy Update 1 */}
+                                <div className="card-hover" style={{ background: 'white', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', display: 'flex', gap: '16px', alignItems: 'flex-start', cursor: 'pointer' }}>
+                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4f46e5', flexShrink: 0 }}>
+                                        <Trophy size={20} />
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#1e1b4b', marginBottom: '4px' }}>
+                                            The <span style={{ color: '#4f46e5' }}>City Super Kings</span> advanced to the semi-finals!
+                                        </div>
+                                        <div style={{ fontSize: '12px', color: '#64748b' }}>2 hours ago • Cricket</div>
+                                    </div>
+                                </div>
+
+                                {/* Dummy Update 2 */}
+                                <div className="card-hover" style={{ background: 'white', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', display: 'flex', gap: '16px', alignItems: 'flex-start', cursor: 'pointer' }}>
+                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#dc2626', flexShrink: 0 }}>
+                                        <Calendar size={20} />
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#1e1b4b', marginBottom: '4px' }}>
+                                            New tournament <span style={{ color: '#dc2626' }}>Summer Smash 2026</span> is accepting registrations.
+                                        </div>
+                                        <div style={{ fontSize: '12px', color: '#64748b' }}>5 hours ago • Tennis</div>
+                                    </div>
+                                </div>
+
+                                {/* Dummy Update 3 */}
+                                <div className="card-hover" style={{ background: 'white', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', display: 'flex', gap: '16px', alignItems: 'flex-start', cursor: 'pointer' }}>
+                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', flexShrink: 0 }}>
+                                        <Users size={20} />
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#1e1b4b', marginBottom: '4px' }}>
+                                            <span style={{ color: '#16a34a' }}>Mumbai Strikers</span> are looking for a new Goalkeeper.
+                                        </div>
+                                        <div style={{ fontSize: '12px', color: '#64748b' }}>1 day ago • Football</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
                 {/* ─── Advertisement Bar (Player Only) ─── */}
                 {
                     roleGroup === 'player' && (
