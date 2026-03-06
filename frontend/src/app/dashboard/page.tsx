@@ -976,52 +976,7 @@ export default function DashboardPage() {
 
 
 
-                {/* ─── Player Dashboard Widgets (Sport-Filtered) ─── */}
-                {roleGroup === 'player' && selectedSport && currentSportData && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
 
-                        {/* Profile Summary */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `1px solid ${selectedSport.accentColor || '#6366f1'}20` }}>
-                            <Link href="/profile" style={{ textDecoration: 'none', color: "inherit" }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
-                                    <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#6366f1'}, ${selectedSport.accentColor || '#6366f1'}88)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{sportIcon}</div>
-                                    <div>
-                                        <div style={{ fontWeight: 800, fontSize: '16px' }}>{user?.firstName} {user?.lastName}</div>
-                                        <div style={{ fontSize: '12px', color: selectedSport.accentColor || '#6366f1', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                            <Fingerprint size={14} />
-                                            {(() => {
-                                                const ps = user?.player?.playerSports;
-                                                if (ps && selectedSport) {
-                                                    const m = ps.find((s: any) => s.sportId === selectedSport.id);
-                                                    if (m) return m.sportCode;
-                                                }
-                                                return user?.player?.sportsId || 'Not Registered';
-                                            })()}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-
-                        {/* Upcoming Matches */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `1px solid ${selectedSport.accentColor || '#6366f1'}20` }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#64748b', marginBottom: '10px' }}>{sportIcon} UPCOMING {sportLabel.toUpperCase()} MATCHES</div>
-                            <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No upcoming {sportLabel} matches</div>
-                        </div>
-
-                        {/* Pending Requests */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `1px solid ${selectedSport.accentColor || '#6366f1'}20` }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#64748b', marginBottom: '10px' }}>📨 {sportLabel.toUpperCase()} REQUESTS</div>
-                            <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No pending {sportLabel} requests</div>
-                            <Link href="/teams" style={{ fontSize: '12px', color: selectedSport.accentColor || '#6366f1', fontWeight: 600, textDecoration: 'none', display: 'block', marginTop: '8px' }}>View all →</Link>
-                        </div>
-
-
-
-                        {/* Payment Dues */}
-                        {/* Empty until live API data is connected */}
-                    </div>
-                )}
 
                 {/* ─── ORGANIZER Dashboard Widgets (Tournament-Focused) ─── */}
                 {
