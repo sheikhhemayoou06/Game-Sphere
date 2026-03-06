@@ -16,7 +16,7 @@ export default function PageNavbar({ title, emoji, backHref }: PageNavbarProps) 
     return (
         <div style={{
             background: 'white', borderBottom: '1px solid #e2e8f0',
-            padding: '14px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             position: 'sticky', top: 0, zIndex: 50,
         }}>
             {backHref ? (
@@ -30,11 +30,11 @@ export default function PageNavbar({ title, emoji, backHref }: PageNavbarProps) 
             )}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 {emoji && <span style={{ fontSize: '22px' }}>{emoji}</span>}
-                <span style={{ fontSize: '18px', fontWeight: 800, background: 'linear-gradient(135deg, #4f46e5, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', color: 'transparent' }}>
+                <span style={{ fontSize: '17px', fontWeight: 800, background: 'linear-gradient(135deg, #4f46e5, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', color: 'transparent' }}>
                     {title}
                 </span>
             </div>
-            <div style={{ width: '80px' }}></div>
+            <div style={{ width: '60px' }}></div>
         </div>
     );
 }

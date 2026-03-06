@@ -59,18 +59,20 @@ export default function TournamentsPage() {
             <div style={{
                 background: 'white', borderBottom: '1px solid #e2e8f0',
                 position: 'sticky', top: '52px', zIndex: 49,
+                overflowX: 'auto', WebkitOverflowScrolling: 'touch',
             }}>
                 <div style={{
-                    maxWidth: '1100px', margin: '0 auto', padding: '0 32px',
+                    maxWidth: '1100px', margin: '0 auto', padding: '0 16px',
                     display: 'flex', gap: '0', justifyContent: 'center',
+                    minWidth: 'max-content',
                 }}>
                     {TABS.map(tab => (
                         <button
                             key={tab.key}
                             onClick={() => setActiveTab(tab.key)}
                             style={{
-                                padding: '14px 24px', border: 'none', background: 'none',
-                                cursor: 'pointer', fontSize: '14px', fontWeight: 700,
+                                padding: '12px 16px', border: 'none', background: 'none',
+                                cursor: 'pointer', fontSize: '13px', fontWeight: 700,
                                 color: activeTab === tab.key ? '#4f46e5' : '#94a3b8',
                                 borderBottom: activeTab === tab.key ? '3px solid #4f46e5' : '3px solid transparent',
                                 transition: 'all 0.2s',
@@ -84,7 +86,7 @@ export default function TournamentsPage() {
             </div>
 
             {/* ── Content ── */}
-            <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 32px', paddingBottom: '80px' }}>
+            <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '20px 16px', paddingBottom: '80px' }}>
                 {loading ? (
                     <div style={{ textAlign: 'center', padding: '60px', fontSize: '16px', color: '#94a3b8' }}>
                         ⏳ Loading tournaments…
@@ -110,7 +112,7 @@ export default function TournamentsPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '16px' }}>
+                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '14px' }}>
                         {filtered.map((t: any) => {
                             const hasApplied = appliedIds.has(t.id);
                             const canApply = isTeamManager && t.status === 'REGISTRATION' && !hasApplied;

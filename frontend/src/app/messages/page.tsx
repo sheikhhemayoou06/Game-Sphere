@@ -235,7 +235,7 @@ export default function MessagesPage() {
                         <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '8px' }}>
                             {search
                                 ? `No results for "${search}"`
-                                : 'When you connect with players, teams, or receive messages from organisers, they'll appear here.'}
+                                : 'When you connect with players, teams, or receive messages from organisers, they\u0027ll appear here.'}
                         </p>
                     </div>
                 ) : (
