@@ -285,7 +285,9 @@ body {
 
 /* Hide elements entirely on desktop */
 @media (min-width: 769px) {
-  .show-mobile-block, .show-mobile-flex {
+
+  .show-mobile-block,
+  .show-mobile-flex {
     display: none !important;
   }
 }
@@ -337,9 +339,9 @@ body {
     justify-content: center;
   }
 
-  /* Hide logo text on mobile, keep icon only */
+  /* Shrink logo text on mobile instead of hiding */
   .nav-logo-text {
-    display: none !important;
+    font-size: 16px !important;
   }
 
   /* Make the centered logo use static positioning on mobile */
