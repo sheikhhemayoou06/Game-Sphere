@@ -493,7 +493,7 @@ export default function DashboardPage() {
                                     <SportIcon sport={onboardingSport.name} size={42} color="white" />
                                 </div>
                                 <div>
-                                    <h2 style={{ fontSize: '24px', fontWeight: 800 }}>Welcome to {onboardingSport.name}!</h2>
+                                    <h2 style={{ fontSize: '24px', fontWeight: 800 }}>{onboardingSport.name}</h2>
                                     <p style={{ fontSize: '14px', opacity: 0.9 }}>Let's set up your sport profile.</p>
                                 </div>
                             </div>
@@ -947,12 +947,7 @@ export default function DashboardPage() {
                     background: theme.bannerGradient, color: 'white',
                 }}>
                     <h1 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '8px' }}>
-                        {(() => {
-                            const hr = new Date().getHours();
-                            if (hr < 12) return 'Good morning';
-                            if (hr < 18) return 'Good afternoon';
-                            return 'Good evening';
-                        })()}, {user?.firstName || 'User'}! {theme.emoji}
+                        {user?.firstName || 'User'}! {theme.emoji}
                     </h1>
                     <p style={{ fontSize: '15px', opacity: 0.85 }}>
                         {bannerSubtitles[roleGroup]}
@@ -1468,7 +1463,7 @@ export default function DashboardPage() {
                                     <SportIcon sport={onboardingSport.name} size={42} color="white" />
                                 </div>
                                 <div>
-                                    <h2 style={{ fontSize: '24px', fontWeight: 800 }}>Welcome to {onboardingSport.name}!</h2>
+                                    <h2 style={{ fontSize: '24px', fontWeight: 800 }}>{onboardingSport.name}</h2>
                                     <p style={{ fontSize: '14px', opacity: 0.9 }}>Let's set up your sport profile.</p>
                                 </div>
                             </div>

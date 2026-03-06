@@ -110,7 +110,7 @@ export default function WelcomeGatewayPage() {
                         {/* Logo & Header */}
                         <div style={{ marginBottom: '32px' }}>
                             <span style={{ fontSize: '48px' }}>🌐</span>
-                            <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#1e1b4b', marginTop: '16px', letterSpacing: '-0.5px' }}>
+                            <h1 style={{ fontSize: '32px', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', marginBottom: '8px' }}>
                                 Welcome to Game Sphere
                             </h1>
                             <p style={{ color: '#64748b', fontSize: '15px', marginTop: '8px' }}>

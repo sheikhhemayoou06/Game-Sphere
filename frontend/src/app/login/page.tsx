@@ -28,18 +28,23 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            // 1. Authenticate with Supabase
-            const { error: sbError } = await supabase.auth.signInWithPassword({ email, password });
+            // Execute Supabase and Backend logins concurrently to save time
+            const [sbAuth, backendAuth] = await Promise.allSettled([
+                supabase.auth.signInWithPassword({ email, password }),
+                api.login({ email, password, rememberMe })
+            ]);
 
-            // If Supabase fails but it's an "Invalid login credentials", we should still try the backend 
-            // in case the user exists on the old backend but hasn't been migrated to Supabase yet.
-            // However, for consistency, we throw if Supabase fails.
+            const sbError = sbAuth.status === 'fulfilled' ? sbAuth.value.error : sbAuth.reason;
+
             if (sbError && sbError.message !== 'Invalid login credentials') {
                 throw sbError;
             }
 
-            // 2. Authenticate with Backend to get the custom JWT session
-            const res = await api.login({ email, password, rememberMe });
+            if (backendAuth.status === 'rejected') {
+                throw backendAuth.reason;
+            }
+
+            const res = backendAuth.value;
 
             if (res.requires2FA) {
                 setRequires2FA(true);
