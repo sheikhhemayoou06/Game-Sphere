@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { roleLabels, sportIcons, sportColors, formatDate } from '@/lib/utils';
-import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trophy, Medal, IdCard, Siren, Dumbbell, Calendar, MessageSquare, Gavel, CreditCard, Bell, HelpCircle, LayoutGrid, BarChart3, Settings, ShieldCheck, FileText, DollarSign, Upload, Package, Gem, Landmark, Award, ArrowLeftRight, FileCheck, CircleDot, Zap, Pen, Camera, Search as SearchIcon, Menu, X, LogOut, Trash2 } from 'lucide-react';
+import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trophy, Medal, IdCard, Siren, Dumbbell, Calendar, MessageSquare, Gavel, CreditCard, Bell, HelpCircle, LayoutGrid, BarChart3, Settings, ShieldCheck, FileText, DollarSign, Upload, Package, Gem, Landmark, Award, ArrowLeftRight, FileCheck, CircleDot, Zap, Pen, Camera, Search as SearchIcon, Menu, X, LogOut, Trash2, ChevronDown, Plus } from 'lucide-react';
 import SportIcon from '@/components/SportIcon';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 import SmartSearch from '@/components/SmartSearch';
@@ -221,6 +221,7 @@ export default function DashboardPage() {
 
     // Player Hamburger Menu State
     const [playerMenuOpen, setPlayerMenuOpen] = useState(false);
+    const [sportDropdownOpen, setSportDropdownOpen] = useState(false);
 
     const router = useRouter();
 
@@ -710,63 +711,74 @@ export default function DashboardPage() {
                                     <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px', textAlign: 'center' }}>
                                         {user?.email || ''}
                                     </div>
-                                    <div style={{
-                                        marginTop: '10px', padding: '4px 14px', borderRadius: '20px',
-                                        background: theme.badgeBg, color: theme.badgeText,
-                                        fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase',
-                                    }}>
-                                        {roleGroup === 'team_manager' ? '⚡ Team Manager' : '🏅 Player'}
-                                    </div>
-                                </div>
 
-                                {/* ── Sport Switcher ── */}
-                                <div style={{
-                                    padding: '16px 20px', borderBottom: '1px solid #f1f5f9',
-                                }}>
-                                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '10px' }}>
-                                        🏅 My Sports
-                                    </div>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                        {mySports.length > 0 ? mySports.map((sp: any) => {
-                                            const isActive = selectedSport?.id === sp.id;
-                                            const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
-                                            return (
-                                                <button
-                                                    key={sp.id}
-                                                    onClick={() => { setSelectedSport(sp); }}
-                                                    style={{
-                                                        padding: '8px 16px', borderRadius: '20px', cursor: 'pointer',
-                                                        fontSize: '13px', fontWeight: 700,
-                                                        display: 'flex', alignItems: 'center', gap: '6px',
-                                                        border: isActive ? `2px solid ${accent}` : '1px solid #e2e8f0',
-                                                        background: isActive ? accent : '#f8fafc',
-                                                        color: isActive ? 'white' : '#334155',
-                                                        transition: 'all 0.2s',
-                                                        boxShadow: isActive ? `0 2px 8px ${accent}40` : 'none',
-                                                    }}
-                                                >
-                                                    <span>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
-                                                    {sp.name}
-                                                </button>
-                                            );
-                                        }) : (
-                                            <div style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic' }}>
-                                                No sports added yet
-                                            </div>
-                                        )}
-                                    </div>
-                                    <button
-                                        onClick={() => { setPlayerMenuOpen(false); setShowAddSport(true); }}
-                                        style={{
-                                            marginTop: '10px', padding: '8px 14px', borderRadius: '10px',
-                                            border: '1px dashed #c7d2fe', background: '#eef2ff',
-                                            color: '#4f46e5', fontSize: '12px', fontWeight: 700,
-                                            cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
-                                            transition: 'all 0.2s', width: '100%', justifyContent: 'center',
-                                        }}
-                                    >
-                                        ＋ Add Sport
-                                    </button>
+                                    {/* Sport Dropdown (in profile corner) */}
+                                    {mySports.length > 0 && (
+                                        <div style={{ position: 'relative', marginTop: '12px', width: '100%' }}>
+                                            <button
+                                                onClick={() => setSportDropdownOpen(!sportDropdownOpen)}
+                                                style={{
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                                                    width: '100%', padding: '10px 16px', borderRadius: '12px',
+                                                    border: '1px solid #e2e8f0', background: '#f8fafc',
+                                                    cursor: 'pointer', transition: 'all 0.2s',
+                                                }}
+                                            >
+                                                <span style={{ fontSize: '16px' }}>{selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🏅'}</span>
+                                                <span style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>
+                                                    {selectedSport?.name || 'Select Sport'}
+                                                </span>
+                                                <ChevronDown size={16} color="#94a3b8" style={{ marginLeft: 'auto', transition: 'transform 0.2s', transform: sportDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+                                            </button>
+
+                                            {/* Dropdown list */}
+                                            {sportDropdownOpen && (
+                                                <div style={{
+                                                    position: 'absolute', top: '100%', left: 0, right: 0,
+                                                    background: 'white', borderRadius: '12px',
+                                                    border: '1px solid #e2e8f0',
+                                                    boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+                                                    zIndex: 10, marginTop: '4px',
+                                                    overflow: 'hidden',
+                                                }}>
+                                                    {mySports.map((sp: any) => {
+                                                        const isActive = selectedSport?.id === sp.id;
+                                                        const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
+                                                        return (
+                                                            <button
+                                                                key={sp.id}
+                                                                onClick={() => { setSelectedSport(sp); setSportDropdownOpen(false); }}
+                                                                style={{
+                                                                    display: 'flex', alignItems: 'center', gap: '10px',
+                                                                    width: '100%', padding: '12px 16px',
+                                                                    border: 'none', cursor: 'pointer',
+                                                                    background: isActive ? `${accent}10` : 'white',
+                                                                    borderLeft: isActive ? `3px solid ${accent}` : '3px solid transparent',
+                                                                    transition: 'all 0.15s',
+                                                                }}
+                                                            >
+                                                                <span style={{ fontSize: '18px' }}>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
+                                                                <span style={{ fontWeight: isActive ? 700 : 500, fontSize: '14px', color: isActive ? accent : '#334155' }}>
+                                                                    {sp.name}
+                                                                </span>
+                                                                {isActive && <span style={{ marginLeft: 'auto', fontSize: '14px', color: accent }}>✓</span>}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {mySports.length === 0 && (
+                                        <div style={{
+                                            marginTop: '10px', padding: '4px 14px', borderRadius: '20px',
+                                            background: theme.badgeBg, color: theme.badgeText,
+                                            fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase',
+                                        }}>
+                                            {roleGroup === 'team_manager' ? '⚡ Team Manager' : '🏅 Player'}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* ── Menu Group 1: Account ── */}
@@ -792,6 +804,9 @@ export default function DashboardPage() {
                                     <Link href="/leaderboard" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Medal size={18} color="#64748b" /> Leaderboard
                                     </Link>
+                                    <button onClick={() => { setPlayerMenuOpen(false); setShowAddSport(true); }} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', border: 'none', background: 'transparent', color: '#4f46e5', fontSize: '14px', fontWeight: 600, cursor: 'pointer', transition: 'background 0.15s', width: '100%', textAlign: 'left' }} className="hover-bg-slate">
+                                        <Plus size={18} color="#4f46e5" /> Add Sport
+                                    </button>
                                 </div>
 
                                 {/* ── Divider ── */}
