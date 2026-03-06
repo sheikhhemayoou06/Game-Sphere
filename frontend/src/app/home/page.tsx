@@ -148,7 +148,7 @@ export default function HomePage() {
             textDecoration: 'none', color: dark ? 'rgba(255,255,255,0.8)' : '#475569', fontWeight: 600, fontSize: '15px',
             background: 'transparent'
           }}>
-            Sponsorships
+            Apply for Sponsorship
           </Link>
           <div style={{ height: '1px', background: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)', margin: '8px 0' }} />
           <Link href="/about" onClick={() => setMenuOpen(false)} style={{
