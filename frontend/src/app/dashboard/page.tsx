@@ -842,12 +842,7 @@ export default function DashboardPage() {
                                         </div>
                                     )}
 
-                                    {/* 2. Live Score */}
-                                    <Link href="/scoring" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
-                                        <Siren size={18} color="#64748b" /> Live Score
-                                    </Link>
-
-                                    {/* 3. Training */}
+                                    {/* 2. Training (Live Score removed — available on explore + live bar) */}
                                     <Link href="/training" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Dumbbell size={18} color="#64748b" /> Training
                                     </Link>
