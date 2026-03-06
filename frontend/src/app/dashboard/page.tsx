@@ -37,6 +37,7 @@ function getRoleGroup(role: string): RoleGroup {
 const PLAYER_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & join events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
     { href: '/teams', label: 'My Team', desc: 'Roster & teammates', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+    { href: '/explore', label: 'Search', desc: 'Find anything', icon: <SearchIcon size={20} />, gradient: 'linear-gradient(135deg, #0f172a, #334155)' },
     { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
 ];
 
