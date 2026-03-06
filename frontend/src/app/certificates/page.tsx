@@ -5,6 +5,7 @@ import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useSportStore } from '@/lib/store';
 import { sportIcons, sportConfig, defaultSportConfig } from '@/lib/utils';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function CertificatesPage() {
     const { selectedSport } = useSportStore();
@@ -40,11 +41,8 @@ export default function CertificatesPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%)' }}>
+            <PageNavbar title="Certificates & Awards" emoji="🏅" />
             {/* Header */}
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#92400e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#92400e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Certificates` : 'Certificates'}</h1>

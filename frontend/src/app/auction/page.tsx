@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons, sportConfig, defaultSportConfig } from '@/lib/utils';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function AuctionPage() {
     const { user } = useAuthStore();
@@ -182,6 +183,7 @@ export default function AuctionPage() {
     if (loading) {
         return (
             <div style={{ minHeight: '100vh', background: '#0f0f1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <PageNavbar title="Auction" emoji="🔨" />
                 <div style={{ color: '#f59e0b', fontSize: '18px', fontWeight: 700 }}>Loading auctions...</div>
             </div>
         );

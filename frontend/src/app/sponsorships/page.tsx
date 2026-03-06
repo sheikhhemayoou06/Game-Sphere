@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useSportStore } from '@/lib/store';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function SponsorshipsPage() {
     const { selectedSport } = useSportStore();
@@ -44,10 +45,7 @@ export default function SponsorshipsPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#92400e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#92400e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
+            <PageNavbar title="Sponsorships" emoji="💎" />
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>💎 Sponsorships & Ads</h1>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
+import PageNavbar from '@/components/PageNavbar';
 
 const PROGRAMS = [
     { id: '1', title: 'Cricket Batting Masterclass', coach: 'Coach Rajesh Chauhan', sport: 'Cricket', level: 'INTERMEDIATE', duration: '6 weeks', sessions: 18, enrolled: 24, maxCapacity: 30, icon: '🏏', status: 'ACTIVE' },
@@ -49,10 +50,7 @@ export default function TrainingPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 50%, #99f6e4 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#115e59', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#115e59', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
+            <PageNavbar title="Training" emoji="🏋️" />
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#134e4a', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Training & Coaching` : 'Training & Coaching'}</h1>

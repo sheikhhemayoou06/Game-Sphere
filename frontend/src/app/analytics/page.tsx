@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import Link from 'next/link';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function AnalyticsPage() {
     const [tournaments, setTournaments] = useState<any[]>([]);
@@ -51,6 +52,7 @@ export default function AnalyticsPage() {
     if (loading) {
         return (
             <div style={{ minHeight: '100vh', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+            <PageNavbar title="Analytics" emoji="📊" />
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '48px', marginBottom: '16px', animation: 'spin 2s linear infinite' }}>📊</div>
                     <div style={{ fontSize: '18px', fontWeight: 700 }}>Loading Analytics...</div>
@@ -61,10 +63,6 @@ export default function AnalyticsPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: '#0f172a', color: '#e2e8f0' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#818cf8', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#818cf8', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '8px' }}>📊 Analytics Dashboard</h1>

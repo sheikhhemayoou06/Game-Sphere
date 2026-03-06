@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import PageNavbar from '@/components/PageNavbar';
 
 const features = [
     { title: 'Universal Sports ID', desc: 'Every player gets a verified digital identity — track careers, stats, and records across all sports seamlessly.', icon: '🆔' },
@@ -31,43 +32,8 @@ export default function AboutPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: dark ? '#0f0d1a' : '#fafafa', color: dark ? 'white' : '#1e1b4b' }}>
+            <PageNavbar title="About" emoji="ℹ️" />
             {/* Navbar */}
-            <nav className="mobile-padding" style={{
-                position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-                padding: '16px 40px',
-                background: dark ? 'rgba(15, 13, 26, 0.85)' : 'rgba(255, 255, 255, 0.85)',
-                backdropFilter: 'blur(16px)',
-                borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '28px' }}>🌐</span>
-                    <Link href="/home" style={{ textDecoration: 'none' }}>
-                        <span style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px' }}>
-                            <span className="gradient-text">Game Sphere</span>
-                        </span>
-                    </Link>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <Link href="/about" className="hide-mobile" style={{ padding: '8px 16px', fontSize: '14px', fontWeight: 700, color: dark ? 'rgba(255,255,255,0.9)' : '#4338ca', textDecoration: 'none' }}>
-                        About Us
-                    </Link>
-                    <Link href="/dashboard" className="hide-mobile" style={{ padding: '8px 16px', fontSize: '14px', fontWeight: 600, color: dark ? 'rgba(255,255,255,0.9)' : '#475569', textDecoration: 'none' }}>
-                        Dashboard
-                    </Link>
-                    <button
-                        onClick={() => setDark(!dark)}
-                        className="hide-mobile"
-                        style={{
-                            padding: '8px 12px', borderRadius: '10px', border: 'none',
-                            background: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-                            cursor: 'pointer', fontSize: '18px',
-                        }}
-                    >
-                        {dark ? '☀️' : '🌙'}
-                    </button>
-                </div>
-            </nav>
 
             {/* Header */}
             <section className="gradient-bg mobile-padding" style={{

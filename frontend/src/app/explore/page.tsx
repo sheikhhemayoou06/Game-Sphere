@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { Search, X, Play, Heart, MessageCircle, Image, Newspaper, Film, ChevronDown, ChevronUp } from 'lucide-react';
+import PageNavbar from '@/components/PageNavbar';
 
 /* ── Sport icon map ── */
 const sportIcons: Record<string, string> = {
@@ -96,23 +97,7 @@ export default function ExplorePage() {
 
     return (
         <div style={{ minHeight: '100vh', background: '#fafafa' }}>
-            {/* ── Top Bar ── */}
-            <div style={{
-                background: 'white', borderBottom: '1px solid #e2e8f0',
-                padding: '14px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                position: 'sticky', top: 0, zIndex: 50,
-            }}>
-                <Link href="/dashboard" style={{ color: '#4f46e5', fontWeight: 700, textDecoration: 'none', fontSize: '14px' }}>
-                    ← Dashboard
-                </Link>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '22px' }}>🌐</span>
-                    <span style={{ fontSize: '18px', fontWeight: 800, background: 'linear-gradient(135deg, #4f46e5, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', color: 'transparent' }}>
-                        Explore
-                    </span>
-                </div>
-                <div style={{ width: '80px' }}></div>
-            </div>
+            <PageNavbar title="Explore" emoji="🌐" />
 
             {/* ── Centered Search Bar ── */}
             <div style={{

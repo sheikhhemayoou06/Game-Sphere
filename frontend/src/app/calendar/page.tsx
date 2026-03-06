@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function CalendarPage() {
     const { selectedSport } = useSportStore();
@@ -55,10 +56,7 @@ export default function CalendarPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#1e40af', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#1e40af', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
+            <PageNavbar title="Calendar" emoji="📅" />
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#1e3a8a', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Calendar` : 'Calendar'}</h1>

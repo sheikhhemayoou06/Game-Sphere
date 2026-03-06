@@ -8,11 +8,13 @@ import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
 import { Trophy, Medal, Search as SearchIcon, ChevronDown, User, Users, ChevronLeft, Calendar, ArrowUpRight } from 'lucide-react';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function LeaderboardPage() {
     return (
         <Suspense fallback={
             <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0f0b2e 0%, #1a1145 30%, #0d1b3e 100%)', color: '#fff' }}>
+            <PageNavbar title="Leaderboard" emoji="🏆" />
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '48px', marginBottom: '16px' }}>🏆</div>
                     <div style={{ color: '#94a3b8', fontSize: '14px' }}>Loading leaderboard...</div>

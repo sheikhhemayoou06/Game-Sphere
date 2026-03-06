@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import PageNavbar from '@/components/PageNavbar';
 
 const ACTIVITIES: any[] = [];
 
@@ -23,10 +24,7 @@ export default function AuditPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#94a3b8', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#94a3b8', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
+            <PageNavbar title="Audit" emoji="📋" />
 
             <div style={{ maxWidth: '950px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '8px' }}>📝 Audit Log</h1>

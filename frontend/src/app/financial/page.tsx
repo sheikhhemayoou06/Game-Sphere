@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function FinancialPage() {
     const { user } = useAuthStore();
@@ -64,19 +65,7 @@ export default function FinancialPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)', flexWrap: 'wrap', gap: '12px' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <select value={selectedTournament?.id || ''} onChange={(e) => {
-                        const t = tournaments.find(x => x.id === e.target.value);
-                        if (t) handleSelectTournament(t);
-                    }} style={{ padding: '8px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.05)', color: '#e2e8f0', fontSize: '13px', fontWeight: 600 }}>
-                        <option value="">Select Tournament...</option>
-                        {tournaments.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                    </select>
-                    <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-                </div>
-            </nav>
+            <PageNavbar title="Revenue" emoji="💰" />
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '8px' }}>💰 Financial Dashboard</h1>

@@ -6,6 +6,7 @@ import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { sportIcons, sportColors, sportConfig, defaultSportConfig } from '@/lib/utils';
 import SmartSearch from '@/components/SmartSearch';
+import PageNavbar from '@/components/PageNavbar';
 
 /* ═══════════════════════════════════════════════════════════════
    ROLE DETECTION
@@ -161,6 +162,7 @@ export default function TeamsPage() {
     if (roleView === 'organizer') {
         return (
             <div style={{ minHeight: '100vh', background: '#faf5ff' }}>
+            <PageNavbar title="Teams" emoji="🛡️" />
                 <div style={{ background: 'white', borderBottom: '1px solid #e9d5ff', padding: '16px 32px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>

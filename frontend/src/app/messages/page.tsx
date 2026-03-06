@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
+import PageNavbar from '@/components/PageNavbar';
 
 /* ═══════ ROLE DETECTION ═══════ */
 type RoleView = 'owner' | 'player';
@@ -62,6 +63,7 @@ export default function MessagesPage() {
     if (roleView === 'owner') {
         return (
             <div style={{ minHeight: '100vh', background: '#faf5ff' }}>
+            <PageNavbar title="Messages" emoji="💬" />
                 {/* Header */}
                 <div style={{ background: 'white', borderBottom: '1px solid #e9d5ff', padding: '14px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>

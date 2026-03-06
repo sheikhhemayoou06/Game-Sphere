@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import PageNavbar from '@/components/PageNavbar';
 
 const GRIEVANCES: any[] = [];
 
@@ -28,10 +29,7 @@ export default function GrievancePage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fefce8 0%, #fef9c3 50%, #fef08a 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#854d0e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#854d0e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
+            <PageNavbar title="Grievances" emoji="⚖️" />
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>

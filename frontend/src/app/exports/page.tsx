@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import PageNavbar from '@/components/PageNavbar';
 
 const REPORT_TEMPLATES = [
     { id: '1', title: 'Tournament Summary Report', desc: 'Complete overview of tournament matches, results, and statistics', category: 'TOURNAMENT', format: 'PDF', icon: '🏆', lastGenerated: '2026-02-20' },
@@ -37,10 +38,7 @@ export default function ExportsPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#065f46', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#065f46', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
+            <PageNavbar title="Exports" emoji="📤" />
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#064e3b', marginBottom: '8px' }}>📤 Reports Center</h1>

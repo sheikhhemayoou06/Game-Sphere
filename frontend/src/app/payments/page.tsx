@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
+import PageNavbar from '@/components/PageNavbar';
 
 /* ═══════ ROLE DETECTION ═══════ */
 type RoleView = 'organizer' | 'team_manager' | 'player';
@@ -218,6 +219,7 @@ export default function PaymentsPage() {
         const netBalance = totalRevenue - totalExpenses;
         return (
             <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px' }}>
+            <PageNavbar title="Payments" emoji="💳" />
                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '24px' }}>
                     {[
                         { label: 'Total Revenue', value: fmt(totalRevenue), icon: '📈', color: '#16a34a' },

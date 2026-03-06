@@ -7,6 +7,7 @@ import { useAuthStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { roleLabels } from '@/lib/utils';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function SettingsPage() {
     const { user, isAuthenticated, loadFromStorage, logout } = useAuthStore();
@@ -68,6 +69,7 @@ export default function SettingsPage() {
     if (!loaded || !isAuthenticated) {
         return (
             <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
+            <PageNavbar title="Settings" emoji="⚙️" />
                 <RunningAthleteLoader />
             </div>
         );
@@ -138,13 +140,6 @@ export default function SettingsPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', background: '#fff', borderBottom: '1px solid #e2e8f0' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#4338ca', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <Link href="/dashboard" style={{ color: '#4338ca', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-                    <button onClick={() => { logout(); router.push('/'); }} style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: '13px' }}>Logout</button>
-                </div>
-            </nav>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '32px', fontWeight: 900, color: '#1e1b4b', marginBottom: '8px' }}>⚙️ Settings</h1>

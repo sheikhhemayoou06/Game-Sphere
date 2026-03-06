@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SmartSearch from '@/components/SmartSearch';
+import PageNavbar from '@/components/PageNavbar';
 
 const ROLES = [
     { id: '1', name: 'Super Admin', level: 'SYSTEM', users: 2, permissions: 48, color: '#dc2626', icon: '👑', desc: 'Full platform access — all modules, settings, and user management' },
@@ -33,10 +34,7 @@ export default function RolesPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#94a3b8', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#94a3b8', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
+            <PageNavbar title="Roles" emoji="🎭" />
 
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '8px' }}>🛡️ Roles & Permissions</h1>

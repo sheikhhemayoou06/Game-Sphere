@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons, formatDate, statusColors, sportConfig, defaultSportConfig } from '@/lib/utils';
+import PageNavbar from '@/components/PageNavbar';
 
 export default function TournamentsPage() {
     const { user } = useAuthStore();
@@ -44,25 +45,7 @@ export default function TournamentsPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
-            <nav style={{
-                padding: '16px 32px', background: 'white',
-                borderBottom: '1px solid #e2e8f0',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            }}>
-                <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-                    <span style={{ fontSize: '24px' }}>🌐</span>
-                    <span className="gradient-text" style={{ fontSize: '20px', fontWeight: 800 }}>Game Sphere</span>
-                </Link>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <Link href="/dashboard" style={{ fontSize: '14px', color: '#64748b', textDecoration: 'none', fontWeight: 500 }}>Dashboard</Link>
-                    {canCreate && (
-                        <Link href="/tournaments/create" className="btn-primary" style={{ padding: '8px 16px', fontSize: '13px' }}>
-                            + Create Tournament
-                        </Link>
-                    )}
-                    {!user && <Link href="/login" style={{ fontSize: '14px', color: '#6366f1', textDecoration: 'none', fontWeight: 600 }}>Login</Link>}
-                </div>
-            </nav>
+            <PageNavbar title="Tournaments" emoji="🏆" />
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px' }}>
                 <div style={{ marginBottom: '32px' }}>

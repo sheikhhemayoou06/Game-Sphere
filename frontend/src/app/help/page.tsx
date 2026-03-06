@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
+import PageNavbar from '@/components/PageNavbar';
 
 const FAQ_ITEMS = [
     { q: 'How do I create a tournament?', a: 'Navigate to Dashboard → Tournaments → Create Tournament. Fill in the tournament name, select a sport, set dates, choose the format (knockout/round-robin/league), and submit. You can then manage fixtures, teams, and matches from the tournament detail page.' },
@@ -37,10 +38,7 @@ export default function HelpPage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fefce8 0%, #fef9c3 50%, #fef08a 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#854d0e', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <Link href="/dashboard" style={{ color: '#854d0e', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-            </nav>
+            <PageNavbar title="Help & Support" emoji="❓" />
 
             <div style={{ maxWidth: '800px', margin: '0 auto', padding: '32px 24px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '32px' }}>

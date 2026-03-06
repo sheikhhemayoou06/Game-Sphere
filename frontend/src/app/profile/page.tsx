@@ -6,6 +6,7 @@ import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { sportIcons } from '@/lib/utils';
 import { Fingerprint } from 'lucide-react';
+import PageNavbar from '@/components/PageNavbar';
 
 type RoleView = 'owner' | 'player';
 function getProfileRole(role: string): RoleView {
@@ -289,19 +290,7 @@ export default function PlayerProfilePage() {
 
         return (
             <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)' }}>
-                <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                        <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-                        <Link href="/settings" style={{
-                            padding: '8px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)',
-                            background: 'rgba(255,255,255,0.1)', color: '#fff', textDecoration: 'none',
-                            fontWeight: 700, fontSize: '13px', cursor: 'pointer'
-                        }}>
-                            ⚙️ Settings
-                        </Link>
-                    </div>
-                </nav>
+            <PageNavbar title="Profile" emoji="👤" />
 
                 <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
 
@@ -523,19 +512,6 @@ export default function PlayerProfilePage() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)' }}>
-            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                <Link href="/home" style={{ fontSize: '20px', fontWeight: 800, color: '#a5b4fc', textDecoration: 'none' }}>🌐 Game Sphere</Link>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <Link href="/dashboard" style={{ color: '#a5b4fc', fontWeight: 600, textDecoration: 'none' }}>← Dashboard</Link>
-                    <Link href="/settings" style={{
-                        padding: '8px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)',
-                        background: 'rgba(255,255,255,0.1)', color: '#fff', textDecoration: 'none',
-                        fontWeight: 700, fontSize: '13px', cursor: 'pointer'
-                    }}>
-                        ⚙️ Settings
-                    </Link>
-                </div>
-            </nav>
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
                 {/* ─── Profile Header ─── */}
