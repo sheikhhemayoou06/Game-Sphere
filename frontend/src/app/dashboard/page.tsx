@@ -634,10 +634,10 @@ export default function DashboardPage() {
     return (
         <div style={{ minHeight: '100vh', background: theme.bg }}>
             {/* ─── Top Navigation ─── */}
-            <nav style={{
+            <nav className="dashboard-nav" style={{
                 padding: '16px 32px', background: theme.navBg,
                 borderBottom: `1px solid ${theme.navBorder}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
                 position: 'relative'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -808,9 +808,9 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Centered Logo */}
-                <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+                <Link href="/home" className="nav-logo-center" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
                     <span style={{ fontSize: '28px' }}>🌐</span>
-                    <span style={{
+                    <span className="nav-logo-text" style={{
                         fontSize: '22px', fontWeight: 800,
                         background: 'linear-gradient(135deg, #4f46e5, #ec4899, #f43f5e)',
                         WebkitBackgroundClip: 'text',
@@ -827,7 +827,7 @@ export default function DashboardPage() {
                         background: 'transparent', color: theme.textPrimary,
                         border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'background 0.2s', position: 'relative'
-                    }} className="hover-bg-slate">
+                    }} className="hover-bg-slate nav-icon-btn">
                         <Bell size={36} strokeWidth={2.5} />
                         <span style={{
                             position: 'absolute', top: '6px', right: '8px',
@@ -840,7 +840,7 @@ export default function DashboardPage() {
                         background: 'transparent', color: theme.textPrimary,
                         border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'background 0.2s', position: 'relative'
-                    }} className="hover-bg-slate">
+                    }} className="hover-bg-slate nav-icon-btn">
                         <MessageSquare size={36} strokeWidth={2.5} />
                         <span style={{
                             position: 'absolute', top: '4px', right: '4px',
@@ -853,7 +853,7 @@ export default function DashboardPage() {
 
             <div className="mobile-padding" style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px' }}>
                 {/* ─── Welcome Banner ─── */}
-                <div style={{
+                <div className="welcome-banner" style={{
                     padding: '32px', borderRadius: '20px', marginBottom: '32px',
                     background: theme.bannerGradient, color: 'white',
                 }}>
