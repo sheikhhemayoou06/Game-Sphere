@@ -941,18 +941,6 @@ export default function DashboardPage() {
             </nav>
 
             <div className="mobile-padding" style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px' }}>
-                {/* ─── Welcome Banner ─── */}
-                <div className="welcome-banner" style={{
-                    padding: '32px', borderRadius: '20px', marginBottom: '32px',
-                    background: theme.bannerGradient, color: 'white',
-                }}>
-                    <h1 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '8px' }}>
-                        {user?.firstName || 'User'}! {theme.emoji}
-                    </h1>
-                    <p style={{ fontSize: '15px', opacity: 0.85 }}>
-                        {bannerSubtitles[roleGroup]}
-                    </p>
-                </div>
 
                 {/* ─── Global Search Bar ─── */}
                 <div style={{ marginBottom: '32px' }}>
