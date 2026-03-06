@@ -1451,33 +1451,43 @@ export default function DashboardPage() {
                         const filteredLive = selectedSport
                             ? liveMatches.filter((m: any) => m.sport?.name === selectedSport.name || m.sport?.id === selectedSport.id)
                             : liveMatches;
-                        return filteredLive.length > 0 ? (
+                        return (
                             <div style={{ marginBottom: '32px' }}>
                                 <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '16px', color: theme.textPrimary, display: 'flex', alignItems: 'center', gap: '8px' }}>
                                     <span className="live-pulse"></span> Live {sportLabel} Matches
                                 </h2>
-                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
-                                    {filteredLive.map((match: any) => (
-                                        <Link href={`/matches/${match.id}`} key={match.id} className="card-hover" style={{
-                                            padding: '20px', borderRadius: '14px',
-                                            background: theme.cardBg, border: '2px solid #fecaca',
-                                            textDecoration: 'none', color: theme.textPrimary,
-                                        }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                                                <span style={{ fontSize: '20px' }}>{sportIcons[match.sport?.name] || sportIcon}</span>
-                                                <span className="status-badge" style={{ background: '#fef2f2', color: "inherit" }}>
-                                                    <span className="live-pulse"></span> LIVE
-                                                </span>
-                                            </div>
-                                            <div style={{ fontSize: '15px', fontWeight: 700 }}>
-                                                {match.homeTeam?.name || 'TBD'} vs {match.awayTeam?.name || 'TBD'}
-                                            </div>
-                                            <div style={{ fontSize: '12px', color: "inherit", marginTop: '4px' }}>{match.tournament?.name}</div>
-                                        </Link>
-                                    ))}
-                                </div>
+                                {filteredLive.length > 0 ? (
+                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                                        {filteredLive.map((match: any) => (
+                                            <Link href={`/matches/${match.id}`} key={match.id} className="card-hover" style={{
+                                                padding: '20px', borderRadius: '14px',
+                                                background: theme.cardBg, border: '2px solid #fecaca',
+                                                textDecoration: 'none', color: theme.textPrimary,
+                                            }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                                                    <span style={{ fontSize: '20px' }}>{sportIcons[match.sport?.name] || sportIcon}</span>
+                                                    <span className="status-badge" style={{ background: '#fef2f2', color: "inherit" }}>
+                                                        <span className="live-pulse"></span> LIVE
+                                                    </span>
+                                                </div>
+                                                <div style={{ fontSize: '15px', fontWeight: 700 }}>
+                                                    {match.homeTeam?.name || 'TBD'} vs {match.awayTeam?.name || 'TBD'}
+                                                </div>
+                                                <div style={{ fontSize: '12px', color: "inherit", marginTop: '4px' }}>{match.tournament?.name}</div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div style={{
+                                        padding: '32px', borderRadius: '14px', background: theme.cardBg, border: `1px dashed ${theme.cardBorder}`,
+                                        textAlign: 'center', color: theme.textSecondary, fontSize: '14px', fontWeight: 500
+                                    }}>
+                                        <div style={{ fontSize: '32px', marginBottom: '8px', opacity: 0.5 }}>🏟️</div>
+                                        <div>No live matches currently happening for {sportLabel}.</div>
+                                    </div>
+                                )}
                             </div>
-                        ) : null;
+                        );
                     })()
                 }
 
