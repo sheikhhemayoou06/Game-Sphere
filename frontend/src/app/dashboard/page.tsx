@@ -1004,11 +1004,7 @@ export default function DashboardPage() {
                             <Link href="/teams" style={{ fontSize: '12px', color: selectedSport.accentColor || '#6366f1', fontWeight: 600, textDecoration: 'none', display: 'block', marginTop: '8px' }}>View all →</Link>
                         </div>
 
-                        {/* Notifications */}
-                        <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `1px solid ${selectedSport.accentColor || '#6366f1'}20` }}>
-                            <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#64748b', marginBottom: '10px' }}>🔔 {sportLabel.toUpperCase()} NOTIFICATIONS</div>
-                            <div style={{ fontSize: '12px', color: "inherit", padding: '12px 0' }}>No new {sportLabel} notifications</div>
-                        </div>
+
 
                         {/* Payment Dues */}
                         {/* Empty until live API data is connected */}
