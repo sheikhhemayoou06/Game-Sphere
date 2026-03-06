@@ -718,17 +718,17 @@ export default function DashboardPage() {
                                             <button
                                                 onClick={() => setSportDropdownOpen(!sportDropdownOpen)}
                                                 style={{
-                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                                                    width: '100%', padding: '10px 16px', borderRadius: '12px',
-                                                    border: '1px solid #e2e8f0', background: '#f8fafc',
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                                                    width: 'auto', padding: '6px 0', borderRadius: '8px',
+                                                    border: 'none', background: 'transparent',
                                                     cursor: 'pointer', transition: 'all 0.2s',
                                                 }}
                                             >
-                                                <span style={{ fontSize: '16px' }}>{selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🏅'}</span>
-                                                <span style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>
+                                                <span style={{ fontSize: '14px' }}>{selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🏅'}</span>
+                                                <span style={{ fontWeight: 600, fontSize: '13px', color: '#64748b' }}>
                                                     {selectedSport?.name || 'Select Sport'}
                                                 </span>
-                                                <ChevronDown size={16} color="#94a3b8" style={{ marginLeft: 'auto', transition: 'transform 0.2s', transform: sportDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+                                                <ChevronDown size={14} color="#94a3b8" style={{ transition: 'transform 0.2s', transform: sportDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                                             </button>
 
                                             {/* Dropdown list */}
@@ -804,8 +804,8 @@ export default function DashboardPage() {
                                     <Link href="/leaderboard" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Medal size={18} color="#64748b" /> Leaderboard
                                     </Link>
-                                    <button onClick={() => { setPlayerMenuOpen(false); setShowAddSport(true); }} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', border: 'none', background: 'transparent', color: '#4f46e5', fontSize: '14px', fontWeight: 600, cursor: 'pointer', transition: 'background 0.15s', width: '100%', textAlign: 'left' }} className="hover-bg-slate">
-                                        <Plus size={18} color="#4f46e5" /> Add Sport
+                                    <button onClick={() => { setPlayerMenuOpen(false); setShowAddSport(true); }} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', border: 'none', background: 'transparent', color: '#334155', fontSize: '14px', fontWeight: 600, cursor: 'pointer', transition: 'background 0.15s', width: '100%', textAlign: 'left' }} className="hover-bg-slate">
+                                        <Plus size={18} color="#64748b" /> Add Sport
                                     </button>
                                 </div>
 
@@ -815,7 +815,7 @@ export default function DashboardPage() {
                                 {/* ── Menu Group 2: Features ── */}
                                 <div style={{ padding: '4px 14px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
                                     <Link href="/scoring" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
-                                        <Siren size={18} color="#dc2626" /> Live Scores
+                                        <Siren size={18} color="#64748b" /> Live Scores
                                     </Link>
                                     <Link href="/calendar" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Calendar size={18} color="#64748b" /> Calendar
