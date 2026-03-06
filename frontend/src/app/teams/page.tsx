@@ -531,6 +531,7 @@ export default function TeamsPage() {
                     <SmartSearch
                         activeSportId={selectedSport?.id || 'ALL'}
                         placeholder="Search teams, players or organizers..."
+                        dark={true}
                     />
                 </div>
 

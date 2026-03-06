@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 
-export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Search for matches, players, teams..." }) {
+export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Search for matches, players, teams...", dark = false }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState<any>(null);
     const [isSearching, setIsSearching] = useState(false);
@@ -42,12 +42,14 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{
                         width: '100%', padding: '16px 20px 16px 48px', borderRadius: '12px',
-                        border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)',
-                        color: 'white', fontSize: '15px', outline: 'none',
+                        border: dark ? '1px solid #e2e8f0' : '1px solid rgba(255,255,255,0.1)',
+                        background: dark ? '#f1f5f9' : 'rgba(255,255,255,0.05)',
+                        color: dark ? '#0f172a' : 'white',
+                        fontSize: '15px', outline: 'none',
                         transition: 'all 0.2s',
                     }}
-                    onFocus={(e) => e.target.style.background = 'rgba(255,255,255,0.1)'}
-                    onBlur={(e) => e.target.style.background = 'rgba(255,255,255,0.05)'}
+                    onFocus={(e) => e.target.style.background = dark ? '#e2e8f0' : 'rgba(255,255,255,0.1)'}
+                    onBlur={(e) => e.target.style.background = dark ? '#f1f5f9' : 'rgba(255,255,255,0.05)'}
                 />
                 {isSearching && (
                     <span style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', fontSize: '14px', color: '#818cf8' }}>

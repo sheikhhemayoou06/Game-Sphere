@@ -879,6 +879,7 @@ export default function DashboardPage() {
                     <SmartSearch
                         activeSportId={selectedSport?.id || 'ALL'}
                         placeholder="Search players, teams, organizers, or tournaments..."
+                        dark={true}
                     />
                 </div>
 

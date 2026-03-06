@@ -99,6 +99,7 @@ export default function AdminPanel() {
                     <SmartSearch
                         activeSportId="ALL"
                         placeholder="Search players, teams, organizers, or tournaments..."
+                        dark={true}
                     />
                 </div>
 
