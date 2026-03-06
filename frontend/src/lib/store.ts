@@ -11,6 +11,7 @@ interface User {
     avatar?: string;
     isVerified?: boolean;
     isEmailVerified?: boolean;
+    isTwoFactorEnabled?: boolean;
     player?: any;
 }
 

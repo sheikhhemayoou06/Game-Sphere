@@ -69,8 +69,18 @@ export const api = {
             body: JSON.stringify(data),
         });
     },
-    login: (data: { email: string; password: string }) =>
+    login: (data: { email: string; password: string; rememberMe?: boolean }) =>
         request<any>('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
+    forgotPassword: (data: { email: string }) =>
+        request<any>('/auth/forgot-password', { method: 'POST', body: JSON.stringify(data) }),
+    resetPassword: (data: { token: string; newPassword: string }) =>
+        request<any>('/auth/reset-password', { method: 'POST', body: JSON.stringify(data) }),
+    verifyTwoFactorLogin: (data: { userId: string; token: string; rememberMe?: boolean }) =>
+        request<any>('/auth/verify-2fa-login', { method: 'POST', body: JSON.stringify(data) }),
+    generateTwoFactorAuth: () =>
+        request<any>('/auth/2fa/generate', { method: 'POST' }),
+    turnOnTwoFactorAuth: (data: { token: string }) =>
+        request<any>('/auth/2fa/turn-on', { method: 'POST', body: JSON.stringify(data) }),
     sendOtp: (data: { phone: string }) =>
         request<any>('/auth/send-otp', { method: 'POST', body: JSON.stringify(data) }),
     verifyOtp: (data: { phone: string; otp: string }) =>

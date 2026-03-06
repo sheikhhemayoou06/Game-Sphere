@@ -36,7 +36,7 @@ export class AuthController {
     }
 
     @Post('login')
-    async login(@Body() dto: { email: string; password: string }) {
+    async login(@Body() dto: { email: string; password: string; rememberMe?: boolean }) {
         return this.authService.login(dto);
     }
 
@@ -59,6 +59,33 @@ export class AuthController {
     @Post('send-verification-email')
     async sendVerificationEmail(@Request() req: any) {
         return this.authService.sendEmailVerification(req.user.sub);
+    }
+
+    @Post('forgot-password')
+    async forgotPassword(@Body() dto: { email: string }) {
+        return this.authService.forgotPassword(dto.email);
+    }
+
+    @Post('reset-password')
+    async resetPassword(@Body() dto: { token: string; newPassword: string }) {
+        return this.authService.resetPassword(dto.token, dto.newPassword);
+    }
+
+    @Post('verify-2fa-login')
+    async verifyTwoFactorLogin(@Body() dto: { userId: string; token: string; rememberMe?: boolean }) {
+        return this.authService.verifyTwoFactorLogin(dto.userId, dto.token, dto.rememberMe);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('2fa/generate')
+    async generateTwoFactorAuth(@Request() req: any) {
+        return this.authService.generateTwoFactorAuthSecret(req.user.sub, req.user.email);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('2fa/turn-on')
+    async turnOnTwoFactorAuth(@Request() req: any, @Body() dto: { token: string }) {
+        return this.authService.turnOnTwoFactorAuth(req.user.sub, dto.token);
     }
 
     @UseGuards(JwtAuthGuard)

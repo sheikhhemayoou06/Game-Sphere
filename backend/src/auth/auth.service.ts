@@ -1,6 +1,8 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as speakeasy from 'speakeasy';
+import * as qrcode from 'qrcode';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -98,7 +100,7 @@ export class AuthService {
         };
     }
 
-    async login(dto: { email: string; password: string }) {
+    async login(dto: { email: string; password: string; rememberMe?: boolean }) {
         let user = await this.prisma.user.findUnique({
             where: { email: dto.email },
             include: {
@@ -142,7 +144,16 @@ export class AuthService {
             }
         }
 
-        const token = this.generateToken(user);
+        if (user.isTwoFactorEnabled) {
+            return {
+                requires2FA: true,
+                userId: user.id,
+                message: 'Two-factor authentication required',
+            };
+        }
+
+        const expiresIn = dto.rememberMe ? '30d' : '7d';
+        const token = this.generateToken(user, expiresIn);
         return {
             user: this.sanitizeUser(user),
             accessToken: token,
@@ -308,12 +319,137 @@ export class AuthService {
         return { message: 'Sport profile deleted successfully' };
     }
 
-    private generateToken(user: { id: string; email: string; role: string }) {
+    async generateTwoFactorAuthSecret(userId: string, email: string) {
+        const secret = speakeasy.generateSecret();
+        const otpauthUrl = speakeasy.otpauthURL({
+            secret: secret.ascii,
+            label: `GameSphere:${email}`,
+            issuer: 'GameSphere',
+        });
+
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: { twoFactorSecret: secret.base32 },
+        });
+
+        const qrCodeDataURL = await qrcode.toDataURL(otpauthUrl);
+        return { qrCode: qrCodeDataURL, secret: secret.base32 };
+    }
+
+    async turnOnTwoFactorAuth(userId: string, token: string) {
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!user || !user.twoFactorSecret) {
+            throw new UnauthorizedException('2FA secret not found');
+        }
+
+        const isCodeValid = speakeasy.totp.verify({
+            secret: user.twoFactorSecret,
+            encoding: 'base32',
+            token,
+            window: 1,
+        });
+
+        if (!isCodeValid) {
+            throw new UnauthorizedException('Invalid 2FA code');
+        }
+
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: { isTwoFactorEnabled: true },
+        });
+
+        return { message: '2FA successfully enabled' };
+    }
+
+    async verifyTwoFactorLogin(userId: string, token: string, rememberMe?: boolean) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                player: {
+                    include: { playerSports: { include: { sport: true } } }
+                }
+            },
+        });
+        if (!user || !user.twoFactorSecret) {
+            throw new UnauthorizedException('Invalid user or 2FA not set up');
+        }
+
+        const isCodeValid = speakeasy.totp.verify({
+            secret: user.twoFactorSecret,
+            encoding: 'base32',
+            token,
+            window: 1,
+        });
+
+        if (!isCodeValid) {
+            throw new UnauthorizedException('Invalid 2FA code');
+        }
+
+        const expiresIn = rememberMe ? '30d' : '7d';
+        const jwtToken = this.generateToken(user, expiresIn);
+        return {
+            user: this.sanitizeUser(user),
+            accessToken: jwtToken,
+        };
+    }
+
+    async forgotPassword(email: string) {
+        const user = await this.prisma.user.findUnique({ where: { email } });
+        if (!user) {
+            // Silently return success to avoid email enumeration
+            return { message: 'If an account with that email exists, a password reset link has been sent.' };
+        }
+
+        // Generate a random token
+        const resetToken = Array.from({ length: 32 }, () => Math.random().toString(36).charAt(2)).join('');
+        const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour
+
+        await this.prisma.user.update({
+            where: { id: user.id },
+            data: { resetToken, resetTokenExpiry },
+        });
+
+        // In a real app we'd email the password reset link. Output to console for now.
+        console.log(`\n======================================`);
+        console.log(`📧 [DEV - PASSWORD RESET] to ${email}:`);
+        console.log(`Click to reset: http://localhost:3000/reset-password?token=${resetToken}`);
+        console.log(`======================================\n`);
+
+        return { message: 'If an account with that email exists, a password reset link has been sent.' };
+    }
+
+    async resetPassword(token: string, newPassword: string) {
+        const user = await this.prisma.user.findFirst({
+            where: {
+                resetToken: token,
+                resetTokenExpiry: { gt: new Date() },
+            },
+        });
+
+        if (!user) {
+            throw new UnauthorizedException('Invalid or expired reset token');
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await this.prisma.user.update({
+            where: { id: user.id },
+            data: {
+                password: hashedPassword,
+                resetToken: null,
+                resetTokenExpiry: null,
+            },
+        });
+
+        return { message: 'Password successfully reset' };
+    }
+
+    private generateToken(user: { id: string; email: string; role: string }, expiresIn?: string) {
+        const options = expiresIn ? { expiresIn: expiresIn as any } : {};
         return this.jwtService.sign({
             sub: user.id,
             email: user.email,
             role: user.role,
-        });
+        }, options);
     }
 
     private sanitizeUser(user: any) {

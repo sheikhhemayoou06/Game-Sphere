@@ -9,6 +9,7 @@ import { roleLabels, sportIcons, sportColors, formatDate } from '@/lib/utils';
 import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trophy, Medal, IdCard, Siren, Dumbbell, Calendar, MessageSquare, Gavel, CreditCard, Bell, HelpCircle, LayoutGrid, BarChart3, Settings, ShieldCheck, FileText, DollarSign, Upload, Package, Gem, Landmark, Award, ArrowLeftRight, FileCheck, CircleDot, Zap, Pen, Camera, Search as SearchIcon, Menu, X, LogOut, Trash2 } from 'lucide-react';
 import SportIcon from '@/components/SportIcon';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
+import SmartSearch from '@/components/SmartSearch';
 
 /* ═══════════════════════════════════════════════════════════════
    MOCK DATA HAS BEEN REMOVED FOR PRODUCTION
@@ -722,11 +723,20 @@ export default function DashboardPage() {
                                     <Link href="/profile" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <IdCard size={18} color="#64748b" /> {roleGroup === 'team_manager' ? 'Team Profile' : 'My Profile'}
                                     </Link>
-                                    <Link href="/settings/security" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
-                                        <ShieldCheck size={18} color="#64748b" /> Security & Passwords
+                                    <Link href="/subscription" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
+                                        <Gem size={18} color="#64748b" /> Subscription
+                                    </Link>
+                                    <Link href="/pro-shop" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
+                                        <Package size={18} color="#64748b" /> Pro Shop
                                     </Link>
                                     <Link href="/certificates" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Award size={18} color="#64748b" /> Certificates & Awards
+                                    </Link>
+                                    <Link href="/rankings" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
+                                        <Trophy size={18} color="#64748b" /> Rankings
+                                    </Link>
+                                    <Link href="/sponsorships" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
+                                        <Gem size={18} color="#64748b" /> Sponsorships
                                     </Link>
                                     <Link href="/leaderboard" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Medal size={18} color="#64748b" /> Leaderboard
@@ -866,44 +876,10 @@ export default function DashboardPage() {
 
                 {/* ─── Global Search Bar ─── */}
                 <div style={{ marginBottom: '32px' }}>
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            const formData = new FormData(e.currentTarget);
-                            const query = formData.get('q');
-                            if (query) router.push(`/search?q=${encodeURIComponent(query.toString())}`);
-                        }}
-                        style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '800px', margin: '0 auto', position: 'relative' }}
-                    >
-                        <div style={{ position: 'absolute', left: '16px', color: '#94a3b8', display: 'flex', alignItems: 'center' }}>
-                            <SearchIcon size={20} />
-                        </div>
-                        <input
-                            name="q"
-                            type="text"
-                            placeholder="Search players, teams, organizers, or tournaments..."
-                            style={{
-                                width: '100%', padding: '16px 16px 16px 48px', borderRadius: '16px',
-                                border: `2px solid ${theme.cardBorder}`, background: 'white',
-                                fontSize: '15px', color: theme.textPrimary, outline: 'none',
-                                boxShadow: '0 4px 12px rgba(0,0,0,0.03)', transition: 'all 0.2s',
-                            }}
-                            onFocus={(e) => e.currentTarget.style.borderColor = '#8b5cf6'}
-                            onBlur={(e) => e.currentTarget.style.borderColor = theme.cardBorder}
-                        />
-                        <button
-                            type="submit"
-                            style={{
-                                position: 'absolute', right: '8px', padding: '10px 20px', borderRadius: '12px',
-                                background: theme.textSecondary, color: 'white', border: 'none',
-                                fontSize: '14px', fontWeight: 700, cursor: 'pointer', transition: 'background 0.2s'
-                            }}
-                            onMouseEnter={(e) => e.currentTarget.style.background = '#4c1d95'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = theme.textSecondary}
-                        >
-                            Search
-                        </button>
-                    </form>
+                    <SmartSearch
+                        activeSportId={selectedSport?.id || 'ALL'}
+                        placeholder="Search players, teams, organizers, or tournaments..."
+                    />
                 </div>
 
                 {/* ─── Sport Selector Bar (Always visible to allow adding sports) ─── */}

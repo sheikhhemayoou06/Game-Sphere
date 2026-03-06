@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import SmartSearch from '@/components/SmartSearch';
 
 const ROLES = [
     { id: '1', name: 'Super Admin', level: 'SYSTEM', users: 2, permissions: 48, color: '#dc2626', icon: '👑', desc: 'Full platform access — all modules, settings, and user management' },
@@ -40,6 +41,14 @@ export default function RolesPage() {
             <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#fff', marginBottom: '8px' }}>🛡️ Roles & Permissions</h1>
                 <p style={{ color: '#64748b', fontSize: '16px', marginBottom: '28px' }}>Hierarchical governance — from National to Grassroots level</p>
+
+                {/* Search Bar */}
+                <div style={{ marginBottom: '24px' }}>
+                    <SmartSearch
+                        activeSportId="ALL"
+                        placeholder="Search roles, players, teams..."
+                    />
+                </div>
 
                 <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
                     {[

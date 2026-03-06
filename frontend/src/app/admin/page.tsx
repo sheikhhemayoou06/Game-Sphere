@@ -7,6 +7,7 @@ import { useAuthStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { sportIcons, statusColors, formatDate } from '@/lib/utils';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
+import SmartSearch from '@/components/SmartSearch';
 
 export default function AdminPanel() {
     const { user, isAuthenticated, loadFromStorage, logout } = useAuthStore();
@@ -92,6 +93,14 @@ export default function AdminPanel() {
                 <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#1e1b4b', marginBottom: '24px', letterSpacing: '-0.5px' }}>
                     ⚡ Admin Panel
                 </h1>
+
+                {/* ─── Global Search Bar ─── */}
+                <div style={{ marginBottom: '24px' }}>
+                    <SmartSearch
+                        activeSportId="ALL"
+                        placeholder="Search players, teams, organizers, or tournaments..."
+                    />
+                </div>
 
                 {/* Tabs */}
                 <div style={{ display: 'flex', gap: '4px', marginBottom: '28px', background: 'white', borderRadius: '12px', padding: '4px', border: '1px solid #f1f5f9' }}>

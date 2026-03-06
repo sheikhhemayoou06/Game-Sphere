@@ -12,14 +12,12 @@ export default function SettingsPage() {
     const { user, isAuthenticated, loadFromStorage, logout } = useAuthStore();
     const router = useRouter();
     const [loaded, setLoaded] = useState(false);
-    const [activeTab, setActiveTab] = useState<'profile' | 'sports' | 'security' | 'preferences'>('profile');
+    const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'notifications' | 'device' | 'accessibility' | 'language' | 'delete'>('profile');
     const [form, setForm] = useState({
         firstName: '', lastName: '', email: '', phone: '',
         district: '', state: '', country: 'India',
         heightCm: '', weight: '', gender: ''
     });
-    const [userSports, setUserSports] = useState<any[]>([]);
-    const [userTeams, setUserTeams] = useState<any[]>([]);
     const [saved, setSaved] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
     const [emailNotifs, setEmailNotifs] = useState(true);
@@ -29,6 +27,14 @@ export default function SettingsPage() {
     const [themePreference, setThemePreference] = useState<'system' | 'light' | 'dark'>('system');
     const [emailNotifications, setEmailNotifications] = useState(true);
     const [smsNotifications, setSmsNotifications] = useState(false);
+
+    // 2FA State
+    const [show2FAModal, setShow2FAModal] = useState(false);
+    const [qrCode, setQrCode] = useState('');
+    const [twoFactorSecret, setTwoFactorSecret] = useState('');
+    const [twoFactorCode, setTwoFactorCode] = useState('');
+    const [twoFactorError, setTwoFactorError] = useState('');
+    const [settingUp2FA, setSettingUp2FA] = useState(false);
 
     useEffect(() => { loadFromStorage(); setLoaded(true); }, [loadFromStorage]);
 
@@ -54,19 +60,7 @@ export default function SettingsPage() {
             });
 
             if (user.player) {
-                // Map player's registered sports
-                const s = user.player.playerSports || [];
-                setUserSports(s.map((ps: any) => ({
-                    id: ps.sportId,
-                    name: ps.sport?.name || 'Unknown',
-                    code: ps.sportCode,
-                    meta: ps.metadata ? (typeof ps.metadata === 'string' ? JSON.parse(ps.metadata) : ps.metadata) : {}
-                })));
-
-                // Fetch teams this player belongs to
-                api.getMyTeams().then((teams: any[]) => {
-                    setUserTeams(teams || []);
-                }).catch(() => { });
+                // Additional player specific states can be configured here if necessary in the future
             }
         }
     }, [loaded, isAuthenticated, user]);
@@ -94,36 +88,52 @@ export default function SettingsPage() {
         }
     };
 
-    const handleDeleteSport = async (sportId: string) => {
-        if (!window.confirm("Are you sure you want to permanently delete this sport profile?")) return;
+
+
+    const handleGenerate2FA = async () => {
+        if (user?.isTwoFactorEnabled) {
+            alert('2FA is already enabled on your account. To disable it, contact support.');
+            return;
+        }
+        setSettingUp2FA(true);
         try {
-            await api.removePlayerSport(sportId);
-            setUserSports(prev => prev.filter(s => s.id !== sportId));
-            alert("Sport profile deleted successfully.");
+            const res = await api.generateTwoFactorAuth();
+            setQrCode(res.qrCode);
+            setTwoFactorSecret(res.secret);
+            setShow2FAModal(true);
+            setTwoFactorError('');
+            setTwoFactorCode('');
         } catch (err: any) {
-            console.error(err);
-            alert(err.response?.data?.message || "Failed to delete sport.");
+            alert(err.message || 'Failed to initialize 2FA setup');
+        } finally {
+            setSettingUp2FA(false);
         }
     };
 
-    const handleExitTeam = async (teamId: string) => {
-        if (!user || (!user.id && !user.player?.id)) return;
-        if (!window.confirm("Are you sure you want to exit this team?")) return;
+    const handleVerify2FA = async () => {
+        setTwoFactorError('');
         try {
-            await api.leaveTeam(teamId, user.id);
-            setUserTeams(prev => prev.filter(t => t.id !== teamId));
-            alert("You have exited the team.");
+            await api.turnOnTwoFactorAuth({ token: twoFactorCode });
+            setShow2FAModal(false);
+            const token = localStorage.getItem('token');
+            const updatedProfile = await api.getProfile();
+            if (token) {
+                useAuthStore.getState().setAuth(updatedProfile, token);
+            }
+            alert('✅ 2FA Enabled Successfully!');
         } catch (err: any) {
-            console.error(err);
-            alert(err.response?.data?.message || "Failed to exit team.");
+            setTwoFactorError(err.message || 'Invalid code');
         }
     };
 
     const tabs = [
-        { id: 'profile' as const, label: '👤 Profile', desc: 'Manage your personal info' },
-        { id: 'sports' as const, label: '🏅 Sports & Teams', desc: 'Manage sports & roster spots' },
-        { id: 'security' as const, label: '🔒 Security', desc: 'Password & authentication' },
-        { id: 'preferences' as const, label: '⚙️ Preferences', desc: 'App settings & notifications' },
+        { id: 'profile' as const, label: '👤 My Profile', desc: 'Manage your personal info' },
+        { id: 'security' as const, label: '🔒 Security and Password', desc: 'Password & authentication' },
+        { id: 'notifications' as const, label: '🔔 Notification', desc: 'Email & push alerts' },
+        { id: 'device' as const, label: '📱 Device Permission', desc: 'Camera, location, etc.' },
+        { id: 'accessibility' as const, label: '♿ Accessibility', desc: 'Display & sizing text' },
+        { id: 'language' as const, label: '🌐 Language', desc: 'App language settings' },
+        { id: 'delete' as const, label: '🗑️ Delete Account', desc: 'Permanently remove account' },
     ];
 
     return (
@@ -219,62 +229,9 @@ export default function SettingsPage() {
                             </div>
                         )}
 
-                        {activeTab === 'sports' && (
-                            <div>
-                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Registered Sports</h2>
-                                {userSports.length === 0 ? (
-                                    <div style={{ padding: '24px', background: '#f8fafc', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center', marginBottom: '32px' }}>
-                                        <div style={{ fontSize: '24px', marginBottom: '8px' }}>🏏</div>
-                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#475569' }}>Not registered for any sports yet.</div>
-                                    </div>
-                                ) : (
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
-                                        {userSports.map((sport, i) => (
-                                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                                                <div>
-                                                    <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>{sport.name} <span style={{ padding: '2px 8px', borderRadius: '6px', background: '#e0e7ff', color: '#4338ca', fontSize: '11px', marginLeft: '8px' }}>{sport.code || 'Pending'}</span></div>
-                                                    <div style={{ fontSize: '13px', color: '#64748b', marginTop: '2px' }}>Role: {sport.meta?.role || 'Player'} {sport.meta?.jerseyNo ? `• #${sport.meta.jerseyNo}` : ''}</div>
-                                                </div>
-                                                <button onClick={() => handleDeleteSport(sport.id)} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#fef2f2', color: '#ef4444', fontWeight: 700, fontSize: '12px', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 1px 2px rgba(239, 68, 68, 0.1)' }}>
-                                                    Delete Profile
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-
-                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px', paddingTop: '12px', borderTop: '1px solid #e2e8f0' }}>My Teams</h2>
-                                {userTeams.length === 0 ? (
-                                    <div style={{ padding: '24px', background: '#f8fafc', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
-                                        <div style={{ fontSize: '24px', marginBottom: '8px' }}>🛡️</div>
-                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#475569' }}>You haven't joined any teams.</div>
-                                    </div>
-                                ) : (
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                        {userTeams.map((team, idx) => (
-                                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-                                                        {team.logo && team.logo.startsWith('http') ? <img src={team.logo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} /> : '⚡'}
-                                                    </div>
-                                                    <div>
-                                                        <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>{team.name}</div>
-                                                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>{team.sport?.name || 'Sport'} • {team.city || 'Location'}</div>
-                                                    </div>
-                                                </div>
-                                                <button onClick={() => handleExitTeam(team.id)} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#fff', borderBlock: '1px solid #e2e8f0', color: '#ef4444', fontWeight: 700, fontSize: '12px', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-                                                    Exit Team
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
                         {activeTab === 'security' && (
                             <div>
-                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Security Settings</h2>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Security and Password</h2>
                                 <div style={{ display: 'grid', gap: '16px' }}>
                                     {['Current Password', 'New Password', 'Confirm New Password'].map((label) => (
                                         <div key={label}>
@@ -289,24 +246,52 @@ export default function SettingsPage() {
                                 </button>
                                 <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid #e2e8f0' }}>
                                     <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>Two-Factor Authentication</h3>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: '#f8fafc' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: '#f8fafc' }}>
                                         <div>
                                             <div style={{ fontWeight: 600, fontSize: '14px' }}>Enable 2FA</div>
-                                            <div style={{ fontSize: '12px', color: '#64748b' }}>Add an extra layer of security to your account</div>
+                                            <div style={{ fontSize: '12px', color: '#64748b' }}>Add an extra layer of security to your account.</div>
+                                            {user?.isTwoFactorEnabled && (
+                                                <div style={{ marginTop: '4px', display: 'inline-block', fontSize: '11px', fontWeight: 700, color: '#16a34a', background: '#f0fdf4', padding: '2px 8px', borderRadius: '4px', border: '1px solid #bbf7d0' }}>
+                                                    ACTIVE
+                                                </div>
+                                            )}
                                         </div>
-                                        <div style={{ width: '48px', height: '26px', borderRadius: '13px', background: '#e2e8f0', cursor: 'pointer', position: 'relative' }}>
-                                            <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', left: '2px', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
+                                        <div onClick={handleGenerate2FA} style={{ width: '48px', height: '26px', borderRadius: '13px', background: user?.isTwoFactorEnabled ? '#4338ca' : '#e2e8f0', cursor: user?.isTwoFactorEnabled || settingUp2FA ? 'not-allowed' : 'pointer', position: 'relative', opacity: settingUp2FA ? 0.6 : 1, transition: '0.3s' }}>
+                                            <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', left: user?.isTwoFactorEnabled ? '24px' : '2px', boxShadow: '0 1px 3px rgba(0,0,0,0.2)', transition: '0.3s' }} />
                                         </div>
                                     </div>
+
+                                    {show2FAModal && (
+                                        <div style={{ marginTop: '16px', padding: '24px', background: 'white', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                                <h4 style={{ fontSize: '16px', fontWeight: 800, color: '#1e1b4b', margin: 0 }}>Scan QR Code</h4>
+                                                <button onClick={() => setShow2FAModal(false)} style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', color: '#64748b' }}>✕</button>
+                                            </div>
+                                            <p style={{ fontSize: '13px', color: '#475569', marginBottom: '16px' }}>
+                                                Use Google Authenticator or a similar app to scan the QR code below. Or enter the secret manually: <strong>{twoFactorSecret}</strong>
+                                            </p>
+                                            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                                                <img src={qrCode} alt="2FA QR Code" style={{ width: '180px', height: '180px', borderRadius: '12px', border: '1px solid #f1f5f9', padding: '8px' }} />
+                                            </div>
+                                            <div>
+                                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>Enter the 6-digit code</label>
+                                                <input type="text" value={twoFactorCode} onChange={e => setTwoFactorCode(e.target.value)} placeholder="000000" maxLength={6}
+                                                    style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '18px', letterSpacing: '8px', textAlign: 'center', boxSizing: 'border-box' }} />
+                                            </div>
+                                            {twoFactorError && <div style={{ color: '#ef4444', fontSize: '13px', marginTop: '8px', fontWeight: 500 }}>{twoFactorError}</div>}
+                                            <button onClick={handleVerify2FA} style={{ width: '100%', marginTop: '16px', padding: '14px', borderRadius: '10px', background: '#4338ca', color: '#fff', border: 'none', fontWeight: 700, cursor: 'pointer', transition: '0.2s' }}>
+                                                Verify & Enable
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}
 
-                        {activeTab === 'preferences' && (
+                        {activeTab === 'notifications' && (
                             <div>
-                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Preferences</h2>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Notification</h2>
                                 {[
-                                    { label: 'Dark Mode', desc: 'Switch to dark theme', value: darkMode, toggle: () => setDarkMode(!darkMode) },
                                     { label: 'Email Notifications', desc: 'Receive email updates for matches and tournaments', value: emailNotifs, toggle: () => setEmailNotifs(!emailNotifs) },
                                     { label: 'Push Notifications', desc: 'Get real-time alerts on your device', value: pushNotifs, toggle: () => setPushNotifs(!pushNotifs) },
                                     { label: 'Pause Notifications (1 Hour)', desc: 'Temporarily mute all incoming app alerts', value: pauseNotifs, toggle: () => setPauseNotifs(!pauseNotifs) },
@@ -328,15 +313,48 @@ export default function SettingsPage() {
                                         </div>
                                     </div>
                                 ))}
-                                <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #e2e8f0' }}>
-                                    <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>Language</h3>
-                                    <select style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', fontWeight: 600, width: '200px' }}>
-                                        <option>English</option>
-                                        <option>हिन्दी (Hindi)</option>
-                                        <option>தமிழ் (Tamil)</option>
-                                        <option>తెలుగు (Telugu)</option>
-                                        <option>ಕನ್ನಡ (Kannada)</option>
-                                    </select>
+                            </div>
+                        )}
+
+                        {activeTab === 'device' && (
+                            <div>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Device Permission</h2>
+                                <div style={{ color: '#64748b', fontSize: '14px', background: '#f8fafc', padding: '16px', borderRadius: '12px' }}>
+                                    Manage app access to your camera, location, and other device features in your device settings.
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'accessibility' && (
+                            <div>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Accessibility</h2>
+                                <div style={{ color: '#64748b', fontSize: '14px', background: '#f8fafc', padding: '16px', borderRadius: '12px' }}>
+                                    Custom text sizing, reduced motion, and high contrast options will be available here soon.
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'language' && (
+                            <div>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Language</h2>
+                                <select style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', fontWeight: 600, width: '100%', maxWidth: '300px' }}>
+                                    <option>English</option>
+                                    <option>हिन्दी (Hindi)</option>
+                                    <option>தமிழ் (Tamil)</option>
+                                    <option>తెలుగు (Telugu)</option>
+                                    <option>ಕನ್ನಡ (Kannada)</option>
+                                </select>
+                            </div>
+                        )}
+
+                        {activeTab === 'delete' && (
+                            <div>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#dc2626', marginBottom: '20px' }}>Delete Account</h2>
+                                <div style={{ color: '#64748b', fontSize: '14px', background: '#fef2f2', padding: '16px', borderRadius: '12px', border: '1px solid #fecaca' }}>
+                                    <p style={{ margin: '0 0 12px 0' }}>Once you delete your account, there is no going back. Please be certain.</p>
+                                    <button onClick={() => { alert('Please contact support to delete your account.'); }} style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: '#dc2626', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>
+                                        Delete My Account
+                                    </button>
                                 </div>
                             </div>
                         )}

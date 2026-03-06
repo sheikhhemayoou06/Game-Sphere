@@ -11,6 +11,10 @@ import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
+    const [requires2FA, setRequires2FA] = useState(false);
+    const [twoFactorToken, setTwoFactorToken] = useState('');
+    const [tempUserId, setTempUserId] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
@@ -35,14 +39,43 @@ export default function LoginPage() {
             }
 
             // 2. Authenticate with Backend to get the custom JWT session
-            const res = await api.login({ email, password });
+            const res = await api.login({ email, password, rememberMe });
+
+            if (res.requires2FA) {
+                setRequires2FA(true);
+                setTempUserId(res.userId);
+                setMessage(res.message);
+                return;
+            }
+
             setAuth(res.user, res.accessToken);
             router.push('/dashboard');
         } catch (err: any) {
             const currentApiUrl = process.env.NODE_ENV === 'development' && typeof window !== 'undefined'
                 ? `http://${window.location.hostname}:4000/api` : 'production or unresolved';
-            alert(`[DEBUG] Error: ${err.message}\nSupabase URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL}\nAPI URL: ${currentApiUrl}`);
+            console.error(`[DEBUG] Error: ${err.message}\nSupabase URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL}\nAPI URL: ${currentApiUrl}`);
             setError(err.message || 'Login failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handle2FASubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setMessage('');
+        setLoading(true);
+
+        try {
+            const res = await api.verifyTwoFactorLogin({
+                userId: tempUserId,
+                token: twoFactorToken,
+                rememberMe,
+            });
+            setAuth(res.user, res.accessToken);
+            router.push('/dashboard');
+        } catch (err: any) {
+            setError(err.message || 'Verification failed');
         } finally {
             setLoading(false);
         }
@@ -93,29 +126,59 @@ export default function LoginPage() {
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        {requires2FA ? (
+                            <form onSubmit={handle2FASubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                        6-Digit Authenticator Code
+                                    </label>
+                                    <input type="text" value={twoFactorToken} onChange={(e) => setTwoFactorToken(e.target.value)}
+                                        className="input-field" placeholder="123456" maxLength={6} required style={{ color: '#1e1b4b', textAlign: 'center', letterSpacing: '4px', fontSize: '20px' }} />
+                                </div>
+                                <button type="submit" className="btn-primary" style={{
+                                    width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px'
+                                }}>
+                                    ✅ Verify Code
+                                </button>
+                                <button type="button" onClick={() => { setRequires2FA(false); setTempUserId(''); setTwoFactorToken(''); }} style={{ background: 'none', border: 'none', color: '#6366f1', fontSize: '14px', cursor: 'pointer', fontWeight: 600, marginTop: '8px' }}>
+                                    Cancel
+                                </button>
+                            </form>
+                        ) : (
+                            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-                            <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
-                                    Email
-                                </label>
-                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                                    className="input-field" placeholder="you@example.com" required style={{ color: '#1e1b4b' }} />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
-                                    Password
-                                </label>
-                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                                    className="input-field" placeholder="••••••••" required style={{ color: '#1e1b4b' }} />
-                            </div>
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                        Email
+                                    </label>
+                                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                                        className="input-field" placeholder="you@example.com" required style={{ color: '#1e1b4b' }} />
+                                </div>
+                                <div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px', color: '#374151' }}>
+                                            Password
+                                        </label>
+                                        <Link href="/forgot-password" style={{ fontSize: '13px', fontWeight: 600, color: '#6366f1', textDecoration: 'none', marginBottom: '6px' }}>
+                                            Forgot Password?
+                                        </Link>
+                                    </div>
+                                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                                        className="input-field" placeholder="••••••••" required style={{ color: '#1e1b4b' }} />
+                                </div>
 
-                            <button type="submit" className="btn-primary" style={{
-                                width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px'
-                            }}>
-                                🔐 Sign In
-                            </button>
-                        </form>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
+                                    <input type="checkbox" id="rememberMe" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} style={{ cursor: 'pointer' }} />
+                                    <label htmlFor="rememberMe" style={{ fontSize: '14px', color: '#475569', cursor: 'pointer' }}>Remember me</label>
+                                </div>
+
+                                <button type="submit" className="btn-primary" style={{
+                                    width: '100%', justifyContent: 'center', padding: '14px', marginTop: '8px'
+                                }}>
+                                    🔐 Sign In
+                                </button>
+                            </form>
+                        )}
 
                         <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#64748b' }}>
                             Don&apos;t have an account?{' '}

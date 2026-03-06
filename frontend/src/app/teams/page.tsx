@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { sportIcons, sportColors, sportConfig, defaultSportConfig } from '@/lib/utils';
+import SmartSearch from '@/components/SmartSearch';
 
 /* ═══════════════════════════════════════════════════════════════
    ROLE DETECTION
@@ -524,6 +525,14 @@ export default function TeamsPage() {
             <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '28px 32px' }}>
                 <h1 style={{ fontSize: '32px', fontWeight: 900, background: 'linear-gradient(135deg, #6d28d9, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '6px' }}>⚡ Teams</h1>
                 <p style={{ color: '#64748b', marginBottom: '20px' }}>Manage your team, apply to new teams, and handle join requests</p>
+
+                {/* ─── Global Search Bar ─── */}
+                <div style={{ marginBottom: '24px' }}>
+                    <SmartSearch
+                        activeSportId={selectedSport?.id || 'ALL'}
+                        placeholder="Search teams, players or organizers..."
+                    />
+                </div>
 
                 {/* Player Tabs */}
                 <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>

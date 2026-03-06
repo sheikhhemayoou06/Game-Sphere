@@ -20,9 +20,13 @@ model User {
   phone         String?  @unique
   countryCode   String?
   avatar        String?
-  isVerified    Boolean  @default(false)
-  isEmailVerified Boolean @default(false)
-  createdAt     DateTime @default(now())
+  isVerified      Boolean  @default(false)
+  isEmailVerified Boolean  @default(false)
+  isTwoFactorEnabled Boolean @default(false)
+  twoFactorSecret String?
+  resetToken      String?
+  resetTokenExpiry DateTime?
+  createdAt       DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   player        Player?
