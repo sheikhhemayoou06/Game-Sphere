@@ -940,7 +940,7 @@ export default function DashboardPage() {
                 </div>
             </nav>
 
-            <div className="mobile-padding" style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px' }}>
+            <div className="mobile-padding" style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px', paddingBottom: roleGroup === 'player' ? '100px' : '32px' }}>
 
                 {/* ─── Global Search Bar ─── */}
                 <div style={{ marginBottom: '32px' }}>
@@ -1366,7 +1366,7 @@ export default function DashboardPage() {
 
                 {/* ─── Team Manager & Other Roles Quick Access Cards ─── */}
                 {
-                    roleGroup !== 'organizer' && (
+                    roleGroup !== 'organizer' && roleGroup !== 'player' && (
                         <div style={{ marginBottom: '32px' }}>
                             <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px', color: theme.textPrimary }}>
                                 {theme.sectionTitle}
@@ -1386,6 +1386,30 @@ export default function DashboardPage() {
                                     </Link>
                                 ))}
                             </div>
+                        </div>
+                    )
+                }
+
+                {/* ─── Player Bottom Navigation Bar ─── */}
+                {
+                    roleGroup === 'player' && (
+                        <div style={{
+                            position: 'fixed', bottom: 0, left: 0, right: 0,
+                            background: 'white', borderTop: `1px solid ${theme.cardBorder}`,
+                            display: 'flex', justifyContent: 'space-around', alignItems: 'center',
+                            padding: '12px 8px', paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
+                            zIndex: 900, boxShadow: '0 -4px 16px rgba(0,0,0,0.05)',
+                        }}>
+                            {quickCards.map((item) => (
+                                <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{
+                                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
+                                    textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0',
+                                    transition: 'color 0.2s',
+                                }}>
+                                    <div style={{ color: '#64748b' }}>{item.icon}</div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600 }}>{item.label}</div>
+                                </Link>
+                            ))}
                         </div>
                     )
                 }
