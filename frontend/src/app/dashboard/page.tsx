@@ -711,6 +711,9 @@ export default function DashboardPage() {
                                     <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px', textAlign: 'center' }}>
                                         {user?.email || ''}
                                     </div>
+                                    <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', background: '#f1f5f9', padding: '4px 8px', borderRadius: '12px', width: 'fit-content', margin: '6px auto 0' }}>
+                                        <IdCard size={12} /> {user?.id || 'ID not available'}
+                                    </div>
 
                                     {/* Sport Dropdown (in profile corner) */}
                                     {mySports.length > 0 && (
@@ -929,6 +932,14 @@ export default function DashboardPage() {
                             width: '8px', height: '8px', backgroundColor: '#ef4444',
                             borderRadius: '50%', border: '2px solid white'
                         }}></span>
+                    </button>
+                    <button onClick={() => router.push('/requests')} style={{
+                        padding: '8px', borderRadius: '8px', cursor: 'pointer',
+                        background: 'transparent', color: theme.textPrimary,
+                        border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        transition: 'background 0.2s', position: 'relative'
+                    }} className="hover-bg-slate nav-icon-btn">
+                        <ClipboardList size={36} strokeWidth={2.5} />
                     </button>
                     {roleGroup !== 'player' && (
                         <button onClick={() => router.push('/messages')} style={{
@@ -1422,6 +1433,57 @@ export default function DashboardPage() {
                     )
                 }
 
+                {/* ─── Advertisement Bar (Player Only) ─── */}
+                {
+                    roleGroup === 'player' && (
+                        <div style={{
+                            marginTop: '24px',
+                            marginBottom: '32px',
+                            background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+                            borderRadius: '16px',
+                            padding: '24px',
+                            position: 'relative',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            border: '1px solid #334155',
+                            boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
+                        }}>
+                            {/* Decorative Elements */}
+                            <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', background: 'rgba(56, 189, 248, 0.1)', borderRadius: '50%', filter: 'blur(20px)' }}></div>
+                            <div style={{ position: 'absolute', bottom: '-20px', left: '20%', width: '120px', height: '120px', background: 'rgba(168, 85, 247, 0.1)', borderRadius: '50%', filter: 'blur(30px)' }}></div>
+
+                            <div style={{ position: 'relative', zIndex: 1 }}>
+                                <div style={{ fontSize: '11px', fontWeight: 800, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+                                    Sponsored
+                                </div>
+                                <h3 style={{ fontSize: '20px', fontWeight: 800, color: 'white', marginBottom: '4px', letterSpacing: '-0.5px' }}>
+                                    Level Up Your Game
+                                </h3>
+                                <p style={{ fontSize: '14px', color: '#94a3b8', maxWidth: '300px', lineHeight: 1.5 }}>
+                                    Get 20% off all professional cricket bats and football boots this week only.
+                                </p>
+                            </div>
+
+                            <a href="#" style={{
+                                position: 'relative', zIndex: 1,
+                                padding: '12px 24px',
+                                background: '#38bdf8',
+                                color: '#0f172a',
+                                fontWeight: 800,
+                                fontSize: '14px',
+                                borderRadius: '12px',
+                                textDecoration: 'none',
+                                whiteSpace: 'nowrap',
+                                transition: 'transform 0.2s',
+                            }}>
+                                Shop Now
+                            </a>
+                        </div>
+                    )
+                }
+
                 {/* ─── Live Matches (filtered by selected sport) ─── */}
                 {
                     (() => {
@@ -1509,56 +1571,6 @@ export default function DashboardPage() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )
-                }
-                {/* ─── Advertisement Bar (Player Only) ─── */}
-                {
-                    roleGroup === 'player' && (
-                        <div style={{
-                            marginTop: '24px',
-                            marginBottom: '32px',
-                            background: 'linear-gradient(135deg, #1e293b, #0f172a)',
-                            borderRadius: '16px',
-                            padding: '24px',
-                            position: 'relative',
-                            overflow: 'hidden',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            border: '1px solid #334155',
-                            boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
-                        }}>
-                            {/* Decorative Elements */}
-                            <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', background: 'rgba(56, 189, 248, 0.1)', borderRadius: '50%', filter: 'blur(20px)' }}></div>
-                            <div style={{ position: 'absolute', bottom: '-20px', left: '20%', width: '120px', height: '120px', background: 'rgba(168, 85, 247, 0.1)', borderRadius: '50%', filter: 'blur(30px)' }}></div>
-
-                            <div style={{ position: 'relative', zIndex: 1 }}>
-                                <div style={{ fontSize: '11px', fontWeight: 800, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-                                    Sponsored
-                                </div>
-                                <h3 style={{ fontSize: '20px', fontWeight: 800, color: 'white', marginBottom: '4px', letterSpacing: '-0.5px' }}>
-                                    Level Up Your Game
-                                </h3>
-                                <p style={{ fontSize: '14px', color: '#94a3b8', maxWidth: '300px', lineHeight: 1.5 }}>
-                                    Get 20% off all professional cricket bats and football boots this week only.
-                                </p>
-                            </div>
-
-                            <a href="#" style={{
-                                position: 'relative', zIndex: 1,
-                                padding: '12px 24px',
-                                background: '#38bdf8',
-                                color: '#0f172a',
-                                fontWeight: 800,
-                                fontSize: '14px',
-                                borderRadius: '12px',
-                                textDecoration: 'none',
-                                whiteSpace: 'nowrap',
-                                transition: 'transform 0.2s',
-                            }}>
-                                Shop Now
-                            </a>
                         </div>
                     )
                 }
