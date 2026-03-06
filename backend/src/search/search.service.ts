@@ -23,19 +23,17 @@ export class SearchService {
         // Common sport filter condition
         const sportFilter = sportId && sportId !== 'ALL' ? sportId : undefined;
 
+        const baseWhere = sportFilter ? { sportId: sportFilter } : {};
+
         // 1. Search Matches (Live and Completed)
         const matches = await this.prisma.match.findMany({
             where: {
-                AND: [
-                    sportFilter ? { sportId: sportFilter } : {},
-                    {
-                        OR: [
-                            { homeTeam: { name: searchCondition } },
-                            { awayTeam: { name: searchCondition } },
-                            { tournament: { name: searchCondition } },
-                        ],
-                    },
-                ]
+                ...baseWhere,
+                OR: [
+                    { homeTeam: { name: searchCondition } },
+                    { awayTeam: { name: searchCondition } },
+                    { tournament: { name: searchCondition } },
+                ],
             },
             include: {
                 homeTeam: true,
@@ -52,10 +50,8 @@ export class SearchService {
         // 2. Search Tournaments
         const tournaments = await this.prisma.tournament.findMany({
             where: {
-                AND: [
-                    sportFilter ? { sportId: sportFilter } : {},
-                    { name: searchCondition },
-                ]
+                ...baseWhere,
+                name: searchCondition,
             },
             include: {
                 sport: { select: { name: true, icon: true } },
@@ -66,10 +62,8 @@ export class SearchService {
         // 3. Search Teams
         const teams = await this.prisma.team.findMany({
             where: {
-                AND: [
-                    sportFilter ? { sportId: sportFilter } : {},
-                    { name: searchCondition },
-                ]
+                ...baseWhere,
+                name: searchCondition,
             },
             include: {
                 sport: { select: { name: true, icon: true } },
@@ -93,19 +87,15 @@ export class SearchService {
 
         const players = await this.prisma.player.findMany({
             where: {
-                AND: [
-                    playerSportCondition,
-                    {
-                        user: {
-                            OR: [
-                                { firstName: searchCondition },
-                                { lastName: searchCondition },
-                                // Allow searching by full name implicitly by splitting? 
-                                // A bit complex in Prisma SQLite, we rely on contains for now.
-                            ],
-                        },
-                    },
-                ]
+                ...playerSportCondition,
+                user: {
+                    OR: [
+                        { firstName: searchCondition },
+                        { lastName: searchCondition },
+                        // Allow searching by full name implicitly by splitting? 
+                        // A bit complex in Prisma SQLite, we rely on contains for now.
+                    ],
+                },
             },
             include: {
                 user: { select: { firstName: true, lastName: true, avatar: true } },
