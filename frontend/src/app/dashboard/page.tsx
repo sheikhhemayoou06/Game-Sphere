@@ -719,6 +719,56 @@ export default function DashboardPage() {
                                     </div>
                                 </div>
 
+                                {/* ── Sport Switcher ── */}
+                                <div style={{
+                                    padding: '16px 20px', borderBottom: '1px solid #f1f5f9',
+                                }}>
+                                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '10px' }}>
+                                        🏅 My Sports
+                                    </div>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                        {mySports.length > 0 ? mySports.map((sp: any) => {
+                                            const isActive = selectedSport?.id === sp.id;
+                                            const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
+                                            return (
+                                                <button
+                                                    key={sp.id}
+                                                    onClick={() => { setSelectedSport(sp); }}
+                                                    style={{
+                                                        padding: '8px 16px', borderRadius: '20px', cursor: 'pointer',
+                                                        fontSize: '13px', fontWeight: 700,
+                                                        display: 'flex', alignItems: 'center', gap: '6px',
+                                                        border: isActive ? `2px solid ${accent}` : '1px solid #e2e8f0',
+                                                        background: isActive ? accent : '#f8fafc',
+                                                        color: isActive ? 'white' : '#334155',
+                                                        transition: 'all 0.2s',
+                                                        boxShadow: isActive ? `0 2px 8px ${accent}40` : 'none',
+                                                    }}
+                                                >
+                                                    <span>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
+                                                    {sp.name}
+                                                </button>
+                                            );
+                                        }) : (
+                                            <div style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic' }}>
+                                                No sports added yet
+                                            </div>
+                                        )}
+                                    </div>
+                                    <button
+                                        onClick={() => { setPlayerMenuOpen(false); setShowAddSport(true); }}
+                                        style={{
+                                            marginTop: '10px', padding: '8px 14px', borderRadius: '10px',
+                                            border: '1px dashed #c7d2fe', background: '#eef2ff',
+                                            color: '#4f46e5', fontSize: '12px', fontWeight: 700,
+                                            cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+                                            transition: 'all 0.2s', width: '100%', justifyContent: 'center',
+                                        }}
+                                    >
+                                        ＋ Add Sport
+                                    </button>
+                                </div>
+
                                 {/* ── Menu Group 1: Account ── */}
                                 <div style={{ padding: '12px 14px 4px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
                                     <Link href="/profile" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
