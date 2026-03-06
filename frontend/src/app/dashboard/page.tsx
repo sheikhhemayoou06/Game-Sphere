@@ -832,7 +832,7 @@ export default function DashboardPage() {
                         border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'background 0.2s', position: 'relative'
                     }} className="hover-bg-slate">
-                        <Bell size={28} strokeWidth={2.5} />
+                        <Bell size={36} strokeWidth={2.5} />
                         <span style={{
                             position: 'absolute', top: '6px', right: '8px',
                             width: '8px', height: '8px', backgroundColor: '#ef4444',
@@ -845,7 +845,7 @@ export default function DashboardPage() {
                         border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'background 0.2s', position: 'relative'
                     }} className="hover-bg-slate">
-                        <MessageSquare size={28} strokeWidth={2.5} />
+                        <MessageSquare size={36} strokeWidth={2.5} />
                         <span style={{
                             position: 'absolute', top: '4px', right: '4px',
                             width: '8px', height: '8px', backgroundColor: '#ef4444',
