@@ -57,11 +57,12 @@ export class PlayerSportsService {
 
         const prefix = SPORT_PREFIXES[sport.name] || sport.name.substring(0, 3).toUpperCase();
 
-        // Generate unique code: rolePrefix + sport prefix + - + 5-digit random number
+        const universalId = player.sportsId || 'USI-Pending';
+        const dynamicSegment = `${Math.floor(1 + Math.random() * 9)}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
+
         let sportCode = '';
         for (let i = 0; i < 10; i++) {
-            const num = Math.floor(10000 + Math.random() * 90000);
-            const code = `${rolePrefix}${prefix}-${num}`;
+            const code = `${rolePrefix}${prefix}${dynamicSegment}-${universalId}`;
             const exists = await this.prisma.playerSport.findUnique({ where: { sportCode: code } });
             if (!exists) {
                 sportCode = code;
@@ -69,8 +70,7 @@ export class PlayerSportsService {
             }
         }
         if (!sportCode) {
-            // Fallback to timestamp if random collisions happen 10 times
-            sportCode = `${rolePrefix}${prefix}-${Date.now().toString().slice(-5)}`;
+            sportCode = `${rolePrefix}${prefix}${Date.now().toString().slice(-2)}-${universalId}`;
         }
 
         const metadataStr = metadata ? JSON.stringify(metadata) : null;

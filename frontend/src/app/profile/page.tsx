@@ -570,7 +570,21 @@ export default function PlayerProfilePage() {
                                         }
                                     }
                                 }
-                                return `${code} • #${jno} • ${pos}`;
+
+                                const codeParts = code.split('-');
+                                const highlightedCode = codeParts.length > 1 ? (
+                                    <span style={{ fontFamily: 'monospace' }}>
+                                        {codeParts.slice(0, -1).join('-')}-<span style={{ color: '#fbbf24', fontWeight: 900, fontSize: '1.1em' }}>{codeParts[codeParts.length - 1]}</span>
+                                    </span>
+                                ) : (
+                                    <span style={{ fontFamily: 'monospace', color: '#fbbf24', fontWeight: 900, fontSize: '1.1em' }}>{code}</span>
+                                );
+
+                                return (
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        {highlightedCode} <span style={{ color: '#cbd5e1' }}>• #{jno} • {pos}</span>
+                                    </span>
+                                );
                             })()}
                         </div>
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>

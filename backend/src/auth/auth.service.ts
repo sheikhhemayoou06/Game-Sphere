@@ -64,11 +64,14 @@ export class AuthService {
 
         // Add Demographic fields if role supports advanced profiles
         if (user.role === 'PLAYER' || user.role === 'TEAM_MANAGER' || user.role === 'OFFICIAL' || user.role === 'ORGANIZER') {
-            let sportsId = `GS-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const firstLetter = letters[Math.floor(Math.random() * letters.length)];
+            const lastLetter = letters[Math.floor(Math.random() * letters.length)];
+            const numbers = Math.floor(10000 + Math.random() * 90000);
+            let sportsId = `${firstLetter}${numbers}${lastLetter}`;
+
             if (user.role === 'ORGANIZER') {
-                const namePrefix = (user.firstName || 'OR').substring(0, 2).toUpperCase();
-                const uniqueNum = Math.floor(10000 + Math.random() * 90000).toString();
-                sportsId = `${namePrefix}ORZ-${uniqueNum}`;
+                sportsId = `ORZ-${sportsId}`;
             }
             await this.prisma.player.create({
                 data: {
@@ -116,7 +119,11 @@ export class AuthService {
         // don't exist in our custom database. We will auto-create them right here.
         if (!user) {
             const hashedPassword = await bcrypt.hash(dto.password, 10);
-            const sportsId = `GS-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const firstLetter = letters[Math.floor(Math.random() * letters.length)];
+            const lastLetter = letters[Math.floor(Math.random() * letters.length)];
+            const numbers = Math.floor(10000 + Math.random() * 90000);
+            const sportsId = `${firstLetter}${numbers}${lastLetter}`;
             user = await this.prisma.user.create({
                 data: {
                     email: dto.email,

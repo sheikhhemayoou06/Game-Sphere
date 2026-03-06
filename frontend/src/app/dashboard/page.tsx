@@ -566,41 +566,54 @@ export default function DashboardPage() {
     }
 
     /* ─── Role-specific stats ─── */
+    const HighlightID = ({ id, color = '#fbbf24' }: { id: string | null | undefined, color?: string }) => {
+        if (!id) return <span>USI Pending</span>;
+        const parts = id.split('-');
+        if (parts.length > 1) {
+            return (
+                <span style={{ fontFamily: 'monospace' }}>
+                    {parts.slice(0, -1).join('-')}-<span style={{ color, fontWeight: 900, fontSize: '1.1em' }}>{parts[parts.length - 1]}</span>
+                </span>
+            );
+        }
+        return <span style={{ fontFamily: 'monospace', color, fontWeight: 900, fontSize: '1.1em' }}>{id}</span>;
+    };
+
     const statsMap: Record<RoleGroup, { label: string; value: any; icon: any; color: string }[]> = {
         admin: [
-            { label: 'Admin ID', value: user?.player?.sportsId || 'USI Pending', icon: <Fingerprint size={20} />, color: "inherit" },
+            { label: 'Admin ID', value: <HighlightID id={user?.player?.sportsId} color="#8b5cf6" />, icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Matches', value: liveMatches.length, icon: <Radio size={20} />, color: "inherit" },
             { label: 'Platform Users', value: 12450, icon: <Users size={20} />, color: "inherit" },
             { label: 'Admin Level', value: roleLabels[role] || role, icon: <Shield size={20} />, color: "inherit" },
         ],
         organizer: [
-            { label: 'Organizer ID', value: user?.player?.sportsId || 'USI Pending', icon: <Fingerprint size={20} />, color: "inherit" },
+            { label: 'Organizer ID', value: <HighlightID id={user?.player?.sportsId} color="#8b5cf6" />, icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: <Radio size={20} />, color: "inherit" },
             { label: 'Active Teams', value: ownerDashData?.teams?.length || 0, icon: <Users size={20} />, color: "inherit" },
             { label: 'Role', value: roleLabels[role] || role, icon: <Shield size={20} />, color: "inherit" },
         ],
         team_manager: [
-            { label: 'Manager ID', value: user?.player?.sportsId || 'USI Pending', icon: <Fingerprint size={20} />, color: "inherit" },
+            { label: 'Manager ID', value: <HighlightID id={user?.player?.sportsId} color="#8b5cf6" />, icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: <Radio size={20} />, color: "inherit" },
             { label: 'My Teams', value: ownerDashData?.teams?.length || 0, icon: <Users size={20} />, color: "inherit" },
             { label: 'Role', value: roleLabels[role] || role, icon: <Shield size={20} />, color: "inherit" },
         ],
         official: [
-            { label: 'Official ID', value: user?.player?.sportsId || 'USI Pending', icon: <Fingerprint size={20} />, color: "inherit" },
+            { label: 'Official ID', value: <HighlightID id={user?.player?.sportsId} color="#8b5cf6" />, icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Matches', value: liveMatches.length, icon: <Radio size={20} />, color: "inherit" },
             { label: 'Matches Reffed', value: 34, icon: <ClipboardList size={20} />, color: "inherit" },
             { label: 'Role', value: roleLabels[role] || role, icon: <Scale size={20} />, color: "inherit" },
         ],
         player: [
             {
-                label: 'Sports ID', value: (() => {
+                label: 'Sports ID', value: <HighlightID id={(() => {
                     const ps = user?.player?.playerSports;
                     if (ps && selectedSport) {
                         const match = ps.find((s: any) => s.sportId === selectedSport.id);
                         if (match) return match.sportCode;
                     }
                     return user?.player?.sportsId ? user.player.sportsId : 'Not Registered';
-                })(), icon: <Fingerprint size={20} />, color: "inherit"
+                })()} color="#8b5cf6" />, icon: <Fingerprint size={20} />, color: "inherit"
             },
             { label: 'Live Matches', value: liveMatches.length, icon: <Radio size={20} />, color: "inherit" },
             { label: 'Connected Teams', value: 2, icon: <Users size={20} />, color: "inherit" },
@@ -712,7 +725,7 @@ export default function DashboardPage() {
                                         {user?.email || ''}
                                     </div>
                                     <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', background: '#f1f5f9', padding: '4px 8px', borderRadius: '12px', width: 'fit-content', margin: '6px auto 0' }}>
-                                        <IdCard size={12} /> {user?.player?.sportsId || 'USI Pending'}
+                                        <IdCard size={12} /> <HighlightID id={user?.player?.sportsId} color="#6366f1" />
                                     </div>
 
                                     {/* Sport Dropdown (in profile corner) */}
