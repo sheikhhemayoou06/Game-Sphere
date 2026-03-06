@@ -257,31 +257,7 @@ export default function ExplorePage() {
                 )}
             </div>
 
-            {/* ── Sport Filter Pills ── */}
-            <div style={{ padding: '0 40px', background: '#fafafa' }}>
-                <div style={{ maxWidth: '900px', margin: '0 auto', overflowX: 'auto', paddingBottom: '12px' }}>
-                    <div style={{ display: 'flex', gap: '8px', minWidth: 'min-content' }}>
-                        {sports.map(sport => (
-                            <button
-                                key={sport.id}
-                                onClick={() => setActiveSportId(sport.id)}
-                                style={{
-                                    padding: '8px 16px', borderRadius: '20px', whiteSpace: 'nowrap',
-                                    display: 'flex', alignItems: 'center', gap: '6px',
-                                    fontWeight: activeSportId === sport.id ? 700 : 500,
-                                    fontSize: '13px', border: 'none', cursor: 'pointer', transition: 'all 0.2s',
-                                    background: activeSportId === sport.id ? '#1e1b4b' : 'white',
-                                    color: activeSportId === sport.id ? 'white' : '#64748b',
-                                    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-                                }}
-                            >
-                                <span style={{ fontSize: '14px' }}>{sport.icon || sportIcons[sport.name] || '🏅'}</span>
-                                {sport.name}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </div>
+
 
             {/* ── Type Filters (Photo / Video / News) ── */}
             <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', padding: '8px 20px 20px' }}>
