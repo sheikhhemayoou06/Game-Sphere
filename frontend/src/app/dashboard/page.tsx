@@ -38,6 +38,8 @@ const PLAYER_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & join events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
     { href: '/teams', label: 'My Team', desc: 'Roster & teammates', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
     { href: '/explore', label: 'Search', desc: 'Find anything', icon: <SearchIcon size={20} />, gradient: 'linear-gradient(135deg, #0f172a, #334155)' },
+    { href: '/notifications', label: 'Join Requests', desc: 'Team invitations', icon: <Bell size={20} />, gradient: 'linear-gradient(135deg, #b91c1c, #ef4444)' },
+    { href: '/notifications', label: 'My Applications', desc: 'Track your requests', icon: <FileCheck size={20} />, gradient: 'linear-gradient(135deg, #065f46, #10b981)' },
     { href: '/payments', label: 'Payments', desc: 'Fees & transactions', icon: <CreditCard size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
     { href: '/messages', label: 'Messages', desc: 'Chat & Comm', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #4338ca, #312e81)' },
 ];
