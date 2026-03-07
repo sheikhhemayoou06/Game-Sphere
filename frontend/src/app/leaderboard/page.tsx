@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useSportStore } from '@/lib/store';
 import PageNavbar from '@/components/PageNavbar';
-import { Search as SearchIcon, ChevronDown, Trophy, Medal, Crown, Star } from 'lucide-react';
+import { Search as SearchIcon, ChevronDown, Trophy, Medal, Crown, Star, TrendingUp, Target, Zap, Award, Sparkles } from 'lucide-react';
 
 export default function LeaderboardPage() {
     return (
@@ -78,13 +78,13 @@ function LeaderboardContent() {
     const activeTournament = tournaments.find(t => t.id === selectedTournamentId);
 
     // TABS definition matching user request
-    const TABS: { key: TabKey; label: string; icon: any; propKey: string; statLabel: string; valueIcon: string; highlight: string }[] = [
-        { key: 'runs', label: 'Most Runs', icon: <span style={{ fontSize: '18px' }}>🏏</span>, propKey: 'mostRuns', statLabel: 'Runs', valueIcon: '🏏', highlight: '#f59e0b' },
-        { key: 'wickets', label: 'Most Wickets', icon: <span style={{ fontSize: '18px' }}>🎯</span>, propKey: 'mostWickets', statLabel: 'Wickets', valueIcon: '🎯', highlight: '#ef4444' },
-        { key: 'allRounder', label: 'Best All Rounder', icon: <span style={{ fontSize: '18px' }}>⚡</span>, propKey: 'bestAllRounder', statLabel: 'Points', valueIcon: '⚡', highlight: '#0ea5e9' },
-        { key: 'mvp', label: 'MVP', icon: <span style={{ fontSize: '18px' }}>⭐</span>, propKey: 'mvp', statLabel: 'Points', valueIcon: '⭐', highlight: '#8b5cf6' },
-        { key: 'emerging', label: 'Emerging', icon: <span style={{ fontSize: '18px' }}>🌟</span>, propKey: 'emergingPlayer', statLabel: 'Points', valueIcon: '🌟', highlight: '#22c55e' },
-        { key: 'pot', label: 'Player of Tourney', icon: <span style={{ fontSize: '18px' }}>🏆</span>, propKey: 'playerOfTournament', statLabel: 'Points', valueIcon: '🏆', highlight: '#fbbf24' },
+    const TABS: { key: TabKey; label: string; icon: any; propKey: string; statLabel: string; valueIcon: any; watermarkIcon: any; highlight: string }[] = [
+        { key: 'runs', label: 'Most Runs', icon: <TrendingUp size={20} />, propKey: 'mostRuns', statLabel: 'Runs', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#f59e0b' },
+        { key: 'wickets', label: 'Most Wickets', icon: <Target size={20} />, propKey: 'mostWickets', statLabel: 'Wickets', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+        { key: 'allRounder', label: 'Best All Rounder', icon: <Zap size={20} />, propKey: 'bestAllRounder', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#0ea5e9' },
+        { key: 'mvp', label: 'MVP', icon: <Award size={20} />, propKey: 'mvp', statLabel: 'Points', valueIcon: <Award size={16} strokeWidth={3} />, watermarkIcon: <Award size={140} />, highlight: '#8b5cf6' },
+        { key: 'emerging', label: 'Emerging', icon: <Sparkles size={20} />, propKey: 'emergingPlayer', statLabel: 'Points', valueIcon: <Sparkles size={16} strokeWidth={3} />, watermarkIcon: <Sparkles size={140} />, highlight: '#22c55e' },
+        { key: 'pot', label: 'Player of Tourney', icon: <Trophy size={20} />, propKey: 'playerOfTournament', statLabel: 'Points', valueIcon: <Trophy size={16} strokeWidth={3} />, watermarkIcon: <Trophy size={140} />, highlight: '#fbbf24' },
     ];
 
     const currentTabDef = TABS.find(t => t.key === activeTab)!;
@@ -267,8 +267,8 @@ function LeaderboardContent() {
 
                                             {/* Decorative watermark for #1 */}
                                             {rank === 1 && (
-                                                <div style={{ position: 'absolute', right: '80px', top: '50%', transform: 'translateY(-50%)', opacity: 0.03, fontSize: '120px', zIndex: 0, pointerEvents: 'none' }}>
-                                                    {currentTabDef.valueIcon}
+                                                <div style={{ position: 'absolute', right: '60px', top: '50%', transform: 'translateY(-50%)', opacity: 0.03, zIndex: 0, pointerEvents: 'none', color: '#000' }}>
+                                                    {currentTabDef.watermarkIcon}
                                                 </div>
                                             )}
                                         </div>
