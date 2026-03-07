@@ -3,7 +3,7 @@
 import { Suspense, useState, useEffect } from 'react';
 import { useSportStore } from '@/lib/store';
 import PageNavbar from '@/components/PageNavbar';
-import { Users, Shield, Trophy, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { Users, Shield, Trophy, TrendingUp, TrendingDown, Minus, ChevronDown } from 'lucide-react';
 
 export default function RankingsPage() {
     return (
@@ -49,9 +49,20 @@ const SPORT_FORMATS: Record<string, string[]> = {
 };
 
 function RankingsContent() {
-    const { selectedSport } = useSportStore();
+    const { selectedSport, setSelectedSport } = useSportStore();
     const sportLabel = selectedSport?.name || 'Cricket';
     const normalizedSport = sportLabel.trim().toLowerCase();
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [sports, setSports] = useState<any[]>([]);
+
+    useEffect(() => {
+        import('@/lib/api').then(({ api }) => {
+            api.getSports().then(res => {
+                if (res) setSports(res);
+            });
+        });
+    }, []);
 
     // Case-insensitive matching for Roles & Formats
     const matchedRoleKey = Object.keys(SPORT_ROLES).find(k => k.toLowerCase() === normalizedSport);
@@ -135,8 +146,58 @@ function RankingsContent() {
         <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
             <PageNavbar title="Global Rankings" emoji="🌍" />
 
+            {/* ── ROUND SPORT SELECTION DROPDOWN ── */}
+            <div style={{ background: 'white', padding: '16px 24px 0', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 60 }}>
+                <div style={{ position: 'relative' }}>
+                    <button
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        style={{
+                            display: 'flex', alignItems: 'center', gap: '8px',
+                            padding: '10px 24px', borderRadius: '30px',
+                            background: '#f8fafc', border: '1px solid #e2e8f0',
+                            fontSize: '15px', fontWeight: 600, color: '#334155',
+                            cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                            transition: 'all 0.2s ease'
+                        }}
+                    >
+                        <span>{selectedSport?.icon || '🏅'}</span>
+                        <span>{selectedSport?.name || 'Cricket'}</span>
+                        <ChevronDown size={18} color="#64748b" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                    </button>
+
+                    {isDropdownOpen && (
+                        <div style={{
+                            position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '12px',
+                            background: 'white', border: '1px solid #e2e8f0', borderRadius: '16px',
+                            boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                            minWidth: '220px', maxHeight: '300px', overflowY: 'auto'
+                        }}>
+                            {sports.map(s => (
+                                <button
+                                    key={s.id}
+                                    onClick={() => { setSelectedSport(s); setIsDropdownOpen(false); }}
+                                    style={{
+                                        display: 'flex', alignItems: 'center', gap: '12px', width: '100%',
+                                        padding: '14px 20px', background: 'transparent', border: 'none',
+                                        borderBottom: '1px solid #f1f5f9', cursor: 'pointer',
+                                        fontSize: '15px', textAlign: 'left',
+                                        transition: 'background 0.15s',
+                                        backgroundColor: selectedSport?.id === s.id ? '#f0fdfa' : 'transparent'
+                                    }}
+                                >
+                                    <span style={{ fontSize: '18px' }}>{s.icon}</span>
+                                    <span style={{ fontWeight: selectedSport?.id === s.id ? 700 : 500, color: selectedSport?.id === s.id ? '#0f766e' : '#475569' }}>
+                                        {s.name}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {/* ── Main Tab Navigation ── */}
-            <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: '45px', zIndex: 49 }}>
+            <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: '45px', zIndex: 49, paddingTop: '16px' }}>
                 <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', justifyContent: 'space-between' }}>
                     {TABS.map(tab => (
                         <button
