@@ -54,7 +54,7 @@ export default function HomePage() {
       {/* Navbar */}
       <nav className="mobile-padding" style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-        padding: '16px 40px',
+        padding: '14px 16px',
         background: dark ? 'rgba(15, 13, 26, 0.85)' : 'rgba(255, 255, 255, 0.85)',
         backdropFilter: 'blur(16px)',
         borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
@@ -81,7 +81,7 @@ export default function HomePage() {
             borderRadius: '12px', transition: 'background 0.2s',
             ...(menuOpen ? { background: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' } : {})
           }}>
-            {menuOpen ? <X size={32} /> : <Menu size={32} />}
+            {menuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </nav>
@@ -170,8 +170,8 @@ export default function HomePage() {
       )}
 
       {/* Hero with Horizontal Live Scorecard */}
-      <section className="gradient-bg mobile-padding" style={{
-        padding: '120px 40px 60px', position: 'relative', overflow: 'hidden', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+      <section className="gradient-bg" style={{
+        padding: '100px 16px 40px', position: 'relative', overflow: 'hidden', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
       }}>
         {/* Floating sport orbs */}
         <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
@@ -180,7 +180,7 @@ export default function HomePage() {
               position: 'absolute',
               left: `${10 + (i * 10) % 80}%`,
               top: `${15 + (i * 13) % 70}%`,
-              fontSize: '36px',
+              fontSize: '24px',
               opacity: 0.15,
               animationDelay: `${i * 0.5}s`,
             }}>
@@ -197,7 +197,7 @@ export default function HomePage() {
             Powering <span style={{ color: sports[activeSport].color, transition: 'color 0.5s ease-in-out' }}>Every Game</span>.<br />
             Everywhere.
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '18px', maxWidth: '600px', margin: '0 auto' }}>
+          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '15px', maxWidth: '600px', margin: '0 auto', padding: '0 8px' }}>
             Follow the latest ongoing matches across India instantly.
           </p>
         </div>
@@ -208,12 +208,12 @@ export default function HomePage() {
             <Link href="/explore" style={{ textDecoration: 'none', display: 'block' }}>
               <div className="card-hover" style={{
                 background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)',
-                borderRadius: '16px', padding: '20px 32px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                borderRadius: '16px', padding: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
                 border: '1px solid rgba(255,255,255,0.2)', color: '#1e1b4b',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap'
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap'
               }}>
                 {/* Match Info */}
-                <div style={{ flex: '1', minWidth: '200px' }}>
+                <div style={{ flex: '1', minWidth: '120px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                     <span style={{ color: '#ef4444', fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 6px', background: '#fef2f2', borderRadius: '4px' }}>
                       Live
@@ -224,10 +224,10 @@ export default function HomePage() {
                 </div>
 
                 {/* Score Grid (Horizontal) */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '32px', flex: '2', minWidth: '300px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flex: '2', minWidth: '0', width: '100%' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'right' }}>
-                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b' }}>{liveMatches[0].homeTeam?.name}</div>
-                    <div style={{ fontSize: '28px', backgroundColor: '#f1f5f9', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800 }}>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{liveMatches[0].homeTeam?.name}</div>
+                    <div style={{ fontSize: '24px', backgroundColor: '#f1f5f9', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800, flexShrink: 0 }}>
                       {liveMatches[0].homeScore || 0}
                     </div>
                   </div>
@@ -235,15 +235,15 @@ export default function HomePage() {
                   <div style={{ fontSize: '14px', fontWeight: 800, color: '#94a3b8' }}>VS</div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left' }}>
-                    <div style={{ fontSize: '28px', backgroundColor: '#f1f5f9', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800 }}>
+                    <div style={{ fontSize: '24px', backgroundColor: '#f1f5f9', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800, flexShrink: 0 }}>
                       {liveMatches[0].awayScore || 0}
                     </div>
-                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b' }}>{liveMatches[0].awayTeam?.name}</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{liveMatches[0].awayTeam?.name}</div>
                   </div>
                 </div>
 
                 {/* Action */}
-                <div style={{ flex: '1', minWidth: '150px', textAlign: 'right' }}>
+                <div style={{ flex: '1', minWidth: '80px', textAlign: 'right' }}>
                   <div style={{ fontSize: '14px', color: '#4f46e5', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                     View Details →
                   </div>
@@ -258,7 +258,7 @@ export default function HomePage() {
           ) : (
             <div style={{
               background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)',
-              borderRadius: '16px', padding: '32px', textAlign: 'center',
+              borderRadius: '16px', padding: '20px 16px', textAlign: 'center',
               border: '1px solid rgba(255,255,255,0.2)', color: 'white',
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '24px'
             }}>
@@ -278,13 +278,13 @@ export default function HomePage() {
         <div style={{ position: 'relative', zIndex: 2, marginTop: '40px', textAlign: 'center', width: '100%', maxWidth: '800px' }}>
           <div style={{
             background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(12px)',
-            padding: '24px 32px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)',
+            padding: '20px 16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)',
             boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
           }}>
-            <h3 style={{ color: '#fcd34d', fontSize: '20px', fontWeight: 800, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <h3 style={{ color: '#fcd34d', fontSize: '17px', fontWeight: 800, marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
               <span style={{ fontSize: '24px' }}>🛡️</span> Promoting a Drug-Free Society
             </h3>
-            <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '15px', lineHeight: 1.6, fontWeight: 500 }}>
+            <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '13px', lineHeight: 1.6, fontWeight: 500 }}>
               Game Sphere India is committed to empowering the youth and building a healthier nation.
               We believe that actively engaging individuals in sports is the most powerful method to combat substance abuse.
               By providing professional platforms for everyone to play and compete, we are championing a completely drug-free society.
@@ -294,14 +294,14 @@ export default function HomePage() {
       </section>
 
       {/* Sports carousel */}
-      <section className="mobile-padding" style={{
-        padding: '80px 40px',
+      <section style={{
+        padding: '48px 16px',
         background: dark ? '#0f0d1a' : '#fafafa',
       }}>
-        <h2 style={{ textAlign: 'center', fontSize: '36px', fontWeight: 800, marginBottom: '12px', letterSpacing: '-0.5px' }}>
+        <h2 style={{ textAlign: 'center', fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 800, marginBottom: '12px', letterSpacing: '-0.5px' }}>
           One Platform. <span className="gradient-text">Every Sport.</span>
         </h2>
-        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '48px', fontSize: '16px' }}>
+        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '32px', fontSize: '14px' }}>
           Configure any sport dynamically — the UI adapts automatically
         </p>
         <div style={{
@@ -309,13 +309,13 @@ export default function HomePage() {
         }}>
           {sports.map((sport) => (
             <div key={sport.name} className="card-hover" style={{
-              padding: '24px 20px', borderRadius: '16px', textAlign: 'center',
-              minWidth: '110px', cursor: 'pointer',
+              padding: '16px 14px', borderRadius: '14px', textAlign: 'center',
+              minWidth: '80px', flex: '1', cursor: 'pointer',
               background: dark ? 'rgba(255,255,255,0.04)' : 'white',
               border: `2px solid ${dark ? 'rgba(255,255,255,0.06)' : '#f1f5f9'}`,
               transition: 'all 0.3s ease',
             }}>
-              <div style={{ fontSize: '36px', marginBottom: '8px' }}>{sport.icon}</div>
+              <div style={{ fontSize: '28px', marginBottom: '6px' }}>{sport.icon}</div>
               <div style={{ fontSize: '13px', fontWeight: 600, color: sport.color }}>{sport.name}</div>
             </div>
           ))}
@@ -328,7 +328,7 @@ export default function HomePage() {
 
       {/* Footer */}
       < footer style={{
-        padding: '40px',
+        padding: '32px 16px',
         background: dark ? '#080612' : '#1e1b4b',
         color: 'rgba(255,255,255,0.5)',
         textAlign: 'center',
