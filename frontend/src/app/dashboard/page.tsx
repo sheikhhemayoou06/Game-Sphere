@@ -1424,7 +1424,7 @@ export default function DashboardPage() {
                                 tag: "Pro Shop Offers",
                                 title: "Level Up Your Equipment",
                                 desc: "Get 20% off all professional cricket bats and football boots this week only in the Pro Shop.",
-                                link: "/pro-shop", btn: "Shop Now",
+                                link: "/shop", btn: "Shop Now",
                                 bg: "linear-gradient(135deg, #1e293b, #0f172a)",
                                 accent1: "rgba(56, 189, 248, 0.1)", accent2: "rgba(168, 85, 247, 0.1)",
                                 textHighlight: "#38bdf8", btnBg: "#38bdf8", btnText: "#0f172a"
