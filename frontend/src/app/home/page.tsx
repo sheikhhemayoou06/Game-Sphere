@@ -136,7 +136,7 @@ export default function HomePage() {
           }}>
             Rankings
           </Link>
-          <Link href="/pro-shop" onClick={() => setMenuOpen(false)} style={{
+          <Link href="/shop" onClick={() => setMenuOpen(false)} style={{
             display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', borderRadius: '12px',
             textDecoration: 'none', color: dark ? 'rgba(255,255,255,0.8)' : '#475569', fontWeight: 600, fontSize: '15px',
             background: 'transparent'
