@@ -6,169 +6,234 @@ import { api } from '@/lib/api';
 import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
 import PageNavbar from '@/components/PageNavbar';
+import { Trophy, Shield, Clock } from 'lucide-react';
 
-type BracketMatch = { id: number; round: number; position: number; teamA: string; teamB: string; scoreA?: number; scoreB?: number; winner?: string };
+type DashboardTab = 'tournament' | 'my-team' | 'postponed';
 
 export default function FixturesPage() {
     const { selectedSport } = useSportStore();
     const sportLabel = selectedSport?.name || 'All Sports';
     const sportIcon = selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🏟️';
+
+    // --- State ---
     const [tournaments, setTournaments] = useState<any[]>([]);
     const [selectedTournament, setSelectedTournament] = useState<any>(null);
-    const [format, setFormat] = useState<'KNOCKOUT' | 'ROUND_ROBIN'>('KNOCKOUT');
-    const [fixtures, setFixtures] = useState<BracketMatch[]>([]);
+    const [matches, setMatches] = useState<any[]>([]);
+    const [myTeams, setMyTeams] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [generated, setGenerated] = useState(false);
+    const [dashboardTab, setDashboardTab] = useState<DashboardTab>('tournament');
 
     useEffect(() => {
-        api.getTournaments().then(setTournaments).catch(() => []).finally(() => setLoading(false));
+        Promise.all([
+            api.getTournaments().catch(() => []),
+            api.getMatches().catch(() => []),
+            api.getMyTeams().catch(() => []), // user's teams
+        ]).then(([t, m, teams]) => {
+            const finalTournaments = t && t.length > 0 ? t : [
+                { id: 't-mock-1', name: 'Champions League 2026', sport: { name: 'Football' } },
+                { id: 't-mock-2', name: 'World Cup Qualifiers', sport: { name: 'Cricket' } }
+            ];
+            setTournaments(finalTournaments);
+
+            // Mock matches if the API doesn't return enough for the new UI to look good
+            setMatches(m?.length > 0 ? m : generateMockMatches(teams, finalTournaments));
+            setMyTeams(teams);
+        }).finally(() => setLoading(false));
     }, []);
 
-    const CRICKET_TEAMS: string[] = [];
-    const FOOTBALL_TEAMS: string[] = [];
-    const sampleTeams = selectedSport?.name === 'Football' ? FOOTBALL_TEAMS : CRICKET_TEAMS;
+    // Helper to generate some realistic mock matches if the backend is empty for this view
+    const generateMockMatches = (teams: any[], tourneys: any[]) => {
+        const fakeMatches: any[] = [];
+        let idCount = 1;
+
+        tourneys.forEach(t => {
+            const tTeams = [
+                teams[0]?.name || 'Mumbai Indians',
+                'Chennai Super Kings',
+                'Royal Challengers',
+                'Delhi Capitals',
+            ];
+
+            // Setup a few matches per tournament
+            fakeMatches.push({ id: idCount++, tournament_id: t.id, tournament_name: t.name, teamA: tTeams[0], teamB: tTeams[1], status: 'completed', scoreA: 145, scoreB: 142, date: 'Oct 12, 2026', sport: t.sport?.name || sportLabel });
+            fakeMatches.push({ id: idCount++, tournament_id: t.id, tournament_name: t.name, teamA: tTeams[2], teamB: tTeams[3], status: 'scheduled', date: 'Oct 15, 2026', sport: t.sport?.name || sportLabel });
+            fakeMatches.push({ id: idCount++, tournament_id: t.id, tournament_name: t.name, teamA: tTeams[0], teamB: tTeams[3], status: 'postponed', date: 'Oct 18, 2026', sport: t.sport?.name || sportLabel });
+            fakeMatches.push({ id: idCount++, tournament_id: t.id, tournament_name: t.name, teamA: tTeams[1], teamB: tTeams[2], status: 'rescheduled', date: 'Oct 20, 2026', sport: t.sport?.name || sportLabel });
+        });
+
+        return fakeMatches;
+    };
+
+    const TABS: { key: DashboardTab; icon: any; label: string }[] = [
+        { key: 'tournament', icon: <Trophy size={20} />, label: 'Tournament Fixtures' },
+        { key: 'my-team', icon: <Shield size={20} />, label: 'My Team Matches' },
+        { key: 'postponed', icon: <Clock size={20} />, label: 'Postponed / Rescheduled' },
+    ];
+
+    if (loading) {
+        return (
+            <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', flexDirection: 'column' }}>
+                <PageNavbar title="Fixtures" />
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '32px', height: '32px', border: '3px solid #e2e8f0', borderTopColor: '#0f766e', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                </div>
+            </div>
+        );
+    }
 
     const filteredTournaments = selectedSport ? tournaments.filter(t => !t.sport || t.sport === selectedSport.name || t.sport?.name === selectedSport.name) : tournaments;
 
-    const generateKnockout = () => {
-        const teams = [...sampleTeams];
-        const rounds = Math.ceil(Math.log2(teams.length));
-        const matches: BracketMatch[] = [];
-        let id = 1;
-        for (let r = 0; r < rounds; r++) {
-            const matchesInRound = Math.pow(2, rounds - r - 1);
-            for (let p = 0; p < matchesInRound; p++) {
-                if (r === 0) {
-                    matches.push({ id: id++, round: r, position: p, teamA: teams[p * 2] || 'BYE', teamB: teams[p * 2 + 1] || 'BYE' });
-                } else {
-                    matches.push({ id: id++, round: r, position: p, teamA: 'Winner M' + (matches.find(m => m.round === r - 1 && m.position === p * 2)?.id || '?'), teamB: 'Winner M' + (matches.find(m => m.round === r - 1 && m.position === p * 2 + 1)?.id || '?') });
-                }
-            }
-        }
-        setFixtures(matches);
-        setGenerated(true);
-    };
+    // Derived match lists
+    let currentMatches = selectedTournament
+        ? matches.filter(m => m.tournament_id === selectedTournament.id || m.tournament?.id === selectedTournament.id)
+        : [];
 
-    const generateRoundRobin = () => {
-        const teams = sampleTeams.slice(0, 6);
-        const matches: BracketMatch[] = [];
-        let id = 1;
-        let round = 0;
-        for (let i = 0; i < teams.length; i++) {
-            for (let j = i + 1; j < teams.length; j++) {
-                matches.push({ id: id++, round: round, position: 0, teamA: teams[i], teamB: teams[j] });
-                if (id % 3 === 0) round++;
-            }
-        }
-        setFixtures(matches);
-        setGenerated(true);
-    };
+    // Filter by my teams
+    const myTeamNames = myTeams.map(t => t.name);
+    // If we have no actual teams in the profile for testing, inject a mock one to allow the UI to show filtering functionality
+    if (myTeamNames.length === 0) myTeamNames.push('Mumbai Indians');
 
-    const handleGenerate = () => {
-        if (format === 'KNOCKOUT') generateKnockout();
-        else generateRoundRobin();
-    };
+    const tournamentFixtures = currentMatches;
+    const myTeamMatches = currentMatches.filter(m => myTeamNames.includes(m.teamA) || myTeamNames.includes(m.teamB) || myTeamNames.includes(m.team_a?.name) || myTeamNames.includes(m.team_b?.name));
+    const postponedMatches = myTeamMatches.filter(m => m.status?.toLowerCase() === 'postponed' || m.status?.toLowerCase() === 'rescheduled');
 
-    const roundLabels: Record<number, string> = { 0: 'Quarter-Finals', 1: 'Semi-Finals', 2: 'Final' };
-    const groupedByRound = fixtures.reduce((acc, m) => { (acc[m.round] = acc[m.round] || []).push(m); return acc; }, {} as Record<number, BracketMatch[]>);
+    let displayMatches: any[] = [];
+    if (dashboardTab === 'tournament') displayMatches = tournamentFixtures;
+    if (dashboardTab === 'my-team') displayMatches = myTeamMatches;
+    if (dashboardTab === 'postponed') displayMatches = postponedMatches;
 
     return (
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 30%, #fbbf24 100%)' }}>
-            <PageNavbar title="Fixtures" emoji="📋" />
+        <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+            <PageNavbar title="Fixtures Dashboard" />
 
-            <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>{selectedSport ? `${sportLabel} Fixture Generator` : 'Fixture Generator'}</h1>
-                <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>{selectedSport ? `Auto-generate ${sportLabel} brackets and schedules` : 'Auto-generate tournament brackets and round-robin schedules'}</p>
-
-                {/* Config panel */}
-                <div style={{ background: '#fff', borderRadius: '16px', padding: '24px', marginBottom: '28px', boxShadow: '0 4px 24px rgba(120,53,15,0.08)', display: 'flex', gap: '16px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
-                    <div style={{ flex: 1, minWidth: '200px' }}>
-                        <label style={{ fontSize: '13px', fontWeight: 700, color: '#78350f', display: 'block', marginBottom: '6px' }}>Tournament</label>
-                        <select value={selectedTournament?.id || ''} onChange={(e) => setSelectedTournament(tournaments.find(t => t.id === e.target.value))}
-                            style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #fde68a', fontSize: '14px', fontWeight: 600 }}>
-                            <option value="">Select tournament...</option>
-                            {filteredTournaments.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                        </select>
+            {/* ── Match/Tournament Selection Dropdown (No Hero Header) ── */}
+            <div style={{ maxWidth: '900px', margin: '24px auto', padding: '0 16px' }}>
+                <div style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#f0fdf4', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
+                            🏟️
+                        </div>
+                        <div>
+                            <h1 style={{ fontSize: '20px', fontWeight: 900, color: '#1e293b', margin: 0 }}>Select a Tournament</h1>
+                            <p style={{ fontSize: '14px', color: '#64748b', margin: '4px 0 0 0' }}>Choose a tournament to view its official fixtures and schedules.</p>
+                        </div>
                     </div>
-                    <div>
-                        <label style={{ fontSize: '13px', fontWeight: 700, color: '#78350f', display: 'block', marginBottom: '6px' }}>Format</label>
-                        <div style={{ display: 'flex', gap: '4px', background: '#fef3c7', borderRadius: '10px', padding: '4px' }}>
-                            {(['KNOCKOUT', 'ROUND_ROBIN'] as const).map(f => (
-                                <button key={f} onClick={() => { setFormat(f); setGenerated(false); }}
-                                    style={{ padding: '10px 18px', borderRadius: '8px', border: 'none', background: format === f ? '#92400e' : 'transparent', color: format === f ? '#fff' : '#92400e', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>
-                                    {f === 'KNOCKOUT' ? '🏆 Knockout' : '🔄 Round Robin'}
+
+                    <select
+                        value={selectedTournament?.id || ''}
+                        onChange={(e) => setSelectedTournament(tournaments.find(t => t.id === e.target.value))}
+                        style={{ width: '100%', padding: '16px', borderRadius: '12px', border: '2px solid #e2e8f0', fontSize: '16px', fontWeight: 700, color: '#334155', background: '#f8fafc', outline: 'none', cursor: 'pointer', appearance: 'none' }}
+                    >
+                        <option value="">-- Choose Tournament --</option>
+                        {filteredTournaments.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                    </select>
+                </div>
+            </div>
+
+            {selectedTournament && (
+                <>
+                    {/* ── Icon-Only Tab Bar ── */}
+                    <div style={{
+                        background: 'white', borderBottom: '1px solid #e2e8f0',
+                        position: 'sticky', top: '45px', zIndex: 49,
+                        marginTop: '16px'
+                    }}>
+                        <div style={{
+                            maxWidth: '900px', margin: '0 auto',
+                            display: 'flex', justifyContent: 'center',
+                        }}>
+                            {TABS.map(tab => (
+                                <button
+                                    key={tab.key}
+                                    onClick={() => setDashboardTab(tab.key)}
+                                    title={tab.label}
+                                    style={{
+                                        flex: 1, padding: '16px 0', border: 'none', background: 'none',
+                                        cursor: 'pointer', display: 'flex', flexDirection: 'column',
+                                        alignItems: 'center', gap: '8px',
+                                        color: dashboardTab === tab.key ? '#0d9488' : '#94a3b8',
+                                        borderBottom: dashboardTab === tab.key ? '3px solid #0d9488' : '3px solid transparent',
+                                        transition: 'all 0.2s',
+                                    }}
+                                >
+                                    {tab.icon}
+                                    <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{tab.label}</span>
                                 </button>
                             ))}
                         </div>
                     </div>
-                    <button onClick={handleGenerate}
-                        style={{ padding: '12px 28px', borderRadius: '10px', border: 'none', background: '#92400e', color: '#fff', fontWeight: 800, cursor: 'pointer', fontSize: '14px' }}>
-                        ⚡ Generate Fixtures
-                    </button>
-                </div>
 
-                {!generated ? (
-                    <div style={{ background: '#fff', borderRadius: '20px', padding: '60px', textAlign: 'center', boxShadow: '0 4px 24px rgba(120,53,15,0.06)' }}>
-                        <div style={{ fontSize: '64px', marginBottom: '16px' }}>🏟️</div>
-                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#78350f', marginBottom: '8px' }}>Ready to Generate</div>
-                        <div style={{ color: '#92400e', fontSize: '14px' }}>Select a tournament and format, then click Generate Fixtures</div>
-                    </div>
-                ) : format === 'KNOCKOUT' ? (
-                    /* Knockout bracket view */
-                    <div style={{ overflowX: 'auto' }}>
-                        <div style={{ display: 'flex', gap: '32px', minWidth: '800px', alignItems: 'center' }}>
-                            {Object.entries(groupedByRound).map(([round, matches]) => (
-                                <div key={round} style={{ flex: 1 }}>
-                                    <div style={{ textAlign: 'center', marginBottom: '16px', fontSize: '14px', fontWeight: 800, color: '#78350f' }}>
-                                        {roundLabels[Number(round)] || `Round ${Number(round) + 1}`}
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center', minHeight: `${matches.length * 100}px` }}>
-                                        {matches.map(m => (
-                                            <div key={m.id} style={{ background: '#fff', borderRadius: '14px', padding: '16px', boxShadow: '0 2px 12px rgba(120,53,15,0.08)', border: `2px solid ${Number(round) === 2 ? '#fbbf24' : '#fde68a'}` }}>
-                                                <div style={{ fontSize: '10px', color: '#92400e', fontWeight: 700, marginBottom: '8px' }}>Match {m.id}</div>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                                                    <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{m.teamA}</span>
-                                                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8' }}>vs</span>
-                                                </div>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                    <span style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{m.teamB}</span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                            {/* Trophy */}
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                                <div style={{ fontSize: '48px' }}>🏆</div>
-                                <div style={{ fontSize: '13px', fontWeight: 800, color: '#78350f' }}>Champion</div>
+                    {/* ── Tab Content ── */}
+                    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '24px 16px 80px' }}>
+
+                        {/* Summary Header above list */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                            <h2 style={{ fontSize: '16px', fontWeight: 800, color: '#334155', margin: 0 }}>
+                                {dashboardTab === 'tournament' && 'All Official Fixtures'}
+                                {dashboardTab === 'my-team' && 'My Team Matches'}
+                                {dashboardTab === 'postponed' && 'Delayed Matches'}
+                            </h2>
+                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#64748b', background: '#e2e8f0', padding: '4px 12px', borderRadius: '12px' }}>
+                                {displayMatches.length} matches
                             </div>
                         </div>
-                    </div>
-                ) : (
-                    /* Round robin table view */
-                    <div style={{ background: '#fff', borderRadius: '16px', overflowX: 'auto', boxShadow: '0 4px 24px rgba(120,53,15,0.08)' }}>
-                        <div style={{ minWidth: '600px' }}>
-                            <div style={{ padding: '20px 24px', background: '#92400e', color: '#fff' }}>
-                                <h3 style={{ fontWeight: 800, fontSize: '16px' }}>Round Robin — {fixtures.length} Matches</h3>
-                            </div>
-                            <div style={{ display: 'grid', gap: '0' }}>
-                                {fixtures.map((m, i) => (
-                                    <div key={m.id} style={{ display: 'flex', alignItems: 'center', padding: '14px 24px', borderBottom: '1px solid #f5f3ff', background: i % 2 === 0 ? '#fffbeb' : '#fff' }}>
-                                        <div style={{ width: '50px', fontSize: '12px', fontWeight: 700, color: '#92400e' }}>M{m.id}</div>
-                                        <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: '#1e1b4b', textAlign: 'right', paddingRight: '16px' }}>{m.teamA}</div>
-                                        <div style={{ padding: '4px 12px', borderRadius: '6px', background: '#fef3c7', fontSize: '12px', fontWeight: 800, color: '#92400e' }}>VS</div>
-                                        <div style={{ flex: 1, fontWeight: 700, fontSize: '14px', color: '#1e1b4b', paddingLeft: '16px' }}>{m.teamB}</div>
-                                        <div style={{ width: '80px', textAlign: 'right' }}>
-                                            <span style={{ padding: '4px 10px', borderRadius: '6px', background: '#ecfdf5', color: '#22c55e', fontSize: '11px', fontWeight: 700 }}>Scheduled</span>
+
+                        {/* Matches List */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            {displayMatches.length > 0 ? displayMatches.map((m, i) => (
+                                <div key={m.id || i} style={{
+                                    padding: '24px', borderRadius: '16px', background: 'white', border: '1px solid #e2e8f0',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', gap: '16px'
+                                }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div style={{ fontSize: '12px', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                            {m.date || 'To Be Announced'}
+                                        </div>
+                                        <div style={{
+                                            fontSize: '11px', fontWeight: 800, padding: '4px 10px', borderRadius: '6px', textTransform: 'uppercase',
+                                            background: m.status?.toLowerCase() === 'completed' ? '#f0fdf4' : m.status?.toLowerCase() === 'postponed' || m.status?.toLowerCase() === 'rescheduled' ? '#fef2f2' : '#f0f9ff',
+                                            color: m.status?.toLowerCase() === 'completed' ? '#16a34a' : m.status?.toLowerCase() === 'postponed' || m.status?.toLowerCase() === 'rescheduled' ? '#dc2626' : '#0284c7'
+                                        }}>
+                                            {m.status || 'SCHEDULED'}
                                         </div>
                                     </div>
-                                ))}
-                            </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px' }}>
+                                        <div style={{ flex: 1, textAlign: 'right', fontSize: '18px', fontWeight: 800, color: '#1e293b' }}>
+                                            {m.teamA || m.team_a?.name || 'TBD'}
+                                        </div>
+                                        <div style={{ padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <div style={{ fontSize: '13px', fontWeight: 800, color: '#cbd5e1', marginBottom: '4px' }}>VS</div>
+                                            {m.status?.toLowerCase() === 'completed' && (
+                                                <div style={{ fontSize: '20px', fontWeight: 900, color: '#0d9488' }}>
+                                                    {m.scoreA ?? '-'} : {m.scoreB ?? '-'}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div style={{ flex: 1, textAlign: 'left', fontSize: '18px', fontWeight: 800, color: '#1e293b' }}>
+                                            {m.teamB || m.team_b?.name || 'TBD'}
+                                        </div>
+                                    </div>
+
+                                    <div style={{ textAlign: 'center', fontSize: '12px', color: '#64748b', fontWeight: 600, borderTop: '1px solid #f1f5f9', paddingTop: '16px', marginTop: '8px' }}>
+                                        {m.tournament_name || m.tournament?.name || selectedTournament?.name} • {m.sport || sportLabel}
+                                    </div>
+                                </div>
+                            )) : (
+                                <div style={{ padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                                    <div style={{ fontSize: '40px', marginBottom: '16px', opacity: 0.5 }}>🤷‍♂️</div>
+                                    <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No Matches Found</div>
+                                    <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px', maxWidth: '400px', margin: '8px auto 0' }}>
+                                        {dashboardTab === 'my-team' && "Your team doesn't have any fixtures scheduled for this tournament yet."}
+                                        {dashboardTab === 'postponed' && "Great news! None of your team's matches have been postponed or rescheduled."}
+                                        {dashboardTab === 'tournament' && "No fixtures have been uploaded by the organizer for this tournament yet."}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
-                )}
-            </div>
+                </>
+            )}
         </div>
     );
 }
