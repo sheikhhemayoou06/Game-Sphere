@@ -28,12 +28,20 @@ function SponsorshipsContent() {
     const sportLabel = selectedSport?.name || 'Cricket';
 
     const [activeTab, setActiveTab] = useState<TabKey>('active');
+    const [selectedSponsorForApp, setSelectedSponsorForApp] = useState<any>(null);
 
     // MOCK DATA structure (empty by default as requested to not show fake data unless interacting)
     // We will render strict empty states since they have no real data yet.
     const activeSponsorships: any[] = [];
     const pendingRequests: any[] = [];
     const previousSponsorships: any[] = [];
+
+    // MOCK DATA for Available Sponsors
+    const AVAILABLE_SPONSORS = [
+        { id: 's1', name: 'Spartan Sports Co.', type: 'Equipment Sponsor', range: 'Kits & Gear', logo: '🏏' },
+        { id: 's2', name: 'Red Bull', type: 'Energy & Media', range: '₹50,000/yr', logo: '🐂' },
+        { id: 's3', name: 'Local Auto Dealership', type: 'Financial Support', range: '₹10,000/mo', logo: '🚗' },
+    ];
 
     const TABS: { key: TabKey; label: string; icon: any; highlight: string }[] = [
         { key: 'active', label: 'My Sponsorships', icon: <Handshake size={20} />, highlight: '#22c55e' },
@@ -54,7 +62,12 @@ function SponsorshipsContent() {
                     {TABS.map(tab => (
                         <button
                             key={tab.key}
-                            onClick={() => setActiveTab(tab.key)}
+                            onClick={() => {
+                                setActiveTab(tab.key);
+                                if (tab.key !== 'apply') {
+                                    setSelectedSponsorForApp(null);
+                                }
+                            }}
                             title={tab.label}
                             style={{
                                 flex: 1, padding: '16px 0', border: 'none', background: 'none',
@@ -124,54 +137,102 @@ function SponsorshipsContent() {
 
                 {/* APPLY TAB */}
                 {activeTab === 'apply' && (
-                    <div style={{ background: 'white', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
-                        <div style={{ display: 'grid', gap: '20px' }}>
-                            <div>
-                                <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Proposal Title *</label>
-                                <input
-                                    placeholder="e.g. Title Sponsor for Regional Team..."
-                                    style={{
-                                        width: '100%', padding: '12px 14px', borderRadius: '10px',
-                                        border: '1px solid #cbd5e1', background: '#f8fafc',
-                                        fontSize: '14px', color: '#334155', boxSizing: 'border-box', outline: 'none'
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Requested Amount *</label>
-                                <input
-                                    type="number"
-                                    placeholder="₹ Amount in Rupees"
-                                    style={{
-                                        width: '100%', padding: '12px 14px', borderRadius: '10px',
-                                        border: '1px solid #cbd5e1', background: '#f8fafc',
-                                        fontSize: '14px', color: '#334155', boxSizing: 'border-box', outline: 'none'
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pitch / Description</label>
-                                <textarea
-                                    placeholder="Explain why a brand should sponsor you..."
-                                    rows={4}
-                                    style={{
-                                        width: '100%', padding: '12px 14px', borderRadius: '10px',
-                                        border: '1px solid #cbd5e1', background: '#f8fafc',
-                                        fontSize: '14px', color: '#334155', resize: 'vertical',
-                                        boxSizing: 'border-box', outline: 'none'
-                                    }}
-                                />
-                            </div>
-                            <button
-                                style={{
-                                    width: '100%', padding: '14px 24px', borderRadius: '10px', border: 'none',
-                                    background: '#0ea5e9', color: '#fff', fontWeight: 800, cursor: 'pointer', fontSize: '15px'
-                                }}
-                            >
-                                Submit Proposal
-                            </button>
+                    !selectedSponsorForApp ? (
+                        <div style={{ display: 'grid', gap: '16px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#1e293b', marginBottom: '8px' }}>Available {sportLabel} Sponsors</h3>
+                            {AVAILABLE_SPONSORS.map(sp => (
+                                <div key={sp.id} style={{
+                                    background: 'white', borderRadius: '16px', padding: '20px',
+                                    border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
+                                    display: 'flex', alignItems: 'center', gap: '16px'
+                                }}>
+                                    <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>
+                                        {sp.logo}
+                                    </div>
+                                    <div style={{ flex: 1, minWidth: 0 }}>
+                                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#1e293b', marginBottom: '4px' }}>{sp.name}</div>
+                                        <div style={{ fontSize: '13px', color: '#64748b', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                            <span style={{ fontWeight: 600 }}>{sp.type}</span>
+                                            <span style={{ opacity: 0.3 }}>•</span>
+                                            <span style={{ color: '#0ea5e9', fontWeight: 700 }}>Offers: {sp.range}</span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={() => setSelectedSponsorForApp(sp)}
+                                        style={{ padding: '10px 20px', borderRadius: '10px', background: '#f0f9ff', color: '#0ea5e9', fontWeight: 800, border: 'none', cursor: 'pointer', fontSize: '13px' }}
+                                    >
+                                        Apply
+                                    </button>
+                                </div>
+                            ))}
                         </div>
-                    </div>
+                    ) : (
+                        <div style={{ background: 'white', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
+                            <button
+                                onClick={() => setSelectedSponsorForApp(null)}
+                                style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '13px', fontWeight: 700, cursor: 'pointer', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '4px' }}
+                            >
+                                ← Back to Sponsors
+                            </button>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid #f1f5f9' }}>
+                                <div style={{ fontSize: '32px' }}>{selectedSponsorForApp.logo}</div>
+                                <div>
+                                    <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Application For</div>
+                                    <div style={{ fontSize: '20px', fontWeight: 900, color: '#1e293b' }}>{selectedSponsorForApp.name}</div>
+                                </div>
+                            </div>
+                            <div style={{ display: 'grid', gap: '20px' }}>
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Proposal Title *</label>
+                                    <input
+                                        placeholder={`e.g. Partnership Request for ${selectedSponsorForApp.name}`}
+                                        style={{
+                                            width: '100%', padding: '12px 14px', borderRadius: '10px',
+                                            border: '1px solid #cbd5e1', background: '#f8fafc',
+                                            fontSize: '14px', color: '#334155', boxSizing: 'border-box', outline: 'none'
+                                        }}
+                                    />
+                                </div>
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Requested Amount / Gear *</label>
+                                    <input
+                                        placeholder={`e.g. ${selectedSponsorForApp.range}`}
+                                        style={{
+                                            width: '100%', padding: '12px 14px', borderRadius: '10px',
+                                            border: '1px solid #cbd5e1', background: '#f8fafc',
+                                            fontSize: '14px', color: '#334155', boxSizing: 'border-box', outline: 'none'
+                                        }}
+                                    />
+                                </div>
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pitch / Description</label>
+                                    <textarea
+                                        placeholder={`Explain why ${selectedSponsorForApp.name} should sponsor you...`}
+                                        rows={4}
+                                        style={{
+                                            width: '100%', padding: '12px 14px', borderRadius: '10px',
+                                            border: '1px solid #cbd5e1', background: '#f8fafc',
+                                            fontSize: '14px', color: '#334155', resize: 'vertical',
+                                            boxSizing: 'border-box', outline: 'none'
+                                        }}
+                                    />
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        alert('Proposal Submitted successfully!');
+                                        setSelectedSponsorForApp(null);
+                                        setActiveTab('requests');
+                                    }}
+                                    style={{
+                                        width: '100%', padding: '14px 24px', borderRadius: '10px', border: 'none',
+                                        background: '#0ea5e9', color: '#fff', fontWeight: 800, cursor: 'pointer', fontSize: '15px'
+                                    }}
+                                >
+                                    Submit Proposal
+                                </button>
+                            </div>
+                        </div>
+                    )
                 )}
 
                 {/* PREVIOUS TAB */}
