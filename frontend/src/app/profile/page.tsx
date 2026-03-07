@@ -5,24 +5,18 @@ import Link from 'next/link';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { sportIcons } from '@/lib/utils';
-import { Fingerprint } from 'lucide-react';
 import PageNavbar from '@/components/PageNavbar';
+import { User, BarChart3, Users, Trophy, History, ChevronDown, ChevronUp, Settings, MapPin, Phone, Mail, Shield, Award } from 'lucide-react';
 
-type RoleView = 'owner' | 'player';
-function getProfileRole(role: string): RoleView {
-    if (['ORGANIZER', 'TEAM_MANAGER'].includes(role)) return 'owner';
-    return 'player';
-}
+type ProfileTab = 'overview' | 'stats' | 'teams' | 'tournaments' | 'history';
 
-/* ═══════ DEFAULT EMPTY STATS (no hardcoded fakes) ═══════ */
-
+/* ═══════ DEFAULT EMPTY STATS ═══════ */
 const EMPTY_CRICKET = {
     matches: 0, innings: 0, runs: 0, highScore: 0, avg: 0, strikeRate: 0,
     centuries: 0, fifties: 0, fours: 0, sixes: 0,
     wickets: 0, bowlAvg: 0, economy: 0, bestBowling: '0/0',
     catches: 0, stumpings: 0, runOuts: 0,
 };
-
 const EMPTY_FOOTBALL = {
     matches: 0, goals: 0, assists: 0, saves: 0,
     yellowCards: 0, redCards: 0, passAccuracy: 0,
@@ -32,17 +26,8 @@ const EMPTY_FOOTBALL = {
 export default function PlayerProfilePage() {
     const { user } = useAuthStore();
     const { selectedSport } = useSportStore();
-    const sportLabel = selectedSport?.name || 'All Sports';
-    const sportIcon = selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '👤';
-    const roleView = getProfileRole(user?.role || 'PLAYER');
-
-    const [editMode, setEditMode] = useState(false);
-    const selectedSportKey = selectedSport?.name?.toLowerCase() as 'cricket' | 'football' | undefined;
-    const defaultTab = selectedSportKey && (selectedSportKey === 'cricket' || selectedSportKey === 'football') ? selectedSportKey : 'overview';
-    const [activeTab, setActiveTab] = useState<'overview' | 'cricket' | 'football' | 'tournaments' | 'history'>(defaultTab);
-    const [ownerTab, setOwnerTab] = useState<'team' | 'financial' | 'seasons'>('team');
-
-    // Real data states (default: empty/zero)
+    const [activeTab, setActiveTab] = useState<ProfileTab>('overview');
+    const [showSecondaryStats, setShowSecondaryStats] = useState(false);
     const [careerStats, setCareerStats] = useState({ cricket: EMPTY_CRICKET, football: EMPTY_FOOTBALL });
     const [recentMatches, setRecentMatches] = useState<any[]>([]);
     const [tournaments, setTournaments] = useState<any[]>([]);
@@ -51,57 +36,51 @@ export default function PlayerProfilePage() {
     const [achievements, setAchievements] = useState<any[]>([]);
     const [injuries] = useState<any[]>([]);
     const [performanceIndex, setPerformanceIndex] = useState(0);
+    const [teams, setTeams] = useState<any[]>([]);
 
-    useEffect(() => {
-        if (selectedSportKey && activeTab !== 'overview' && activeTab !== 'tournaments' && activeTab !== 'history' && activeTab !== selectedSportKey) {
-            setActiveTab('overview');
-        }
-    }, [selectedSportKey, activeTab]);
+    const selectedSportKey = selectedSport?.name?.toLowerCase() as 'cricket' | 'football' | undefined;
 
-    // Force hydrate the store so old sessions receive the latest playerSports metadata
+    /* ── Force refresh profile ── */
     useEffect(() => {
         api.getProfile().then((updatedUser: any) => {
             const token = localStorage.getItem('token');
-            if (updatedUser && token) {
-                useAuthStore.getState().setAuth(updatedUser, token);
-            }
+            if (updatedUser && token) useAuthStore.getState().setAuth(updatedUser, token);
         }).catch(() => { });
     }, []);
 
-    // Fetch real profile data from backend APIs
+    /* ── Fetch all profile data ── */
     useEffect(() => {
         const playerId = user?.player?.id;
         if (!playerId) return;
 
-        // Fetch recent matches
+        // Teams
+        api.getMyTeams?.()?.then?.((t: any[]) => {
+            if (Array.isArray(t)) setTeams(t);
+        }).catch(() => { });
+
+        // Matches & career stats
         api.getMatches?.()?.then?.((matches: any[]) => {
             if (!Array.isArray(matches)) return;
             const playerMatches = matches.filter((m: any) =>
                 m.playerStats?.some((ps: any) => ps.playerId === playerId)
-            ).slice(0, 6).map((m: any) => {
+            ).slice(0, 10).map((m: any) => {
                 const stat = m.playerStats?.find((ps: any) => ps.playerId === playerId);
-                const statsData = stat?.statsData ? (typeof stat.statsData === 'string' ? JSON.parse(stat.statsData) : stat.statsData) : {};
+                const sd = stat?.statsData ? (typeof stat.statsData === 'string' ? JSON.parse(stat.statsData) : stat.statsData) : {};
                 return {
                     opponent: m.awayTeam?.name || m.homeTeam?.name || 'Unknown',
-                    result: m.winnerTeamId ? (m.homeTeam?.name ? 'Won' : 'Lost') : 'Draw',
-                    score: m.scoreData || '—',
-                    date: m.scheduledAt ? new Date(m.scheduledAt).toISOString().split('T')[0] : '—',
-                    performance: statsData.runs ? `${statsData.runs} runs` : '—',
+                    result: m.winnerTeamId ? 'Won' : 'Draw',
+                    date: m.scheduledAt ? new Date(m.scheduledAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—',
+                    performance: sd.runs ? `${sd.runs} runs` : sd.goals ? `${sd.goals} goals` : '—',
                     sport: m.sport?.name || 'Unknown',
+                    tournament: m.tournament?.name || '—',
                 };
             });
             setRecentMatches(playerMatches);
 
-            // Calculate career stats from match data
+            // Cricket stats
             const cricketMatches = matches.filter((m: any) =>
-                m.sport?.name?.toLowerCase() === 'cricket' &&
-                m.playerStats?.some((ps: any) => ps.playerId === playerId)
+                m.sport?.name?.toLowerCase() === 'cricket' && m.playerStats?.some((ps: any) => ps.playerId === playerId)
             );
-            const footballMatches = matches.filter((m: any) =>
-                m.sport?.name?.toLowerCase() === 'football' &&
-                m.playerStats?.some((ps: any) => ps.playerId === playerId)
-            );
-
             if (cricketMatches.length > 0) {
                 let totalRuns = 0, totalWickets = 0, highScore = 0, totalCatches = 0;
                 cricketMatches.forEach((m: any) => {
@@ -114,19 +93,14 @@ export default function PlayerProfilePage() {
                 });
                 setCareerStats(prev => ({
                     ...prev,
-                    cricket: {
-                        ...EMPTY_CRICKET,
-                        matches: cricketMatches.length,
-                        innings: cricketMatches.length,
-                        runs: totalRuns,
-                        highScore,
-                        avg: cricketMatches.length > 0 ? Math.round((totalRuns / cricketMatches.length) * 100) / 100 : 0,
-                        wickets: totalWickets,
-                        catches: totalCatches,
-                    }
+                    cricket: { ...EMPTY_CRICKET, matches: cricketMatches.length, innings: cricketMatches.length, runs: totalRuns, highScore, avg: Math.round((totalRuns / cricketMatches.length) * 100) / 100, wickets: totalWickets, catches: totalCatches },
                 }));
             }
 
+            // Football stats
+            const footballMatches = matches.filter((m: any) =>
+                m.sport?.name?.toLowerCase() === 'football' && m.playerStats?.some((ps: any) => ps.playerId === playerId)
+            );
             if (footballMatches.length > 0) {
                 let totalGoals = 0, totalAssists = 0;
                 footballMatches.forEach((m: any) => {
@@ -137,755 +111,587 @@ export default function PlayerProfilePage() {
                 });
                 setCareerStats(prev => ({
                     ...prev,
-                    football: {
-                        ...EMPTY_FOOTBALL,
-                        matches: footballMatches.length,
-                        goals: totalGoals,
-                        assists: totalAssists,
-                    }
+                    football: { ...EMPTY_FOOTBALL, matches: footballMatches.length, goals: totalGoals, assists: totalAssists },
                 }));
             }
         }).catch(() => { });
 
-        // Fetch certificates
+        // Certificates & achievements
         api.getCertificates?.()?.then?.((certs: any[]) => {
             if (!Array.isArray(certs)) return;
-            const playerCerts = certs.filter((c: any) => c.playerId === playerId);
-            setCertificates(playerCerts.map((c: any) => ({
+            const pc = certs.filter((c: any) => c.playerId === playerId);
+            setCertificates(pc.map((c: any) => ({
                 title: c.tournamentName || c.recipientName || 'Certificate',
                 type: c.type || 'PARTICIPATION',
-                date: c.issuedAt ? new Date(c.issuedAt).toISOString().substring(0, 7) : '—',
-                qr: !!c.verificationCode,
+                date: c.issuedAt ? new Date(c.issuedAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '—',
                 sport: c.sportName || 'General',
             })));
-            // Derive achievements from certificates
-            setAchievements(playerCerts.filter((c: any) => c.type === 'WINNER' || c.type === 'AWARD').map((c: any) => ({
+            setAchievements(pc.filter((c: any) => c.type === 'WINNER' || c.type === 'AWARD').map((c: any) => ({
                 title: c.tournamentName || c.recipientName || 'Achievement',
                 icon: c.type === 'WINNER' ? '🏆' : '🏅',
-                date: c.issuedAt ? new Date(c.issuedAt).toISOString().substring(0, 7) : '—',
+                date: c.issuedAt ? new Date(c.issuedAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '—',
                 sport: c.sportName || 'General',
             })));
         }).catch(() => { });
 
-        // Fetch transfers
+        // Transfers
         api.getTransfers?.()?.then?.((allTxs: any[]) => {
             const txs = Array.isArray(allTxs) ? allTxs.filter((t: any) => t.playerId === playerId) : [];
-            if (txs.length === 0) return;
             setTransfers(txs.map((t: any) => ({
                 from: t.fromTeam?.name || 'Free Agent',
                 to: t.toTeam?.name || 'Unknown',
-                date: t.requestedAt ? new Date(t.requestedAt).toISOString().substring(0, 7) : '—',
+                date: t.requestedAt ? new Date(t.requestedAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '—',
                 status: t.status || 'PENDING',
-                fee: t.transferFee ? `₹${t.transferFee.toLocaleString('en-IN')}` : '₹0',
-                sport: 'General',
             })));
         }).catch(() => { });
 
-        // Fetch ranking for PI score
+        // Rankings
         api.getPlayerRankings?.(playerId)?.then?.((rankings: any[]) => {
-            if (Array.isArray(rankings) && rankings.length > 0) {
-                setPerformanceIndex(Math.round(rankings[0].points || 0));
-            }
+            if (Array.isArray(rankings) && rankings.length > 0) setPerformanceIndex(Math.round(rankings[0].points || 0));
+        }).catch(() => { });
+
+        // Tournaments
+        api.getTournaments?.()?.then?.((t: any[]) => {
+            if (Array.isArray(t)) setTournaments(t.slice(0, 20));
         }).catch(() => { });
     }, [user]);
 
-    // Sport filtering
-    const filteredTournaments = selectedSport ? tournaments.filter(t => t.sport === selectedSport.name) : tournaments;
-    const filteredAchievements = selectedSport ? achievements.filter(a => a.sport === selectedSport.name) : achievements;
-    const filteredMatches = selectedSport ? recentMatches.filter(m => m.sport === selectedSport.name) : recentMatches;
-    const filteredCertificates = selectedSport ? certificates.filter(c => c.sport === selectedSport.name) : certificates;
-    const filteredTransfers = selectedSport ? transfers.filter(t => t.sport === selectedSport.name) : transfers;
-    const filteredInjuries = selectedSport ? injuries.filter((i: any) => i.sport === selectedSport.name) : injuries;
-
-    const dynamicPlayer = {
-        name: user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'New Player',
-        sportsId: user?.player?.sportsId || 'USI-Pending',
-        phone: user?.phone ? `+${user?.countryCode || '91'} ${user.phone}` : 'Not set',
-        email: user?.email || 'Not set',
-        district: user?.player?.district || 'Not set',
-        state: user?.player?.state || 'Not set',
-        country: user?.player?.country || 'India',
-        height: user?.player?.heightCm ? `${user.player.heightCm} cm` : 'Not set',
-        gender: user?.player?.gender || 'Not Specified',
-        verified: user?.isVerified || false,
-        photo: user?.avatar ? (
-            <img src={user.avatar} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
-        ) : '👤',
-        primarySport: selectedSport?.name || 'Not set',
-        secondarySport: '',
-        level: 'DISTRICT',
-        age: 0,
-        bloodGroup: 'Not set',
-        dob: '',
-        weight: 'Not set',
-        battingStyle: 'Not set',
-        bowlingStyle: 'Not set',
-        position: 'Player',
-        jerseyNo: 0,
-        performanceIndex,
-    };
+    /* ── Player info ── */
+    const playerName = user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'Player';
+    const initials = playerName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    const sportsId = user?.player?.sportsId || 'Pending';
+    const phone = user?.phone ? `+${user?.countryCode || '91'} ${user.phone}` : '—';
+    const email = user?.email || '—';
+    const district = user?.player?.district || '—';
+    const state = user?.player?.state || '—';
+    const country = user?.player?.country || 'India';
+    const height = user?.player?.heightCm ? `${user.player.heightCm} cm` : '—';
+    const gender = user?.player?.gender || '—';
+    const verified = user?.isVerified || false;
+    const primarySport = selectedSport?.name || user?.player?.primarySport || '—';
 
     const cs = careerStats.cricket;
     const fs = careerStats.football;
     const totalMatches = cs.matches + fs.matches;
-    const winRate = totalMatches > 0 ? Math.round((recentMatches.filter(m => m.result === 'Won').length / Math.max(recentMatches.length, 1)) * 100) : 0;
-    const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
+    const winCount = recentMatches.filter(m => m.result === 'Won').length;
+    const winRate = recentMatches.length > 0 ? Math.round((winCount / recentMatches.length) * 100) : 0;
 
-    /* ═══════ OWNER VIEW — Dynamic Team Profile ═══════ */
-    const [teamData, setTeamData] = useState<any>(null);
-    const [teamDetail, setTeamDetail] = useState<any>(null);
-    const [teamLoading, setTeamLoading] = useState(true);
+    const TABS: { key: ProfileTab; icon: any; label: string }[] = [
+        { key: 'overview', icon: <User size={18} />, label: 'Overview' },
+        { key: 'stats', icon: <BarChart3 size={18} />, label: 'Stats' },
+        { key: 'teams', icon: <Users size={18} />, label: 'Teams' },
+        { key: 'tournaments', icon: <Trophy size={18} />, label: 'Tournaments' },
+        { key: 'history', icon: <History size={18} />, label: 'History' },
+    ];
 
-    useEffect(() => {
-        if (roleView !== 'owner') return;
-        setTeamLoading(true);
-        api.getMyTeams(selectedSport?.id).then((teams: any[]) => {
-            if (teams && teams.length > 0) {
-                setTeamData(teams[0]);
-                // Fetch full detail with roster & tournaments
-                api.getTeam(teams[0].id).then((detail: any) => {
-                    setTeamDetail(detail);
-                }).catch(() => { }).finally(() => setTeamLoading(false));
-            } else {
-                setTeamLoading(false);
-            }
-        }).catch(() => setTeamLoading(false));
-    }, [roleView, selectedSport?.id]);
+    return (
+        <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+            <PageNavbar title="Profile" />
 
-    if (roleView === 'owner') {
-        const td = teamData; // quick alias
-        const detail = teamDetail;
-        const playerCount = detail?.players?.length || td?._count?.players || 0;
-        const tournamentCount = detail?.tournaments?.length || td?._count?.tournaments || 0;
-        const teamName = td?.name || user?.firstName || 'No Team Yet';
-        const teamSport = td?.sport?.name || selectedSport?.name || 'Not set';
-        const teamCity = td?.city || user?.player?.district || 'Not set';
-        const teamLogo = td?.logo || '⚡';
-        const managerName = detail?.manager ? `${detail.manager.firstName} ${detail.manager.lastName}`.trim() : (user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'Not set');
-        const teamCreated = td?.createdAt ? new Date(td.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '—';
-
-        const FINANCIALS = [
-            { label: 'Total Revenue', value: fmt(0), color: '#16a34a' },
-            { label: 'Total Expenses', value: fmt(0), color: '#ef4444' },
-            { label: 'Auction Spend', value: fmt(0), color: '#f59e0b' },
-            { label: 'Sponsorship', value: fmt(0), color: '#7c3aed' },
-            { label: 'Player Registrations', value: fmt(0), color: '#0ea5e9' },
-            { label: 'Venue Costs', value: fmt(0), color: '#ec4899' },
-        ];
-
-        // Build roster from detail
-        const roster = (detail?.players || []).map((tp: any) => ({
-            name: tp.player?.user ? `${tp.player.user.firstName} ${tp.player.user.lastName}`.trim() : 'Unknown',
-            avatar: tp.player?.user?.avatar || null,
-            jersey: tp.jersey || '—',
-            role: tp.role || 'Player',
-        }));
-
-        // Build tournament list from detail
-        const teamTournaments = (detail?.tournaments || []).map((tt: any) => ({
-            name: tt.tournament?.name || 'Unknown',
-            status: tt.tournament?.status || 'PENDING',
-            seed: tt.seed,
-        }));
-
-        return (
-            <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)' }}>
-            <PageNavbar title="Profile" emoji="👤" />
-
-                <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
-
-                    {teamLoading ? (
-                        <div style={{ textAlign: 'center', padding: '64px 0', color: '#a5b4fc', fontSize: '18px' }}>⏳ Loading team profile...</div>
-                    ) : !td ? (
-                        <div style={{ textAlign: 'center', padding: '64px 32px' }}>
-                            <div style={{ fontSize: '64px', marginBottom: '16px' }}>🏅</div>
-                            <h2 style={{ fontSize: '24px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>No Team Yet</h2>
-                            <p style={{ color: '#a5b4fc', fontSize: '14px', marginBottom: '24px' }}>Create a team from the Teams page to see your team profile here.</p>
-                            <Link href="/teams" style={{ padding: '12px 28px', borderRadius: '12px', background: '#6366f1', color: 'white', fontWeight: 700, fontSize: '15px', textDecoration: 'none' }}>
-                                Go to Teams →
-                            </Link>
+            {/* ── Hero Header ── */}
+            <div style={{
+                background: 'linear-gradient(135deg, #1e1b4b, #312e81, #4c1d95)',
+                padding: '28px 16px 48px', position: 'relative',
+            }}>
+                <div style={{ maxWidth: '700px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    {/* Avatar */}
+                    <div style={{
+                        width: '72px', height: '72px', borderRadius: '50%', flexShrink: 0,
+                        background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '24px', fontWeight: 900, color: 'white',
+                        border: '3px solid rgba(255,255,255,0.2)', overflow: 'hidden',
+                    }}>
+                        {user?.avatar ? (
+                            <img src={user.avatar} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : initials}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                            <h1 style={{ fontSize: '20px', fontWeight: 900, color: 'white', margin: 0 }}>{playerName}</h1>
+                            {verified && (
+                                <span style={{ padding: '2px 8px', borderRadius: '6px', background: 'rgba(34,197,94,0.2)', color: '#4ade80', fontSize: '10px', fontWeight: 700 }}>✓ Verified</span>
+                            )}
                         </div>
-                    ) : (
-                        <>
-                            {/* Team Header */}
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' as const }}>
-                                <div style={{ width: '110px', height: '110px', borderRadius: '50%', background: 'linear-gradient(135deg, #f59e0b, #d97706)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '52px', border: '3px solid rgba(255,255,255,0.2)', overflow: 'hidden' }}>
-                                    {td?.logo && td.logo.startsWith('http') ? (
-                                        <img src={td.logo} alt="Team Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    ) : teamLogo}
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: '6px' }}>
+                            ID: {sportsId} • {primarySport} • {gender}
+                        </div>
+                        {/* Quick stats row */}
+                        <div style={{ display: 'flex', gap: '16px' }}>
+                            {[
+                                { label: 'Matches', value: totalMatches },
+                                { label: 'Win %', value: `${winRate}%` },
+                                { label: 'PI', value: performanceIndex },
+                            ].map(s => (
+                                <div key={s.label}>
+                                    <div style={{ fontSize: '16px', fontWeight: 900, color: 'white' }}>{s.value}</div>
+                                    <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>{s.label}</div>
                                 </div>
-                                <div style={{ flex: 1 }}>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
-                                            <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff', margin: 0 }}>{teamName}</h1>
-                                            {td?.teamCode && (
-                                                <span style={{ padding: '4px 10px', borderRadius: '8px', background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', fontSize: '14px', fontWeight: 800, border: '1px dashed rgba(99,102,241,0.4)' }}>
-                                                    {td.teamCode}
-                                                </span>
-                                            )}
+                            ))}
+                        </div>
+                    </div>
+                    {/* Edit button */}
+                    <Link href="/settings" style={{
+                        width: '36px', height: '36px', borderRadius: '10px',
+                        background: 'rgba(255,255,255,0.1)', display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', textDecoration: 'none',
+                    }}>
+                        <Settings size={16} color="rgba(255,255,255,0.7)" />
+                    </Link>
+                </div>
+            </div>
+
+            {/* ── Icon-Only Tab Bar ── */}
+            <div style={{
+                background: 'white', borderBottom: '1px solid #e2e8f0',
+                position: 'sticky', top: '45px', zIndex: 49,
+                marginTop: '-24px', borderRadius: '16px 16px 0 0',
+            }}>
+                <div style={{
+                    maxWidth: '700px', margin: '0 auto',
+                    display: 'flex', justifyContent: 'center',
+                }}>
+                    {TABS.map(tab => (
+                        <button
+                            key={tab.key}
+                            onClick={() => setActiveTab(tab.key)}
+                            title={tab.label}
+                            style={{
+                                flex: 1, padding: '14px 0', border: 'none', background: 'none',
+                                cursor: 'pointer', display: 'flex', flexDirection: 'column',
+                                alignItems: 'center', gap: '4px',
+                                color: activeTab === tab.key ? '#4f46e5' : '#94a3b8',
+                                borderBottom: activeTab === tab.key ? '3px solid #4f46e5' : '3px solid transparent',
+                                transition: 'all 0.2s',
+                            }}
+                        >
+                            {tab.icon}
+                            <span style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{tab.label}</span>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* ── Tab Content ── */}
+            <div style={{ maxWidth: '700px', margin: '0 auto', padding: '16px 16px 80px' }}>
+
+                {/* ═══════ OVERVIEW TAB ═══════ */}
+                {activeTab === 'overview' && (
+                    <div style={{ display: 'grid', gap: '14px' }}>
+                        {/* Personal Info */}
+                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <User size={14} /> Personal Info
+                            </h3>
+                            {[
+                                { icon: <Phone size={13} />, label: 'Phone', value: phone },
+                                { icon: <Mail size={13} />, label: 'Email', value: email },
+                                { icon: <MapPin size={13} />, label: 'Location', value: `${district}, ${state}, ${country}` },
+                                { icon: <Shield size={13} />, label: 'Height', value: height },
+                                { icon: <Award size={13} />, label: 'Primary Sport', value: primarySport },
+                            ].map((item, i) => (
+                                <div key={i} style={{
+                                    display: 'flex', alignItems: 'center', gap: '10px',
+                                    padding: '8px 0', borderBottom: i < 4 ? '1px solid #f8fafc' : 'none',
+                                }}>
+                                    <span style={{ color: '#94a3b8' }}>{item.icon}</span>
+                                    <span style={{ fontSize: '12px', color: '#94a3b8', width: '80px' }}>{item.label}</span>
+                                    <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{item.value}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Recent Matches */}
+                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>⚡ Recent Matches</h3>
+                            {recentMatches.length === 0 ? (
+                                <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No recent matches.</div>
+                            ) : (
+                                recentMatches.slice(0, 5).map((m, i) => (
+                                    <div key={i} style={{
+                                        display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 0',
+                                        borderBottom: i < Math.min(recentMatches.length, 5) - 1 ? '1px solid #f8fafc' : 'none',
+                                    }}>
+                                        <div style={{
+                                            width: '6px', height: '6px', borderRadius: '50%',
+                                            background: m.result === 'Won' ? '#22c55e' : '#94a3b8',
+                                        }} />
+                                        <div style={{ flex: 1, fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>vs {m.opponent}</div>
+                                        <span style={{ fontSize: '11px', color: '#94a3b8' }}>{m.performance}</span>
+                                        <span style={{ fontSize: '10px', color: '#cbd5e1' }}>{m.date}</span>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Achievements */}
+                        {achievements.length > 0 && (
+                            <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                                <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>🏅 Achievements</h3>
+                                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                                    {achievements.map((a, i) => (
+                                        <div key={i} style={{
+                                            padding: '8px 14px', borderRadius: '10px',
+                                            background: '#fffbeb', border: '1px solid #fef3c7',
+                                            display: 'flex', alignItems: 'center', gap: '6px',
+                                        }}>
+                                            <span style={{ fontSize: '16px' }}>{a.icon}</span>
+                                            <div>
+                                                <div style={{ fontSize: '12px', fontWeight: 700, color: '#92400e' }}>{a.title}</div>
+                                                <div style={{ fontSize: '10px', color: '#b45309' }}>{a.date}</div>
+                                            </div>
                                         </div>
-                                        <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px' }}>🏏 {teamSport} • 📍 {teamCity} • 👥 {playerCount} Players</div>
-                                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>
-                                            {[`👤 Manager: ${managerName}`, `📅 Est. ${teamCreated}`, `🏆 ${tournamentCount} Tournaments`].map(tag => (
-                                                <span key={tag} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{tag}</span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Manager Contact Details */}
-                                <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '14px', padding: '16px', minWidth: '220px' }}>
-                                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px' }}>CONTACT DETAILS</div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
-                                        <span>📞 {dynamicPlayer.phone}</span>
-                                        <span>📧 {dynamicPlayer.email}</span>
-                                        <span>📍 {dynamicPlayer.district}, {dynamicPlayer.state}, {dynamicPlayer.country}</span>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
+                        )}
+                    </div>
+                )}
 
-                            {/* Stats Row */}
-                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
-                                {[
-                                    { label: 'Players', value: playerCount, color: '#6366f1' },
-                                    { label: 'Tournaments', value: tournamentCount, color: '#22c55e' },
-                                    { label: 'Sport', value: teamSport, color: '#f59e0b' },
-                                    { label: 'City', value: teamCity, color: '#8b5cf6' },
-                                ].map(s => (
-                                    <div key={s.label} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '18px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        <div style={{ fontSize: '22px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                                        <div style={{ fontSize: '11px', color: '#a5b4fc', fontWeight: 600, marginTop: '4px' }}>{s.label}</div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Owner Tabs */}
-                            <div className="flex-wrap-mobile" style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
-                                {[
-                                    { key: 'team' as const, label: '👥 Team Profile' },
-                                    { key: 'financial' as const, label: '💰 Financial Summary' },
-                                    { key: 'seasons' as const, label: '📅 Season History' },
-                                ].map(tab => (
-                                    <button key={tab.key} onClick={() => setOwnerTab(tab.key)} style={{
-                                        padding: '10px 18px', borderRadius: '10px', border: 'none', cursor: 'pointer',
-                                        background: ownerTab === tab.key ? '#6366f1' : 'rgba(255,255,255,0.08)',
-                                        color: ownerTab === tab.key ? '#fff' : '#a5b4fc', fontWeight: 700, fontSize: '13px',
-                                    }}>{tab.label}</button>
-                                ))}
-                            </div>
-
-                            {ownerTab === 'team' && (
-                                <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                                    <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏟️ Team Details</h3>
-                                        {[{ l: 'Team Name', v: teamName }, { l: 'Sport', v: teamSport }, { l: 'City', v: teamCity }, { l: 'State', v: td?.state || dynamicPlayer.state || 'Not set' }, { l: 'Founded', v: teamCreated }, { l: 'Manager', v: managerName }].map(r => (
-                                            <div key={r.l} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                                                <span style={{ fontSize: '13px', color: '#94a3b8' }}>{r.l}</span>
-                                                <span style={{ fontSize: '13px', fontWeight: 700, color: '#e2e8f0' }}>{r.v}</span>
+                {/* ═══════ STATS TAB ═══════ */}
+                {activeTab === 'stats' && (
+                    <div style={{ display: 'grid', gap: '14px' }}>
+                        {/* Primary Stats */}
+                        {selectedSportKey === 'cricket' || (!selectedSportKey && cs.matches > 0) ? (
+                            <>
+                                <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                                    <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}>🏏 Batting (Primary)</h3>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                                        {[
+                                            { label: 'Matches', value: cs.matches },
+                                            { label: 'Innings', value: cs.innings },
+                                            { label: 'Runs', value: cs.runs },
+                                            { label: 'High Score', value: cs.highScore },
+                                            { label: 'Average', value: cs.avg },
+                                            { label: 'Strike Rate', value: cs.strikeRate },
+                                            { label: '100s', value: cs.centuries },
+                                            { label: '50s', value: cs.fifties },
+                                            { label: '4s', value: cs.fours },
+                                            { label: '6s', value: cs.sixes },
+                                        ].map(s => (
+                                            <div key={s.label} style={{ textAlign: 'center', padding: '10px 6px', borderRadius: '10px', background: '#f8fafc' }}>
+                                                <div style={{ fontSize: '18px', fontWeight: 900, color: '#1e1b4b' }}>{s.value}</div>
+                                                <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600, marginTop: '2px' }}>{s.label}</div>
                                             </div>
                                         ))}
                                     </div>
+                                </div>
 
-                                    {/* Roster */}
-                                    <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>👥 Roster ({roster.length} Players)</h3>
-                                        {roster.length === 0 ? (
-                                            <div style={{ padding: '20px 0', textAlign: 'center', color: '#64748b', fontSize: '13px' }}>No players yet. Add players from the Teams page!</div>
-                                        ) : (
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                                {roster.map((p: any, i: number) => (
-                                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)' }}>
-                                                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '14px', overflow: 'hidden', flexShrink: 0 }}>
-                                                            {p.avatar ? <img src={p.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : p.name.charAt(0)}
-                                                        </div>
-                                                        <div style={{ flex: 1 }}>
-                                                            <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{p.name}</div>
-                                                            <div style={{ fontSize: '11px', color: '#94a3b8' }}>#{p.jersey} • {p.role}</div>
-                                                        </div>
+                                {/* Secondary Stats Toggle */}
+                                <button
+                                    onClick={() => setShowSecondaryStats(!showSecondaryStats)}
+                                    style={{
+                                        padding: '12px 18px', borderRadius: '12px', border: '1px solid #e2e8f0',
+                                        background: 'white', cursor: 'pointer', display: 'flex',
+                                        alignItems: 'center', justifyContent: 'space-between', width: '100%',
+                                    }}
+                                >
+                                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#4f46e5' }}>
+                                        {showSecondaryStats ? 'Hide' : 'Show'} Bowling & Fielding Stats
+                                    </span>
+                                    {showSecondaryStats ? <ChevronUp size={16} color="#4f46e5" /> : <ChevronDown size={16} color="#4f46e5" />}
+                                </button>
+
+                                {showSecondaryStats && (
+                                    <>
+                                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}>🎯 Bowling</h3>
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                                                {[
+                                                    { label: 'Wickets', value: cs.wickets },
+                                                    { label: 'Bowl Avg', value: cs.bowlAvg },
+                                                    { label: 'Economy', value: cs.economy },
+                                                    { label: 'Best Bowling', value: cs.bestBowling },
+                                                ].map(s => (
+                                                    <div key={s.label} style={{ textAlign: 'center', padding: '10px 6px', borderRadius: '10px', background: '#f8fafc' }}>
+                                                        <div style={{ fontSize: '18px', fontWeight: 900, color: '#1e1b4b' }}>{s.value}</div>
+                                                        <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600, marginTop: '2px' }}>{s.label}</div>
                                                     </div>
                                                 ))}
                                             </div>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Tournaments Section — shown below roster in team tab */}
-                            {ownerTab === 'team' && teamTournaments.length > 0 && (
-                                <div style={{ marginTop: '20px', background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                    <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏆 Tournament Participation ({teamTournaments.length})</h3>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                        {teamTournaments.map((t: any, i: number) => (
-                                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)' }}>
-                                                <span style={{ fontWeight: 700, fontSize: '14px', color: '#e2e8f0' }}>{t.name}</span>
-                                                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: t.status === 'LIVE' ? 'rgba(239,68,68,0.2)' : t.status === 'COMPLETED' ? 'rgba(34,197,94,0.2)' : 'rgba(99,102,241,0.2)', color: t.status === 'LIVE' ? '#ef4444' : t.status === 'COMPLETED' ? '#22c55e' : '#a5b4fc' }}>{t.status}</span>
+                                        </div>
+                                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}>🧤 Fielding</h3>
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                                                {[
+                                                    { label: 'Catches', value: cs.catches },
+                                                    { label: 'Stumpings', value: cs.stumpings },
+                                                    { label: 'Run Outs', value: cs.runOuts },
+                                                ].map(s => (
+                                                    <div key={s.label} style={{ textAlign: 'center', padding: '10px 6px', borderRadius: '10px', background: '#f8fafc' }}>
+                                                        <div style={{ fontSize: '18px', fontWeight: 900, color: '#1e1b4b' }}>{s.value}</div>
+                                                        <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600, marginTop: '2px' }}>{s.label}</div>
+                                                    </div>
+                                                ))}
                                             </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                                        </div>
+                                    </>
+                                )}
+                            </>
+                        ) : null}
 
-                            {ownerTab === 'financial' && (
+                        {selectedSportKey === 'football' || (!selectedSportKey && fs.matches > 0) ? (
+                            <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                                <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}>⚽ Football Stats</h3>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                                    {[
+                                        { label: 'Matches', value: fs.matches },
+                                        { label: 'Goals', value: fs.goals },
+                                        { label: 'Assists', value: fs.assists },
+                                        { label: 'Saves', value: fs.saves },
+                                        { label: 'Yellow Cards', value: fs.yellowCards },
+                                        { label: 'Red Cards', value: fs.redCards },
+                                        { label: 'Pass Acc %', value: fs.passAccuracy },
+                                        { label: 'Shots on Target', value: fs.shotsOnTarget },
+                                        { label: 'Minutes', value: fs.minutesPlayed },
+                                    ].map(s => (
+                                        <div key={s.label} style={{ textAlign: 'center', padding: '10px 6px', borderRadius: '10px', background: '#f8fafc' }}>
+                                            <div style={{ fontSize: '18px', fontWeight: 900, color: '#1e1b4b' }}>{s.value}</div>
+                                            <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600, marginTop: '2px' }}>{s.label}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : null}
+
+                        {/* Performance Index */}
+                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>📊 Performance Index</h3>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                <div style={{
+                                    width: '64px', height: '64px', borderRadius: '50%',
+                                    background: `conic-gradient(#4f46e5 ${performanceIndex}%, #e2e8f0 ${performanceIndex}%)`,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                }}>
+                                    <div style={{
+                                        width: '48px', height: '48px', borderRadius: '50%', background: 'white',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: '16px', fontWeight: 900, color: '#4f46e5',
+                                    }}>{performanceIndex}</div>
+                                </div>
                                 <div>
-                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', marginBottom: '20px' }}>
-                                        {FINANCIALS.slice(0, 3).map((f, i) => (
-                                            <div key={i} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '20px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
-                                                <div style={{ fontSize: '24px', fontWeight: 900, color: f.color }}>{f.value}</div>
-                                                <div style={{ fontSize: '12px', color: '#a5b4fc', fontWeight: 600, marginTop: '4px' }}>{f.label}</div>
-                                            </div>
-                                        ))}
+                                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b' }}>
+                                        {performanceIndex >= 80 ? 'Excellent' : performanceIndex >= 60 ? 'Good' : performanceIndex >= 40 ? 'Average' : 'Developing'}
                                     </div>
-                                    <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                        <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>📊 Breakdown</h3>
-                                        {FINANCIALS.map((f, i) => (
-                                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < FINANCIALS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                                <span style={{ fontSize: '14px', color: '#e2e8f0', fontWeight: 600 }}>{f.label}</span>
-                                                <span style={{ fontSize: '16px', fontWeight: 800, color: f.color }}>{f.value}</span>
-                                            </div>
-                                        ))}
-                                    </div>
+                                    <div style={{ fontSize: '12px', color: '#94a3b8' }}>Based on your overall performance</div>
                                 </div>
-                            )}
-
-                            {ownerTab === 'seasons' && (
-                                <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '32px', textAlign: 'center' as const, border: '1px solid rgba(255,255,255,0.06)' }}>
-                                    <div style={{ fontSize: '48px', marginBottom: '12px' }}>📅</div>
-                                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#e2e8f0', marginBottom: '6px' }}>No Season History Yet</div>
-                                    <div style={{ fontSize: '13px', color: '#64748b' }}>Season data will appear here as your team participates in tournaments.</div>
-                                </div>
-                            )}
-                        </>
-                    )}
-                </div>
-            </div>
-        );
-    }
-
-    /* ═══════ PLAYER VIEW ═══════ */
-    let overviewStats = [];
-    if (selectedSportKey === 'cricket') {
-        overviewStats = [
-            { label: 'Matches', value: cs.matches, color: '#6366f1' },
-            { label: 'Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
-            { label: 'Wickets', value: cs.wickets, color: '#f59e0b' },
-            { label: 'High Score', value: cs.highScore, color: '#ef4444' },
-            { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
-            { label: 'PI Score', value: performanceIndex, color: '#8b5cf6' }
-        ];
-    } else if (selectedSportKey === 'football') {
-        overviewStats = [
-            { label: 'Matches', value: fs.matches, color: '#6366f1' },
-            { label: 'Goals', value: fs.goals, color: '#22c55e' },
-            { label: 'Assists', value: fs.assists, color: '#f59e0b' },
-            { label: 'SOT', value: fs.shotsOnTarget, color: '#ef4444' },
-            { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
-            { label: 'PI Score', value: performanceIndex, color: '#8b5cf6' }
-        ];
-    } else if (!selectedSportKey) {
-        // All Sports selected
-        overviewStats = [
-            { label: 'Total Matches', value: cs.matches + fs.matches, color: '#6366f1' },
-            { label: 'Total Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
-            { label: 'Total Goals', value: fs.goals, color: '#ef4444' },
-            { label: 'Total Wickets', value: cs.wickets, color: '#f59e0b' },
-            { label: 'Win Rate', value: `${winRate}%`, color: '#ec4899' },
-            { label: 'PI Score', value: performanceIndex, color: '#8b5cf6' }
-        ];
-    } else {
-        // Specific sport selected but no mock data available (e.g. Kabaddi)
-        overviewStats = [
-            { label: 'Matches', value: 0, color: '#6366f1' },
-            { label: 'Points/Goals', value: 0, color: '#22c55e' },
-            { label: 'Assists/Defenses', value: 0, color: '#f59e0b' },
-            { label: 'Fouls', value: 0, color: '#ef4444' },
-            { label: 'Win Rate', value: '0%', color: '#ec4899' },
-            { label: 'PI Score', value: performanceIndex, color: '#8b5cf6' }
-        ];
-    }
-
-    const profileTabs: { key: 'overview' | 'cricket' | 'football' | 'tournaments' | 'history', label: string }[] = [
-        { key: 'overview', label: '📋 Overview' }
-    ];
-    if (!selectedSportKey || selectedSportKey === 'cricket') profileTabs.push({ key: 'cricket', label: '🏏 Cricket Stats' });
-    if (!selectedSportKey || selectedSportKey === 'football') profileTabs.push({ key: 'football', label: 'Football Stats' });
-    profileTabs.push({ key: 'tournaments', label: '🏆 Tournament Breakdown' });
-    profileTabs.push({ key: 'history', label: '📜 History' });
-
-    return (
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)' }}>
-
-            <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 24px' }}>
-                {/* ─── Profile Header ─── */}
-                <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
-                    <div style={{ width: '110px', height: '110px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '52px', flexShrink: 0, border: '3px solid rgba(255,255,255,0.2)' }}>
-                        {dynamicPlayer.photo}
-                    </div>
-                    <div style={{ flex: 1, minWidth: '280px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                            <h1 style={{ fontSize: '28px', fontWeight: 900, color: '#fff' }}>{dynamicPlayer.name}</h1>
-                            {dynamicPlayer.verified && <span style={{ padding: '3px 10px', borderRadius: '6px', background: '#22c55e', color: '#fff', fontSize: '11px', fontWeight: 700 }}>✓ Verified</span>}
+                            </div>
                         </div>
-                        <div style={{ fontSize: '14px', color: '#a5b4fc', fontWeight: 600, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <Fingerprint size={16} />
-                            {(() => {
-                                const ps = user?.player?.playerSports;
-                                const { selectedSport } = useSportStore.getState();
-                                let code = dynamicPlayer.sportsId;
-                                let jno = dynamicPlayer.jerseyNo;
-                                let pos = selectedSport ? (selectedSport.name === 'Athletics' ? 'Athlete' : 'Player') : dynamicPlayer.position;
 
-                                if (ps && selectedSport) {
-                                    const m = ps.find((s: any) => s.sportId === selectedSport.id);
-                                    if (m) {
-                                        code = m.sportCode || code;
-                                        if (m.metadata) {
-                                            const meta = typeof m.metadata === 'string' ? JSON.parse(m.metadata) : m.metadata;
-                                            if (meta.role) pos = meta.role;
-                                            if (meta.Position) pos = meta.Position; // some sports might capitalize
-                                            if (meta.position) pos = meta.position; // football form metadata uses 'position'
-                                            if (meta.jerseyNo) jno = meta.jerseyNo;
-                                        }
-                                    }
-                                }
+                        {totalMatches === 0 && (
+                            <div style={{ padding: '40px 20px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9', textAlign: 'center' }}>
+                                <div style={{ fontSize: '40px', marginBottom: '12px' }}>📊</div>
+                                <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>No stats yet</div>
+                                <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px' }}>Play matches to build your stats profile.</div>
+                            </div>
+                        )}
+                    </div>
+                )}
 
-                                const codeParts = code.split('-');
-                                const highlightedCode = codeParts.length > 1 ? (
-                                    <span style={{ fontFamily: 'monospace' }}>
-                                        {codeParts.slice(0, -1).join('-')}-<span style={{ color: '#fbbf24', fontWeight: 900, fontSize: '1.1em' }}>{codeParts[codeParts.length - 1]}</span>
-                                    </span>
-                                ) : (
-                                    <span style={{ fontFamily: 'monospace', color: '#fbbf24', fontWeight: 900, fontSize: '1.1em' }}>{code}</span>
-                                );
+                {/* ═══════ TEAMS TAB ═══════ */}
+                {activeTab === 'teams' && (
+                    <div style={{ display: 'grid', gap: '12px' }}>
+                        {teams.length === 0 ? (
+                            <div style={{ padding: '50px 20px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9', textAlign: 'center' }}>
+                                <div style={{ fontSize: '40px', marginBottom: '12px' }}>🛡️</div>
+                                <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>No teams yet</div>
+                                <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px' }}>Join a team to see it here.</div>
+                            </div>
+                        ) : (
+                            teams.map((team, i) => {
+                                const level = team.level || team.district ? (
+                                    team.state === 'National' || team.level === 'NATIONAL' ? 'National'
+                                        : team.level === 'STATE' ? 'State'
+                                            : team.level === 'DISTRICT' ? 'District'
+                                                : 'Local'
+                                ) : 'Local';
+                                const levelColors: Record<string, { bg: string; text: string; border: string }> = {
+                                    'National': { bg: '#fef2f2', text: '#dc2626', border: '#fecaca' },
+                                    'State': { bg: '#eff6ff', text: '#2563eb', border: '#bfdbfe' },
+                                    'District': { bg: '#f0fdf4', text: '#16a34a', border: '#bbf7d0' },
+                                    'Local': { bg: '#faf5ff', text: '#7c3aed', border: '#e9d5ff' },
+                                };
+                                const lc = levelColors[level] || levelColors['Local'];
 
                                 return (
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                        {highlightedCode} <span style={{ color: '#cbd5e1' }}>• #{jno} • {pos}</span>
-                                    </span>
+                                    <div key={i} style={{
+                                        padding: '16px', borderRadius: '14px', background: 'white',
+                                        border: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: '14px',
+                                    }}>
+                                        <div style={{
+                                            width: '48px', height: '48px', borderRadius: '14px',
+                                            background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            color: 'white', fontSize: '18px', fontWeight: 800, flexShrink: 0,
+                                            overflow: 'hidden',
+                                        }}>
+                                            {team.logo && team.logo.startsWith('http') ? (
+                                                <img src={team.logo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            ) : team.name?.charAt(0) || '⚡'}
+                                        </div>
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b' }}>{team.name}</div>
+                                            <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+                                                {team.sport?.name || '—'} • {team.city || district}
+                                            </div>
+                                        </div>
+                                        <span style={{
+                                            padding: '4px 10px', borderRadius: '8px', fontSize: '10px', fontWeight: 700,
+                                            background: lc.bg, color: lc.text, border: `1px solid ${lc.border}`,
+                                            textTransform: 'uppercase', letterSpacing: '0.3px',
+                                        }}>{level}</span>
+                                    </div>
                                 );
-                            })()}
-                        </div>
-                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                            {!selectedSportKey && (
-                                <>
-                                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>🏏 {dynamicPlayer.primarySport}</span>
-                                    <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{dynamicPlayer.secondarySport}</span>
-                                </>
-                            )}
-                            {selectedSportKey && (
-                                <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{sportLabel}</span>
-                            )}
-                            {[
-                                `🏟️ ${dynamicPlayer.level} Level`,
-                                `📅 Age ${dynamicPlayer.age}`, `🩸 ${dynamicPlayer.bloodGroup}`,
-                            ].map(tag => (
-                                <span key={tag} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', fontSize: '12px', fontWeight: 600 }}>{tag}</span>
-                            ))}
-                            <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(99,102,241,0.3)', color: '#a5b4fc', fontSize: '12px', fontWeight: 700 }}>⚡ PI: {dynamicPlayer.performanceIndex}/100</span>
-                        </div>
-                    </div>
-                    {/* Contact info (editable) */}
-                    <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '14px', padding: '16px', minWidth: '220px' }}>
-                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', marginBottom: '10px' }}>CONTACT & DETAILS</div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: '#cbd5e1' }}>
-                            <span>📞 {dynamicPlayer.phone}</span>
-                            <span>📧 {dynamicPlayer.email}</span>
-                            <span>📍 {dynamicPlayer.district}, {dynamicPlayer.state}, {dynamicPlayer.country}</span>
-                            <span>👤 {dynamicPlayer.gender}</span>
-                            <span>📏 {dynamicPlayer.height} • {dynamicPlayer.weight}</span>
-                            <span>🏏 {dynamicPlayer.battingStyle}</span>
-                            <span>⚾ {dynamicPlayer.bowlingStyle}</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* ─── Career Overview Stats ─── */}
-                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', marginBottom: '24px' }}>
-                    {overviewStats.map(s => (
-                        <div key={s.label} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '18px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <div style={{ fontSize: '28px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                            <div style={{ fontSize: '11px', color: '#a5b4fc', fontWeight: 600, marginTop: '4px' }}>{s.label}</div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* ─── Section Dropdown ─── */}
-                <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <select
-                        value={activeTab}
-                        onChange={(e) => setActiveTab(e.target.value as any)}
-                        style={{
-                            padding: '12px 20px', borderRadius: '12px', border: '2px solid rgba(99,102,241,0.4)',
-                            background: 'rgba(255,255,255,0.08)', color: '#e2e8f0',
-                            fontWeight: 700, fontSize: '14px', cursor: 'pointer',
-                            outline: 'none', appearance: 'none',
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a5b4fc' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                            backgroundRepeat: 'no-repeat', backgroundPosition: 'right 14px center',
-                            paddingRight: '40px', minWidth: '240px',
-                        }}
-                    >
-                        {profileTabs.map(tab => (
-                            <option key={tab.key} value={tab.key} style={{ background: '#1e1b4b', color: '#e2e8f0' }}>
-                                {tab.label}
-                            </option>
-                        ))}
-                    </select>
-                    <span style={{ fontSize: '12px', color: '#6366f1', fontWeight: 600 }}>
-                        {profileTabs.find(t => t.key === activeTab)?.label}
-                    </span>
-                </div>
-
-                {/* ═══ OVERVIEW TAB ═══ */}
-                {activeTab === 'overview' && (
-                    <div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            {/* Achievements */}
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>🏆 Achievements ({filteredAchievements.length})</h3>
-                                {filteredAchievements.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No achievements yet</div>}
-                                {filteredAchievements.map((a, i) => (
-                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: i < filteredAchievements.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                        <span style={{ fontSize: '24px' }}>{a.icon}</span>
-                                        <div style={{ flex: 1 }}>
-                                            <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{a.title}</div>
-                                            <div style={{ fontSize: '11px', color: '#64748b' }}>{a.date} • {a.sport}</div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Recent Matches */}
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>⚡ Recent Matches</h3>
-                                {filteredMatches.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No matches yet</div>}
-                                {filteredMatches.map((m, i) => (
-                                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < filteredMatches.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                        <div>
-                                            <div style={{ fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>vs {m.opponent}</div>
-                                            <div style={{ fontSize: '11px', color: '#64748b' }}>{m.date} • {m.score}</div>
-                                            <div style={{ fontSize: '11px', color: '#a5b4fc', marginTop: '2px' }}>{m.performance}</div>
-                                        </div>
-                                        <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, background: m.result === 'Won' ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)', color: m.result === 'Won' ? '#22c55e' : '#ef4444' }}>{m.result}</span>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Certificates */}
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏅 Certificates</h3>
-                                {filteredCertificates.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No certificates yet</div>}
-                                {filteredCertificates.map((c, i) => (
-                                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < filteredCertificates.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                        <div>
-                                            <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{c.title}</div>
-                                            <div style={{ fontSize: '10px', color: '#64748b' }}>{c.type} • {c.date}</div>
-                                        </div>
-                                        {c.qr && <span style={{ fontSize: '10px', color: '#22c55e', fontWeight: 600 }}>📱 QR Verified</span>}
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Transfers */}
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)', }}>
-                                <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🔄 Transfers</h3>
-                                {filteredTransfers.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No transfers yet</div>}
-                                {filteredTransfers.map((t, i) => (
-                                    <div key={i} style={{ padding: '8px 0' }}>
-                                        <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{t.from} → {t.to}</div>
-                                        <div style={{ fontSize: '10px', color: '#64748b' }}>{t.date} • {t.status} • <span style={{ color: '#f59e0b' }}>{t.fee}</span></div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Injury History */}
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)', }}>
-                                <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏥 Injury History</h3>
-                                {filteredInjuries.length === 0 && <div style={{ fontSize: '12px', color: '#64748b', padding: '12px 0' }}>No injuries recorded</div>}
-                                {filteredInjuries.map((inj, i) => (
-                                    <div key={i} style={{ padding: '8px 0', borderBottom: i < filteredInjuries.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                        <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{inj.type}</div>
-                                        <div style={{ fontSize: '10px', color: '#64748b' }}>{inj.duration} • {inj.date} • <span style={{ color: '#22c55e' }}>{inj.status}</span></div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                            })
+                        )}
                     </div>
                 )}
 
-                {/* ═══ CRICKET STATS TAB ═══ */}
-                {activeTab === 'cricket' && (
-                    <div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '24px' }}>
-                            {/* Batting */}
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>🏏 Batting Statistics</h3>
-                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
-                                    {[
-                                        { label: 'Innings', value: cs.innings, color: '#6366f1' },
-                                        { label: 'Runs', value: cs.runs.toLocaleString(), color: '#22c55e' },
-                                        { label: 'High Score', value: cs.highScore, color: '#f59e0b' },
-                                        { label: 'Average', value: cs.avg, color: '#ec4899' },
-                                        { label: 'Strike Rate', value: cs.strikeRate, color: '#8b5cf6' },
-                                        { label: 'Centuries', value: cs.centuries, color: '#ef4444' },
-                                        { label: 'Fifties', value: cs.fifties, color: '#14b8a6' },
-                                        { label: 'Fours', value: cs.fours, color: '#0ea5e9' },
-                                        { label: 'Sixes', value: cs.sixes, color: '#f97316' },
-                                    ].map(s => (
-                                        <div key={s.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '14px', textAlign: 'center' }}>
-                                            <div style={{ fontSize: '22px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                                            <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600, marginTop: '2px' }}>{s.label}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Bowling */}
-                            <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                                <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>⚾ Bowling Statistics</h3>
-                                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
-                                    {[
-                                        { label: 'Wickets', value: cs.wickets, color: '#f59e0b' },
-                                        { label: 'Bowl Avg', value: cs.bowlAvg, color: '#22c55e' },
-                                        { label: 'Economy', value: cs.economy, color: '#ef4444' },
-                                        { label: 'Best', value: cs.bestBowling, color: '#6366f1' },
-                                        { label: 'Catches', value: cs.catches, color: '#14b8a6' },
-                                        { label: 'Run Outs', value: cs.runOuts, color: '#ec4899' },
-                                    ].map(s => (
-                                        <div key={s.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '14px', textAlign: 'center' }}>
-                                            <div style={{ fontSize: '22px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                                            <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600, marginTop: '2px' }}>{s.label}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Performance Bar Chart */}
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '16px' }}>📊 Performance Over Last 6 Months</h3>
-                            {cs.matches > 0 ? (
-                                <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', height: '150px' }}>
-                                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                                        <div style={{ fontSize: '11px', fontWeight: 700, color: '#22c55e' }}>{cs.runs}</div>
-                                        <div style={{ width: '100%', background: 'linear-gradient(180deg, #22c55e, #065f46)', borderRadius: '6px 6px 0 0', height: '80px' }} />
-                                        <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>Total</div>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div style={{ textAlign: 'center', padding: '40px 0', color: '#64748b', fontSize: '13px' }}>
-                                    📉 No match data yet. Play cricket matches to see your performance chart!
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                {/* ═══ FOOTBALL STATS TAB ═══ */}
-                {activeTab === 'football' && (
-                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>Football Statistics</h3>
-                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
-                                {[
-                                    { label: 'Matches', value: fs.matches, color: '#6366f1' },
-                                    { label: 'Goals', value: fs.goals, color: '#22c55e' },
-                                    { label: 'Assists', value: fs.assists, color: '#f59e0b' },
-                                    { label: 'Pass Accuracy', value: `${fs.passAccuracy}%`, color: '#ec4899' },
-                                    { label: 'Shots on Target', value: fs.shotsOnTarget, color: '#0ea5e9' },
-                                    { label: 'Minutes Played', value: fs.minutesPlayed.toLocaleString(), color: '#8b5cf6' },
-                                ].map(s => (
-                                    <div key={s.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '14px', textAlign: 'center' }}>
-                                        <div style={{ fontSize: '22px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                                        <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600, marginTop: '2px' }}>{s.label}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '20px', padding: '28px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '20px' }}>🟡 Discipline</h3>
-                            <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px' }}>
-                                {[
-                                    { label: 'Yellow Cards', value: fs.yellowCards, color: '#f59e0b' },
-                                    { label: 'Red Cards', value: fs.redCards, color: '#ef4444' },
-                                ].map(s => (
-                                    <div key={s.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
-                                        <div style={{ fontSize: '36px', fontWeight: 900, color: s.color }}>{s.value}</div>
-                                        <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, marginTop: '4px' }}>{s.label}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* ═══ TOURNAMENT BREAKDOWN TAB ═══ */}
+                {/* ═══════ TOURNAMENTS TAB ═══════ */}
                 {activeTab === 'tournaments' && (
-                    <div style={{ borderRadius: '20px', overflowX: 'auto', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <div style={{ minWidth: '700px' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                <thead>
-                                    <tr style={{ background: 'rgba(255,255,255,0.08)' }}>
-                                        {['Tournament', 'Sport', 'M', 'Runs/Goals', 'Wkts/Ast', 'Catches', 'Best', 'Result'].map(h => (
-                                            <th key={h} style={{ padding: '14px 12px', fontSize: '11px', fontWeight: 700, color: '#94a3b8', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>{h}</th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {filteredTournaments.map((t, i) => (
-                                        <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                                            <td style={{ padding: '14px 12px', fontWeight: 700, fontSize: '13px', color: '#e2e8f0' }}>{t.name}</td>
-                                            <td style={{ padding: '14px 12px' }}>
-                                                <span style={{ padding: '2px 8px', borderRadius: '4px', background: t.sport === 'Cricket' ? 'rgba(99,102,241,0.2)' : 'rgba(239,68,68,0.2)', color: t.sport === 'Cricket' ? '#a5b4fc' : '#fca5a5', fontSize: '11px', fontWeight: 600 }}>{t.sport}</span>
-                                            </td>
-                                            <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8', fontWeight: 700 }}>{t.matches}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 800, color: '#22c55e' }}>{t.sport === 'Cricket' ? t.runs : t.bestScore}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '14px', fontWeight: 700, color: '#f59e0b' }}>{t.sport === 'Cricket' ? t.wickets : '—'}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '13px', color: '#94a3b8' }}>{t.sport === 'Cricket' ? t.catches : '—'}</td>
-                                            <td style={{ padding: '14px 12px', fontSize: '13px', fontWeight: 700, color: '#8b5cf6' }}>{t.bestScore}</td>
-                                            <td style={{ padding: '14px 12px' }}>
-                                                <span style={{ fontSize: '12px', fontWeight: 700 }}>{t.result}</span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                    <div style={{ display: 'grid', gap: '12px' }}>
+                        {tournaments.length === 0 ? (
+                            <div style={{ padding: '50px 20px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9', textAlign: 'center' }}>
+                                <div style={{ fontSize: '40px', marginBottom: '12px' }}>🏆</div>
+                                <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>No tournaments</div>
+                                <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px' }}>Tournament participation will appear here.</div>
+                            </div>
+                        ) : (
+                            tournaments.map((t, i) => {
+                                const statusColor: Record<string, string> = {
+                                    LIVE: '#ef4444', REGISTRATION: '#f59e0b', COMPLETED: '#22c55e', DRAFT: '#94a3b8',
+                                };
+                                return (
+                                    <Link key={i} href={`/tournaments/${t.id}`} style={{
+                                        padding: '16px', borderRadius: '14px', background: 'white',
+                                        border: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: '14px',
+                                        textDecoration: 'none', color: 'inherit',
+                                    }}>
+                                        <div style={{
+                                            width: '44px', height: '44px', borderRadius: '12px',
+                                            background: `${statusColor[t.status] || '#6366f1'}12`,
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px',
+                                        }}>
+                                            {t.status === 'LIVE' ? '🔴' : t.status === 'COMPLETED' ? '✅' : '🏆'}
+                                        </div>
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.name}</div>
+                                            <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+                                                {t.sport?.name || '—'} • {t.format || '—'} • {t._count?.teams || 0} teams
+                                            </div>
+                                        </div>
+                                        <span style={{
+                                            padding: '4px 10px', borderRadius: '8px', fontSize: '10px', fontWeight: 700,
+                                            background: `${statusColor[t.status] || '#6366f1'}12`,
+                                            color: statusColor[t.status] || '#6366f1',
+                                            textTransform: 'uppercase',
+                                        }}>{t.status}</span>
+                                    </Link>
+                                );
+                            })
+                        )}
                     </div>
                 )}
 
-                {/* ═══ HISTORY TAB ═══ */}
+                {/* ═══════ HISTORY TAB ═══════ */}
                 {activeTab === 'history' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏅 Certificates</h3>
-                            {filteredCertificates.map((c, i) => (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < filteredCertificates.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                    <div>
-                                        <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{c.title}</div>
-                                        <div style={{ fontSize: '10px', color: '#64748b' }}>{c.type} • {c.date}</div>
+                    <div style={{ display: 'grid', gap: '14px' }}>
+
+                        {/* Injuries */}
+                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>🏥 Injuries</h3>
+                            {injuries.length === 0 ? (
+                                <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No injury records. Keep it that way! 💪</div>
+                            ) : (
+                                injuries.map((inj: any, i: number) => (
+                                    <div key={i} style={{ display: 'flex', gap: '10px', padding: '8px 0', borderBottom: i < injuries.length - 1 ? '1px solid #f8fafc' : 'none' }}>
+                                        <span style={{ fontSize: '16px' }}>🏥</span>
+                                        <div>
+                                            <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{inj.type || 'Injury'}</div>
+                                            <div style={{ fontSize: '11px', color: '#94a3b8' }}>{inj.date} • {inj.recovery || 'Recovered'}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🔄 Transfers</h3>
-                            {filteredTransfers.map((t, i) => (
-                                <div key={i} style={{ padding: '8px 0' }}>
-                                    <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{t.from} → {t.to}</div>
-                                    <div style={{ fontSize: '10px', color: '#64748b' }}>{t.date} • {t.status} • <span style={{ color: '#f59e0b' }}>{t.fee}</span></div>
-                                </div>
-                            ))}
+
+                        {/* Transfers */}
+                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>🔁 Transfers</h3>
+                            {transfers.length === 0 ? (
+                                <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No transfer history.</div>
+                            ) : (
+                                transfers.map((tr, i) => (
+                                    <div key={i} style={{
+                                        display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 0',
+                                        borderBottom: i < transfers.length - 1 ? '1px solid #f8fafc' : 'none',
+                                    }}>
+                                        <div style={{
+                                            width: '32px', height: '32px', borderRadius: '8px', background: '#f0fdf4',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px',
+                                        }}>🔁</div>
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{tr.from} → {tr.to}</div>
+                                            <div style={{ fontSize: '11px', color: '#94a3b8' }}>{tr.date}</div>
+                                        </div>
+                                        <span style={{
+                                            padding: '3px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 700,
+                                            background: tr.status === 'APPROVED' ? '#f0fdf4' : tr.status === 'PENDING' ? '#fffbeb' : '#fef2f2',
+                                            color: tr.status === 'APPROVED' ? '#16a34a' : tr.status === 'PENDING' ? '#d97706' : '#dc2626',
+                                        }}>{tr.status}</span>
+                                    </div>
+                                ))
+                            )}
                         </div>
-                        <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>🏥 Injury History</h3>
-                            {filteredInjuries.map((inj, i) => (
-                                <div key={i} style={{ padding: '8px 0', borderBottom: i < filteredInjuries.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                                    <div style={{ fontWeight: 600, fontSize: '12px', color: '#e2e8f0' }}>{inj.type}</div>
-                                    <div style={{ fontSize: '10px', color: '#64748b' }}>{inj.duration} • {inj.date} • <span style={{ color: '#22c55e' }}>{inj.status}</span></div>
+
+                        {/* Certificates */}
+                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>📜 Certificates</h3>
+                            {certificates.length === 0 ? (
+                                <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No certificates yet.</div>
+                            ) : (
+                                certificates.map((cert, i) => (
+                                    <div key={i} style={{
+                                        display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 0',
+                                        borderBottom: i < certificates.length - 1 ? '1px solid #f8fafc' : 'none',
+                                    }}>
+                                        <div style={{
+                                            width: '32px', height: '32px', borderRadius: '8px',
+                                            background: cert.type === 'WINNER' ? '#fffbeb' : '#f0f0ff',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px',
+                                        }}>{cert.type === 'WINNER' ? '🏆' : cert.type === 'AWARD' ? '🏅' : '📜'}</div>
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{cert.title}</div>
+                                            <div style={{ fontSize: '11px', color: '#94a3b8' }}>{cert.type} • {cert.date}</div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Awards / Achievements */}
+                        <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>🥇 Awards</h3>
+                            {achievements.length === 0 ? (
+                                <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No awards yet. Keep grinding!</div>
+                            ) : (
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+                                    {achievements.map((a, i) => (
+                                        <div key={i} style={{
+                                            padding: '14px', borderRadius: '12px', background: '#fffbeb',
+                                            border: '1px solid #fef3c7', textAlign: 'center',
+                                        }}>
+                                            <div style={{ fontSize: '24px', marginBottom: '6px' }}>{a.icon}</div>
+                                            <div style={{ fontSize: '12px', fontWeight: 700, color: '#92400e' }}>{a.title}</div>
+                                            <div style={{ fontSize: '10px', color: '#b45309', marginTop: '2px' }}>{a.date}</div>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </div>
                 )}
             </div>
-        </div >
+        </div>
     );
 }
