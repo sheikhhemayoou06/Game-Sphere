@@ -41,23 +41,6 @@ export default function CertificatesPage() {
 
     const filteredCertificates = selectedSport ? certificates.filter(c => !c.sportName || c.sportName === selectedSport.name) : certificates;
 
-    // --- Mock Data ---
-    const hasCerts = filteredCertificates.length > 0;
-
-    // Grouping strictly for UI demonstration
-    const mockCerts = hasCerts ? filteredCertificates : [
-        { id: 'c-1', level: 'National', title: 'National Championship Runner Up', sportName: sportLabel, date: 'Oct 2026', code: 'N1X92D' },
-        { id: 'c-2', level: 'State', title: 'State Finals Qualifier', sportName: sportLabel, date: 'Aug 2026', code: 'S3B71L' },
-        { id: 'c-3', level: 'District', title: 'District MVP Certificate', sportName: sportLabel, date: 'May 2026', code: 'D9A44M' },
-        { id: 'c-4', level: 'Local', title: 'Summer League Participant', sportName: sportLabel, date: 'Mar 2026', code: 'L2C88X' },
-    ];
-
-    const mockAwards = [
-        { id: 'a-1', type: 'POT', title: 'Player of the Tournament', subtitle: `Global ${sportLabel} Championship 2026`, color: '#ca8a04', bg: '#fefce8' },
-        { id: 'a-2', type: 'POM', title: 'Player of the Match', subtitle: 'Finals vs Mumbai Indians', color: '#0284c7', bg: '#f0f9ff' },
-        { id: 'a-3', type: 'RANKING', title: 'Game Sphere #1 Ranked', subtitle: sportLabel === 'Cricket' ? 'No. 1 Batsman' : `Top Ranked ${sportLabel} Player`, color: '#16a34a', bg: '#f0fdf4' },
-    ];
-
     const getLevelColor = (level: string) => {
         switch (level.toLowerCase()) {
             case 'national': return { text: '#b91c1c', bg: '#fef2f2', border: '#f87171' };
@@ -119,44 +102,54 @@ export default function CertificatesPage() {
                         </div>
 
                         {/* Certificates List */}
-                        <div style={{ display: 'grid', gap: '16px' }}>
-                            {mockCerts.map((cert) => {
-                                const level = cert.level || 'Local';
-                                const theme = getLevelColor(level);
-                                return (
-                                    <div key={cert.id} style={{
-                                        background: 'white', borderRadius: '16px', padding: '24px',
-                                        border: '1px solid #e2e8f0', borderLeft: `6px solid ${theme.border}`,
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', gap: '16px',
-                                        transition: 'transform 0.2s'
-                                    }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                <div style={{ fontWeight: 800, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: theme.text, background: theme.bg, padding: '6px 14px', borderRadius: '8px' }}>
-                                                    {level} Level
+                        {filteredCertificates.length > 0 ? (
+                            <div style={{ display: 'grid', gap: '16px' }}>
+                                {filteredCertificates.map((cert) => {
+                                    const level = cert.level || 'Local';
+                                    const theme = getLevelColor(level);
+                                    return (
+                                        <div key={cert.id} style={{
+                                            background: 'white', borderRadius: '16px', padding: '24px',
+                                            border: '1px solid #e2e8f0', borderLeft: `6px solid ${theme.border}`,
+                                            boxShadow: '0 4px 12px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', gap: '16px',
+                                            transition: 'transform 0.2s'
+                                        }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                    <div style={{ fontWeight: 800, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: theme.text, background: theme.bg, padding: '6px 14px', borderRadius: '8px' }}>
+                                                        {level} Level
+                                                    </div>
+                                                </div>
+                                                {/* Verified Badge */}
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#16a34a', background: '#f0fdf4', padding: '6px 12px', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
+                                                    <CheckCircle2 size={16} strokeWidth={3} />
+                                                    <span style={{ fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Verified</span>
                                                 </div>
                                             </div>
-                                            {/* Verified Badge */}
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#16a34a', background: '#f0fdf4', padding: '6px 12px', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
-                                                <CheckCircle2 size={16} strokeWidth={3} />
-                                                <span style={{ fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Verified</span>
+
+                                            <div>
+                                                <div style={{ fontSize: '20px', fontWeight: 900, color: '#1e293b', marginBottom: '4px' }}>{cert.title || cert.recipientName || 'Certificate of Achievement'}</div>
+                                                <div style={{ fontSize: '14px', color: '#64748b', fontWeight: 600 }}>{cert.sportName || sportLabel} • Issued {cert.date || new Date().getFullYear()}</div>
+                                            </div>
+
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px dashed #e2e8f0', paddingTop: '16px', marginTop: '4px' }}>
+                                                <div style={{ fontSize: '12px', color: '#94a3b8', fontFamily: 'monospace', fontWeight: 700, letterSpacing: '1px' }}>
+                                                    ID: {cert.code || cert.verificationCode?.slice(0, 8) || 'VERIFIED-DOC'}
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div>
-                                            <div style={{ fontSize: '20px', fontWeight: 900, color: '#1e293b', marginBottom: '4px' }}>{cert.title || cert.recipientName || 'Certificate of Achievement'}</div>
-                                            <div style={{ fontSize: '14px', color: '#64748b', fontWeight: 600 }}>{cert.sportName || sportLabel} • Issued {cert.date || '2026'}</div>
-                                        </div>
-
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px dashed #e2e8f0', paddingTop: '16px', marginTop: '4px' }}>
-                                            <div style={{ fontSize: '12px', color: '#94a3b8', fontFamily: 'monospace', fontWeight: 700, letterSpacing: '1px' }}>
-                                                ID: {cert.code || cert.verificationCode?.slice(0, 8) || 'VERIFIED-DOC'}
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <div style={{ padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                                <div style={{ fontSize: '40px', marginBottom: '16px', opacity: 0.5 }}>📜</div>
+                                <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No Certificates Found</div>
+                                <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px' }}>
+                                    You have not been issued any certificates for {sportLabel} yet.
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
 
@@ -177,32 +170,12 @@ export default function CertificatesPage() {
                         </div>
 
                         {/* Awards Feed */}
-                        <div style={{ display: 'grid', gap: '16px' }}>
-                            {mockAwards.map((award) => (
-                                <div key={award.id} style={{
-                                    background: award.bg, borderRadius: '20px', padding: '24px',
-                                    border: `1px solid ${award.color}30`, display: 'flex', alignItems: 'center', gap: '24px',
-                                    position: 'relative', overflow: 'hidden'
-                                }}>
-                                    {/* Icon */}
-                                    <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', border: `2px solid ${award.color}40`, flexShrink: 0, boxShadow: `0 8px 16px ${award.color}15`, zIndex: 2 }}>
-                                        {award.type === 'POT' ? <Trophy size={32} color={award.color} /> : award.type === 'POM' ? <Medal size={32} color={award.color} /> : <Crown size={32} color={award.color} />}
-                                    </div>
-
-                                    <div style={{ flex: 1, zIndex: 2 }}>
-                                        <div style={{ fontSize: '11px', fontWeight: 900, color: award.color, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>
-                                            {award.type === 'POT' ? 'Tournament MVP' : award.type === 'POM' ? 'Match MVP' : 'Global Ranking'}
-                                        </div>
-                                        <div style={{ fontSize: '22px', fontWeight: 900, color: '#1e293b', marginBottom: '4px', lineHeight: 1.2 }}>{award.title}</div>
-                                        <div style={{ fontSize: '14px', color: '#475569', fontWeight: 600 }}>{award.subtitle}</div>
-                                    </div>
-
-                                    {/* Decorative watermark */}
-                                    <div style={{ position: 'absolute', right: '-20px', top: '50%', transform: 'translateY(-50%)', opacity: 0.05, fontSize: '120px', zIndex: 1, pointerEvents: 'none' }}>
-                                        {award.type === 'POT' ? '🏆' : award.type === 'POM' ? '🏅' : '👑'}
-                                    </div>
-                                </div>
-                            ))}
+                        <div style={{ padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                            <div style={{ fontSize: '40px', marginBottom: '16px', opacity: 0.5 }}>🏆</div>
+                            <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No Awards Yet</div>
+                            <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px' }}>
+                                Keep playing to earn Player of the Match and Tournament honors!
+                            </div>
                         </div>
                     </div>
                 )}
