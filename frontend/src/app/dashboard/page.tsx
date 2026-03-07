@@ -1407,10 +1407,19 @@ export default function DashboardPage() {
                     )
                 }
 
-                {/* ─── Advertisement Bar (Player Only) ─── */}
+                {/* ─── Advertisement Bar ─── */}
                 {
-                    roleGroup === 'player' && (() => {
+                    (() => {
                         const ADS = [
+                            {
+                                tag: "GameSphere Built",
+                                title: "Play Hard, Live Clean. A Drug-Free Society.",
+                                desc: "Empowering athletes and building a healthier world through sports. Developed with passion by Sheikh Hemayoou.",
+                                link: "/about", btn: "Learn More",
+                                bg: "linear-gradient(135deg, #0f172a, #1e293b)",
+                                accent1: "rgba(56, 189, 248, 0.15)", accent2: "rgba(168, 85, 247, 0.1)",
+                                textHighlight: "#38bdf8", btnBg: "#38bdf8", btnText: "#0f172a"
+                            },
                             {
                                 tag: "Pro Shop Offers",
                                 title: "Level Up Your Equipment",
