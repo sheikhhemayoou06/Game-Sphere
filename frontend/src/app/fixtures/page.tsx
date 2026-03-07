@@ -29,9 +29,10 @@ export default function FixturesPage() {
             api.getMatches().catch(() => []),
             api.getMyTeams().catch(() => []), // user's teams
         ]).then(([t, m, teams]) => {
+            const currentSportName = useSportStore.getState().selectedSport?.name || 'All Sports';
             const finalTournaments = t && t.length > 0 ? t : [
-                { id: 't-mock-1', name: 'Champions League 2026', sport: { name: 'Football' } },
-                { id: 't-mock-2', name: 'World Cup Qualifiers', sport: { name: 'Cricket' } }
+                { id: 't-mock-1', name: `${currentSportName === 'All Sports' ? 'Global' : currentSportName} Championship 2026`, sport: { name: currentSportName === 'All Sports' ? 'General' : currentSportName } },
+                { id: 't-mock-2', name: `${currentSportName === 'All Sports' ? 'Pro' : currentSportName} Regional League`, sport: { name: currentSportName === 'All Sports' ? 'General' : currentSportName } }
             ];
             setTournaments(finalTournaments);
 
