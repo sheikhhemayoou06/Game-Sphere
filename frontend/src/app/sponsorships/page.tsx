@@ -93,10 +93,10 @@ function SponsorshipsContent() {
                     {currentTabDef.label}
                 </h1>
                 <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '24px' }}>
-                    {activeTab === 'active' && `Manage your active ${sportLabel} sponsorships.`}
-                    {activeTab === 'requests' && `Review incoming ${sportLabel} sponsorship offers.`}
+                    {activeTab === 'active' && `Manage your active sponsorships.`}
+                    {activeTab === 'requests' && `Review incoming sponsorship offers.`}
                     {activeTab === 'apply' && `Submit a new proposal to potential sponsors.`}
-                    {activeTab === 'previous' && `History of your expired ${sportLabel} sponsorships.`}
+                    {activeTab === 'previous' && `History of your expired sponsorships.`}
                 </p>
 
                 {/* ACTIVE TAB */}
@@ -108,7 +108,7 @@ function SponsorshipsContent() {
                             </div>
                             <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No Active Sponsors</div>
                             <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px', maxWidth: '300px', margin: '8px auto 0' }}>
-                                You currently have no active {sportLabel} sponsorship deals. Apply to secure funding.
+                                You currently have no active sponsorship deals. Apply to secure funding.
                             </div>
                             <button
                                 onClick={() => setActiveTab('apply')}
@@ -129,7 +129,7 @@ function SponsorshipsContent() {
                             </div>
                             <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No New Requests</div>
                             <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px', maxWidth: '300px', margin: '8px auto 0' }}>
-                                You have no pending {sportLabel} offers to review at this time.
+                                You have no pending offers to review at this time.
                             </div>
                         </div>
                     ) : null
@@ -139,7 +139,7 @@ function SponsorshipsContent() {
                 {activeTab === 'apply' && (
                     !selectedSponsorForApp ? (
                         <div style={{ display: 'grid', gap: '16px' }}>
-                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#1e293b', marginBottom: '8px' }}>Available {sportLabel} Sponsors</h3>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#1e293b', marginBottom: '8px' }}>Available Sponsors</h3>
                             {AVAILABLE_SPONSORS.map(sp => (
                                 <div key={sp.id} style={{
                                     background: 'white', borderRadius: '16px', padding: '20px',
@@ -244,7 +244,7 @@ function SponsorshipsContent() {
                             </div>
                             <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No History Found</div>
                             <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px', maxWidth: '300px', margin: '8px auto 0' }}>
-                                You don't have any past {sportLabel} sponsorships recorded.
+                                You don't have any past sponsorships recorded.
                             </div>
                         </div>
                     ) : null
