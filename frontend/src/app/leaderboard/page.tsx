@@ -22,7 +22,7 @@ export default function LeaderboardPage() {
     );
 }
 
-type TabKey = 'runs' | 'wickets' | 'mvp' | 'emerging';
+type TabKey = 'runs' | 'wickets' | 'allRounder' | 'mvp' | 'emerging' | 'pot';
 
 function LeaderboardContent() {
     const { selectedSport } = useSportStore();
@@ -81,8 +81,10 @@ function LeaderboardContent() {
     const TABS: { key: TabKey; label: string; icon: any; propKey: string; statLabel: string; valueIcon: string; highlight: string }[] = [
         { key: 'runs', label: 'Most Runs', icon: <span style={{ fontSize: '18px' }}>🏏</span>, propKey: 'mostRuns', statLabel: 'Runs', valueIcon: '🏏', highlight: '#f59e0b' },
         { key: 'wickets', label: 'Most Wickets', icon: <span style={{ fontSize: '18px' }}>🎯</span>, propKey: 'mostWickets', statLabel: 'Wickets', valueIcon: '🎯', highlight: '#ef4444' },
+        { key: 'allRounder', label: 'Best All Rounder', icon: <span style={{ fontSize: '18px' }}>⚡</span>, propKey: 'bestAllRounder', statLabel: 'Points', valueIcon: '⚡', highlight: '#0ea5e9' },
         { key: 'mvp', label: 'MVP', icon: <span style={{ fontSize: '18px' }}>⭐</span>, propKey: 'mvp', statLabel: 'Points', valueIcon: '⭐', highlight: '#8b5cf6' },
         { key: 'emerging', label: 'Emerging', icon: <span style={{ fontSize: '18px' }}>🌟</span>, propKey: 'emergingPlayer', statLabel: 'Points', valueIcon: '🌟', highlight: '#22c55e' },
+        { key: 'pot', label: 'Player of Tourney', icon: <span style={{ fontSize: '18px' }}>🏆</span>, propKey: 'playerOfTournament', statLabel: 'Points', valueIcon: '🏆', highlight: '#fbbf24' },
     ];
 
     const currentTabDef = TABS.find(t => t.key === activeTab)!;
