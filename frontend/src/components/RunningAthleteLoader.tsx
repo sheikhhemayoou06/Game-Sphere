@@ -1,63 +1,68 @@
 import React from 'react';
 
-export default function RunningAthleteLoader() {
+export default function ProfessionalLoader() {
     return (
         <div style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '16px',
-            padding: '40px'
+            padding: '40px',
+            gap: '24px'
         }}>
             <style>{`
-        @keyframes custom-run {
-          0% { transform: translateY(0) rotate(0deg); }
-          25% { transform: translateY(-8px) rotate(10deg); }
-          50% { transform: translateY(0) rotate(0deg); }
-          75% { transform: translateY(-8px) rotate(-10deg); }
-          100% { transform: translateY(0) rotate(0deg); }
-        }
-        .athlete-run-anim {
-          animation: custom-run 0.6s ease-in-out infinite;
-          color: #4f46e5;
-          filter: drop-shadow(0px 4px 6px rgba(79, 70, 229, 0.4));
-        }
-      `}</style>
+                @keyframes pro-spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                @keyframes pro-pulse {
+                    0%, 100% { opacity: 1; transform: scale(1); }
+                    50% { opacity: 0.6; transform: scale(0.95); }
+                }
+            `}</style>
 
-            <div className="athlete-run-anim">
-                <svg width="68" height="68" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round">
-                    {/* Speed lines */}
-                    <path d="M 30 22 L 20 22" />
-                    <path d="M 32 36 L 8 36" />
-                    <path d="M 36 50 L 20 50" />
+            <div style={{ position: 'relative', width: '64px', height: '64px' }}>
+                {/* Clean background track */}
+                <div style={{
+                    position: 'absolute', inset: 0,
+                    borderRadius: '50%',
+                    border: '3px solid #f1f5f9'
+                }} />
 
-                    {/* Head */}
-                    <circle cx="78" cy="18" r="9" fill="currentColor" stroke="none" />
+                {/* Premium rotating gradient indicator */}
+                <div style={{
+                    position: 'absolute', inset: 0,
+                    borderRadius: '50%',
+                    border: '3px solid transparent',
+                    borderTopColor: '#0ea5e9',
+                    borderRightColor: '#6366f1',
+                    animation: 'pro-spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite'
+                }} />
 
-                    {/* Back Arm (L-shape pointing left-down) */}
-                    <path d="M 64 30 L 42 30 L 50 48" />
-
-                    {/* Torso & Front Leg */}
-                    <path d="M 64 30 L 46 56 L 72 76 L 42 84" />
-
-                    {/* Front Arm (L-shape pointing down-right) */}
-                    <path d="M 64 30 L 68 54 L 88 52" />
-
-                    {/* Back Leg (straight down-left) */}
-                    <path d="M 46 56 L 12 88" />
-                </svg>
+                {/* Minimalist central anchor processing dot */}
+                <div style={{
+                    position: 'absolute', inset: 0,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    animation: 'pro-pulse 2s ease-in-out infinite'
+                }}>
+                    <div style={{
+                        width: '12px', height: '12px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
+                        boxShadow: '0 2px 8px rgba(99, 102, 241, 0.3)'
+                    }} />
+                </div>
             </div>
 
             <div style={{
-                fontSize: '16px',
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #4f46e5, #ec4899)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                letterSpacing: '1px'
+                fontSize: '13px',
+                fontWeight: 600,
+                color: '#64748b',
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                animation: 'pro-pulse 2s ease-in-out infinite'
             }}>
-                LOADING...
+                Processing
             </div>
         </div>
     );
