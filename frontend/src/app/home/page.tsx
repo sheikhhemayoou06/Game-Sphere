@@ -122,13 +122,7 @@ export default function HomePage() {
 
           <div style={{ height: '1px', background: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)', margin: '8px 0' }} />
 
-          <Link href="/subscription" onClick={() => setMenuOpen(false)} style={{
-            display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', borderRadius: '12px',
-            textDecoration: 'none', color: dark ? 'rgba(255,255,255,0.8)' : '#475569', fontWeight: 600, fontSize: '15px',
-            background: 'transparent'
-          }}>
-            Subscription
-          </Link>
+
           <Link href="/rankings" onClick={() => setMenuOpen(false)} style={{
             display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', borderRadius: '12px',
             textDecoration: 'none', color: dark ? 'rgba(255,255,255,0.8)' : '#475569', fontWeight: 600, fontSize: '15px',
