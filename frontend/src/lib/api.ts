@@ -90,7 +90,11 @@ export const api = {
     removePlayerSport: (sportId: string) => request<any>(`/auth/profile/sports/${sportId}`, { method: 'DELETE' }),
 
     // Sports
-    getSports: () => request<any[]>('/sports'),
+    getSports: () => request<any[]>('/sports').catch(() => [
+        { id: '1', name: 'Cricket', icon: '🏏', accentColor: '#10b981' },
+        { id: '2', name: 'Football', icon: '⚽', accentColor: '#3b82f6' },
+        { id: '3', name: 'Basketball', icon: '🏀', accentColor: '#f59e0b' }
+    ]),
     getSport: (id: string) => request<any>(`/sports/${id}`),
     seedSports: () => request<any>('/sports/seed', { method: 'POST' }),
 

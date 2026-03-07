@@ -31,7 +31,7 @@ const SPORT_ROLES: Record<string, string[]> = {
 
 const SPORT_FORMATS: Record<string, string[]> = {
     'Cricket': ['Test', 'ODI', 'T20', 'T10'],
-    'Football': ['League', 'Cup', 'Friendly'],
+    'Football': ['11 Player', '9A Side', '7 Side'],
     'Basketball': ['Regular Season', 'Playoffs'],
     'Tennis': ['Grand Slam', 'Masters', 'Pro Circuit']
 };
@@ -39,17 +39,19 @@ const SPORT_FORMATS: Record<string, string[]> = {
 function RankingsContent() {
     const { selectedSport } = useSportStore();
     const sportLabel = selectedSport?.name || 'Cricket';
+    const normalizedSport = sportLabel.trim().toLowerCase();
+
+    // Case-insensitive matching for Roles & Formats
+    const matchedRoleKey = Object.keys(SPORT_ROLES).find(k => k.toLowerCase() === normalizedSport);
+    const matchedFormatKey = Object.keys(SPORT_FORMATS).find(k => k.toLowerCase() === normalizedSport);
+
+    const playerRoles = matchedRoleKey ? SPORT_ROLES[matchedRoleKey] : ['Offense', 'Defense', 'Utility'];
+    const teamFormats = matchedFormatKey ? SPORT_FORMATS[matchedFormatKey] : ['Standard', 'Short Format', 'Exhibition'];
 
     const [activeTab, setActiveTab] = useState<TabKey>('players');
+    const [activeRole, setActiveRole] = useState<string>(playerRoles[0] || '');
+    const [activeFormat, setActiveFormat] = useState<string>(teamFormats[0] || '');
 
-    // Dynamic Sub-tabs logic based on sport context
-    const playerRoles = SPORT_ROLES[sportLabel] || ['Offense', 'Defense', 'Utility'];
-    const teamFormats = SPORT_FORMATS[sportLabel] || ['Standard', 'Short Format', 'Exhibition'];
-
-    const [activeRole, setActiveRole] = useState<string>(playerRoles[0]);
-    const [activeFormat, setActiveFormat] = useState<string>(teamFormats[0]);
-
-    // Ensure state resets intelligently if the sport context globally changes underneath the view
     useEffect(() => {
         if (!playerRoles.includes(activeRole)) setActiveRole(playerRoles[0]);
         if (!teamFormats.includes(activeFormat)) setActiveFormat(teamFormats[0]);
@@ -63,26 +65,53 @@ function RankingsContent() {
 
     // MOCK GENERATORS for Data (empty handles clean states if no data exists)
     const mockPlayers = [
-        { id: 1, name: 'Virat Singh', subText: 'Mumbai Indians', gsp: 942, trend: 15, role: 'Batsman' },
-        { id: 2, name: 'David W.', subText: 'Delhi Capitals', gsp: 910, trend: -5, role: 'Batsman' },
-        { id: 3, name: 'Bumrah J.', subText: 'Mumbai Indians', gsp: 890, trend: 22, role: 'Bowler' },
-        { id: 4, name: 'Rashid K.', subText: 'Gujarat Titans', gsp: 865, trend: 8, role: 'Bowler' },
-        { id: 5, name: 'Hardik P.', subText: 'Mumbai Indians', gsp: 915, trend: 0, role: 'All Rounder' },
-        { id: 6, name: 'Lionel M.', subText: 'Inter Miami', gsp: 980, trend: 10, role: 'Striker' },
-    ].filter(p => playerRoles.includes(p.role) && p.role === activeRole);
+        // Cricket
+        { id: 1, name: 'Virat Singh', sport: 'cricket', subText: 'Mumbai Indians', gsp: 942, trend: 15, role: 'Batsman' },
+        { id: 2, name: 'David W.', sport: 'cricket', subText: 'Delhi Capitals', gsp: 910, trend: -5, role: 'Batsman' },
+        { id: 3, name: 'Bumrah J.', sport: 'cricket', subText: 'Mumbai Indians', gsp: 890, trend: 22, role: 'Bowler' },
+        { id: 4, name: 'Rashid K.', sport: 'cricket', subText: 'Gujarat Titans', gsp: 865, trend: 8, role: 'Bowler' },
+        { id: 5, name: 'Hardik P.', sport: 'cricket', subText: 'Mumbai Indians', gsp: 915, trend: 0, role: 'All Rounder' },
+        // Football
+        { id: 6, name: 'Lionel Messi', sport: 'football', subText: 'Inter Miami', gsp: 980, trend: 10, role: 'Striker' },
+        { id: 7, name: 'K. Mbappe', sport: 'football', subText: 'Real Madrid', gsp: 975, trend: 15, role: 'Striker' },
+        { id: 8, name: 'K. De Bruyne', sport: 'football', subText: 'Manchester City', gsp: 950, trend: -2, role: 'Midfielder' },
+        { id: 9, name: 'V. van Dijk', sport: 'football', subText: 'Liverpool', gsp: 910, trend: 5, role: 'Defender' },
+        { id: 10, name: 'Alisson B.', sport: 'football', subText: 'Liverpool', gsp: 890, trend: 12, role: 'Goalkeeper' },
+        // Basketball
+        { id: 11, name: 'Stephen Curry', sport: 'basketball', subText: 'Warriors', gsp: 960, trend: 20, role: 'Point Guard' },
+        { id: 12, name: 'LeBron James', sport: 'basketball', subText: 'Lakers', gsp: 945, trend: 5, role: 'Forward' },
+        { id: 13, name: 'N. Jokic', sport: 'basketball', subText: 'Nuggets', gsp: 970, trend: 15, role: 'Center' },
+    ].filter(p => playerRoles.includes(p.role) && p.role === activeRole && p.sport === normalizedSport);
 
     const mockTeams = [
-        { id: 1, name: 'Mumbai Indians', subText: 'India', matches: 144, gsp: 8400, trend: 120, format: 'T20' },
-        { id: 2, name: 'Chennai Super Kings', subText: 'India', matches: 142, gsp: 8250, trend: -40, format: 'T20' },
-        { id: 3, name: 'Australia National', subText: 'World', matches: 840, gsp: 12400, trend: 210, format: 'Test' },
-        { id: 4, name: 'Real Madrid', subText: 'Spain', matches: 38, gsp: 9500, trend: 300, format: 'League' },
-    ].filter(t => teamFormats.includes(t.format) && t.format === activeFormat);
+        // Cricket
+        { id: 1, name: 'Mumbai Indians', sport: 'cricket', subText: 'India', matches: 144, gsp: 8400, trend: 120, format: 'T20' },
+        { id: 2, name: 'Chennai Super Kings', sport: 'cricket', subText: 'India', matches: 142, gsp: 8250, trend: -40, format: 'T20' },
+        { id: 3, name: 'Australia National', sport: 'cricket', subText: 'World', matches: 840, gsp: 12400, trend: 210, format: 'Test' },
+        { id: 4, name: 'India National', sport: 'cricket', subText: 'World', matches: 850, gsp: 12350, trend: 180, format: 'Test' },
+        { id: 5, name: 'England National', sport: 'cricket', subText: 'World', matches: 600, gsp: 9200, trend: -100, format: 'ODI' },
+        // Football
+        { id: 6, name: 'Real Madrid', sport: 'football', subText: 'Spain', matches: 38, gsp: 9500, trend: 300, format: '11 Player' },
+        { id: 7, name: 'Manchester City', sport: 'football', subText: 'England', matches: 38, gsp: 9400, trend: 150, format: '11 Player' },
+        { id: 8, name: 'Bayern Munich', sport: 'football', subText: 'Germany', matches: 34, gsp: 9100, trend: -50, format: '11 Player' },
+        { id: 9, name: 'Argentina National', sport: 'football', subText: 'World', matches: 12, gsp: 10500, trend: 400, format: '9A Side' },
+        { id: 10, name: 'France National', sport: 'football', subText: 'World', matches: 14, gsp: 10200, trend: 100, format: '7 Side' },
+        // Basketball
+        { id: 11, name: 'Boston Celtics', sport: 'basketball', subText: 'USA', matches: 82, gsp: 8900, trend: 250, format: 'Regular Season' },
+        { id: 12, name: 'Denver Nuggets', sport: 'basketball', subText: 'USA', matches: 82, gsp: 8800, trend: -120, format: 'Regular Season' },
+        { id: 13, name: 'LA Lakers', sport: 'basketball', subText: 'USA', matches: 20, gsp: 9300, trend: 400, format: 'Playoffs' },
+    ].filter(t => teamFormats.includes(t.format) && t.format === activeFormat && t.sport === normalizedSport);
 
     const mockTournaments = [
-        { id: 1, name: 'Indian Premier League (IPL)', org: 'BCCI', rating: 98.5 },
-        { id: 2, name: 'World Cup 2023', org: 'ICC', rating: 97.2 },
-        { id: 3, name: 'Champions League', org: 'UEFA', rating: 99.1 },
-    ]; // In production, we'd filter these by sport too.
+        { id: 1, name: 'Indian Premier League (IPL)', org: 'BCCI', rating: 98.5, sport: 'cricket' },
+        { id: 2, name: 'World Cup 2023', org: 'ICC', rating: 97.2, sport: 'cricket' },
+        { id: 3, name: 'Big Bash League', org: 'CA', rating: 92.1, sport: 'cricket' },
+        { id: 4, name: 'Champions League', org: 'UEFA', rating: 99.1, sport: 'football' },
+        { id: 5, name: 'Premier League', org: 'FA', rating: 98.0, sport: 'football' },
+        { id: 6, name: 'FIFA World Cup', org: 'FIFA', rating: 100.0, sport: 'football' },
+        { id: 7, name: 'NBA Finals', org: 'NBA', rating: 99.5, sport: 'basketball' },
+        { id: 8, name: 'EuroLeague', org: 'FIBA', rating: 94.0, sport: 'basketball' },
+    ].filter(t => t.sport === normalizedSport);
 
     const TrendIndicator = ({ value }: { value: number }) => {
         if (value > 0) return <span style={{ color: '#22c55e', display: 'flex', alignItems: 'center', gap: '2px', fontSize: '13px', fontWeight: 700 }}><TrendingUp size={14} strokeWidth={3} /> +{value}</span>;

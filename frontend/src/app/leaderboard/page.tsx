@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useSportStore } from '@/lib/store';
 import PageNavbar from '@/components/PageNavbar';
-import { Search as SearchIcon, ChevronDown, Trophy, Medal, Crown, Star, TrendingUp, Target, Zap, Award, Sparkles } from 'lucide-react';
+import { Search as SearchIcon, ChevronDown, Trophy, Medal, Crown, Star, TrendingUp, Target, Zap, Award, Sparkles, Shield } from 'lucide-react';
 
 export default function LeaderboardPage() {
     return (
@@ -22,11 +22,10 @@ export default function LeaderboardPage() {
     );
 }
 
-type TabKey = 'runs' | 'wickets' | 'allRounder' | 'mvp' | 'emerging' | 'pot';
-
 function LeaderboardContent() {
     const { selectedSport } = useSportStore();
     const sportLabel = selectedSport?.name || 'Cricket';
+    const normalizedSport = sportLabel.trim().toLowerCase();
 
     // Data state
     const [tournaments, setTournaments] = useState<any[]>([]);
@@ -35,7 +34,6 @@ function LeaderboardContent() {
     // Selection state
     const [selectedTournamentId, setSelectedTournamentId] = useState<string>('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [activeTab, setActiveTab] = useState<TabKey>('runs');
 
     // Leaderboard state
     const [playerData, setPlayerData] = useState<any>(null);
@@ -77,17 +75,53 @@ function LeaderboardContent() {
 
     const activeTournament = tournaments.find(t => t.id === selectedTournamentId);
 
-    // TABS definition matching user request
-    const TABS: { key: TabKey; label: string; icon: any; propKey: string; statLabel: string; valueIcon: any; watermarkIcon: any; highlight: string }[] = [
-        { key: 'runs', label: 'Most Runs', icon: <TrendingUp size={20} />, propKey: 'mostRuns', statLabel: 'Runs', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#f59e0b' },
-        { key: 'wickets', label: 'Most Wickets', icon: <Target size={20} />, propKey: 'mostWickets', statLabel: 'Wickets', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
-        { key: 'allRounder', label: 'Best All Rounder', icon: <Zap size={20} />, propKey: 'bestAllRounder', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#0ea5e9' },
-        { key: 'mvp', label: 'MVP', icon: <Award size={20} />, propKey: 'mvp', statLabel: 'Points', valueIcon: <Award size={16} strokeWidth={3} />, watermarkIcon: <Award size={140} />, highlight: '#8b5cf6' },
-        { key: 'emerging', label: 'Emerging', icon: <Sparkles size={20} />, propKey: 'emergingPlayer', statLabel: 'Points', valueIcon: <Sparkles size={16} strokeWidth={3} />, watermarkIcon: <Sparkles size={140} />, highlight: '#22c55e' },
-        { key: 'pot', label: 'Player of Tourney', icon: <Trophy size={20} />, propKey: 'playerOfTournament', statLabel: 'Points', valueIcon: <Trophy size={16} strokeWidth={3} />, watermarkIcon: <Trophy size={140} />, highlight: '#fbbf24' },
-    ];
+    const getSportSpecificTabs = () => {
+        const defaultTabs = [
+            { key: 'mvp', label: 'MVP', icon: <Award size={20} />, propKey: 'mvp', statLabel: 'Points', valueIcon: <Award size={16} strokeWidth={3} />, watermarkIcon: <Award size={140} />, highlight: '#8b5cf6' },
+            { key: 'emerging', label: 'Emerging', icon: <Sparkles size={20} />, propKey: 'emergingPlayer', statLabel: 'Points', valueIcon: <Sparkles size={16} strokeWidth={3} />, watermarkIcon: <Sparkles size={140} />, highlight: '#22c55e' },
+            { key: 'pot', label: 'Player of Tourney', icon: <Trophy size={20} />, propKey: 'playerOfTournament', statLabel: 'Points', valueIcon: <Trophy size={16} strokeWidth={3} />, watermarkIcon: <Trophy size={140} />, highlight: '#fbbf24' },
+        ];
 
-    const currentTabDef = TABS.find(t => t.key === activeTab)!;
+        if (normalizedSport === 'football') {
+            return [
+                { key: 'striker', label: 'Best Striker', icon: <Target size={20} />, propKey: 'bestStriker', statLabel: 'Points', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                { key: 'midfielder', label: 'Best Midfielder', icon: <TrendingUp size={20} />, propKey: 'bestMidfielder', statLabel: 'Points', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#0ea5e9' },
+                { key: 'defender', label: 'Best Defender', icon: <Shield size={20} />, propKey: 'bestDefender', statLabel: 'Points', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#14b8a6' },
+                { key: 'goalkeeper', label: 'Best Goalkeeper', icon: <Star size={20} />, propKey: 'bestGoalkeeper', statLabel: 'Points', valueIcon: <Star size={16} strokeWidth={3} />, watermarkIcon: <Star size={140} />, highlight: '#f59e0b' },
+                ...defaultTabs
+            ];
+        }
+
+        if (normalizedSport === 'basketball') {
+            return [
+                { key: 'pg', label: 'Best Point Guard', icon: <Zap size={20} />, propKey: 'bestPointGuard', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#f59e0b' },
+                { key: 'sg', label: 'Best Shooting Guard', icon: <Target size={20} />, propKey: 'bestShootingGuard', statLabel: 'Points', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                { key: 'forward', label: 'Best Forward', icon: <TrendingUp size={20} />, propKey: 'bestForward', statLabel: 'Points', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#0ea5e9' },
+                { key: 'center', label: 'Best Center', icon: <Shield size={20} />, propKey: 'bestCenter', statLabel: 'Points', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#10b981' },
+                ...defaultTabs
+            ];
+        }
+
+        // Default to Cricket
+        return [
+            { key: 'runs', label: 'Most Runs', icon: <TrendingUp size={20} />, propKey: 'mostRuns', statLabel: 'Runs', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#f59e0b' },
+            { key: 'wickets', label: 'Most Wickets', icon: <Target size={20} />, propKey: 'mostWickets', statLabel: 'Wickets', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+            { key: 'allRounder', label: 'Best All Rounder', icon: <Zap size={20} />, propKey: 'bestAllRounder', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#0ea5e9' },
+            ...defaultTabs
+        ];
+    };
+
+    const TABS = getSportSpecificTabs();
+    const [activeTab, setActiveTab] = useState<string>(TABS[0].key);
+
+    // Auto-select first tab if sport changes
+    useEffect(() => {
+        if (!TABS.find(t => t.key === activeTab)) {
+            setActiveTab(TABS[0].key);
+        }
+    }, [normalizedSport, TABS, activeTab]);
+
+    const currentTabDef = TABS.find(t => t.key === activeTab) || TABS[0];
     const currentFeed = playerData?.[currentTabDef.propKey] || [];
 
     const getRankBadge = (rank: number) => {
