@@ -872,11 +872,6 @@ export default function DashboardPage() {
                                         <Medal size={18} color="#64748b" /> Leaderboard
                                     </Link>
 
-                                    {/* 9. Media */}
-                                    <Link href="/media" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
-                                        <Camera size={18} color="#64748b" /> Media
-                                    </Link>
-
                                     {/* 10. Sponsorships */}
                                     <Link href="/sponsorships" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Gem size={18} color="#64748b" /> Sponsorships
