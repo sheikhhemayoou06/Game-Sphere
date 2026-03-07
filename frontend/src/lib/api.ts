@@ -93,7 +93,14 @@ export const api = {
     getSports: () => request<any[]>('/sports').catch(() => [
         { id: '1', name: 'Cricket', icon: '🏏', accentColor: '#10b981' },
         { id: '2', name: 'Football', icon: '⚽', accentColor: '#3b82f6' },
-        { id: '3', name: 'Basketball', icon: '🏀', accentColor: '#f59e0b' }
+        { id: '3', name: 'Basketball', icon: '🏀', accentColor: '#f59e0b' },
+        { id: '4', name: 'Tennis', icon: '🎾', accentColor: '#84cc16' },
+        { id: '5', name: 'Volleyball', icon: '🏐', accentColor: '#ec4899' },
+        { id: '6', name: 'Hockey', icon: '🏑', accentColor: '#0ea5e9' },
+        { id: '7', name: 'Baseball', icon: '⚾', accentColor: '#ef4444' },
+        { id: '8', name: 'Badminton', icon: '🏸', accentColor: '#a855f7' },
+        { id: '9', name: 'Table Tennis', icon: '🏓', accentColor: '#f43f5e' },
+        { id: '10', name: 'Rugby', icon: '🏉', accentColor: '#14b8a6' }
     ]),
     getSport: (id: string) => request<any>(`/sports/${id}`),
     seedSports: () => request<any>('/sports/seed', { method: 'POST' }),

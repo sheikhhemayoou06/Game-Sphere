@@ -82,33 +82,70 @@ function LeaderboardContent() {
             { key: 'pot', label: 'Player of Tourney', icon: <Trophy size={20} />, propKey: 'playerOfTournament', statLabel: 'Points', valueIcon: <Trophy size={16} strokeWidth={3} />, watermarkIcon: <Trophy size={140} />, highlight: '#fbbf24' },
         ];
 
-        if (normalizedSport === 'football') {
-            return [
-                { key: 'striker', label: 'Best Striker', icon: <Target size={20} />, propKey: 'bestStriker', statLabel: 'Points', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
-                { key: 'midfielder', label: 'Best Midfielder', icon: <TrendingUp size={20} />, propKey: 'bestMidfielder', statLabel: 'Points', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#0ea5e9' },
-                { key: 'defender', label: 'Best Defender', icon: <Shield size={20} />, propKey: 'bestDefender', statLabel: 'Points', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#14b8a6' },
-                { key: 'goalkeeper', label: 'Best Goalkeeper', icon: <Star size={20} />, propKey: 'bestGoalkeeper', statLabel: 'Points', valueIcon: <Star size={16} strokeWidth={3} />, watermarkIcon: <Star size={140} />, highlight: '#f59e0b' },
-                ...defaultTabs
-            ];
+        switch (normalizedSport) {
+            case 'football':
+                return [
+                    { key: 'striker', label: 'Best Striker', icon: <Target size={20} />, propKey: 'bestStriker', statLabel: 'Points', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                    { key: 'midfielder', label: 'Best Midfielder', icon: <TrendingUp size={20} />, propKey: 'bestMidfielder', statLabel: 'Points', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#0ea5e9' },
+                    { key: 'defender', label: 'Best Defender', icon: <Shield size={20} />, propKey: 'bestDefender', statLabel: 'Points', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#14b8a6' },
+                    { key: 'goalkeeper', label: 'Best Goalkeeper', icon: <Star size={20} />, propKey: 'bestGoalkeeper', statLabel: 'Points', valueIcon: <Star size={16} strokeWidth={3} />, watermarkIcon: <Star size={140} />, highlight: '#f59e0b' },
+                    ...defaultTabs
+                ];
+            case 'basketball':
+                return [
+                    { key: 'pg', label: 'Best Point Guard', icon: <Zap size={20} />, propKey: 'bestPointGuard', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#f59e0b' },
+                    { key: 'sg', label: 'Best Shooting Guard', icon: <Target size={20} />, propKey: 'bestShootingGuard', statLabel: 'Points', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                    { key: 'forward', label: 'Best Forward', icon: <TrendingUp size={20} />, propKey: 'bestForward', statLabel: 'Points', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#0ea5e9' },
+                    { key: 'center', label: 'Best Center', icon: <Shield size={20} />, propKey: 'bestCenter', statLabel: 'Points', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#10b981' },
+                    ...defaultTabs
+                ];
+            case 'tennis':
+            case 'badminton':
+            case 'table tennis':
+                return [
+                    { key: 'server', label: 'Best Server', icon: <Zap size={20} />, propKey: 'bestServer', statLabel: 'Aces', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#f59e0b' },
+                    { key: 'attacker', label: 'Best Attacker', icon: <Target size={20} />, propKey: 'bestAttacker', statLabel: 'Winners', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#0ea5e9' },
+                    { key: 'defender', label: 'Best Defender', icon: <Shield size={20} />, propKey: 'bestDefender', statLabel: 'Returns', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#10b981' },
+                    ...defaultTabs
+                ];
+            case 'volleyball':
+                return [
+                    { key: 'spiker', label: 'Best Spiker', icon: <Target size={20} />, propKey: 'bestSpiker', statLabel: 'Kills', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                    { key: 'blocker', label: 'Best Blocker', icon: <Shield size={20} />, propKey: 'bestBlocker', statLabel: 'Blocks', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#14b8a6' },
+                    { key: 'server', label: 'Best Server', icon: <Zap size={20} />, propKey: 'bestServer', statLabel: 'Aces', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#f59e0b' },
+                    { key: 'libero', label: 'Best Libero', icon: <Star size={20} />, propKey: 'bestLibero', statLabel: 'Digs', valueIcon: <Star size={16} strokeWidth={3} />, watermarkIcon: <Star size={140} />, highlight: '#0ea5e9' },
+                    ...defaultTabs
+                ];
+            case 'hockey':
+                return [
+                    { key: 'target', label: 'Top Scorer', icon: <Target size={20} />, propKey: 'topScorer', statLabel: 'Goals', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                    { key: 'playmaker', label: 'Best Playmaker', icon: <TrendingUp size={20} />, propKey: 'bestPlaymaker', statLabel: 'Assists', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#0ea5e9' },
+                    { key: 'goalkeeper', label: 'Best Goalkeeper', icon: <Star size={20} />, propKey: 'bestGoalkeeper', statLabel: 'Points', valueIcon: <Star size={16} strokeWidth={3} />, watermarkIcon: <Star size={140} />, highlight: '#f59e0b' },
+                    ...defaultTabs
+                ];
+            case 'baseball':
+                return [
+                    { key: 'hitter', label: 'Best Hitter', icon: <Target size={20} />, propKey: 'bestHitter', statLabel: 'AVG', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                    { key: 'pitcher', label: 'Best Pitcher', icon: <Zap size={20} />, propKey: 'bestPitcher', statLabel: 'ERA', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#0ea5e9' },
+                    { key: 'slugger', label: 'Most Home Runs', icon: <Star size={20} />, propKey: 'mostHomeRuns', statLabel: 'HRs', valueIcon: <Star size={16} strokeWidth={3} />, watermarkIcon: <Star size={140} />, highlight: '#f59e0b' },
+                    ...defaultTabs
+                ];
+            case 'rugby':
+                return [
+                    { key: 'tryscorer', label: 'Most Tries', icon: <Target size={20} />, propKey: 'mostTries', statLabel: 'Tries', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                    { key: 'kicker', label: 'Best Kicker', icon: <Zap size={20} />, propKey: 'bestKicker', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#0ea5e9' },
+                    { key: 'defender', label: 'Best Defender', icon: <Shield size={20} />, propKey: 'bestDefender', statLabel: 'Tackles', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#14b8a6' },
+                    ...defaultTabs
+                ];
+            default:
+                // Default to Cricket
+                return [
+                    { key: 'runs', label: 'Most Runs', icon: <TrendingUp size={20} />, propKey: 'mostRuns', statLabel: 'Runs', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#f59e0b' },
+                    { key: 'wickets', label: 'Most Wickets', icon: <Target size={20} />, propKey: 'mostWickets', statLabel: 'Wickets', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
+                    { key: 'allRounder', label: 'Best All Rounder', icon: <Zap size={20} />, propKey: 'bestAllRounder', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#0ea5e9' },
+                    ...defaultTabs
+                ];
         }
-
-        if (normalizedSport === 'basketball') {
-            return [
-                { key: 'pg', label: 'Best Point Guard', icon: <Zap size={20} />, propKey: 'bestPointGuard', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#f59e0b' },
-                { key: 'sg', label: 'Best Shooting Guard', icon: <Target size={20} />, propKey: 'bestShootingGuard', statLabel: 'Points', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
-                { key: 'forward', label: 'Best Forward', icon: <TrendingUp size={20} />, propKey: 'bestForward', statLabel: 'Points', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#0ea5e9' },
-                { key: 'center', label: 'Best Center', icon: <Shield size={20} />, propKey: 'bestCenter', statLabel: 'Points', valueIcon: <Shield size={16} strokeWidth={3} />, watermarkIcon: <Shield size={140} />, highlight: '#10b981' },
-                ...defaultTabs
-            ];
-        }
-
-        // Default to Cricket
-        return [
-            { key: 'runs', label: 'Most Runs', icon: <TrendingUp size={20} />, propKey: 'mostRuns', statLabel: 'Runs', valueIcon: <TrendingUp size={16} strokeWidth={3} />, watermarkIcon: <TrendingUp size={140} />, highlight: '#f59e0b' },
-            { key: 'wickets', label: 'Most Wickets', icon: <Target size={20} />, propKey: 'mostWickets', statLabel: 'Wickets', valueIcon: <Target size={16} strokeWidth={3} />, watermarkIcon: <Target size={140} />, highlight: '#ef4444' },
-            { key: 'allRounder', label: 'Best All Rounder', icon: <Zap size={20} />, propKey: 'bestAllRounder', statLabel: 'Points', valueIcon: <Zap size={16} strokeWidth={3} />, watermarkIcon: <Zap size={140} />, highlight: '#0ea5e9' },
-            ...defaultTabs
-        ];
     };
 
     const TABS = getSportSpecificTabs();

@@ -25,15 +25,27 @@ type TabKey = 'players' | 'teams' | 'tournaments';
 const SPORT_ROLES: Record<string, string[]> = {
     'Cricket': ['Batsman', 'Bowler', 'All Rounder'],
     'Football': ['Striker', 'Midfielder', 'Defender', 'Goalkeeper'],
-    'Basketball': ['Point Guard', 'Shooting Guard', 'Forward', 'Center'],
-    'Tennis': ['Singles', 'Doubles']
+    'Basketball': ['Point Guard', 'Shooting Guard', 'Small Forward', 'Power Forward', 'Center'],
+    'Tennis': ['Singles Player', 'Doubles Specialist'],
+    'Volleyball': ['Setter', 'Outside Hitter', 'Opposite Hitter', 'Middle Blocker', 'Libero'],
+    'Hockey': ['Forward', 'Midfielder', 'Defender', 'Goalkeeper'],
+    'Baseball': ['Pitcher', 'Catcher', 'Infielder', 'Outfielder'],
+    'Badminton': ['Singles Player', 'Doubles Specialist'],
+    'Table Tennis': ['Singles', 'Doubles'],
+    'Rugby': ['Forward', 'Back']
 };
 
 const SPORT_FORMATS: Record<string, string[]> = {
     'Cricket': ['Test', 'ODI', 'T20', 'T10'],
-    'Football': ['11 Player', '9A Side', '7 Side'],
-    'Basketball': ['Regular Season', 'Playoffs'],
-    'Tennis': ['Grand Slam', 'Masters', 'Pro Circuit']
+    'Football': ['11 Player', '9A Side', '7 Side', '5A Side'],
+    'Basketball': ['5v5 Full Court', '3v3 Half Court', '1v1'],
+    'Tennis': ['Best of 5', 'Best of 3', 'Pro Set'],
+    'Volleyball': ['Indoor 6v6', 'Beach 2v2'],
+    'Hockey': ['11v11', '6v6', '5v5'],
+    'Baseball': ['9 Innings', '7 Innings'],
+    'Badminton': ['Best of 3', '15 Pts Format'],
+    'Table Tennis': ['Best of 5', 'Best of 7'],
+    'Rugby': ['Rugby Union (15s)', 'Rugby League (13s)', 'Rugby Sevens (7s)']
 };
 
 function RankingsContent() {
