@@ -112,7 +112,6 @@ export default function CertificatesPage() {
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                             <div>
                                 <h1 style={{ fontSize: '24px', fontWeight: 900, color: '#1e293b', margin: 0 }}>Official Certificates</h1>
-                                <p style={{ fontSize: '14px', color: '#64748b', margin: '4px 0 0 0' }}>Your verified documents for {sportLabel}.</p>
                             </div>
                             <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
                                 📜
