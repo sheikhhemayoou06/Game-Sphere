@@ -145,7 +145,7 @@ function RankingsContent() {
 
     return (
         <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
-            <PageNavbar title="Global Rankings" emoji="🌍" />
+            <PageNavbar title="Global Rankings" />
 
             {/* ── ROUND SPORT SELECTION DROPDOWN ── */}
             <div style={{ background: 'white', padding: '16px 24px 0', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 60 }}>
