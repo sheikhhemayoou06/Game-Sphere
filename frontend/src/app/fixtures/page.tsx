@@ -7,13 +7,14 @@ import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
 import PageNavbar from '@/components/PageNavbar';
 import { Trophy, Shield, Clock } from 'lucide-react';
+import SportIcon from '@/components/SportIcon';
 
 type DashboardTab = 'tournament' | 'my-team' | 'postponed';
 
 export default function FixturesPage() {
     const { selectedSport } = useSportStore();
     const sportLabel = selectedSport?.name || 'All Sports';
-    const sportIcon = selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🏟️';
+    const sportIcon = selectedSport ? <SportIcon sport={selectedSport.name} size={24} color="currentColor" /> : <SportIcon sport="Athletics" size={24} color="currentColor" />;
 
     // --- State ---
     const [tournaments, setTournaments] = useState<any[]>([]);

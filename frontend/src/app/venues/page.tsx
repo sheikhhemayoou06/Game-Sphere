@@ -83,10 +83,10 @@ export default function VenuesPage() {
                                         <span>{v.indoor ? '🏠 Indoor' : '☀️ Outdoor'}</span>
                                     </div>
                                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                                        {v.sports.map(s => <span key={s} style={{ padding: '3px 8px', borderRadius: '6px', background: '#f0fdf4', color: '#166534', fontSize: '11px', fontWeight: 600 }}>{s}</span>)}
+                                        {v.sports.map((s: string) => <span key={s} style={{ padding: '3px 8px', borderRadius: '6px', background: '#f0fdf4', color: '#166534', fontSize: '11px', fontWeight: 600 }}>{s}</span>)}
                                     </div>
                                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                                        {v.facilities.map(f => <span key={f} style={{ padding: '2px 6px', borderRadius: '4px', background: '#f8fafc', color: '#94a3b8', fontSize: '10px' }}>{f}</span>)}
+                                        {v.facilities.map((f: string) => <span key={f} style={{ padding: '2px 6px', borderRadius: '4px', background: '#f8fafc', color: '#94a3b8', fontSize: '10px' }}>{f}</span>)}
                                     </div>
                                 </div>
                             </div>

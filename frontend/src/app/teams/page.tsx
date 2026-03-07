@@ -7,6 +7,7 @@ import { api } from '@/lib/api';
 import { sportIcons, sportConfig, defaultSportConfig } from '@/lib/utils';
 import PageNavbar from '@/components/PageNavbar';
 import { Search, X } from 'lucide-react';
+import SportIcon from '@/components/SportIcon';
 
 export default function TeamsPage() {
     const { user } = useAuthStore();
@@ -69,7 +70,7 @@ export default function TeamsPage() {
                                     boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
                                     transition: 'all 0.2s',
                                 }}>
-                                {t.sport?.icon || sportIcons[t.sport?.name] || '🛡️'} {t.name}
+                                <SportIcon sport={t.sport?.name || 'Athletics'} size={20} color="currentColor" /> {t.name}
                             </button>
                         ))}
                     </div>

@@ -6,6 +6,7 @@ import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons, formatDate, statusColors, sportConfig, defaultSportConfig } from '@/lib/utils';
 import PageNavbar from '@/components/PageNavbar';
+import SportIcon from '@/components/SportIcon';
 
 type Tab = 'my' | 'explore' | 'drafted' | 'completed';
 
@@ -131,7 +132,7 @@ export default function TournamentsPage() {
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                 fontSize: '22px',
                                             }}>
-                                                {sportIcons[t.sport?.name] || t.sport?.icon || sportConfig[t.sport?.name]?.emoji || defaultSportConfig.emoji}
+                                                <SportIcon sport={t.sport?.name || 'Athletics'} size={20} color="currentColor" />
                                             </div>
                                             <span className="status-badge" style={{
                                                 background: `${statusColors[t.status] || '#6366f1'}15`,

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { roleLabels, sportIcons, sportColors, formatDate } from '@/lib/utils';
-import { Fingerprint, Radio, Users, Shield, ClipboardList, Gamepad2, Scale, Trophy, Medal, IdCard, Siren, Dumbbell, Calendar, MessageSquare, Gavel, CreditCard, Bell, HelpCircle, LayoutGrid, BarChart3, Settings, ShieldCheck, FileText, DollarSign, Upload, Package, Gem, Landmark, Award, ArrowLeftRight, FileCheck, CircleDot, Zap, Pen, Camera, Search as SearchIcon, Menu, X, LogOut, Trash2, ChevronDown, Plus } from 'lucide-react';
+import { Award, Bell, Activity, Trophy, ShieldAlert, LayoutDashboard, Target, Users, Calendar, Flag, Handshake, ChevronRight, Menu, X, Star, Zap, Hash, Plus, CheckCircle2, TrendingUp, Shield, BarChart3, Settings, MoreVertical, LogOut, Package, Medal, HelpCircle, Gem, ClipboardList, Clock, Fingerprint, Image as ImageIcon, MapPin, Check, Briefcase, ChevronDown, CheckCircle, Search, Mail, MessageSquare, AlertCircle, Phone, Lock, Eye, FileText, Gavel, FileBadge, CalendarRange, Navigation, Crosshair, Users2, IdCard, Radio, Gamepad2, Scale, Siren, Dumbbell, DollarSign, Upload, Landmark, ArrowLeftRight, FileCheck, CircleDot, Pen, Camera, Search as SearchIcon, Trash2, CreditCard } from 'lucide-react';
 import SportIcon from '@/components/SportIcon';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 import SmartSearch from '@/components/SmartSearch';
@@ -90,7 +90,7 @@ const OFFICIAL_CARDS = [
 const ADMIN_CARDS = [
     { href: '/analytics', label: 'Analytics', desc: 'Platform insights & metrics', icon: <BarChart3 size={20} />, gradient: 'linear-gradient(135deg, #1e1b4b, #312e81)' },
     { href: '/admin', label: 'Admin Panel', desc: 'System management', icon: <Settings size={20} />, gradient: 'linear-gradient(135deg, #0f172a, #1e293b)' },
-    { href: '/roles', label: 'Roles & Permissions', desc: 'Access control', icon: <ShieldCheck size={20} />, gradient: 'linear-gradient(135deg, #1e293b, #475569)' },
+    { href: '/roles', label: 'Roles & Permissions', desc: 'Access control', icon: <Shield size={20} />, gradient: 'linear-gradient(135deg, #1e293b, #475569)' },
     { href: '/tournaments', label: 'Tournaments', desc: 'Manage all events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
     { href: '/audit', label: 'Audit Log', desc: 'Activity tracking', icon: <FileText size={20} />, gradient: 'linear-gradient(135deg, #0f172a, #334155)' },
     { href: '/financial', label: 'Financial', desc: 'Revenue & payments', icon: <DollarSign size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
@@ -636,7 +636,7 @@ export default function DashboardPage() {
 
     /* ─── Banner subtitle ─── */
     const sportLabel = selectedSport?.name || 'Sports';
-    const sportIcon = selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🏅';
+    const sportIconSVG = selectedSport ? <SportIcon sport={selectedSport.name} size={24} color="currentColor" /> : '🏅';
     const currentSportData = {
         matches: [],
         requests: [],
@@ -650,9 +650,9 @@ export default function DashboardPage() {
 
     const bannerSubtitles: Record<RoleGroup, string> = {
         admin: `🚀 Command Center — Powering ${sportLabel} Across India`,
-        organizer: `${sportIcon} Orchestrating ${sportLabel} Excellence — Let's Build Champions`,
-        team_manager: `${sportIcon} Leading Your ${sportLabel} Squad to Victory`,
-        official: `${sportIcon} Enforcing Fair Play — ${sportLabel} Match Operations`,
+        organizer: `${sportIconSVG} Orchestrating ${sportLabel} Excellence — Let's Build Champions`,
+        team_manager: `${sportIconSVG} Leading Your ${sportLabel} Squad to Victory`,
+        official: `${sportIconSVG} Enforcing Fair Play — ${sportLabel} Match Operations`,
         player: `🔥 Your Arena, Your Rules — Dominate the Game`,
     };
 
@@ -753,10 +753,10 @@ export default function DashboardPage() {
                                                     cursor: 'pointer', transition: 'all 0.2s',
                                                 }}
                                             >
-                                                <span style={{ fontSize: '14px' }}>{selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🏅'}</span>
-                                                <span style={{ fontWeight: 600, fontSize: '13px', color: '#64748b' }}>
-                                                    {selectedSport?.name || 'Select Sport'}
-                                                </span>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                    <SportIcon sport={selectedSport ? selectedSport.name : 'Athletics'} size={18} color="currentColor" />
+                                                    <span style={{ fontSize: '15px' }}>{selectedSport?.name || 'All Sports'}</span>
+                                                </div>
                                                 <ChevronDown size={14} color="#94a3b8" style={{ transition: 'transform 0.2s', transform: sportDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                                             </button>
 
@@ -786,10 +786,12 @@ export default function DashboardPage() {
                                                                     transition: 'all 0.15s',
                                                                 }}
                                                             >
-                                                                <span style={{ fontSize: '18px' }}>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
-                                                                <span style={{ fontWeight: isActive ? 700 : 500, fontSize: '14px', color: isActive ? accent : '#334155' }}>
-                                                                    {sp.name}
-                                                                </span>
+                                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                                    <SportIcon sport={sp.name} size={22} color={sp.accentColor || '#64748b'} />
+                                                                    <span style={{ fontWeight: selectedSport?.id === sp.id ? 800 : 600, color: '#1e293b' }}>
+                                                                        {sp.name}
+                                                                    </span>
+                                                                </div>
                                                                 {isActive && <span style={{ marginLeft: 'auto', fontSize: '14px', color: accent }}>✓</span>}
                                                             </button>
                                                         );
@@ -829,9 +831,10 @@ export default function DashboardPage() {
                                                         color: '#334155', fontSize: '13px', fontWeight: 600,
                                                         cursor: 'pointer', transition: 'background 0.15s', width: '100%',
                                                     }} className="hover-bg-slate">
-                                                        <span style={{ fontSize: '16px' }}>{sp.icon || sportIcons[sp.name] || '🏅'}</span>
-                                                        {sp.name}
-                                                    </button>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                            <SportIcon sport={sp.name} size={18} color={sp.accentColor || '#64748b'} />
+                                                            <span style={{ fontWeight: 600, color: '#1e293b' }}>{sp.name}</span>
+                                                        </div></button>
                                                 );
                                             })}
                                         </div>
@@ -1145,7 +1148,7 @@ export default function DashboardPage() {
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }} className="flex-wrap-mobile">
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                                                 <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: `linear-gradient(135deg, ${selectedSport.accentColor || '#7c3aed'}, ${selectedSport.accentColor || '#7c3aed'}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', color: 'white', boxShadow: `0 4px 12px ${selectedSport.accentColor || '#7c3aed'}40` }}>
-                                                    {selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}
+                                                    <SportIcon sport={selectedSport.name} size={36} color="white" />
                                                 </div>
                                                 <div>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
@@ -1502,7 +1505,7 @@ export default function DashboardPage() {
                                                 textDecoration: 'none', color: theme.textPrimary,
                                             }}>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                                                    <span style={{ fontSize: '20px' }}>{sportIcons[match.sport?.name] || sportIcon}</span>
+                                                    <SportIcon sport={match.sport?.name || 'Athletics'} size={24} color="currentColor" />
                                                     <span className="status-badge" style={{ background: '#fef2f2', color: "inherit" }}>
                                                         <span className="live-pulse"></span> LIVE
                                                     </span>

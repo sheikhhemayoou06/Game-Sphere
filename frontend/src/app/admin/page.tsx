@@ -8,6 +8,7 @@ import { api } from '@/lib/api';
 import { sportIcons, statusColors, formatDate } from '@/lib/utils';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 import SmartSearch from '@/components/SmartSearch';
+import SportIcon from '@/components/SportIcon';
 
 export default function AdminPanel() {
     const { user, isAuthenticated, loadFromStorage, logout } = useAuthStore();
@@ -255,7 +256,7 @@ export default function AdminPanel() {
                                                     onClick={() => router.push(`/tournaments/${t.id}`)}>
                                                     <td style={{ padding: '14px 18px', fontWeight: 600, color: '#1e1b4b' }}>{t.name}</td>
                                                     <td style={{ padding: '14px 18px' }}>
-                                                        <span>{sportIcons[t.sport?.name] || '🏅'} {t.sport?.name}</span>
+                                                        <span><SportIcon sport={t.sport?.name || 'Athletics'} size={20} color="currentColor" /> {t.sport?.name}</span>
                                                     </td>
                                                     <td style={{ padding: '14px 18px' }}>
                                                         <span className="status-badge" style={{
@@ -298,7 +299,7 @@ export default function AdminPanel() {
                                         borderTop: `3px solid ${s.accentColor || '#6366f1'}`,
                                     }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-                                            <span style={{ fontSize: '28px' }}>{s.icon || sportIcons[s.name] || '🏅'}</span>
+                                            <span style={{ fontSize: '28px' }}><SportIcon sport={s.name} size={24} color="currentColor" /></span>
                                             <h4 style={{ fontSize: '16px', fontWeight: 700, color: s.accentColor || '#1e1b4b' }}>{s.name}</h4>
                                         </div>
                                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '13px' }}>

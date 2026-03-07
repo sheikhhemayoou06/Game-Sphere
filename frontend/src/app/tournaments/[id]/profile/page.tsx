@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
 import { sportIcons, defaultSportConfig, sportConfig, statusColors, formatDate } from '@/lib/utils';
+import SportIcon from '@/components/SportIcon';
 
 export default function TournamentProfile() {
     const { id } = useParams();
@@ -17,7 +18,7 @@ export default function TournamentProfile() {
 
     const isOrganizer = user?.id === tournament?.organizerId;
     const config = tournament?.sport?.name ? (sportConfig[tournament.sport.name] || defaultSportConfig) : defaultSportConfig;
-    const sportEmoji = tournament?.sport?.icon || sportIcons[tournament?.sport?.name] || config.emoji;
+    const sportEmoji = <SportIcon sport={tournament?.sport?.name || 'Athletics'} size={24} color="currentColor" />;
 
     useEffect(() => {
         if (!id) return;

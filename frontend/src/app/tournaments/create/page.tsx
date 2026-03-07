@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
+import SportIcon from '@/components/SportIcon';
 
 export default function CreateTournamentPage() {
     const { user, isAuthenticated, loadFromStorage } = useAuthStore();
@@ -146,7 +147,7 @@ export default function CreateTournamentPage() {
                             </div>
                         ) : selectedSport ? (
                             <div style={{ padding: '16px', borderRadius: '12px', background: `${selectedSport.accentColor || '#6366f1'}15`, border: `2px solid ${selectedSport.accentColor || '#6366f1'}40`, display: 'flex', alignItems: 'center', gap: '14px' }}>
-                                <div style={{ fontSize: '32px' }}>{selectedSport.icon || sportIcons[selectedSport.name] || '🏅'}</div>
+                                <div style={{ fontSize: '32px' }}><SportIcon sport={selectedSport.name} size={24} color="currentColor" /></div>
                                 <div>
                                     <div style={{ fontWeight: 800, fontSize: '18px', color: '#1e1b4b' }}>{selectedSport.name}</div>
                                     <div style={{ fontSize: '12px', color: '#64748b' }}>Creating tournament in current workspace</div>
@@ -160,7 +161,7 @@ export default function CreateTournamentPage() {
                                         background: form.sportId === s.id ? `${s.accentColor || '#6366f1'}10` : 'white',
                                         cursor: 'pointer', transition: 'all 0.2s ease', textAlign: 'center',
                                     }}>
-                                        <div style={{ fontSize: '24px' }}>{s.icon || sportIcons[s.name] || '🏅'}</div>
+                                        <div style={{ fontSize: '24px' }}><SportIcon sport={s.name} size={24} color="currentColor" /></div>
                                         <div style={{
                                             fontSize: '12px', fontWeight: 600, marginTop: '4px',
                                             color: form.sportId === s.id ? (s.accentColor || '#6366f1') : '#64748b',

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSportStore } from '@/lib/store';
 import { sportIcons } from '@/lib/utils';
 import PageNavbar from '@/components/PageNavbar';
+import SportIcon from '@/components/SportIcon';
 
 const FAQ_ITEMS = [
     { q: 'How do I create a tournament?', a: 'Navigate to Dashboard → Tournaments → Create Tournament. Fill in the tournament name, select a sport, set dates, choose the format (knockout/round-robin/league), and submit. You can then manage fixtures, teams, and matches from the tournament detail page.' },
@@ -29,7 +30,7 @@ const GUIDES = [
 export default function HelpPage() {
     const { selectedSport } = useSportStore();
     const sportLabel = selectedSport?.name || 'All Sports';
-    const sportIcon = selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || '🏅') : '🤝';
+    const sportIcon = selectedSport ? <SportIcon sport={selectedSport.name} size={24} color="currentColor" /> : <SportIcon sport="Athletics" size={24} color="currentColor" />;
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     const [search, setSearch] = useState('');
     const [tab, setTab] = useState<'faq' | 'guides' | 'contact'>('faq');

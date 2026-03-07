@@ -6,13 +6,14 @@ import { useSportStore } from '@/lib/store';
 import { sportIcons, sportConfig, defaultSportConfig } from '@/lib/utils';
 import PageNavbar from '@/components/PageNavbar';
 import { Award, ScrollText, CheckCircle2 } from 'lucide-react';
+import SportIcon from '@/components/SportIcon';
 
 type DashboardTab = 'certificates' | 'awards';
 
 export default function CertificatesPage() {
     const { selectedSport } = useSportStore();
     const sportLabel = selectedSport?.name || 'Cricket';
-    const sportIcon = selectedSport ? (sportIcons[selectedSport.name] || selectedSport.icon || sportConfig[selectedSport.name]?.emoji || defaultSportConfig.emoji) : '🏏';
+    const sportIcon = selectedSport ? <SportIcon sport={selectedSport.name} size={24} color="currentColor" /> : <SportIcon sport="Athletics" size={24} color="currentColor" />;
 
     // --- State ---
     const [dashboardTab, setDashboardTab] = useState<DashboardTab>('certificates');

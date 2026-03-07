@@ -4,6 +4,7 @@ import { Suspense, useState, useEffect } from 'react';
 import { useSportStore } from '@/lib/store';
 import PageNavbar from '@/components/PageNavbar';
 import { Users, Shield, Trophy, TrendingUp, TrendingDown, Minus, ChevronDown } from 'lucide-react';
+import SportIcon from '@/components/SportIcon';
 
 export default function RankingsPage() {
     return (
@@ -160,7 +161,7 @@ function RankingsContent() {
                             transition: 'all 0.2s ease'
                         }}
                     >
-                        <span>{selectedSport?.icon || '🏅'}</span>
+                        <SportIcon sport={selectedSport?.name || 'Cricket'} size={20} color={selectedSport?.accentColor || '#10b981'} />
                         <span>{selectedSport?.name || 'Cricket'}</span>
                         <ChevronDown size={18} color="#64748b" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
                     </button>
@@ -185,7 +186,7 @@ function RankingsContent() {
                                         backgroundColor: selectedSport?.id === s.id ? '#f0fdfa' : 'transparent'
                                     }}
                                 >
-                                    <span style={{ fontSize: '18px' }}>{s.icon}</span>
+                                    <SportIcon sport={s.name} size={22} color={s.accentColor || '#64748b'} />
                                     <span style={{ fontWeight: selectedSport?.id === s.id ? 700 : 500, color: selectedSport?.id === s.id ? '#0f766e' : '#475569' }}>
                                         {s.name}
                                     </span>

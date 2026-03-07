@@ -7,6 +7,7 @@ import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons, sportConfig, defaultSportConfig, statusColors, formatDate } from '@/lib/utils';
 import AuctionDashboard from '@/components/AuctionDashboard';
+import SportIcon from '@/components/SportIcon';
 
 type Tab = 'overview' | 'teams' | 'fixtures' | 'scoring' | 'auction' | 'transfers' | 'financials' | 'leaderboard' | 'media' | 'chat' | 'settings';
 
@@ -19,7 +20,7 @@ export default function TournamentDashboard() {
 
     const isOrganizer = user?.id === tournament?.organizerId;
     const config = tournament?.sport?.name ? (sportConfig[tournament.sport.name] || defaultSportConfig) : defaultSportConfig;
-    const sportEmoji = tournament?.sport?.icon || sportIcons[tournament?.sport?.name] || config.emoji;
+    const sportEmoji = <SportIcon sport={tournament?.sport?.name || 'Athletics'} size={24} color="currentColor" />;
 
     useEffect(() => {
         if (!id) return;
