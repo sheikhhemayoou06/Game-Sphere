@@ -1,122 +1,193 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
 import { useSportStore } from '@/lib/store';
 import PageNavbar from '@/components/PageNavbar';
+import { Handshake, MailOpen, FileEdit, Clock } from 'lucide-react';
 
 export default function SponsorshipsPage() {
+    return (
+        <Suspense fallback={
+            <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
+                <PageNavbar title="Sponsorships" />
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '32px', height: '32px', border: '3px solid #e2e8f0', borderTopColor: '#0d9488', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                </div>
+            </div>
+        }>
+            <SponsorshipsContent />
+        </Suspense>
+    );
+}
+
+type TabKey = 'active' | 'requests' | 'apply' | 'previous';
+
+function SponsorshipsContent() {
     const { selectedSport } = useSportStore();
-    const [tournaments, setTournaments] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+    const sportLabel = selectedSport?.name || 'Cricket';
 
-    useEffect(() => {
-        api.getTournaments().then(setTournaments).catch(() => []).finally(() => setLoading(false));
-    }, []);
+    const [activeTab, setActiveTab] = useState<TabKey>('active');
 
-    const sponsors: any[] = [];
+    // MOCK DATA structure (empty by default as requested to not show fake data unless interacting)
+    // We will render strict empty states since they have no real data yet.
+    const activeSponsorships: any[] = [];
+    const pendingRequests: any[] = [];
+    const previousSponsorships: any[] = [];
 
-    const filteredSponsors = selectedSport
-        ? sponsors.filter((s: any) => s.sport === selectedSport.name || s.sport === 'All Sports')
-        : sponsors;
+    const TABS: { key: TabKey; label: string; icon: any; highlight: string }[] = [
+        { key: 'active', label: 'My Sponsorships', icon: <Handshake size={20} />, highlight: '#22c55e' },
+        { key: 'requests', label: 'New Requests', icon: <MailOpen size={20} />, highlight: '#f59e0b' },
+        { key: 'apply', label: 'Apply', icon: <FileEdit size={20} />, highlight: '#0ea5e9' },
+        { key: 'previous', label: 'Previous', icon: <Clock size={20} />, highlight: '#64748b' },
+    ];
 
-    const activeSponsorships = filteredSponsors.filter((s: any) => s.status === 'ACTIVE').length;
-    const totalSponsorship = filteredSponsors.reduce((acc: number, curr: any) => {
-        const val = parseInt(curr.amount.replace(/[^0-9]/g, ''), 10);
-        return acc + val;
-    }, 0);
-
-    const STATUS_CONFIG: Record<string, { bg: string; color: string }> = {
-        ACTIVE: { bg: '#ecfdf5', color: '#22c55e' },
-        PENDING: { bg: '#fffbeb', color: '#f59e0b' },
-        EXPIRED: { bg: '#fef2f2', color: '#ef4444' },
-    };
-
-    const adPlacements: any[] = [];
-
-    const filteredAds = selectedSport
-        ? adPlacements.filter(ad => ad.sport === selectedSport.name || ad.sport === 'All Sports')
-        : adPlacements;
-
-    const adRevenue = filteredAds.reduce((acc, ad) => acc + parseInt(ad.revenue.replace(/[^0-9]/g, ''), 10), 0);
-    const adImpressionsNum = filteredAds.reduce((acc, ad) => acc + parseFloat(ad.impressions.replace('K', '')) * 1000, 0);
-    const adImpressions = adImpressionsNum >= 1000 ? `${(adImpressionsNum / 1000).toFixed(1)}K` : adImpressionsNum.toString();
+    const currentTabDef = TABS.find(t => t.key === activeTab)!;
 
     return (
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%)' }}>
-            <PageNavbar title="Sponsorships" emoji="💎" />
+        <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+            <PageNavbar title="Sponsorships" />
 
-            <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#78350f', marginBottom: '8px' }}>💎 Sponsorships & Ads</h1>
-                <p style={{ color: '#92400e', fontSize: '16px', marginBottom: '28px' }}>Manage sponsors, ad placements, and monetization</p>
-
-                {/* Stats */}
-                <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '28px' }}>
-                    {[
-                        { label: 'Total Sponsorship', value: `₹${totalSponsorship.toLocaleString()}`, icon: '💰', bg: 'linear-gradient(135deg, #f59e0b, #d97706)' },
-                        { label: 'Active Sponsors', value: activeSponsorships, icon: '🤝', bg: 'linear-gradient(135deg, #22c55e, #15803d)' },
-                        { label: 'Ad Impressions', value: adImpressions, icon: '👁️', bg: 'linear-gradient(135deg, #6366f1, #4338ca)' },
-                        { label: 'Ad Revenue', value: `₹${adRevenue.toLocaleString()}`, icon: '📈', bg: 'linear-gradient(135deg, #ec4899, #be185d)' },
-                    ].map(s => (
-                        <div key={s.label} style={{ padding: '22px', borderRadius: '16px', background: s.bg, color: '#fff' }}>
-                            <div style={{ fontSize: '28px', marginBottom: '8px' }}>{s.icon}</div>
-                            <div style={{ fontSize: '22px', fontWeight: 900 }}>{s.value}</div>
-                            <div style={{ fontSize: '12px', opacity: 0.85 }}>{s.label}</div>
-                        </div>
+            {/* ── Icon-Only Tab Bar (Flush directly under Navbar) ── */}
+            <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: '45px', zIndex: 49 }}>
+                <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', justifyContent: 'space-between' }}>
+                    {TABS.map(tab => (
+                        <button
+                            key={tab.key}
+                            onClick={() => setActiveTab(tab.key)}
+                            title={tab.label}
+                            style={{
+                                flex: 1, padding: '16px 0', border: 'none', background: 'none',
+                                cursor: 'pointer', display: 'flex', flexDirection: 'column',
+                                alignItems: 'center', gap: '8px',
+                                color: activeTab === tab.key ? tab.highlight : '#94a3b8',
+                                borderBottom: activeTab === tab.key ? `3px solid ${tab.highlight}` : '3px solid transparent',
+                                transition: 'all 0.2s',
+                            }}
+                        >
+                            {tab.icon}
+                            <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                {tab.label}
+                            </span>
+                        </button>
                     ))}
                 </div>
+            </div>
 
-                {/* Sponsors list */}
-                <div style={{ background: '#fff', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 24px rgba(120,53,15,0.06)', marginBottom: '24px' }}>
-                    <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#78350f', marginBottom: '16px' }}>🤝 Sponsors</h2>
-                    <div style={{ display: 'grid', gap: '10px' }}>
-                        {filteredSponsors.length === 0 && <div style={{ color: '#92400e', textAlign: 'center', padding: '20px' }}>No sponsors found for this sport.</div>}
-                        {filteredSponsors.map((sp, i) => {
-                            const statusCfg = STATUS_CONFIG[sp.status] || STATUS_CONFIG.PENDING;
-                            return (
-                                <div key={i} style={{ display: 'flex', alignItems: 'center', padding: '16px', borderRadius: '12px', background: '#fffbeb', border: '1px solid #fde68a', gap: '14px' }}>
-                                    <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>{sp.logo}</div>
-                                    <div style={{ flex: 1, minWidth: 0 }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-                                            <span style={{ fontWeight: 800, fontSize: '15px', color: '#1e1b4b' }}>{sp.name}</span>
-                                            <span style={{ padding: '2px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 700, background: `${sp.color}22`, color: sp.color }}>{sp.tier}</span>
-                                        </div>
-                                        <div style={{ fontSize: '12px', color: '#64748b' }}>{sp.sport} • {sp.placement}</div>
-                                    </div>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <div style={{ fontWeight: 800, fontSize: '15px', color: '#78350f' }}>{sp.amount}</div>
-                                        <span style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 700, background: statusCfg.bg, color: statusCfg.color }}>{sp.status}</span>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
+            {/* ── Tab Content ── */}
+            <div style={{ maxWidth: '800px', margin: '0 auto', padding: '32px 16px 80px' }}>
+                <h1 style={{ fontSize: '24px', fontWeight: 900, color: '#1e293b', marginBottom: '4px' }}>
+                    {currentTabDef.label}
+                </h1>
+                <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '24px' }}>
+                    {activeTab === 'active' && `Manage your active ${sportLabel} sponsorships.`}
+                    {activeTab === 'requests' && `Review incoming ${sportLabel} sponsorship offers.`}
+                    {activeTab === 'apply' && `Submit a new proposal to potential sponsors.`}
+                    {activeTab === 'previous' && `History of your expired ${sportLabel} sponsorships.`}
+                </p>
 
-                {/* Ad placements */}
-                <div style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(120,53,15,0.06)' }}>
-                    <div style={{ padding: '20px 24px', background: '#92400e', color: '#fff' }}>
-                        <h2 style={{ fontWeight: 800, fontSize: '16px' }}>📊 Ad Placement Performance</h2>
-                    </div>
-                    <div style={{ overflowX: 'auto' }}>
-                        <div style={{ minWidth: '600px' }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '12px 24px', background: '#fef3c7', fontSize: '11px', fontWeight: 700, color: '#92400e' }}>
-                                <span>Placement</span><span>Impressions</span><span>Clicks</span><span>CTR</span><span>Revenue</span>
+                {/* ACTIVE TAB */}
+                {activeTab === 'active' && (
+                    activeSponsorships.length === 0 ? (
+                        <div style={{ padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                            <div style={{ color: '#94a3b8', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                                <Handshake size={48} strokeWidth={1.5} />
                             </div>
-                            {filteredAds.length === 0 && <div style={{ color: '#92400e', textAlign: 'center', padding: '20px' }}>No ad placements found for this sport.</div>}
-                            {filteredAds.map((ad, i) => (
-                                <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '14px 24px', borderBottom: '1px solid #fef3c7', fontSize: '13px', background: i % 2 === 0 ? '#fffbeb' : '#fff' }}>
-                                    <span style={{ fontWeight: 600, color: '#1e1b4b' }}>{ad.location}</span>
-                                    <span style={{ color: '#64748b' }}>{ad.impressions}</span>
-                                    <span style={{ color: '#64748b' }}>{ad.clicks}</span>
-                                    <span style={{ fontWeight: 700, color: '#22c55e' }}>{ad.ctr}</span>
-                                    <span style={{ fontWeight: 700, color: '#78350f' }}>{ad.revenue}</span>
-                                </div>
-                            ))}
+                            <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No Active Sponsors</div>
+                            <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px', maxWidth: '300px', margin: '8px auto 0' }}>
+                                You currently have no active {sportLabel} sponsorship deals. Apply to secure funding.
+                            </div>
+                            <button
+                                onClick={() => setActiveTab('apply')}
+                                style={{ marginTop: '24px', padding: '10px 24px', borderRadius: '10px', background: '#0ea5e9', color: '#fff', fontWeight: 700, border: 'none', cursor: 'pointer' }}
+                            >
+                                Apply Now
+                            </button>
+                        </div>
+                    ) : null
+                )}
+
+                {/* REQUESTS TAB */}
+                {activeTab === 'requests' && (
+                    pendingRequests.length === 0 ? (
+                        <div style={{ padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                            <div style={{ color: '#94a3b8', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                                <MailOpen size={48} strokeWidth={1.5} />
+                            </div>
+                            <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No New Requests</div>
+                            <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px', maxWidth: '300px', margin: '8px auto 0' }}>
+                                You have no pending {sportLabel} offers to review at this time.
+                            </div>
+                        </div>
+                    ) : null
+                )}
+
+                {/* APPLY TAB */}
+                {activeTab === 'apply' && (
+                    <div style={{ background: 'white', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'grid', gap: '20px' }}>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Proposal Title *</label>
+                                <input
+                                    placeholder="e.g. Title Sponsor for Regional Team..."
+                                    style={{
+                                        width: '100%', padding: '12px 14px', borderRadius: '10px',
+                                        border: '1px solid #cbd5e1', background: '#f8fafc',
+                                        fontSize: '14px', color: '#334155', boxSizing: 'border-box', outline: 'none'
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Requested Amount *</label>
+                                <input
+                                    type="number"
+                                    placeholder="₹ Amount in Rupees"
+                                    style={{
+                                        width: '100%', padding: '12px 14px', borderRadius: '10px',
+                                        border: '1px solid #cbd5e1', background: '#f8fafc',
+                                        fontSize: '14px', color: '#334155', boxSizing: 'border-box', outline: 'none'
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '11px', fontWeight: 800, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pitch / Description</label>
+                                <textarea
+                                    placeholder="Explain why a brand should sponsor you..."
+                                    rows={4}
+                                    style={{
+                                        width: '100%', padding: '12px 14px', borderRadius: '10px',
+                                        border: '1px solid #cbd5e1', background: '#f8fafc',
+                                        fontSize: '14px', color: '#334155', resize: 'vertical',
+                                        boxSizing: 'border-box', outline: 'none'
+                                    }}
+                                />
+                            </div>
+                            <button
+                                style={{
+                                    width: '100%', padding: '14px 24px', borderRadius: '10px', border: 'none',
+                                    background: '#0ea5e9', color: '#fff', fontWeight: 800, cursor: 'pointer', fontSize: '15px'
+                                }}
+                            >
+                                Submit Proposal
+                            </button>
                         </div>
                     </div>
-                </div>
+                )}
+
+                {/* PREVIOUS TAB */}
+                {activeTab === 'previous' && (
+                    previousSponsorships.length === 0 ? (
+                        <div style={{ padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                            <div style={{ color: '#94a3b8', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                                <Clock size={48} strokeWidth={1.5} />
+                            </div>
+                            <div style={{ fontSize: '18px', fontWeight: 800, color: '#334155' }}>No History Found</div>
+                            <div style={{ fontSize: '14px', color: '#64748b', marginTop: '8px', maxWidth: '300px', margin: '8px auto 0' }}>
+                                You don't have any past {sportLabel} sponsorships recorded.
+                            </div>
+                        </div>
+                    ) : null
+                )}
             </div>
         </div>
     );
