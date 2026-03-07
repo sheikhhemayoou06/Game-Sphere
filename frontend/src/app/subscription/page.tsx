@@ -4,6 +4,7 @@ import { Suspense, useState } from 'react';
 import { useSportStore } from '@/lib/store';
 import PageNavbar from '@/components/PageNavbar';
 import { Check, ShieldCheck, Zap, Crown, CheckCircle2, TrendingUp, Lock } from 'lucide-react';
+import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
 export default function SubscriptionPage() {
     return (
@@ -11,7 +12,7 @@ export default function SubscriptionPage() {
             <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
                 <PageNavbar title="Subscription & Billing" />
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ width: '32px', height: '32px', border: '3px solid #e2e8f0', borderTopColor: '#0ea5e9', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                    <RunningAthleteLoader />
                 </div>
             </div>
         }>

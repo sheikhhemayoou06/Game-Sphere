@@ -5,6 +5,7 @@ import { useSportStore } from '@/lib/store';
 import PageNavbar from '@/components/PageNavbar';
 import SportIcon from '@/components/SportIcon';
 import { Search, ShoppingCart, Star, Filter, Heart, ChevronRight, Tags, Zap, Shield, TrendingUp } from 'lucide-react';
+import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
 export default function ShopPage() {
     return (
@@ -12,7 +13,7 @@ export default function ShopPage() {
             <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
                 <PageNavbar title="Shop" />
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ width: '32px', height: '32px', border: '3px solid #e2e8f0', borderTopColor: '#0ea5e9', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                    <RunningAthleteLoader />
                 </div>
             </div>
         }>
