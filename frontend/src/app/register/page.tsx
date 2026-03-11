@@ -10,7 +10,7 @@ import { roleLabels } from '@/lib/utils';
 import { Country, State, City } from 'country-state-city';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
-const roles = ['PLAYER', 'TEAM_MANAGER', 'ORGANIZER', 'OFFICIAL'];
+const roles = ['PLAYER', 'TEAM', 'ORGANIZER', 'OFFICIAL'];
 
 export default function RegisterWizard() {
     const [step, setStep] = useState(1);
@@ -48,7 +48,7 @@ export default function RegisterWizard() {
         if (!form.firstName || !form.email || !form.password) {
             return setError("Please fill all core identity fields.");
         }
-        if (form.role !== 'ORGANIZER' && form.role !== 'TEAM_MANAGER' && !form.lastName) {
+        if (form.role !== 'ORGANIZER' && form.role !== 'TEAM' && !form.lastName) {
             return setError("Please fill in your Last Name.");
         }
         if (!phoneData.phone) {
@@ -86,7 +86,7 @@ export default function RegisterWizard() {
                 options: {
                     data: {
                         first_name: form.firstName,
-                        last_name: (form.role === 'ORGANIZER' || form.role === 'TEAM_MANAGER') ? '' : form.lastName,
+                        last_name: (form.role === 'ORGANIZER' || form.role === 'TEAM') ? '' : form.lastName,
                         role: form.role,
                     }
                 }
@@ -98,7 +98,7 @@ export default function RegisterWizard() {
             if (signUpData.session) {
                 const finalPayload = {
                     ...form,
-                    lastName: (form.role === 'ORGANIZER' || form.role === 'TEAM_MANAGER') ? '' : form.lastName,
+                    lastName: (form.role === 'ORGANIZER' || form.role === 'TEAM') ? '' : form.lastName,
                     phone: `${phoneData.countryCode}${phoneData.phone}`,
                     countryCode: phoneData.countryCode,
                     country: Country.getCountryByCode(location.countryIso)?.name || '',
@@ -139,7 +139,7 @@ export default function RegisterWizard() {
 
             const finalPayload = {
                 ...form,
-                lastName: (form.role === 'ORGANIZER' || form.role === 'TEAM_MANAGER') ? '' : form.lastName,
+                lastName: (form.role === 'ORGANIZER' || form.role === 'TEAM') ? '' : form.lastName,
                 phone: `${phoneData.countryCode}${phoneData.phone}`,
                 countryCode: phoneData.countryCode,
                 country: Country.getCountryByCode(location.countryIso)?.name || '',
@@ -248,7 +248,7 @@ export default function RegisterWizard() {
                                         <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="e.g. Delhi Sports Association" required />
                                         <input type="hidden" value="..." onChange={(e) => updateCore('lastName', e.target.value)} />
                                     </div>
-                                ) : form.role === 'TEAM_MANAGER' ? (
+                                ) : form.role === 'TEAM' ? (
                                     <div>
                                         <label className="form-label">Team Name</label>
                                         <input type="text" value={form.firstName} onChange={(e) => updateCore('firstName', e.target.value)} className="input-field" placeholder="e.g. Mumbai Strikers" required />

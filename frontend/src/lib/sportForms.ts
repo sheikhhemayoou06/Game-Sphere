@@ -85,7 +85,7 @@ export const SPORT_FORMS: Record<string, FormField[]> = {
             options: ['Forward', 'Midfielder', 'Defender', 'Goalkeeper'],
         },
     ],
-    TEAM_MANAGER: [
+    TEAM: [
         {
             id: 'teamName',
             label: 'Team Name',

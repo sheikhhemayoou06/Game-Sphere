@@ -36,7 +36,7 @@ export const roleLabels: Record<string, string> = {
     STATE_ADMIN: 'State Admin',
     DISTRICT_ADMIN: 'District Admin',
     ORGANIZER: 'Tournament Organizer',
-    TEAM_MANAGER: 'Team',
+    TEAM: 'Team',
     PLAYER: 'Player',
     OFFICIAL: 'Official / Referee',
 };

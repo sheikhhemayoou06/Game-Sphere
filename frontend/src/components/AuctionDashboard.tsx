@@ -34,7 +34,7 @@ export default function AuctionDashboard({ tournamentId, isOrganizer }: { tourna
                     <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚖️</div>
                     <h3 style={{ color: '#e2e8f0', fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>No Auction Configured</h3>
                     <p style={{ fontSize: '14px', maxWidth: '400px', margin: '0 auto', lineHeight: '1.5', marginBottom: '24px' }}>
-                        Initialize an auction to allow team managers to bid on players in real-time. You can set global team purse limits and base prices.
+                        Initialize an auction to allow teams to bid on players in real-time. You can set global team purse limits and base prices.
                     </p>
                     {isOrganizer && (
                         <button onClick={async () => {
@@ -109,7 +109,7 @@ export default function AuctionDashboard({ tournamentId, isOrganizer }: { tourna
                                                     </div>
                                                 </div>
 
-                                                {/* Bidding Controls for Team Managers */}
+                                                {/* Bidding Controls for Teams */}
                                                 {!isOrganizer && myTeamPurse && (
                                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '200px' }}>
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

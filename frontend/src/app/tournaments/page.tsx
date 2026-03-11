@@ -13,7 +13,7 @@ type Tab = 'my' | 'explore' | 'drafted' | 'completed';
 export default function TournamentsPage() {
     const { user } = useAuthStore();
     const { selectedSport } = useSportStore();
-    const isTeamManager = user?.role === 'TEAM_MANAGER';
+    const isTeamManager = user?.role === 'TEAM';
     const canCreate = ['ORGANIZER', 'SUPER_ADMIN', 'STATE_ADMIN', 'DISTRICT_ADMIN'].includes(user?.role || '');
 
     const [tournaments, setTournaments] = useState<any[]>([]);

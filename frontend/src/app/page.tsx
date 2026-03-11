@@ -165,7 +165,7 @@ export default function WelcomeGatewayPage() {
                         </button>
                         <div style={{ marginTop: '24px' }}>
                             <Link href="/login" style={{ fontSize: '13px', color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>
-                                Staff Member, Team Manager, or Official? Sign in here
+                                Staff Member, Team, or Official? Sign in here
                             </Link>
                         </div>
                     </>

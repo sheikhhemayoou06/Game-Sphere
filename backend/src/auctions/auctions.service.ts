@@ -108,10 +108,10 @@ export class AuctionsService {
             data: { scheduledAt: scheduledDate },
         });
 
-        // Collect all user IDs to notify (team managers + players)
+        // Collect all user IDs to notify (teams + players)
         const userIds = new Set<string>();
         for (const tt of auction.tournament.teams) {
-            // Team manager
+            // Team owner
             userIds.add(tt.team.manager.id);
             // All players in the team
             for (const tp of tt.team.players) {

@@ -63,7 +63,7 @@ export class AuthService {
         });
 
         // Add Demographic fields if role supports advanced profiles
-        if (user.role === 'PLAYER' || user.role === 'TEAM_MANAGER' || user.role === 'OFFICIAL' || user.role === 'ORGANIZER') {
+        if (user.role === 'PLAYER' || user.role === 'TEAM' || user.role === 'OFFICIAL' || user.role === 'ORGANIZER') {
             const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             const firstLetter = letters[Math.floor(Math.random() * letters.length)];
             const lastLetter = letters[Math.floor(Math.random() * letters.length)];

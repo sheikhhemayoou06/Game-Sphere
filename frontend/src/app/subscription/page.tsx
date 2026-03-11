@@ -1,25 +1,10 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import { useSportStore } from '@/lib/store';
 import PageNavbar from '@/components/PageNavbar';
 import { Check, ShieldCheck, Zap, Crown, CheckCircle2, TrendingUp, Lock } from 'lucide-react';
-import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 
-export default function SubscriptionPage() {
-    return (
-        <Suspense fallback={
-            <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
-                <PageNavbar title="Subscription & Billing" />
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <RunningAthleteLoader />
-                </div>
-            </div>
-        }>
-            <SubscriptionContent />
-        </Suspense>
-    );
-}
 
 const PRICING_PLANS = [
     {
@@ -73,7 +58,7 @@ const PRICING_PLANS = [
     }
 ];
 
-function SubscriptionContent() {
+export default function SubscriptionPage() {
     const { selectedSport } = useSportStore();
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
     const [isProcessing, setIsProcessing] = useState<string | null>(null);

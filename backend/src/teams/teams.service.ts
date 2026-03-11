@@ -82,7 +82,7 @@ export class TeamsService {
     async update(id: string, userId: string, data: Partial<{ name: string; logo: string; city: string; state: string }>) {
         const team = await this.findOne(id);
         if (team.managerId !== userId) {
-            throw new ForbiddenException('Only the team manager can update this team');
+            throw new ForbiddenException('Only the team owner can update this team');
         }
         return this.prisma.team.update({ where: { id }, data });
     }

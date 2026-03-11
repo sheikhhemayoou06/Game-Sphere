@@ -19,12 +19,12 @@ import SmartSearch from '@/components/SmartSearch';
    ROLE DETECTION HELPERS
    ═══════════════════════════════════════════════════════════════ */
 
-type RoleGroup = 'admin' | 'organizer' | 'team_manager' | 'official' | 'player';
+type RoleGroup = 'admin' | 'organizer' | 'team' | 'official' | 'player';
 
 function getRoleGroup(role: string): RoleGroup {
     if (['SUPER_ADMIN', 'STATE_ADMIN', 'DISTRICT_ADMIN'].includes(role)) return 'admin';
     if (role === 'ORGANIZER') return 'organizer';
-    if (role === 'TEAM_MANAGER') return 'team_manager';
+    if (role === 'TEAM') return 'team';
     if (role === 'OFFICIAL') return 'official';
     return 'player';
 }
@@ -42,8 +42,8 @@ const PLAYER_CARDS = [
     { href: '/messages', label: 'Messages', desc: 'Chat & Comm', icon: <MessageSquare size={20} />, gradient: 'linear-gradient(135deg, #4338ca, #312e81)' },
 ];
 
-// ─── TEAM MANAGER: Team operations, apply for tournaments (no creation) ───
-const TEAM_MANAGER_CARDS = [
+// ─── TEAM: Team operations, apply for tournaments (no creation) ───
+const TEAM_CARDS = [
     { href: '/tournaments', label: 'Tournaments', desc: 'Browse & apply for events', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
     { href: '/teams', label: 'My Team', desc: 'Manage roster & squad', icon: <Users size={20} />, gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
     { href: '/auction', label: 'Auction', desc: 'Player bidding & drafts', icon: <Gavel size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
@@ -156,7 +156,7 @@ const ROLE_THEMES: Record<RoleGroup, {
         ],
         badgeBg: '#ede9fe', badgeText: '#6d28d9',
     },
-    team_manager: {
+    team: {
         bg: '#faf5ff', navBg: 'white', navBorder: '#e9d5ff', textPrimary: '#1e1b4b', textSecondary: '#6b21a8',
         cardBg: 'white', cardBorder: '#f3e8ff', bannerGradient: 'linear-gradient(135deg, #7c3aed, #a855f7)',
         emoji: '⚡', sectionTitle: 'Team Management', quickAccessTitle: 'Team Operations',
@@ -192,7 +192,7 @@ const ROLE_THEMES: Record<RoleGroup, {
 const ROLE_CARDS: Record<RoleGroup, typeof PLAYER_CARDS> = {
     admin: ADMIN_CARDS,
     organizer: ORGANIZER_CARDS,
-    team_manager: TEAM_MANAGER_CARDS,
+    team: TEAM_CARDS,
     official: OFFICIAL_CARDS,
     player: PLAYER_CARDS,
 };
@@ -231,9 +231,9 @@ export default function DashboardPage() {
     const handleSelectNewSport = (sp: any) => {
         let formFields = SPORT_FORMS[sp.name];
 
-        // If user is a team manager, we override with the team creation form.
-        if (user?.role === 'TEAM_MANAGER') {
-            formFields = SPORT_FORMS.TEAM_MANAGER;
+        // If user is a team, we override with the team creation form.
+        if (user?.role === 'TEAM') {
+            formFields = SPORT_FORMS.TEAM;
         }
 
         if (formFields && formFields.length > 0) {
@@ -266,8 +266,8 @@ export default function DashboardPage() {
             // Fallback for context update
             addMySport(sp.id);
 
-            // If the user is a team manager, we also quickly provision their team
-            if (user?.role === 'TEAM_MANAGER' && metadata.teamName) {
+            // If the user is a team, we also quickly provision their team
+            if (user?.role === 'TEAM' && metadata.teamName) {
                 console.log("SENDING TEAM SETUP TO BACKEND:", { name: metadata.teamName, sportId: sp.id });
                 try {
                     await api.createTeam({
@@ -312,7 +312,7 @@ export default function DashboardPage() {
     const roleGroup = getRoleGroup(role);
     const theme = ROLE_THEMES[roleGroup];
     const quickCards = ROLE_CARDS[roleGroup];
-    const isOwnerRole = roleGroup === 'team_manager' || roleGroup === 'organizer';
+    const isOwnerRole = roleGroup === 'team' || roleGroup === 'organizer';
 
     useEffect(() => {
         loadFromStorage();
@@ -510,7 +510,7 @@ export default function DashboardPage() {
                             </div>
                             <div style={{ padding: '32px' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                    {(user?.role === 'TEAM_MANAGER' ? SPORT_FORMS.TEAM_MANAGER : SPORT_FORMS[onboardingSport.name])?.map((field) => (
+                                    {(user?.role === 'TEAM' ? SPORT_FORMS.TEAM : SPORT_FORMS[onboardingSport.name])?.map((field) => (
                                         <div key={field.id}>
                                             <label style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: "inherit", marginBottom: '8px' }}>
                                                 {field.label}
@@ -603,7 +603,7 @@ export default function DashboardPage() {
             { label: 'Active Teams', value: ownerDashData?.teams?.length || 0, icon: <Users size={20} />, color: "inherit" },
             { label: 'Role', value: roleLabels[role] || role, icon: <Shield size={20} />, color: "inherit" },
         ],
-        team_manager: [
+        team: [
             { label: 'Manager ID', value: <HighlightID id={user?.player?.sportsId} color="#8b5cf6" />, icon: <Fingerprint size={20} />, color: "inherit" },
             { label: 'Live Scoring', value: liveMatches.length > 0 ? 'Active' : 'None', icon: <Radio size={20} />, color: "inherit" },
             { label: 'My Teams', value: ownerDashData?.teams?.length || 0, icon: <Users size={20} />, color: "inherit" },
@@ -651,7 +651,7 @@ export default function DashboardPage() {
     const bannerSubtitles: Record<RoleGroup, string> = {
         admin: `🚀 Command Center — Powering ${sportLabel} Across India`,
         organizer: `${sportIconSVG} Orchestrating ${sportLabel} Excellence — Let's Build Champions`,
-        team_manager: `${sportIconSVG} Leading Your ${sportLabel} Squad to Victory`,
+        team: `${sportIconSVG} Leading Your ${sportLabel} Squad to Victory`,
         official: `${sportIconSVG} Enforcing Fair Play — ${sportLabel} Match Operations`,
         player: `🔥 Your Arena, Your Rules — Dominate the Game`,
     };
@@ -666,8 +666,8 @@ export default function DashboardPage() {
                 position: 'relative'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    {/* Hamburger Menu - Left Side Drawer (Player & Team Manager) */}
-                    {(roleGroup === 'player' || roleGroup === 'team_manager') && (
+                    {/* Hamburger Menu - Left Side Drawer (Player & Team) */}
+                    {(roleGroup === 'player' || roleGroup === 'team') && (
                         <>
                             <button
                                 onClick={() => setPlayerMenuOpen(true)}
@@ -807,7 +807,7 @@ export default function DashboardPage() {
                                             background: theme.badgeBg, color: theme.badgeText,
                                             fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase',
                                         }}>
-                                            {roleGroup === 'team_manager' ? '⚡ Team Manager' : '🏅 Player'}
+                                            {roleGroup === 'team' ? '⚡ Team' : '🏅 Player'}
                                         </div>
                                     )}
                                 </div>
@@ -1133,9 +1133,9 @@ export default function DashboardPage() {
                     )
                 }
 
-                {/* ─── TEAM MANAGER Dashboard Widgets (Team-Focused) ─── */}
+                {/* ─── TEAM Dashboard Widgets (Team-Focused) ─── */}
                 {
-                    roleGroup === 'team_manager' && !sportLoading && selectedSport && (
+                    roleGroup === 'team' && !sportLoading && selectedSport && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
                             {/* Team Overview — from API data */}
                             {ownerDashData?.teams?.map((team: any) => (
@@ -1248,7 +1248,7 @@ export default function DashboardPage() {
                     )
                 }
                 {
-                    roleGroup === 'team_manager' && !sportLoading && availableSports.length === 0 && (
+                    roleGroup === 'team' && !sportLoading && availableSports.length === 0 && (
                         <div style={{ padding: '48px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center', marginBottom: '32px' }}>
                             <div style={{ fontSize: '48px', marginBottom: '12px' }}>🏅</div>
                             <p style={{ color: theme.textSecondary, fontSize: '15px', marginBottom: '16px' }}>You don't have any teams yet. Create a team to get started!</p>
@@ -1357,7 +1357,7 @@ export default function DashboardPage() {
                     )
                 }
 
-                {/* ─── Team Manager & Other Roles Quick Access Cards ─── */}
+                {/* ─── Team & Other Roles Quick Access Cards ─── */}
                 {
                     roleGroup !== 'organizer' && roleGroup !== 'player' && (
                         <div style={{ marginBottom: '32px' }}>
@@ -1622,7 +1622,7 @@ export default function DashboardPage() {
                             </div>
                             <div style={{ padding: '32px' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                    {(user?.role === 'TEAM_MANAGER' ? SPORT_FORMS.TEAM_MANAGER : SPORT_FORMS[onboardingSport.name])?.map((field) => (
+                                    {(user?.role === 'TEAM' ? SPORT_FORMS.TEAM : SPORT_FORMS[onboardingSport.name])?.map((field) => (
                                         <div key={field.id}>
                                             <label style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: "inherit", marginBottom: '8px' }}>
                                                 {field.label}
