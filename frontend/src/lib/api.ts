@@ -157,6 +157,8 @@ export const api = {
     getOwnerDashboard: (sportId: string) => request<any>(`/teams/dashboard?sportId=${sportId}`),
     createTeam: (data: any) =>
         request<any>('/teams', { method: 'POST', body: JSON.stringify(data) }),
+    updateTeam: (id: string, data: any) =>
+        request<any>(`/teams/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     leaveTeam: (teamId: string, playerId: string) =>
         request<any>(`/teams/${teamId}/players/${playerId}`, { method: 'DELETE' }),
 

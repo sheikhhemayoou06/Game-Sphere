@@ -8,9 +8,10 @@ interface PageNavbarProps {
     title: string;
     emoji?: string;
     backHref?: string;
+    rightContent?: React.ReactNode;
 }
 
-export default function PageNavbar({ title, emoji, backHref }: PageNavbarProps) {
+export default function PageNavbar({ title, emoji, backHref, rightContent }: PageNavbarProps) {
     const router = useRouter();
 
     return (
@@ -34,7 +35,9 @@ export default function PageNavbar({ title, emoji, backHref }: PageNavbarProps) 
                     {title}
                 </span>
             </div>
-            <div style={{ width: '60px' }}></div>
+            <div style={{ minWidth: '60px', display: 'flex', justifyContent: 'flex-end' }}>
+                {rightContent}
+            </div>
         </div>
     );
 }
