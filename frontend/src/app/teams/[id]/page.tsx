@@ -172,7 +172,7 @@ export default function PublicTeamProfilePage() {
 
             {/* ── Cricbuzz-Style Hero Header ── */}
             <div style={{
-                background: 'linear-gradient(135deg, #1e1b4b, #312e81, #4c1d95)',
+                background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)',
                 padding: '30px 20px', color: 'white'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
