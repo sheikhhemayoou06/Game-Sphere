@@ -172,7 +172,7 @@ export default function PublicTeamProfilePage() {
 
             {/* ── Cricbuzz-Style Hero Header ── */}
             <div style={{
-                background: 'linear-gradient(to right, #4f46e5, #ec4899, #0f172a)',
+                background: 'linear-gradient(135deg, #1e1b4b, #312e81, #4c1d95)',
                 padding: '30px 20px', color: 'white'
             }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
@@ -282,9 +282,9 @@ export default function PublicTeamProfilePage() {
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
                             {[
                                 { label: 'Matches', val: completedMatches.length },
-                                { label: 'Won', val: wins, color: '#16a34a' },
-                                { label: 'Lost', val: losses, color: '#dc2626' },
-                                { label: 'Titles', val: titlesCount, color: '#d97706' },
+                                { label: 'Won', val: wins, color: sportColor },
+                                { label: 'Lost', val: losses, color: sportColor },
+                                { label: 'Titles', val: titlesCount, color: sportColor },
                             ].map((stat, i) => (
                                 <div key={i} style={{ background: 'white', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
                                     <div style={{ fontSize: '24px', fontWeight: 900, color: stat.color || '#0f172a', lineHeight: 1 }}>{stat.val}</div>
