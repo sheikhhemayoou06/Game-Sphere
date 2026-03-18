@@ -73,7 +73,7 @@ export default function PlayerProfilePage() {
             const apiUrl = process.env.NODE_ENV === 'development' && typeof window !== 'undefined'
                 ? `http://${window.location.hostname}:4000/api` : (process.env.NEXT_PUBLIC_API_URL || '/api');
 
-            fetch(`${apiUrl}/auth/profile`, {
+            fetch(`${apiUrl}/auth/user/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             })
                 .then((r) => r.json())
@@ -567,6 +567,29 @@ export default function PlayerProfilePage() {
                                     <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginTop: '6px' }}>{stat.label}</div>
                                 </div>
                             ))}
+                        </div>
+
+                        {/* Personal Details */}
+                        <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Info size={18} color={sportColor} /> Personal Details
+                            </h3>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+                                {[
+                                    { icon: <Phone size={14} />, label: 'Phone', value: user.phone ? `+${user.countryCode || '91'} ${user.phone}` : '—' },
+                                    { icon: <Mail size={14} />, label: 'Email', value: user.email || '—' },
+                                    { icon: <MapPin size={14} />, label: 'Location', value: [profile.district, profile.state, profile.country].filter(Boolean).join(', ') || 'India' },
+                                    ...(profile.heightCm ? [{ icon: <Activity size={14} />, label: 'Height', value: `${profile.heightCm} cm` }] : []),
+                                    ...(profile.gender ? [{ icon: <Users size={14} />, label: 'Gender', value: profile.gender }] : []),
+                                    { icon: <Calendar size={14} />, label: 'Sports ID', value: profile.sportsId || '—' },
+                                ].map((item, i, arr) => (
+                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: i < arr.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
+                                        <span style={{ color: '#94a3b8', display: 'flex' }}>{item.icon}</span>
+                                        <span style={{ fontSize: '13px', color: '#94a3b8', width: '90px', flexShrink: 0 }}>{item.label}</span>
+                                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{item.value}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         {/* Current Teams */}

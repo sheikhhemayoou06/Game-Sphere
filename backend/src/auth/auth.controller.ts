@@ -94,6 +94,11 @@ export class AuthController {
         return this.authService.getProfile(req.user.sub);
     }
 
+    @Get('user/:id')
+    async getPublicProfile(@Param('id') id: string) {
+        return this.authService.getPublicProfile(id);
+    }
+
     @UseGuards(JwtAuthGuard)
     @Patch('profile')
     async updateProfile(@Request() req: any, @Body() dto: any) {

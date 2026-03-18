@@ -251,12 +251,56 @@ export class AuthService {
             where: { id: userId },
             include: {
                 player: {
-                    include: { playerSports: { include: { sport: true } } }
+                    include: {
+                        playerSports: { include: { sport: true } },
+                        teamPlayers: { include: { team: { include: { sport: true } } } },
+                    }
                 }
             },
         });
         if (!user) {
             throw new UnauthorizedException('User not found');
+        }
+        return this.sanitizeUser(user);
+    }
+
+    async getPublicProfile(id: string) {
+        // Try finding by user ID first
+        let user = await this.prisma.user.findUnique({
+            where: { id },
+            include: {
+                player: {
+                    include: {
+                        playerSports: { include: { sport: true } },
+                        teamPlayers: { include: { team: { include: { sport: true } } } },
+                    }
+                }
+            },
+        });
+
+        // If not found, try finding by player ID
+        if (!user) {
+            const player = await this.prisma.player.findUnique({
+                where: { id },
+                include: { user: true },
+            });
+            if (player?.user) {
+                user = await this.prisma.user.findUnique({
+                    where: { id: player.user.id },
+                    include: {
+                        player: {
+                            include: {
+                                playerSports: { include: { sport: true } },
+                                teamPlayers: { include: { team: { include: { sport: true } } } },
+                            }
+                        }
+                    },
+                });
+            }
+        }
+
+        if (!user) {
+            throw new NotFoundException('Player not found');
         }
         return this.sanitizeUser(user);
     }
