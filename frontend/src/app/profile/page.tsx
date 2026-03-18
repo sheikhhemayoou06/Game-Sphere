@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { sportIcons } from '@/lib/utils';
@@ -26,6 +27,18 @@ const EMPTY_FOOTBALL = {
 export default function PlayerProfilePage() {
     const { user } = useAuthStore();
     const { selectedSport } = useSportStore();
+    const router = useRouter();
+
+    /* ── Redirect TEAM role users to their team profile ── */
+    useEffect(() => {
+        if (user?.role === 'TEAM') {
+            api.getMyTeams?.()?.then?.((teams: any[]) => {
+                if (Array.isArray(teams) && teams.length > 0) {
+                    router.replace(`/teams/${teams[0].id}`);
+                }
+            }).catch(() => { });
+        }
+    }, [user, router]);
     const [activeTab, setActiveTab] = useState<ProfileTab>('overview');
     const [showSecondaryStats, setShowSecondaryStats] = useState(false);
     const [careerStats, setCareerStats] = useState({ cricket: EMPTY_CRICKET, football: EMPTY_FOOTBALL });
