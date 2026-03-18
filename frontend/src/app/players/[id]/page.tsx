@@ -9,7 +9,8 @@ import {
     MapPin, Trophy, UserPlus, MessageSquare, BadgeCheck,
     Info, Users, Calendar, BarChart3, Image as ImageIcon,
     Phone, Mail, MessageCircle, ChevronDown, ChevronUp,
-    Award, History, ArrowRightLeft, Stethoscope, Star, Medal, Crown
+    Award, History, ArrowRightLeft, Stethoscope, Star, Medal, Crown,
+    Crosshair, Shield, Swords, Target, CircleDot, Dumbbell, Activity, Flame, Zap
 } from 'lucide-react';
 
 type TabKey = 'overview' | 'stats' | 'teams' | 'achievements' | 'history';
@@ -247,10 +248,10 @@ export default function PlayerProfilePage() {
     const winRate = totalMatches > 0 ? Math.round((totalWins / totalMatches) * 100) : 0;
 
     /* ── Stat card renderer ── */
-    const StatGrid = ({ title, emoji, stats }: { title: string; emoji: string; stats: { label: string; value: any }[] }) => (
+    const StatGrid = ({ title, icon, stats }: { title: string; icon: React.ReactNode; stats: { label: string; value: any }[] }) => (
         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {emoji} {title}
+            <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {icon} {title}
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {stats.map(s => (
@@ -288,12 +289,12 @@ export default function PlayerProfilePage() {
         return (
             <>
                 {/* Primary Section: depends on role */}
-                {isBatsman && <StatGrid title={`Batting${playerRole === 'All-Rounder' ? '' : ' (Primary)'}`} emoji="🏏" stats={battingStats} />}
-                {isBowler && !isBatsman && <StatGrid title="Bowling (Primary)" emoji="🎯" stats={bowlingStats} />}
-                {isKeeper && <StatGrid title="Wicketkeeping" emoji="🧤" stats={fieldingStats} />}
+                {isBatsman && <StatGrid title={`Batting${playerRole === 'All-Rounder' ? '' : ' (Primary)'}`} icon={<Swords size={16} color="#4f46e5" />} stats={battingStats} />}
+                {isBowler && !isBatsman && <StatGrid title="Bowling (Primary)" icon={<Target size={16} color="#dc2626" />} stats={bowlingStats} />}
+                {isKeeper && <StatGrid title="Wicketkeeping" icon={<Shield size={16} color="#0d9488" />} stats={fieldingStats} />}
 
                 {/* All-Rounders get bowling as primary too */}
-                {playerRole === 'All-Rounder' && <StatGrid title="Bowling" emoji="🎯" stats={bowlingStats} />}
+                {playerRole === 'All-Rounder' && <StatGrid title="Bowling" icon={<Target size={16} color="#dc2626" />} stats={bowlingStats} />}
 
                 {/* Secondary Stats Toggle */}
                 {(isBatsman && playerRole !== 'All-Rounder') && (
@@ -313,8 +314,8 @@ export default function PlayerProfilePage() {
                         </button>
                         {showSecondaryStats && (
                             <>
-                                <StatGrid title="Bowling" emoji="🎯" stats={bowlingStats} />
-                                <StatGrid title="Fielding" emoji="🧤" stats={fieldingStats} />
+                                <StatGrid title="Bowling" icon={<Target size={16} color="#dc2626" />} stats={bowlingStats} />
+                                <StatGrid title="Fielding" icon={<Shield size={16} color="#0d9488" />} stats={fieldingStats} />
                             </>
                         )}
                     </>
@@ -338,8 +339,8 @@ export default function PlayerProfilePage() {
                         </button>
                         {showSecondaryStats && (
                             <>
-                                <StatGrid title="Batting" emoji="🏏" stats={battingStats} />
-                                <StatGrid title="Fielding" emoji="🧤" stats={fieldingStats} />
+                                <StatGrid title="Batting" icon={<Swords size={16} color="#4f46e5" />} stats={battingStats} />
+                                <StatGrid title="Fielding" icon={<Shield size={16} color="#0d9488" />} stats={fieldingStats} />
                             </>
                         )}
                     </>
@@ -361,7 +362,7 @@ export default function PlayerProfilePage() {
                             </span>
                             {showSecondaryStats ? <ChevronUp size={16} color="#4f46e5" /> : <ChevronDown size={16} color="#4f46e5" />}
                         </button>
-                        {showSecondaryStats && <StatGrid title="Fielding" emoji="🧤" stats={fieldingStats} />}
+                        {showSecondaryStats && <StatGrid title="Fielding" icon={<Shield size={16} color="#0d9488" />} stats={fieldingStats} />}
                     </>
                 )}
             </>
@@ -386,13 +387,13 @@ export default function PlayerProfilePage() {
         ];
 
         const roleLabel = playerRole !== '—' ? ` (${playerRole})` : '';
-        return <StatGrid title={`Football Stats${roleLabel}`} emoji="⚽" stats={allStats} />;
+        return <StatGrid title={`Football Stats${roleLabel}`} icon={<CircleDot size={16} color="#16a34a" />} stats={allStats} />;
     };
 
     const renderOtherSportStats = () => {
         if (sportKey === 'basketball') {
             const bs = careerStats.basketball;
-            return <StatGrid title="Basketball Stats" emoji="🏀" stats={[
+            return <StatGrid title="Basketball Stats" icon={<Flame size={16} color="#ea580c" />} stats={[
                 { label: 'Matches', value: bs.matches }, { label: 'Points', value: bs.points },
                 { label: 'Rebounds', value: bs.rebounds }, { label: 'Assists', value: bs.assists },
                 { label: 'Steals', value: bs.steals }, { label: 'Blocks', value: bs.blocks },
@@ -401,7 +402,7 @@ export default function PlayerProfilePage() {
         }
         if (sportKey === 'kabaddi') {
             const ks = careerStats.kabaddi;
-            return <StatGrid title="Kabaddi Stats" emoji="🤼" stats={[
+            return <StatGrid title="Kabaddi Stats" icon={<Dumbbell size={16} color="#7c3aed" />} stats={[
                 { label: 'Matches', value: ks.matches }, { label: 'Raid Points', value: ks.raidPoints },
                 { label: 'Tackle Points', value: ks.tacklePoints }, { label: 'Super Raids', value: ks.superRaids },
                 { label: 'Super Tackles', value: ks.superTackles }, { label: 'Total Points', value: ks.totalPoints },
@@ -409,7 +410,7 @@ export default function PlayerProfilePage() {
         }
         if (sportKey === 'volleyball') {
             const vs = careerStats.volleyball;
-            return <StatGrid title="Volleyball Stats" emoji="🏐" stats={[
+            return <StatGrid title="Volleyball Stats" icon={<Zap size={16} color="#0ea5e9" />} stats={[
                 { label: 'Matches', value: vs.matches }, { label: 'Kills', value: vs.kills },
                 { label: 'Blocks', value: vs.blocks }, { label: 'Aces', value: vs.aces },
                 { label: 'Digs', value: vs.digs }, { label: 'Assists', value: vs.assists },
@@ -417,7 +418,7 @@ export default function PlayerProfilePage() {
         }
         if (sportKey === 'hockey') {
             const hs = careerStats.hockey;
-            return <StatGrid title="Hockey Stats" emoji="🏑" stats={[
+            return <StatGrid title="Hockey Stats" icon={<Activity size={16} color="#0d9488" />} stats={[
                 { label: 'Matches', value: hs.matches }, { label: 'Goals', value: hs.goals },
                 { label: 'Assists', value: hs.assists }, { label: 'Saves', value: hs.saves },
                 { label: 'Penalty Corners', value: hs.penaltyCorners },
