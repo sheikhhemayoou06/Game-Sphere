@@ -7,7 +7,10 @@ import { useAuthStore, useSportStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { sportIcons } from '@/lib/utils';
 import PageNavbar from '@/components/PageNavbar';
-import { User, BarChart3, Users, Trophy, History, ChevronDown, ChevronUp, Settings, MapPin, Phone, Mail, Shield, Award } from 'lucide-react';
+import {
+    User, BarChart3, Users, Trophy, History, ChevronDown, ChevronUp, Settings, MapPin, Phone, Mail, Shield, Award,
+    BadgeCheck, Crown, Star, Medal, Stethoscope, ArrowRightLeft, Swords, Target, CircleDot, Dumbbell, Activity, Flame, Zap, Info
+} from 'lucide-react';
 
 type ProfileTab = 'overview' | 'stats' | 'teams' | 'tournaments' | 'history';
 
@@ -141,7 +144,7 @@ export default function PlayerProfilePage() {
             })));
             setAchievements(pc.filter((c: any) => c.type === 'WINNER' || c.type === 'AWARD').map((c: any) => ({
                 title: c.tournamentName || c.recipientName || 'Achievement',
-                icon: c.type === 'WINNER' ? '🏆' : '🏅',
+                icon: c.type === 'WINNER' ? <Trophy size={16} color="#f59e0b" /> : <Medal size={16} color="#6366f1" />,
                 date: c.issuedAt ? new Date(c.issuedAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '—',
                 sport: c.sportName || 'General',
             })));
@@ -203,8 +206,8 @@ export default function PlayerProfilePage() {
 
             {/* ── Hero Header ── */}
             <div style={{
-                background: 'linear-gradient(135deg, #1e1b4b, #312e81, #4c1d95)',
-                padding: '28px 16px 48px', position: 'relative',
+                background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)',
+                padding: '30px 20px 48px', position: 'relative',
             }}>
                 <div style={{ maxWidth: '700px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
                     {/* Avatar */}
@@ -223,7 +226,9 @@ export default function PlayerProfilePage() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
                             <h1 style={{ fontSize: '20px', fontWeight: 900, color: 'white', margin: 0 }}>{playerName}</h1>
                             {verified && (
-                                <span style={{ padding: '2px 8px', borderRadius: '6px', background: 'rgba(34,197,94,0.2)', color: '#4ade80', fontSize: '10px', fontWeight: 700 }}>✓ Verified</span>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '3px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: 700, border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+                                    <BadgeCheck size={12} /> Verified
+                                </div>
                             )}
                         </div>
                         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', fontWeight: 600, marginBottom: '6px' }}>
@@ -316,7 +321,9 @@ export default function PlayerProfilePage() {
 
                         {/* Recent Matches */}
                         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>⚡ Recent Matches</h3>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <Zap size={14} color="#f59e0b" /> Recent Matches
+                            </h3>
                             {recentMatches.length === 0 ? (
                                 <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No recent matches.</div>
                             ) : (
@@ -340,7 +347,9 @@ export default function PlayerProfilePage() {
                         {/* Achievements */}
                         {achievements.length > 0 && (
                             <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                                <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>🏅 Achievements</h3>
+                                <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <Crown size={14} color="#f59e0b" /> Achievements
+                                </h3>
                                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                                     {achievements.map((a, i) => (
                                         <div key={i} style={{
@@ -368,7 +377,7 @@ export default function PlayerProfilePage() {
                         {selectedSportKey === 'cricket' || (!selectedSportKey && cs.matches > 0) ? (
                             <>
                                 <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                                    <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}>🏏 Batting (Primary)</h3>
+                                    <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}><Swords size={14} color="#4f46e5" /> Batting (Primary)</h3>
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                                         {[
                                             { label: 'Matches', value: cs.matches },
@@ -408,7 +417,7 @@ export default function PlayerProfilePage() {
                                 {showSecondaryStats && (
                                     <>
                                         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}>🎯 Bowling</h3>
+                                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}><Target size={14} color="#dc2626" /> Bowling</h3>
                                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                                                 {[
                                                     { label: 'Wickets', value: cs.wickets },
@@ -424,7 +433,7 @@ export default function PlayerProfilePage() {
                                             </div>
                                         </div>
                                         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}>🧤 Fielding</h3>
+                                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}><Shield size={14} color="#0d9488" /> Fielding</h3>
                                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                                                 {[
                                                     { label: 'Catches', value: cs.catches },
@@ -445,7 +454,7 @@ export default function PlayerProfilePage() {
 
                         {selectedSportKey === 'football' || (!selectedSportKey && fs.matches > 0) ? (
                             <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                                <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px' }}>⚽ Football Stats</h3>
+                                <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}><CircleDot size={14} color="#16a34a" /> Football Stats</h3>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                                     {[
                                         { label: 'Matches', value: fs.matches },
@@ -469,7 +478,7 @@ export default function PlayerProfilePage() {
 
                         {/* Performance Index */}
                         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>📊 Performance Index</h3>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><BarChart3 size={14} color="#4f46e5" /> Performance Index</h3>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                                 <div style={{
                                     width: '64px', height: '64px', borderRadius: '50%',
@@ -493,7 +502,7 @@ export default function PlayerProfilePage() {
 
                         {totalMatches === 0 && (
                             <div style={{ padding: '40px 20px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9', textAlign: 'center' }}>
-                                <div style={{ fontSize: '40px', marginBottom: '12px' }}>📊</div>
+                                <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}><BarChart3 size={40} color="#cbd5e1" /></div>
                                 <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>No stats yet</div>
                                 <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px' }}>Play matches to build your stats profile.</div>
                             </div>
@@ -506,7 +515,7 @@ export default function PlayerProfilePage() {
                     <div style={{ display: 'grid', gap: '12px' }}>
                         {teams.length === 0 ? (
                             <div style={{ padding: '50px 20px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9', textAlign: 'center' }}>
-                                <div style={{ fontSize: '40px', marginBottom: '12px' }}>🛡️</div>
+                                <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}><Shield size={40} color="#cbd5e1" /></div>
                                 <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>No teams yet</div>
                                 <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px' }}>Join a team to see it here.</div>
                             </div>
@@ -565,7 +574,7 @@ export default function PlayerProfilePage() {
                     <div style={{ display: 'grid', gap: '12px' }}>
                         {tournaments.length === 0 ? (
                             <div style={{ padding: '50px 20px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9', textAlign: 'center' }}>
-                                <div style={{ fontSize: '40px', marginBottom: '12px' }}>🏆</div>
+                                <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}><Trophy size={40} color="#cbd5e1" /></div>
                                 <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>No tournaments</div>
                                 <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px' }}>Tournament participation will appear here.</div>
                             </div>
@@ -585,7 +594,7 @@ export default function PlayerProfilePage() {
                                             background: `${statusColor[t.status] || '#6366f1'}12`,
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px',
                                         }}>
-                                            {t.status === 'LIVE' ? '🔴' : t.status === 'COMPLETED' ? '✅' : '🏆'}
+                                            {t.status === 'LIVE' ? <Activity size={18} color="#ef4444" /> : t.status === 'COMPLETED' ? <BadgeCheck size={18} color="#22c55e" /> : <Trophy size={18} color="#6366f1" />}
                                         </div>
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.name}</div>
@@ -612,13 +621,13 @@ export default function PlayerProfilePage() {
 
                         {/* Injuries */}
                         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>🏥 Injuries</h3>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Stethoscope size={14} color="#ef4444" /> Injuries</h3>
                             {injuries.length === 0 ? (
-                                <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No injury records. Keep it that way! 💪</div>
+                                <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No injury records. Stay healthy!</div>
                             ) : (
                                 injuries.map((inj: any, i: number) => (
                                     <div key={i} style={{ display: 'flex', gap: '10px', padding: '8px 0', borderBottom: i < injuries.length - 1 ? '1px solid #f8fafc' : 'none' }}>
-                                        <span style={{ fontSize: '16px' }}>🏥</span>
+                                        <span style={{ display: 'flex', alignItems: 'center' }}><Stethoscope size={16} color="#ef4444" /></span>
                                         <div>
                                             <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{inj.type || 'Injury'}</div>
                                             <div style={{ fontSize: '11px', color: '#94a3b8' }}>{inj.date} • {inj.recovery || 'Recovered'}</div>
@@ -630,7 +639,7 @@ export default function PlayerProfilePage() {
 
                         {/* Transfers */}
                         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>🔁 Transfers</h3>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><ArrowRightLeft size={14} color="#6366f1" /> Transfers</h3>
                             {transfers.length === 0 ? (
                                 <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No transfer history.</div>
                             ) : (
@@ -642,7 +651,7 @@ export default function PlayerProfilePage() {
                                         <div style={{
                                             width: '32px', height: '32px', borderRadius: '8px', background: '#f0fdf4',
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px',
-                                        }}>🔁</div>
+                                        }}><ArrowRightLeft size={14} color="#16a34a" /></div>
                                         <div style={{ flex: 1 }}>
                                             <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{tr.from} → {tr.to}</div>
                                             <div style={{ fontSize: '11px', color: '#94a3b8' }}>{tr.date}</div>
@@ -659,7 +668,7 @@ export default function PlayerProfilePage() {
 
                         {/* Certificates */}
                         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>📜 Certificates</h3>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><BadgeCheck size={14} color="#6366f1" /> Certificates</h3>
                             {certificates.length === 0 ? (
                                 <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No certificates yet.</div>
                             ) : (
@@ -672,7 +681,7 @@ export default function PlayerProfilePage() {
                                             width: '32px', height: '32px', borderRadius: '8px',
                                             background: cert.type === 'WINNER' ? '#fffbeb' : '#f0f0ff',
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px',
-                                        }}>{cert.type === 'WINNER' ? '🏆' : cert.type === 'AWARD' ? '🏅' : '📜'}</div>
+                                        }}>{cert.type === 'WINNER' ? <Trophy size={14} color="#f59e0b" /> : cert.type === 'AWARD' ? <Medal size={14} color="#6366f1" /> : <BadgeCheck size={14} color="#6366f1" />}</div>
                                         <div style={{ flex: 1 }}>
                                             <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{cert.title}</div>
                                             <div style={{ fontSize: '11px', color: '#94a3b8' }}>{cert.type} • {cert.date}</div>
@@ -684,7 +693,7 @@ export default function PlayerProfilePage() {
 
                         {/* Awards / Achievements */}
                         <div style={{ padding: '18px', borderRadius: '14px', background: 'white', border: '1px solid #f1f5f9' }}>
-                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>🥇 Awards</h3>
+                            <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Star size={14} color="#f59e0b" /> Awards</h3>
                             {achievements.length === 0 ? (
                                 <div style={{ padding: '20px', textAlign: 'center', color: '#94a3b8', fontSize: '13px' }}>No awards yet. Keep grinding!</div>
                             ) : (
