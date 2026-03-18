@@ -219,11 +219,11 @@ export default function PlayerProfilePage() {
 
     const user = player || {};
     const profile = user.player || {};
-    const sportName = profile.primarySport || 'Multi-sport';
+    const playerSports = profile.playerSports || [];
+    const sportName = profile.primarySport || playerSports[0]?.sport?.name || 'Multi-sport';
     const sportColor = '#1e3a8a';
 
     // Determine player role from playerSports metadata
-    const playerSports = profile.playerSports || [];
     const primaryPlayerSport = playerSports.find((ps: any) => ps.sport?.name?.toLowerCase() === sportName.toLowerCase()) || playerSports[0];
     const metadata = primaryPlayerSport?.metadata ? (typeof primaryPlayerSport.metadata === 'string' ? JSON.parse(primaryPlayerSport.metadata) : primaryPlayerSport.metadata) : {};
     const playerRole = metadata.role || metadata.position || '—';
