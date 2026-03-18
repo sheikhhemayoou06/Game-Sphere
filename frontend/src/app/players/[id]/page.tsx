@@ -503,14 +503,14 @@ export default function PlayerProfilePage() {
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px 24px', fontSize: '13px', color: '#cbd5e1', marginTop: '16px' }}>
                             <div><span style={{ color: '#94a3b8' }}>Sport:</span> <strong style={{ color: 'white' }}>{sportName}</strong></div>
                             <div><span style={{ color: '#94a3b8' }}>Role:</span> <strong style={{ color: 'white' }}>{playerRole}</strong></div>
-                            {(profile.city || profile.state || profile.district) && (
-                                <div><span style={{ color: '#94a3b8' }}>Location:</span> <strong style={{ color: 'white' }}>{[profile.city, profile.state, profile.country].filter(Boolean).join(', ') || 'India'}</strong></div>
+                            {sportKey === 'cricket' && bowlingStyle !== 'None' && bowlingStyle !== '—' && (
+                                <div><span style={{ color: '#94a3b8' }}>Bowl:</span> <strong style={{ color: 'white' }}>{bowlingStyle}</strong></div>
                             )}
                             {sportKey === 'cricket' && battingStyle !== '—' && (
                                 <div><span style={{ color: '#94a3b8' }}>Bat:</span> <strong style={{ color: 'white' }}>{battingStyle}</strong></div>
                             )}
-                            {sportKey === 'cricket' && bowlingStyle !== 'None' && bowlingStyle !== '—' && (
-                                <div><span style={{ color: '#94a3b8' }}>Bowl:</span> <strong style={{ color: 'white' }}>{bowlingStyle}</strong></div>
+                            {(profile.city || profile.state || profile.district) && (
+                                <div><span style={{ color: '#94a3b8' }}>Location:</span> <strong style={{ color: 'white' }}>{[profile.city, profile.state, profile.country].filter(Boolean).join(', ') || 'India'}</strong></div>
                             )}
                         </div>
                     </div>
