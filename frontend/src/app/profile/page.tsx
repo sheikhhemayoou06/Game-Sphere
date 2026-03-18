@@ -215,7 +215,7 @@ export default function PlayerProfilePage() {
             <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {icon} {title}
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+            <div className="prof-stat-grid">
                 {stats.map(s => (
                     <div key={s.label} style={{ textAlign: 'center', padding: '10px 6px', borderRadius: '10px', background: '#f8fafc' }}>
                         <div style={{ fontSize: '18px', fontWeight: 900, color: '#1e1b4b' }}>{s.value}</div>
@@ -310,26 +310,62 @@ export default function PlayerProfilePage() {
 
     return (
         <div style={{ minHeight: '100vh', background: '#f1f5f9', paddingBottom: '80px', fontFamily: 'Inter, sans-serif' }}>
+            <style>{`
+                .prof-header-wrap { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; }
+                .prof-avatar { width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 36px; font-weight: 900; color: white; border: 4px solid rgba(255,255,255,0.3); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+                .prof-name { font-size: 28px; font-weight: 900; margin: 0; letter-spacing: -0.5px; color: white; }
+                .prof-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px 24px; font-size: 13px; color: #cbd5e1; margin-top: 16px; }
+                .prof-content { max-width: 1000px; margin: 20px auto 0; padding: 0 20px; }
+                .prof-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+                .prof-summary-val { font-size: 24px; font-weight: 900; line-height: 1; }
+                .prof-tab-bar { display: flex; justify-content: center; min-width: max-content; gap: 4px; max-width: 1000px; margin: 0 auto; }
+                .prof-tab-btn { padding: 14px 20px; border: none; background: none; cursor: pointer; font-size: 13px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+                .prof-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+                .prof-trophy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+                .prof-header { padding: 30px 20px; }
+
+                @media (max-width: 640px) {
+                    .prof-header { padding: 20px 16px; }
+                    .prof-header-wrap { gap: 14px; justify-content: center; text-align: center; }
+                    .prof-avatar { width: 72px; height: 72px; font-size: 26px; border-width: 3px; }
+                    .prof-name { font-size: 22px; }
+                    .prof-info-grid { grid-template-columns: repeat(2, 1fr); gap: 8px 16px; font-size: 12px; margin-top: 12px; }
+                    .prof-content { padding: 0 12px; margin-top: 14px; }
+                    .prof-summary-grid { gap: 8px; }
+                    .prof-summary-val { font-size: 20px; }
+                    .prof-tab-bar { gap: 0; }
+                    .prof-tab-btn { padding: 12px 12px; font-size: 11px; gap: 4px; }
+                    .prof-stat-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+                    .prof-stat-grid > div { padding: 8px 4px !important; }
+                    .prof-stat-grid > div > div:first-child { font-size: 16px !important; }
+                    .prof-stat-grid > div > div:last-child { font-size: 9px !important; }
+                    .prof-trophy-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+                    .prof-edit-btn { padding: 6px 12px !important; font-size: 12px !important; }
+                    .prof-bio { font-size: 12px !important; }
+                    .prof-section-title { font-size: 14px !important; }
+                }
+                @media (max-width: 380px) {
+                    .prof-info-grid { grid-template-columns: 1fr; }
+                    .prof-stat-grid { grid-template-columns: repeat(2, 1fr); }
+                    .prof-tab-btn { padding: 10px 8px; font-size: 10px; }
+                    .prof-trophy-grid { grid-template-columns: 1fr; }
+                }
+            `}</style>
             <PageNavbar title="My Profile" />
 
             {/* ── Cricbuzz-Style Hero Header ── */}
-            <div style={{ background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', padding: '30px 20px', color: 'white' }}>
-                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+            <div className="prof-header" style={{ background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', color: 'white' }}>
+                <div className="prof-header-wrap">
                     <div style={{ position: 'relative' }}>
-                        <div style={{
-                            width: '100px', height: '100px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                            fontSize: '36px', fontWeight: 900, color: 'white',
-                            border: '4px solid rgba(255,255,255,0.3)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-                        }}>
+                        <div className="prof-avatar">
                             {user?.firstName?.[0] || '?'}{user?.lastName?.[0] || ''}
                         </div>
                     </div>
-                    <div style={{ flex: 1, minWidth: '280px' }}>
+                    <div style={{ flex: 1, minWidth: '200px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
                             <div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                                    <h2 style={{ fontSize: '28px', fontWeight: 900, margin: 0, letterSpacing: '-0.5px' }}>
+                                    <h2 className="prof-name">
                                         {user?.firstName || 'Player'} {user?.lastName || ''}
                                     </h2>
                                     {user?.isVerified && (
@@ -343,15 +379,15 @@ export default function PlayerProfilePage() {
                                         UID: {profile.sportsId}
                                     </div>
                                 )}
-                                <p style={{ fontSize: '13px', color: '#cbd5e1', margin: '0 0 12px 0', maxWidth: '400px', lineHeight: 1.4 }}>
+                                <p className="prof-bio" style={{ fontSize: '13px', color: '#cbd5e1', margin: '0 0 12px 0', maxWidth: '400px', lineHeight: 1.4 }}>
                                     {profile.bio || `${sportName} ${playerRole !== '—' ? playerRole : 'player'}. Passionate about sports and always ready for a challenge.`}
                                 </p>
                             </div>
-                            <Link href="/settings" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 16px', borderRadius: '8px', fontWeight: 700, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}>
+                            <Link href="/settings" className="prof-edit-btn" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 16px', borderRadius: '8px', fontWeight: 700, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}>
                                 <Settings size={14} /> Edit Profile
                             </Link>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px 24px', fontSize: '13px', color: '#cbd5e1', marginTop: '16px' }}>
+                        <div className="prof-info-grid">
                             <div><span style={{ color: '#94a3b8' }}>Sport:</span> <strong style={{ color: 'white' }}>{sportName}</strong></div>
                             <div><span style={{ color: '#94a3b8' }}>Role:</span> <strong style={{ color: 'white' }}>{playerRole}</strong></div>
                             {sportKey === 'cricket' && bowlingStyle !== 'None' && bowlingStyle !== '—' && (playerRole === 'Bowler' || playerRole === 'All-Rounder') && (
@@ -375,15 +411,13 @@ export default function PlayerProfilePage() {
             </div>
 
             {/* ── Tab Navigation ── */}
-            <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: '53px', zIndex: 90, overflowX: 'auto' }}>
-                <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', justifyContent: 'center', minWidth: 'max-content', gap: '4px' }}>
+            <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: '53px', zIndex: 90, overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                <div className="prof-tab-bar">
                     {TAB_CONFIG.map(({ key, label, icon: Icon }) => (
-                        <button key={key} onClick={() => setActiveTab(key)} style={{
-                            padding: '14px 20px', border: 'none', background: 'none', cursor: 'pointer',
-                            fontSize: '13px', fontWeight: activeTab === key ? 800 : 600,
+                        <button key={key} onClick={() => setActiveTab(key)} className="prof-tab-btn" style={{
+                            fontWeight: activeTab === key ? 800 : 600,
                             color: activeTab === key ? sportColor : '#64748b',
                             borderBottom: activeTab === key ? `3px solid ${sportColor}` : '3px solid transparent',
-                            transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px',
                         }}>
                             <Icon size={16} /> {label}
                         </button>
@@ -392,21 +426,21 @@ export default function PlayerProfilePage() {
             </div>
 
             {/* ── Main Content Area ── */}
-            <div style={{ maxWidth: '1000px', margin: '20px auto 0', padding: '0 20px' }}>
+            <div className="prof-content">
 
                 {/* ═══════ OVERVIEW TAB ═══════ */}
                 {activeTab === 'overview' && (
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                        <div className="prof-summary-grid">
                             {[{ label: 'Matches', val: totalMatches }, { label: 'Won', val: totalWins, color: sportColor }, { label: 'Win Rate', val: `${winRate}%`, color: sportColor }].map((stat, i) => (
                                 <div key={i} style={{ background: 'white', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-                                    <div style={{ fontSize: '24px', fontWeight: 900, color: stat.color || '#0f172a', lineHeight: 1 }}>{stat.val}</div>
+                                    <div className="prof-summary-val" style={{ color: stat.color || '#0f172a' }}>{stat.val}</div>
                                     <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginTop: '6px' }}>{stat.label}</div>
                                 </div>
                             ))}
                         </div>
                         <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
-                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <h3 className="prof-section-title" style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 <Users size={18} color={sportColor} /> Current Teams
                             </h3>
                             {(profile.teamPlayers?.length || 0) === 0 ? (
@@ -430,7 +464,7 @@ export default function PlayerProfilePage() {
                             )}
                         </div>
                         <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
-                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <h3 className="prof-section-title" style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 <Zap size={18} color="#f59e0b" /> Recent Matches
                             </h3>
                             {recentMatches.length === 0 ? (
@@ -511,7 +545,7 @@ export default function PlayerProfilePage() {
                             {achievements.filter(a => a.type === 'WINNER').length === 0 ? (
                                 <div style={{ padding: '30px', textAlign: 'center' }}><Trophy size={40} color="#cbd5e1" /><p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No trophies yet. Keep competing!</p></div>
                             ) : (
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
+                                <div className="prof-trophy-grid">
                                     {achievements.filter(a => a.type === 'WINNER').map((a, i) => (
                                         <div key={i} style={{ padding: '16px', borderRadius: '12px', background: 'linear-gradient(135deg, #fffbeb, #fef3c7)', border: '1px solid #fde68a', textAlign: 'center' }}>
                                             <div style={{ marginBottom: '8px', display: 'flex', justifyContent: 'center' }}><Trophy size={32} color="#f59e0b" /></div>
