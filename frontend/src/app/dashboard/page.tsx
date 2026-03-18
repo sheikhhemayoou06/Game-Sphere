@@ -985,11 +985,7 @@ export default function DashboardPage() {
                 </div>
             </nav>
 
-            <div className="mobile-padding" style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px', paddingBottom: roleGroup === 'player' ? '100px' : '32px' }}>
-
-
-
-
+            <div className="mobile-padding" style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px', paddingBottom: roleGroup === 'player' || roleGroup === 'team' ? '100px' : '32px' }}>
 
                 {/* ─── Sport Loading Indicator ─── */}
                 {roleGroup !== 'organizer' && roleGroup !== 'admin' && isOwnerRole && sportLoading && (
@@ -997,6 +993,407 @@ export default function DashboardPage() {
                         ⏳ Loading {selectedSport?.name} dashboard...
                     </div>
                 )}
+
+
+                {
+                    roleGroup === 'team' && !sportLoading && availableSports.length === 0 && (
+                        <div style={{ padding: '48px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center', marginBottom: '32px' }}>
+                            <div style={{ fontSize: '48px', marginBottom: '12px' }}>🏅</div>
+                            <p style={{ color: theme.textSecondary, fontSize: '15px', marginBottom: '16px' }}>You don't have any teams yet. Create a team to get started!</p>
+                            <Link href="/teams" className="btn-primary" style={{ padding: '10px 24px', fontSize: '14px' }}>+ Create Team</Link>
+                        </div>
+                    )
+                }
+
+                {/* ─── Organiser Strict Context Lock Navigation ─── */}
+                {
+                    roleGroup === 'organizer' && (
+                        <div style={{ marginBottom: '32px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                <div>
+                                </div>
+                                {activeTournament && (
+                                    <button onClick={() => useSportStore.getState().clearActiveTournament()} style={{
+                                        padding: '8px 16px', borderRadius: '8px', background: 'white', border: `1px solid ${theme.cardBorder}`,
+                                        color: "inherit", fontWeight: 600, fontSize: '12px', cursor: 'pointer'
+                                    }}>
+                                        ✖ Clear Context
+                                    </button>
+                                )}
+                            </div>
+
+                            {!selectedSport ? (
+                                <div style={{ padding: '32px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center' }}>
+                                    <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏆</div>
+                                    <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select a Sport</h3>
+                                    <p style={{ fontSize: '14px', color: theme.textSecondary, marginBottom: '16px' }}>Please select a sport from the banner above to load your tournament tools.</p>
+                                </div>
+                            ) : !activeTournament ? (
+                                <div style={{ padding: '32px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}` }}>
+                                    <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                                        <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏟️</div>
+                                        <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select an Active Tournament</h3>
+                                        <p style={{ fontSize: '14px', color: theme.textSecondary }}>Choose a tournament to load scoped data and tools.</p>
+                                    </div>
+                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+                                        {tournaments.filter(t => t.sport?.id === selectedSport.id).map(t => (
+                                            <button key={t.id} onClick={() => useSportStore.getState().setActiveTournament(t)} style={{
+                                                padding: '16px', borderRadius: '12px', background: '#faf5ff', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}40`,
+                                                textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '8px',
+                                                transition: 'all 0.2s'
+                                            }} className="hover:border-purple-500 hover:shadow-md">
+                                                <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{t.name}</div>
+                                                <div style={{ fontSize: '12px', color: "inherit", fontWeight: 600 }}>{t.format}</div>
+                                                <span style={{
+                                                    fontSize: '10px', padding: '4px 8px', borderRadius: '4px', fontWeight: 700, alignSelf: 'flex-start',
+                                                    background: t.status === 'LIVE' ? '#fef2f2' : t.status === 'COMPLETED' ? '#f0fdf4' : `${selectedSport.accentColor || '#6d28d9'}15`,
+                                                    color: t.status === 'LIVE' ? '#ef4444' : t.status === 'COMPLETED' ? '#16a34a' : selectedSport.accentColor || '#6d28d9',
+                                                }}>{t.status}</span>
+                                            </button>
+                                        ))}
+                                        <Link href={`/tournaments/create?sport=${selectedSport.id}`} style={{
+                                            padding: '16px', borderRadius: '12px', background: 'white', border: `2px dashed ${selectedSport.accentColor || '#e9d5ff'}`,
+                                            textAlign: 'center', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '8px',
+                                            textDecoration: 'none'
+                                        }}>
+                                            <div style={{ fontSize: '24px', color: selectedSport.accentColor || '#7c3aed' }}>+</div>
+                                            <div style={{ fontWeight: 700, fontSize: '14px', color: selectedSport.accentColor || '#7c3aed' }}>Create Tournament</div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <div className="flex-wrap-mobile" style={{ padding: '16px', borderRadius: '12px', background: `${selectedSport.accentColor || '#7c3aed'}10`, border: `1px solid ${selectedSport.accentColor || '#7c3aed'}30`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', gap: '12px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <div style={{ fontSize: '24px' }}>🔒</div>
+                                            <div>
+                                                <div style={{ fontSize: '12px', fontWeight: 700, color: selectedSport.accentColor || '#7c3aed', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Active Context Lock</div>
+                                                <div style={{ fontSize: '16px', fontWeight: 800, color: "inherit" }}>{activeTournament.name}</div>
+                                            </div>
+                                        </div>
+                                        <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'white', fontSize: '12px', fontWeight: 700, color: selectedSport.accentColor || '#7c3aed', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                                            {sportLabel} • {activeTournament.format}
+                                        </span>
+                                    </div>
+                                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                                        {[
+                                            { href: `/tournaments/${activeTournament.id}?tab=overview`, label: 'Overview', desc: 'Stats & Activity', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=teams`, label: 'Teams', desc: 'Registrations & Squads', icon: '📝', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=fixtures`, label: 'Fixtures', desc: 'Schedule & Results', icon: '📅', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=scoring`, label: 'Live Scoring', desc: 'Score Matches', icon: '🔴', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=auction`, label: 'Auction', desc: 'Live Bidding', icon: '🔨', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=transfers`, label: 'Transfers', desc: 'Player Movement', icon: '🔄', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=financials`, label: 'Financials', desc: 'Fees & Payouts', icon: '💰', gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=leaderboard`, label: 'Leaderboard', desc: 'Points & Rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=chat`, label: 'Chat', desc: 'Team & Admin Comm', icon: '💬', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=media`, label: 'Media', desc: 'Photos & Videos', icon: '📸', gradient: 'linear-gradient(135deg, #9d174d, #ec4899)' },
+                                            { href: `/tournaments/${activeTournament.id}?tab=settings`, label: 'Settings', desc: 'Configure Tournament', icon: '⚙️', gradient: 'linear-gradient(135deg, #1e293b, #334155)' },
+                                        ].map((item) => (
+                                            <Link key={item.label} href={item.href} className="card-hover" style={{
+                                                display: 'block', padding: '24px', borderRadius: '16px', background: item.gradient,
+                                                textDecoration: 'none', color: 'white', position: 'relative', overflow: 'hidden'
+                                            }}>
+                                                <div style={{ fontSize: '32px', marginBottom: '12px' }}>{item.icon}</div>
+                                                <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '4px' }}>{item.label}</div>
+                                                <div style={{ fontSize: '12px', opacity: 0.85 }}>{item.desc}</div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )
+                }
+
+                {/* ─── Team & Other Roles Quick Access Cards ─── */}
+                {
+                    roleGroup !== 'organizer' && roleGroup !== 'player' && roleGroup !== 'team' && (
+                        <div style={{ marginBottom: '32px' }}>
+                            <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px', color: theme.textPrimary }}>
+                                {theme.sectionTitle}
+                            </h2>
+                            <p style={{ fontSize: '13px', color: theme.textSecondary, marginBottom: '16px' }}>
+                                {theme.quickAccessTitle}
+                            </p>
+                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px' }}>
+                                {quickCards.map((item) => (
+                                    <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} className="card-hover" style={{
+                                        padding: '24px', borderRadius: '16px', background: item.gradient,
+                                        textDecoration: 'none', color: 'white', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s',
+                                    }}>
+                                        <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>{item.icon}</div>
+                                        <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '6px' }}>{item.label}</div>
+                                        <div style={{ fontSize: '13px', opacity: 0.8, lineHeight: 1.4 }}>{item.desc}</div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
+
+                {/* ─── Player Bottom Navigation Bar ─── */}
+                {
+                    roleGroup === 'player' && (
+                        <div style={{
+                            position: 'fixed', bottom: 0, left: 0, right: 0,
+                            background: 'white', borderTop: `1px solid ${theme.cardBorder}`,
+                            display: 'flex', justifyContent: 'space-around', alignItems: 'center',
+                            padding: '12px 8px', paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
+                            zIndex: 900, boxShadow: '0 -4px 16px rgba(0,0,0,0.05)',
+                        }}>
+                            {quickCards.map((item) => (
+                                <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{
+                                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
+                                    textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0',
+                                    transition: 'color 0.2s',
+                                }}>
+                                    <div style={{ color: '#64748b' }}>{item.icon}</div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600 }}>{item.label}</div>
+                                </Link>
+                            ))}
+                        </div>
+                    )
+                }
+
+                {/* ─── Team Bottom Navigation Bar ─── */}
+                {
+                    roleGroup === 'team' && (
+                        <div style={{
+                            position: 'fixed', bottom: 0, left: 0, right: 0,
+                            background: 'white', borderTop: `1px solid ${theme.cardBorder}`,
+                            display: 'flex', justifyContent: 'space-around', alignItems: 'center',
+                            padding: '12px 8px', paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
+                            zIndex: 900, boxShadow: '0 -4px 16px rgba(0,0,0,0.05)',
+                        }}>
+                            {[
+                                { id: 'tournaments', icon: Trophy, label: 'Tournaments', link: '/tournaments' },
+                                { id: 'teams', icon: Users, label: 'My Team', link: '/teams' },
+                                { id: 'search', icon: Search, label: 'Search', link: '/explore' },
+                                { id: 'payments', icon: CreditCard, label: 'Payments', link: '/payments' },
+                                { id: 'messages', icon: MessageSquare, label: 'Messages', link: '/messages' }
+                            ].map(tab => (
+                                <Link key={tab.id} href={tab.link} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0', transition: 'color 0.2s' }}>
+                                    <div style={{ color: '#64748b' }}>
+                                        <tab.icon size={22} strokeWidth={2} />
+                                    </div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>{tab.label}</div>
+                                </Link>
+                            ))}
+                        </div>
+                    )
+                }
+
+                {/* ─── Advertisement Bar ─── */}
+                {
+                    (() => {
+                        const ADS = [
+                            {
+                                tag: "GameSphere Built",
+                                title: "Play Hard, Live Clean. A Drug-Free Society.",
+                                desc: "Empowering athletes and building a healthier world through sports. Developed with passion by Sheikh Hemayoou.",
+                                link: "/about", btn: "Learn More",
+                                bg: "linear-gradient(135deg, #0f172a, #1e293b)",
+                                accent1: "rgba(56, 189, 248, 0.15)", accent2: "rgba(168, 85, 247, 0.1)",
+                                textHighlight: "#38bdf8", btnBg: "#38bdf8", btnText: "#0f172a"
+                            },
+                            {
+                                tag: "Pro Shop Offers",
+                                title: "Level Up Your Equipment",
+                                desc: "Get 20% off all professional cricket bats and football boots this week only in the Pro Shop.",
+                                link: "/shop", btn: "Shop Now",
+                                bg: "linear-gradient(135deg, #1e293b, #0f172a)",
+                                accent1: "rgba(56, 189, 248, 0.1)", accent2: "rgba(168, 85, 247, 0.1)",
+                                textHighlight: "#38bdf8", btnBg: "#38bdf8", btnText: "#0f172a"
+                            },
+                            {
+                                tag: "Mega Auction",
+                                title: "Register for the Auction",
+                                desc: "Don't miss the upcoming premier league mega auction. Secure your spot & verify your stats today.",
+                                link: "/auction", btn: "Register Now",
+                                bg: "linear-gradient(135deg, #4c1d95, #2e1065)",
+                                accent1: "rgba(244, 114, 182, 0.15)", accent2: "rgba(167, 139, 250, 0.1)",
+                                textHighlight: "#f472b6", btnBg: "#f472b6", btnText: "#4c1d95"
+                            },
+                            {
+                                tag: "Open Team Trials",
+                                title: "Prove Your Skills",
+                                desc: "Local professional teams are hosting open field trials next weekend! Find an event near your city.",
+                                link: "/calendar", btn: "Find Trials",
+                                bg: "linear-gradient(135deg, #064e3b, #022c22)",
+                                accent1: "rgba(52, 211, 153, 0.1)", accent2: "rgba(250, 204, 21, 0.1)",
+                                textHighlight: "#34d399", btnBg: "#fbbf24", btnText: "#064e3b"
+                            }
+                        ];
+                        return (
+                            <div style={{
+                                marginTop: '24px', marginBottom: '32px', position: 'relative',
+                                height: '145px', overflow: 'hidden', borderRadius: '16px',
+                                boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '1px solid #334155'
+                            }}>
+                                {ADS.map((ad, idx) => (
+                                    <div key={idx} style={{
+                                        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                                        background: ad.bg, padding: '24px',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                        opacity: adIndex === idx ? 1 : 0,
+                                        pointerEvents: adIndex === idx ? 'auto' : 'none',
+                                        transform: adIndex === idx ? 'translateY(0)' : (adIndex > idx ? 'translateY(-20px)' : 'translateY(20px)'),
+                                        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    }}>
+                                        {/* Decorative Elements */}
+                                        <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', background: ad.accent1, borderRadius: '50%', filter: 'blur(20px)' }}></div>
+                                        <div style={{ position: 'absolute', bottom: '-20px', left: '20%', width: '120px', height: '120px', background: ad.accent2, borderRadius: '50%', filter: 'blur(30px)' }}></div>
+
+                                        <div style={{ position: 'relative', zIndex: 1 }}>
+                                            <div style={{ fontSize: '11px', fontWeight: 800, color: ad.textHighlight, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+                                                {ad.tag}
+                                            </div>
+                                            <h3 style={{ fontSize: '20px', fontWeight: 800, color: 'white', marginBottom: '4px', letterSpacing: '-0.5px' }}>
+                                                {ad.title}
+                                            </h3>
+                                            <p style={{ fontSize: '14px', color: '#cbd5e1', maxWidth: '320px', lineHeight: 1.5 }}>
+                                                {ad.desc}
+                                            </p>
+                                        </div>
+
+                                        <Link href={ad.link} style={{
+                                            position: 'relative', zIndex: 1, padding: '12px 24px', background: ad.btnBg, color: ad.btnText,
+                                            fontWeight: 800, fontSize: '14px', borderRadius: '12px', textDecoration: 'none', whiteSpace: 'nowrap',
+                                            transition: 'transform 0.2s', boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+                                        }} className="card-hover">
+                                            {ad.btn}
+                                        </Link>
+                                    </div>
+                                ))}
+                            </div>
+                        );
+                    })()
+                }
+
+                {/* ─── Live Matches (filtered by selected sport) ─── */}
+                {
+                    (() => {
+                        const filteredLive = selectedSport
+                            ? liveMatches.filter((m: any) => m.sport?.name === selectedSport.name || m.sport?.id === selectedSport.id)
+                            : liveMatches;
+                        return (
+                            <div style={{ marginBottom: '32px' }}>
+                                <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '16px', color: theme.textPrimary, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <span className="live-pulse"></span> Live {sportLabel} Matches
+                                </h2>
+                                {filteredLive.length > 0 ? (
+                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                                        {filteredLive.map((match: any) => (
+                                            <Link href={`/matches/${match.id}`} key={match.id} className="card-hover" style={{
+                                                padding: '20px', borderRadius: '14px',
+                                                background: theme.cardBg, border: '2px solid #fecaca',
+                                                textDecoration: 'none', color: theme.textPrimary,
+                                            }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                                                    <SportIcon sport={match.sport?.name || 'Athletics'} size={24} color="currentColor" />
+                                                    <span className="status-badge" style={{ background: '#fef2f2', color: "inherit" }}>
+                                                        <span className="live-pulse"></span> LIVE
+                                                    </span>
+                                                </div>
+                                                <div style={{ fontSize: '15px', fontWeight: 700 }}>
+                                                    {match.homeTeam?.name || 'TBD'} vs {match.awayTeam?.name || 'TBD'}
+                                                </div>
+                                                <div style={{ fontSize: '12px', color: "inherit", marginTop: '4px' }}>{match.tournament?.name}</div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div style={{
+                                        padding: '32px', borderRadius: '14px', background: theme.cardBg, border: `1px dashed ${theme.cardBorder}`,
+                                        textAlign: 'center', color: theme.textSecondary, fontSize: '14px', fontWeight: 500
+                                    }}>
+                                        <div style={{ fontSize: '32px', marginBottom: '8px', opacity: 0.5 }}>🏟️</div>
+                                        <div>No live matches currently happening for {sportLabel}.</div>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })()
+                }
+
+                {/* ─── My Updates & News Feed ─── */}
+                {
+                    true && (
+                        <div style={{ marginBottom: '32px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                                <h2 style={{ fontSize: '20px', fontWeight: 700, color: theme.textPrimary, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <Bell size={20} className="text-indigo-600" /> Latest {sportLabel} Updates
+                                </h2>
+                                <Link href="/news" style={{ fontSize: '13px', color: '#6366f1', fontWeight: 600, textDecoration: 'none', background: '#eef2ff', padding: '6px 12px', borderRadius: '20px' }}>View All</Link>
+                            </div>
+
+                            {(() => {
+                                // Dynamic dummy updates based on selected sport
+                                const sName = selectedSport?.name || 'Sports';
+                                const sColor = selectedSport?.accentColor || '#4f46e5';
+                                
+                                const updates = [
+                                    {
+                                        id: 1,
+                                        icon: Trophy,
+                                        iconColor: sColor,
+                                        iconBg: `${sColor}15`,
+                                        text: (
+                                            <>
+                                                The <span style={{ color: sColor }}>City Super Kings</span> advanced to the {sName} semi-finals!
+                                            </>
+                                        ),
+                                        time: `2 hours ago • ${sName}`
+                                    },
+                                    {
+                                        id: 2,
+                                        icon: Calendar,
+                                        iconColor: '#dc2626',
+                                        iconBg: '#fef2f2',
+                                        text: (
+                                            <>
+                                                New {sName.toLowerCase()} tournament <span style={{ color: '#dc2626' }}>Summer Smash 2026</span> is accepting registrations.
+                                            </>
+                                        ),
+                                        time: `5 hours ago • ${sName}`
+                                    },
+                                    {
+                                        id: 3,
+                                        icon: Users,
+                                        iconColor: '#16a34a',
+                                        iconBg: '#f0fdf4',
+                                        text: (
+                                            <>
+                                                <span style={{ color: '#16a34a' }}>Mumbai Strikers</span> are looking for new {sName.toLowerCase()} players.
+                                            </>
+                                        ),
+                                        time: `1 day ago • ${sName}`
+                                    }
+                                ];
+
+                                return (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                        {updates.map(update => (
+                                            <div key={update.id} className="card-hover" style={{ background: 'white', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', display: 'flex', gap: '16px', alignItems: 'flex-start', cursor: 'pointer' }}>
+                                                <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: update.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: update.iconColor, flexShrink: 0 }}>
+                                                    <update.icon size={20} />
+                                                </div>
+                                                <div>
+                                                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#1e1b4b', marginBottom: '4px' }}>
+                                                        {update.text}
+                                                    </div>
+                                                    <div style={{ fontSize: '12px', color: '#64748b' }}>{update.time}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                );
+                            })()}
+                        </div>
+                    )
+                }
+
+            
 
 
 
@@ -1200,40 +1597,6 @@ export default function DashboardPage() {
                             ))}
 
 
-                            {/* Upcoming Fixtures — from API data */}
-                            <div style={{ padding: '20px', borderRadius: '16px', background: 'white', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                                    <div style={{ fontSize: '13px', fontWeight: 700, color: selectedSport.accentColor || '#6d28d9' }}>🏟️ {selectedSport.name?.toUpperCase()} FIXTURES</div>
-                                    <Link href="/fixtures" style={{ fontSize: '12px', fontWeight: 600, color: selectedSport.accentColor || '#7c3aed', textDecoration: 'none' }}>All fixtures →</Link>
-                                </div>
-                                {(ownerDashData?.upcomingFixtures || []).length === 0 && (ownerDashData?.matchHistory || []).length === 0 ? (
-                                    <div style={{ fontSize: '12px', color: "inherit", padding: '16px 0', textAlign: 'center' }}>No {selectedSport.name} fixtures yet</div>
-                                ) : (
-                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-                                        {(ownerDashData?.upcomingFixtures || []).slice(0, 3).map((m: any, i: number) => (
-                                            <div key={i} style={{ padding: '14px', borderRadius: '10px', background: '#faf5ff', border: `1px solid ${selectedSport.accentColor || '#e9d5ff'}30` }}>
-                                                <div style={{ fontWeight: 800, fontSize: '14px', color: "inherit", marginBottom: '4px' }}>
-                                                    {m.homeTeam?.name || 'TBD'} vs {m.awayTeam?.name || 'TBD'}
-                                                </div>
-                                                <div style={{ fontSize: '11px', color: selectedSport.accentColor || '#6d28d9', fontWeight: 600, marginBottom: '4px' }}>
-                                                    📅 {m.scheduledAt ? formatDate(m.scheduledAt) : 'TBD'}
-                                                </div>
-                                                <div style={{ fontSize: '11px', color: "inherit" }}>🏟️ {m.venue || 'TBD'}</div>
-                                                <span style={{ fontSize: '10px', marginTop: '6px', display: 'inline-block', padding: '2px 8px', borderRadius: '4px', background: `${selectedSport.accentColor || '#6d28d9'}15`, color: selectedSport.accentColor || '#6d28d9', fontWeight: 700 }}>{m.round || m.status}</span>
-                                            </div>
-                                        ))}
-                                        {(ownerDashData?.matchHistory || []).slice(0, 3 - (ownerDashData?.upcomingFixtures || []).length).map((m: any, i: number) => (
-                                            <div key={`h${i}`} style={{ padding: '14px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                                                <div style={{ fontWeight: 800, fontSize: '14px', color: "inherit", marginBottom: '4px' }}>
-                                                    {m.homeTeam?.name || 'TBD'} vs {m.awayTeam?.name || 'TBD'}
-                                                </div>
-                                                <div style={{ fontSize: '11px', color: "inherit" }}>🏆 {m.tournament?.name}</div>
-                                                <span style={{ fontSize: '10px', marginTop: '6px', display: 'inline-block', padding: '2px 8px', borderRadius: '4px', background: m.status === 'COMPLETED' ? '#f0fdf4' : '#fef2f2', color: m.status === 'COMPLETED' ? '#16a34a' : '#ef4444', fontWeight: 700 }}>{m.status}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
                         </div>
                     )}
 
@@ -1247,355 +1610,8 @@ export default function DashboardPage() {
                         </div>
                     )
                 }
-                {
-                    roleGroup === 'team' && !sportLoading && availableSports.length === 0 && (
-                        <div style={{ padding: '48px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center', marginBottom: '32px' }}>
-                            <div style={{ fontSize: '48px', marginBottom: '12px' }}>🏅</div>
-                            <p style={{ color: theme.textSecondary, fontSize: '15px', marginBottom: '16px' }}>You don't have any teams yet. Create a team to get started!</p>
-                            <Link href="/teams" className="btn-primary" style={{ padding: '10px 24px', fontSize: '14px' }}>+ Create Team</Link>
-                        </div>
-                    )
-                }
 
-                {/* ─── Organiser Strict Context Lock Navigation ─── */}
-                {
-                    roleGroup === 'organizer' && (
-                        <div style={{ marginBottom: '32px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                <div>
-                                </div>
-                                {activeTournament && (
-                                    <button onClick={() => useSportStore.getState().clearActiveTournament()} style={{
-                                        padding: '8px 16px', borderRadius: '8px', background: 'white', border: `1px solid ${theme.cardBorder}`,
-                                        color: "inherit", fontWeight: 600, fontSize: '12px', cursor: 'pointer'
-                                    }}>
-                                        ✖ Clear Context
-                                    </button>
-                                )}
-                            </div>
-
-                            {!selectedSport ? (
-                                <div style={{ padding: '32px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}`, textAlign: 'center' }}>
-                                    <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏆</div>
-                                    <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select a Sport</h3>
-                                    <p style={{ fontSize: '14px', color: theme.textSecondary, marginBottom: '16px' }}>Please select a sport from the banner above to load your tournament tools.</p>
-                                </div>
-                            ) : !activeTournament ? (
-                                <div style={{ padding: '32px', borderRadius: '16px', background: theme.cardBg, border: `1px solid ${theme.cardBorder}` }}>
-                                    <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                                        <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏟️</div>
-                                        <h3 style={{ fontSize: '18px', fontWeight: 700, color: theme.textPrimary, marginBottom: '8px' }}>Select an Active Tournament</h3>
-                                        <p style={{ fontSize: '14px', color: theme.textSecondary }}>Choose a tournament to load scoped data and tools.</p>
-                                    </div>
-                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-                                        {tournaments.filter(t => t.sport?.id === selectedSport.id).map(t => (
-                                            <button key={t.id} onClick={() => useSportStore.getState().setActiveTournament(t)} style={{
-                                                padding: '16px', borderRadius: '12px', background: '#faf5ff', border: `2px solid ${selectedSport.accentColor || '#e9d5ff'}40`,
-                                                textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '8px',
-                                                transition: 'all 0.2s'
-                                            }} className="hover:border-purple-500 hover:shadow-md">
-                                                <div style={{ fontWeight: 800, fontSize: '16px', color: "inherit" }}>{t.name}</div>
-                                                <div style={{ fontSize: '12px', color: "inherit", fontWeight: 600 }}>{t.format}</div>
-                                                <span style={{
-                                                    fontSize: '10px', padding: '4px 8px', borderRadius: '4px', fontWeight: 700, alignSelf: 'flex-start',
-                                                    background: t.status === 'LIVE' ? '#fef2f2' : t.status === 'COMPLETED' ? '#f0fdf4' : `${selectedSport.accentColor || '#6d28d9'}15`,
-                                                    color: t.status === 'LIVE' ? '#ef4444' : t.status === 'COMPLETED' ? '#16a34a' : selectedSport.accentColor || '#6d28d9',
-                                                }}>{t.status}</span>
-                                            </button>
-                                        ))}
-                                        <Link href={`/tournaments/create?sport=${selectedSport.id}`} style={{
-                                            padding: '16px', borderRadius: '12px', background: 'white', border: `2px dashed ${selectedSport.accentColor || '#e9d5ff'}`,
-                                            textAlign: 'center', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '8px',
-                                            textDecoration: 'none'
-                                        }}>
-                                            <div style={{ fontSize: '24px', color: selectedSport.accentColor || '#7c3aed' }}>+</div>
-                                            <div style={{ fontWeight: 700, fontSize: '14px', color: selectedSport.accentColor || '#7c3aed' }}>Create Tournament</div>
-                                        </Link>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div>
-                                    <div className="flex-wrap-mobile" style={{ padding: '16px', borderRadius: '12px', background: `${selectedSport.accentColor || '#7c3aed'}10`, border: `1px solid ${selectedSport.accentColor || '#7c3aed'}30`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', gap: '12px' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <div style={{ fontSize: '24px' }}>🔒</div>
-                                            <div>
-                                                <div style={{ fontSize: '12px', fontWeight: 700, color: selectedSport.accentColor || '#7c3aed', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Active Context Lock</div>
-                                                <div style={{ fontSize: '16px', fontWeight: 800, color: "inherit" }}>{activeTournament.name}</div>
-                                            </div>
-                                        </div>
-                                        <span style={{ padding: '4px 12px', borderRadius: '6px', background: 'white', fontSize: '12px', fontWeight: 700, color: selectedSport.accentColor || '#7c3aed', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                                            {sportLabel} • {activeTournament.format}
-                                        </span>
-                                    </div>
-                                    <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-                                        {[
-                                            { href: `/tournaments/${activeTournament.id}?tab=overview`, label: 'Overview', desc: 'Stats & Activity', icon: '🏆', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=teams`, label: 'Teams', desc: 'Registrations & Squads', icon: '📝', gradient: 'linear-gradient(135deg, #064e3b, #065f46)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=fixtures`, label: 'Fixtures', desc: 'Schedule & Results', icon: '📅', gradient: 'linear-gradient(135deg, #991b1b, #dc2626)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=scoring`, label: 'Live Scoring', desc: 'Score Matches', icon: '🔴', gradient: 'linear-gradient(135deg, #6b21a8, #a855f7)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=auction`, label: 'Auction', desc: 'Live Bidding', icon: '🔨', gradient: 'linear-gradient(135deg, #166534, #22c55e)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=transfers`, label: 'Transfers', desc: 'Player Movement', icon: '🔄', gradient: 'linear-gradient(135deg, #0c4a6e, #0369a1)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=financials`, label: 'Financials', desc: 'Fees & Payouts', icon: '💰', gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=leaderboard`, label: 'Leaderboard', desc: 'Points & Rankings', icon: '🥇', gradient: 'linear-gradient(135deg, #78350f, #b45309)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=chat`, label: 'Chat', desc: 'Team & Admin Comm', icon: '💬', gradient: 'linear-gradient(135deg, #92400e, #d97706)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=media`, label: 'Media', desc: 'Photos & Videos', icon: '📸', gradient: 'linear-gradient(135deg, #9d174d, #ec4899)' },
-                                            { href: `/tournaments/${activeTournament.id}?tab=settings`, label: 'Settings', desc: 'Configure Tournament', icon: '⚙️', gradient: 'linear-gradient(135deg, #1e293b, #334155)' },
-                                        ].map((item) => (
-                                            <Link key={item.label} href={item.href} className="card-hover" style={{
-                                                display: 'block', padding: '24px', borderRadius: '16px', background: item.gradient,
-                                                textDecoration: 'none', color: 'white', position: 'relative', overflow: 'hidden'
-                                            }}>
-                                                <div style={{ fontSize: '32px', marginBottom: '12px' }}>{item.icon}</div>
-                                                <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '4px' }}>{item.label}</div>
-                                                <div style={{ fontSize: '12px', opacity: 0.85 }}>{item.desc}</div>
-                                            </Link>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    )
-                }
-
-                {/* ─── Team & Other Roles Quick Access Cards ─── */}
-                {
-                    roleGroup !== 'organizer' && roleGroup !== 'player' && (
-                        <div style={{ marginBottom: '32px' }}>
-                            <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '4px', color: theme.textPrimary }}>
-                                {theme.sectionTitle}
-                            </h2>
-                            <p style={{ fontSize: '13px', color: theme.textSecondary, marginBottom: '16px' }}>
-                                {theme.quickAccessTitle}
-                            </p>
-                            <div className="grid-cols-2-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px' }}>
-                                {quickCards.map((item) => (
-                                    <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} className="card-hover" style={{
-                                        padding: '24px', borderRadius: '16px', background: item.gradient,
-                                        textDecoration: 'none', color: 'white', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s',
-                                    }}>
-                                        <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>{item.icon}</div>
-                                        <div style={{ fontSize: '16px', fontWeight: 800, marginBottom: '6px' }}>{item.label}</div>
-                                        <div style={{ fontSize: '13px', opacity: 0.8, lineHeight: 1.4 }}>{item.desc}</div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                    )
-                }
-
-                {/* ─── Player Bottom Navigation Bar ─── */}
-                {
-                    roleGroup === 'player' && (
-                        <div style={{
-                            position: 'fixed', bottom: 0, left: 0, right: 0,
-                            background: 'white', borderTop: `1px solid ${theme.cardBorder}`,
-                            display: 'flex', justifyContent: 'space-around', alignItems: 'center',
-                            padding: '12px 8px', paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
-                            zIndex: 900, boxShadow: '0 -4px 16px rgba(0,0,0,0.05)',
-                        }}>
-                            {quickCards.map((item) => (
-                                <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{
-                                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
-                                    textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0',
-                                    transition: 'color 0.2s',
-                                }}>
-                                    <div style={{ color: '#64748b' }}>{item.icon}</div>
-                                    <div style={{ fontSize: '11px', fontWeight: 600 }}>{item.label}</div>
-                                </Link>
-                            ))}
-                        </div>
-                    )
-                }
-
-                {/* ─── Advertisement Bar ─── */}
-                {
-                    (() => {
-                        const ADS = [
-                            {
-                                tag: "GameSphere Built",
-                                title: "Play Hard, Live Clean. A Drug-Free Society.",
-                                desc: "Empowering athletes and building a healthier world through sports. Developed with passion by Sheikh Hemayoou.",
-                                link: "/about", btn: "Learn More",
-                                bg: "linear-gradient(135deg, #0f172a, #1e293b)",
-                                accent1: "rgba(56, 189, 248, 0.15)", accent2: "rgba(168, 85, 247, 0.1)",
-                                textHighlight: "#38bdf8", btnBg: "#38bdf8", btnText: "#0f172a"
-                            },
-                            {
-                                tag: "Pro Shop Offers",
-                                title: "Level Up Your Equipment",
-                                desc: "Get 20% off all professional cricket bats and football boots this week only in the Pro Shop.",
-                                link: "/shop", btn: "Shop Now",
-                                bg: "linear-gradient(135deg, #1e293b, #0f172a)",
-                                accent1: "rgba(56, 189, 248, 0.1)", accent2: "rgba(168, 85, 247, 0.1)",
-                                textHighlight: "#38bdf8", btnBg: "#38bdf8", btnText: "#0f172a"
-                            },
-                            {
-                                tag: "Mega Auction",
-                                title: "Register for the Auction",
-                                desc: "Don't miss the upcoming premier league mega auction. Secure your spot & verify your stats today.",
-                                link: "/auction", btn: "Register Now",
-                                bg: "linear-gradient(135deg, #4c1d95, #2e1065)",
-                                accent1: "rgba(244, 114, 182, 0.15)", accent2: "rgba(167, 139, 250, 0.1)",
-                                textHighlight: "#f472b6", btnBg: "#f472b6", btnText: "#4c1d95"
-                            },
-                            {
-                                tag: "Open Team Trials",
-                                title: "Prove Your Skills",
-                                desc: "Local professional teams are hosting open field trials next weekend! Find an event near your city.",
-                                link: "/calendar", btn: "Find Trials",
-                                bg: "linear-gradient(135deg, #064e3b, #022c22)",
-                                accent1: "rgba(52, 211, 153, 0.1)", accent2: "rgba(250, 204, 21, 0.1)",
-                                textHighlight: "#34d399", btnBg: "#fbbf24", btnText: "#064e3b"
-                            }
-                        ];
-                        return (
-                            <div style={{
-                                marginTop: '24px', marginBottom: '32px', position: 'relative',
-                                height: '145px', overflow: 'hidden', borderRadius: '16px',
-                                boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '1px solid #334155'
-                            }}>
-                                {ADS.map((ad, idx) => (
-                                    <div key={idx} style={{
-                                        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-                                        background: ad.bg, padding: '24px',
-                                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                                        opacity: adIndex === idx ? 1 : 0,
-                                        pointerEvents: adIndex === idx ? 'auto' : 'none',
-                                        transform: adIndex === idx ? 'translateY(0)' : (adIndex > idx ? 'translateY(-20px)' : 'translateY(20px)'),
-                                        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    }}>
-                                        {/* Decorative Elements */}
-                                        <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', background: ad.accent1, borderRadius: '50%', filter: 'blur(20px)' }}></div>
-                                        <div style={{ position: 'absolute', bottom: '-20px', left: '20%', width: '120px', height: '120px', background: ad.accent2, borderRadius: '50%', filter: 'blur(30px)' }}></div>
-
-                                        <div style={{ position: 'relative', zIndex: 1 }}>
-                                            <div style={{ fontSize: '11px', fontWeight: 800, color: ad.textHighlight, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-                                                {ad.tag}
-                                            </div>
-                                            <h3 style={{ fontSize: '20px', fontWeight: 800, color: 'white', marginBottom: '4px', letterSpacing: '-0.5px' }}>
-                                                {ad.title}
-                                            </h3>
-                                            <p style={{ fontSize: '14px', color: '#cbd5e1', maxWidth: '320px', lineHeight: 1.5 }}>
-                                                {ad.desc}
-                                            </p>
-                                        </div>
-
-                                        <Link href={ad.link} style={{
-                                            position: 'relative', zIndex: 1, padding: '12px 24px', background: ad.btnBg, color: ad.btnText,
-                                            fontWeight: 800, fontSize: '14px', borderRadius: '12px', textDecoration: 'none', whiteSpace: 'nowrap',
-                                            transition: 'transform 0.2s', boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-                                        }} className="card-hover">
-                                            {ad.btn}
-                                        </Link>
-                                    </div>
-                                ))}
-                            </div>
-                        );
-                    })()
-                }
-
-                {/* ─── Live Matches (filtered by selected sport) ─── */}
-                {
-                    (() => {
-                        const filteredLive = selectedSport
-                            ? liveMatches.filter((m: any) => m.sport?.name === selectedSport.name || m.sport?.id === selectedSport.id)
-                            : liveMatches;
-                        return (
-                            <div style={{ marginBottom: '32px' }}>
-                                <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '16px', color: theme.textPrimary, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <span className="live-pulse"></span> Live {sportLabel} Matches
-                                </h2>
-                                {filteredLive.length > 0 ? (
-                                    <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
-                                        {filteredLive.map((match: any) => (
-                                            <Link href={`/matches/${match.id}`} key={match.id} className="card-hover" style={{
-                                                padding: '20px', borderRadius: '14px',
-                                                background: theme.cardBg, border: '2px solid #fecaca',
-                                                textDecoration: 'none', color: theme.textPrimary,
-                                            }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                                                    <SportIcon sport={match.sport?.name || 'Athletics'} size={24} color="currentColor" />
-                                                    <span className="status-badge" style={{ background: '#fef2f2', color: "inherit" }}>
-                                                        <span className="live-pulse"></span> LIVE
-                                                    </span>
-                                                </div>
-                                                <div style={{ fontSize: '15px', fontWeight: 700 }}>
-                                                    {match.homeTeam?.name || 'TBD'} vs {match.awayTeam?.name || 'TBD'}
-                                                </div>
-                                                <div style={{ fontSize: '12px', color: "inherit", marginTop: '4px' }}>{match.tournament?.name}</div>
-                                            </Link>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div style={{
-                                        padding: '32px', borderRadius: '14px', background: theme.cardBg, border: `1px dashed ${theme.cardBorder}`,
-                                        textAlign: 'center', color: theme.textSecondary, fontSize: '14px', fontWeight: 500
-                                    }}>
-                                        <div style={{ fontSize: '32px', marginBottom: '8px', opacity: 0.5 }}>🏟️</div>
-                                        <div>No live matches currently happening for {sportLabel}.</div>
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })()
-                }
-
-                {/* ─── My Updates & News Feed (Player Only) ─── */}
-                {
-                    roleGroup === 'player' && (
-                        <div style={{ marginBottom: '32px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                                <h2 style={{ fontSize: '20px', fontWeight: 700, color: theme.textPrimary, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <Bell size={20} className="text-indigo-600" /> Latest Updates
-                                </h2>
-                                <Link href="/news" style={{ fontSize: '13px', color: '#6366f1', fontWeight: 600, textDecoration: 'none', background: '#eef2ff', padding: '6px 12px', borderRadius: '20px' }}>View All</Link>
-                            </div>
-
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                {/* Dummy Update 1 */}
-                                <div className="card-hover" style={{ background: 'white', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', display: 'flex', gap: '16px', alignItems: 'flex-start', cursor: 'pointer' }}>
-                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4f46e5', flexShrink: 0 }}>
-                                        <Trophy size={20} />
-                                    </div>
-                                    <div>
-                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#1e1b4b', marginBottom: '4px' }}>
-                                            The <span style={{ color: '#4f46e5' }}>City Super Kings</span> advanced to the semi-finals!
-                                        </div>
-                                        <div style={{ fontSize: '12px', color: '#64748b' }}>2 hours ago • Cricket</div>
-                                    </div>
-                                </div>
-
-                                {/* Dummy Update 2 */}
-                                <div className="card-hover" style={{ background: 'white', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', display: 'flex', gap: '16px', alignItems: 'flex-start', cursor: 'pointer' }}>
-                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#dc2626', flexShrink: 0 }}>
-                                        <Calendar size={20} />
-                                    </div>
-                                    <div>
-                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#1e1b4b', marginBottom: '4px' }}>
-                                            New tournament <span style={{ color: '#dc2626' }}>Summer Smash 2026</span> is accepting registrations.
-                                        </div>
-                                        <div style={{ fontSize: '12px', color: '#64748b' }}>5 hours ago • Tennis</div>
-                                    </div>
-                                </div>
-
-                                {/* Dummy Update 3 */}
-                                <div className="card-hover" style={{ background: 'white', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', display: 'flex', gap: '16px', alignItems: 'flex-start', cursor: 'pointer' }}>
-                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', flexShrink: 0 }}>
-                                        <Users size={20} />
-                                    </div>
-                                    <div>
-                                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#1e1b4b', marginBottom: '4px' }}>
-                                            <span style={{ color: '#16a34a' }}>Mumbai Strikers</span> are looking for a new Goalkeeper.
-                                        </div>
-                                        <div style={{ fontSize: '12px', color: '#64748b' }}>1 day ago • Football</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                }
-
-            </div >
+                </div >
 
             {/* ─── DYNAMIC SPORT ONBOARDING MODAL ─── */}
             {

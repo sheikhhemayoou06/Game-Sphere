@@ -6,7 +6,11 @@ import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
 import { sportIcons, sportConfig, defaultSportConfig } from '@/lib/utils';
 import PageNavbar from '@/components/PageNavbar';
-import { Activity, FileText, CheckCircle, ArrowLeft, Search, Navigation } from 'lucide-react';
+import {
+    Activity, FileText, CheckCircle, ArrowLeft, Search, Navigation,
+    Gavel, ClipboardList, Trophy, Building, FileEdit, Pause, CalendarDays,
+    Users, Wallet, CheckCircle2, XCircle, Loader2, Timer, UserPlus
+} from 'lucide-react';
 
 type DashboardTab = 'live' | 'applied' | 'completed';
 
@@ -227,7 +231,7 @@ export default function AuctionPage() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
                         <div>
                             <h1 style={{ fontSize: '24px', fontWeight: 900, color: '#1e293b', margin: '0 0 4px 0' }}>{selectedTournament.name}</h1>
-                            <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>🔨 Auction Control Room</div>
+                            <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}><Gavel size={14} /> Auction Control Room</div>
                         </div>
                         {auction?.status === 'IN_PROGRESS' && (
                             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fef2f2', border: '1px solid #fecaca', padding: '6px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 800, color: '#ef4444' }}>
@@ -238,7 +242,9 @@ export default function AuctionPage() {
 
                     {!auction ? (
                         <div style={{ background: 'white', borderRadius: '16px', padding: '60px', textAlign: 'center', border: '1px solid #e2e8f0', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
-                            <div style={{ fontSize: '56px', marginBottom: '16px' }}>📋</div>
+                            <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                                <ClipboardList size={28} color="#94a3b8" />
+                            </div>
                             <div style={{ fontSize: '22px', fontWeight: 800, color: '#1e293b', marginBottom: '8px' }}>No Auction Created</div>
                             <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '24px' }}>
                                 {isOrganizer ? 'Create an auction for this tournament to get started' : 'The organizer has not created an auction for this tournament yet'}
@@ -287,7 +293,7 @@ export default function AuctionPage() {
                             {/* Organizer Scheduling Banner */}
                             {isOrganizer && (
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', padding: '16px 20px', borderRadius: '12px', background: '#f0fdf4', border: '1px solid #bbf7d0', flexWrap: 'wrap' }}>
-                                    <span style={{ fontSize: '13px', fontWeight: 800, color: '#166534' }}>📅 {auction.scheduledAt ? 'Reschedule' : 'Schedule'} Auction</span>
+                                    <span style={{ fontSize: '13px', fontWeight: 800, color: '#166534', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><CalendarDays size={15} color="#166534" /> {auction.scheduledAt ? 'Reschedule' : 'Schedule'} Auction</span>
                                     <input type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)}
                                         style={{ padding: '8px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white', color: '#1e293b', fontSize: '13px', fontWeight: 600 }} />
                                     <button onClick={async () => {
@@ -308,18 +314,19 @@ export default function AuctionPage() {
                             {/* Inner Tabs Row */}
                             <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '4px' }}>
                                 {[
-                                    { key: 'live' as const, label: '🔴 Live Bidding', show: true },
-                                    { key: 'players' as const, label: `👥 Player Pool (${players.length})`, show: true },
-                                    { key: 'purse' as const, label: `💰 Team Purse (${teamPurses.length})`, show: true },
-                                    { key: 'sold' as const, label: `✅ Sold (${soldPlayers.length})`, show: true },
+                                    { key: 'live' as const, label: 'Live Bidding', icon: Activity, show: true },
+                                    { key: 'players' as const, label: `Player Pool (${players.length})`, icon: Users, show: true },
+                                    { key: 'purse' as const, label: `Team Purse (${teamPurses.length})`, icon: Wallet, show: true },
+                                    { key: 'sold' as const, label: `Sold (${soldPlayers.length})`, icon: CheckCircle, show: true },
                                 ].filter(t => t.show).map((t) => (
                                     <button key={t.key} onClick={() => setTab(t.key)} style={{
                                         padding: '10px 20px', borderRadius: '10px', cursor: 'pointer', fontSize: '13px', fontWeight: 700,
                                         border: tab === t.key ? 'none' : '1px solid #e2e8f0',
                                         background: tab === t.key ? '#0f766e' : 'white',
                                         color: tab === t.key ? 'white' : '#64748b',
-                                        whiteSpace: 'nowrap'
+                                        whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px',
                                     }}>
+                                        <t.icon size={15} />
                                         {t.label}
                                     </button>
                                 ))}
@@ -392,11 +399,11 @@ export default function AuctionPage() {
                                                                 placeholder="Final amount"
                                                                 style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#f8fafc', color: '#1e293b', fontSize: '13px', marginBottom: '12px', boxSizing: 'border-box', fontWeight: 600 }} />
                                                             <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: '10px' }}>
-                                                                <button onClick={() => handleSellPlayer(currentBidding.id)} style={{ padding: '12px', borderRadius: '8px', border: 'none', background: '#10b981', color: 'white', fontWeight: 800, cursor: 'pointer', fontSize: '13px' }}>
-                                                                    ✅ SELL
+                                                                <button onClick={() => handleSellPlayer(currentBidding.id)} style={{ padding: '12px', borderRadius: '8px', border: 'none', background: '#10b981', color: 'white', fontWeight: 800, cursor: 'pointer', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                                                                    <CheckCircle2 size={15} /> SELL
                                                                 </button>
-                                                                <button onClick={() => handleMarkUnsold(currentBidding.id)} style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ef4444', background: '#fef2f2', color: '#ef4444', fontWeight: 800, cursor: 'pointer', fontSize: '13px' }}>
-                                                                    ❌ UNSOLD
+                                                                <button onClick={() => handleMarkUnsold(currentBidding.id)} style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ef4444', background: '#fef2f2', color: '#ef4444', fontWeight: 800, cursor: 'pointer', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                                                                    <XCircle size={15} /> UNSOLD
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -410,7 +417,9 @@ export default function AuctionPage() {
                                         </div>
                                     ) : (
                                         <div style={{ background: 'white', borderRadius: '16px', padding: '80px 20px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
-                                            <div style={{ fontSize: '48px', marginBottom: '16px', opacity: 0.5 }}>⏸️</div>
+                                            <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                                                <Pause size={28} color="#94a3b8" />
+                                            </div>
                                             <div style={{ fontSize: '20px', fontWeight: 900, color: '#334155', marginBottom: '8px' }}>No Active Bidding</div>
                                             <div style={{ color: '#64748b', fontSize: '14px', fontWeight: 500 }}>
                                                 {isOrganizer
@@ -520,9 +529,9 @@ export default function AuctionPage() {
                             width: '72px', height: '72px', borderRadius: '50%', flexShrink: 0,
                             background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontSize: '32px', border: '3px solid rgba(255,255,255,0.2)',
+                            border: '3px solid rgba(255,255,255,0.2)',
                         }}>
-                            🔨
+                            <Gavel size={32} color="white" />
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
@@ -552,7 +561,7 @@ export default function AuctionPage() {
                                 style={{ flex: 1, padding: '10px 14px', borderRadius: '8px', border: 'none', background: 'rgba(0,0,0,0.2)', color: 'white', fontSize: '13px', fontWeight: 600, outline: 'none' }}
                             />
                             <button onClick={handleApplyAuction} style={{ padding: '10px 16px', borderRadius: '8px', border: 'none', background: '#0d9488', color: 'white', fontWeight: 800, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                <Navigation size={14} /> Entroll/Pay
+                                <Navigation size={14} /> Enroll/Pay
                             </button>
                         </div>
                     </div>
@@ -597,7 +606,9 @@ export default function AuctionPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
                         {tournaments.length === 0 ? (
                             <div style={{ gridColumn: '1 / -1', padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
-                                <div style={{ fontSize: '40px', marginBottom: '12px', opacity: 0.5 }}>🏟️</div>
+                                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                                    <Building size={24} color="#94a3b8" />
+                                </div>
                                 <div style={{ fontSize: '16px', fontWeight: 800, color: '#334155' }}>No Active Tournaments</div>
                                 <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>There are no tournaments available to run auctions for.</div>
                             </div>
@@ -606,8 +617,8 @@ export default function AuctionPage() {
                                 onMouseOver={e => e.currentTarget.style.transform = 'translateY(-2px)'}
                                 onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'linear-gradient(135deg, #0ea5e9, #0f766e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', color: 'white' }}>
-                                        🏆
+                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'linear-gradient(135deg, #0ea5e9, #0f766e)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                                        <Trophy size={18} />
                                     </div>
                                     <div style={{ minWidth: 0, flex: 1 }}>
                                         <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#1e293b', margin: '0 0 2px 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.name}</h3>
@@ -625,7 +636,9 @@ export default function AuctionPage() {
 
                 {dashboardTab === 'applied' && (
                     <div style={{ padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-                        <div style={{ fontSize: '40px', marginBottom: '12px' }}>📝</div>
+                        <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                            <FileEdit size={24} color="#6366f1" />
+                        </div>
                         <div style={{ fontSize: '16px', fontWeight: 800, color: '#334155' }}>No Applications Yet</div>
                         <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>Use the "Enter Auction ID" field to apply for an auction.</div>
                     </div>
@@ -633,7 +646,9 @@ export default function AuctionPage() {
 
                 {dashboardTab === 'completed' && (
                     <div style={{ padding: '60px 20px', borderRadius: '16px', background: 'white', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-                        <div style={{ fontSize: '40px', marginBottom: '12px' }}>✅</div>
+                        <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: '#ecfdf5', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                            <CheckCircle size={24} color="#10b981" />
+                        </div>
                         <div style={{ fontSize: '16px', fontWeight: 800, color: '#334155' }}>No Completed Auctions</div>
                         <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>History of the auctions you have participated in will appear here.</div>
                     </div>

@@ -196,10 +196,10 @@ export default function PlayerProfilePage() {
         api.getCertificates?.(playerId)?.then?.((certs: any[]) => {
             if (Array.isArray(certs)) {
                 const awards = certs.filter((c: any) => c.type === 'WINNER' || c.type === 'AWARD' || c.type === 'MVP').map((c: any) => ({
-                    title: c.type === 'WINNER' ? `🏆 Champion — ${c.tournamentName || 'Tournament'}` :
-                           c.type === 'MVP' ? `⭐ Player of the Match — ${c.tournamentName || 'Match'}` :
-                           `🏅 ${c.position || 'Award'} — ${c.tournamentName || 'Event'}`,
-                    icon: c.type === 'WINNER' ? '🏆' : c.type === 'MVP' ? '⭐' : '🏅',
+                    title: c.type === 'WINNER' ? `Champion — ${c.tournamentName || 'Tournament'}` :
+                           c.type === 'MVP' ? `Player of the Match — ${c.tournamentName || 'Match'}` :
+                           `${c.position || 'Award'} — ${c.tournamentName || 'Event'}`,
+                    icon: c.type === 'WINNER' ? <Trophy size={20} color="#f59e0b" /> : c.type === 'MVP' ? <Star size={20} color="#6366f1" /> : <Medal size={20} color="#6366f1" />,
                     date: c.issuedAt ? new Date(c.issuedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—',
                     type: c.type,
                     tournament: c.tournamentName || '—',
@@ -592,7 +592,7 @@ export default function PlayerProfilePage() {
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                 color: 'white', fontSize: '16px', fontWeight: 800, flexShrink: 0,
                                             }}>
-                                                {tp.team?.name?.charAt(0) || '⚡'}
+                                                <Users size={20} />
                                             </div>
                                             <div style={{ flex: 1 }}>
                                                 <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b' }}>{tp.team?.name || 'Unknown'}</div>
@@ -608,7 +608,9 @@ export default function PlayerProfilePage() {
 
                         {/* Recent Matches */}
                         <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
-                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px' }}>⚡ Recent Matches</h3>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Zap size={18} color="#f59e0b" /> Recent Matches
+                            </h3>
                             {recentMatches.length === 0 ? (
                                 <p style={{ color: '#94a3b8', fontSize: '14px', textAlign: 'center', padding: '20px 0' }}>No recent matches.</p>
                             ) : (
@@ -634,8 +636,8 @@ export default function PlayerProfilePage() {
                         {/* Role Badge */}
                         {playerRole !== '—' && (
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 18px', borderRadius: '12px', background: 'white', border: '1px solid #e2e8f0' }}>
-                                <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
-                                    {sportKey === 'cricket' ? '🏏' : sportKey === 'football' ? '⚽' : sportKey === 'basketball' ? '🏀' : sportKey === 'kabaddi' ? '🤼' : sportKey === 'volleyball' ? '🏐' : sportKey === 'hockey' ? '🏑' : '🎮'}
+                                <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    {sportKey === 'cricket' ? <Swords size={20} color="#4f46e5" /> : sportKey === 'football' ? <CircleDot size={20} color="#16a34a" /> : sportKey === 'basketball' ? <Flame size={20} color="#ea580c" /> : sportKey === 'kabaddi' ? <Dumbbell size={20} color="#7c3aed" /> : sportKey === 'volleyball' ? <Zap size={20} color="#0ea5e9" /> : sportKey === 'hockey' ? <Activity size={20} color="#0d9488" /> : <Trophy size={20} color="#4f46e5" />}
                                 </div>
                                 <div>
                                     <div style={{ fontSize: '14px', fontWeight: 800, color: '#1e1b4b' }}>{playerRole}</div>
@@ -731,7 +733,7 @@ export default function PlayerProfilePage() {
                                             padding: '16px', borderRadius: '12px', background: 'linear-gradient(135deg, #fffbeb, #fef3c7)',
                                             border: '1px solid #fde68a', textAlign: 'center',
                                         }}>
-                                            <div style={{ fontSize: '32px', marginBottom: '8px' }}>🏆</div>
+                                            <div style={{ marginBottom: '8px', display: 'flex', justifyContent: 'center' }}><Trophy size={32} color="#f59e0b" /></div>
                                             <div style={{ fontSize: '13px', fontWeight: 700, color: '#92400e' }}>Champion</div>
                                             <div style={{ fontSize: '12px', color: '#b45309', marginTop: '4px' }}>{a.tournament}</div>
                                             <div style={{ fontSize: '10px', color: '#d97706', marginTop: '4px' }}>{a.date}</div>
@@ -774,7 +776,7 @@ export default function PlayerProfilePage() {
                         {/* Certificates */}
                         <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
                             <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                📜 Certificates
+                                <BadgeCheck size={18} color="#6366f1" /> Certificates
                             </h3>
                             {certificates.length === 0 ? (
                                 <div style={{ padding: '30px', textAlign: 'center' }}>
@@ -788,8 +790,8 @@ export default function PlayerProfilePage() {
                                             display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 14px',
                                             borderRadius: '10px', background: '#f8fafc',
                                         }}>
-                                            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: cert.type === 'WINNER' ? '#fffbeb' : '#f0f0ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>
-                                                {cert.type === 'WINNER' ? '🏆' : cert.type === 'AWARD' ? '🏅' : '📜'}
+                                            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: cert.type === 'WINNER' ? '#fffbeb' : '#f0f0ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                {cert.type === 'WINNER' ? <Trophy size={18} color="#f59e0b" /> : cert.type === 'AWARD' ? <Medal size={18} color="#6366f1" /> : <BadgeCheck size={18} color="#6366f1" />}
                                             </div>
                                             <div style={{ flex: 1 }}>
                                                 <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{cert.title}</div>
@@ -899,7 +901,7 @@ export default function PlayerProfilePage() {
                             {injuries.length === 0 ? (
                                 <div style={{ padding: '30px', textAlign: 'center' }}>
                                     <Stethoscope size={40} color="#cbd5e1" />
-                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No injury records. Stay healthy! 💪</p>
+                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No injury records. Stay healthy!</p>
                                 </div>
                             ) : (
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

@@ -4,15 +4,15 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { useAuthStore, useSportStore } from '@/lib/store';
-import { Search, X, Play, Heart, MessageCircle, Image, Newspaper, Film, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, X, Play, Heart, MessageCircle, Image, Newspaper, Film, ChevronDown, ChevronUp, Sparkles, Camera, Clapperboard, SearchX } from 'lucide-react';
 import PageNavbar from '@/components/PageNavbar';
 
-/* ── Sport icon map ── */
-const sportIcons: Record<string, string> = {
-    Cricket: '🏏', Football: '⚽', Basketball: '🏀', Tennis: '🎾',
-    Badminton: '🏸', Hockey: '🏑', Volleyball: '🏐', Baseball: '⚾',
-    Swimming: '🏊', Athletics: '🏃', Rugby: '🏉', Golf: '⛳',
-    Boxing: '🥊', Wrestling: '🤼', Kabaddi: '🤾',
+/* ── Filter icons map ── */
+const FILTER_ICONS: Record<string, any> = {
+    all: Sparkles,
+    photo: Camera,
+    video: Clapperboard,
+    news: Newspaper,
 };
 
 /* ── Explore Feed Mock Data (photos, news, videos) ── */
@@ -245,32 +245,43 @@ export default function ExplorePage() {
 
 
             {/* ── Type Filters (Photo / Video / News) ── */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', padding: '8px 20px 20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', padding: '8px 20px 20px' }}>
                 {([
-                    { key: 'all', label: 'All', icon: '✨' },
-                    { key: 'photo', label: 'Photos', icon: '📸' },
-                    { key: 'video', label: 'Videos', icon: '🎬' },
-                    { key: 'news', label: 'News', icon: '📰' },
-                ] as const).map(f => (
-                    <button key={f.key} onClick={() => setActiveFilter(f.key)} style={{
-                        padding: '8px 18px', borderRadius: '20px', border: 'none', cursor: 'pointer',
-                        fontWeight: activeFilter === f.key ? 700 : 500, fontSize: '13px',
-                        background: activeFilter === f.key ? '#4f46e5' : 'white',
-                        color: activeFilter === f.key ? 'white' : '#64748b',
-                        boxShadow: '0 1px 4px rgba(0,0,0,0.06)', transition: 'all 0.2s',
-                        display: 'flex', alignItems: 'center', gap: '6px',
-                    }}>
-                        <span>{f.icon}</span> {f.label}
-                    </button>
-                ))}
+                    { key: 'all', label: 'All' },
+                    { key: 'photo', label: 'Photos' },
+                    { key: 'video', label: 'Videos' },
+                    { key: 'news', label: 'News' },
+                ] as const).map(f => {
+                    const Icon = FILTER_ICONS[f.key];
+                    const isActive = activeFilter === f.key;
+                    return (
+                        <button key={f.key} onClick={() => setActiveFilter(f.key)} style={{
+                            padding: '8px 18px', borderRadius: '20px', border: 'none', cursor: 'pointer',
+                            fontWeight: isActive ? 700 : 500, fontSize: '13px',
+                            background: isActive ? '#4f46e5' : 'white',
+                            color: isActive ? 'white' : '#64748b',
+                            boxShadow: isActive ? '0 4px 12px rgba(79,70,229,0.25)' : '0 1px 4px rgba(0,0,0,0.06)',
+                            transition: 'all 0.25s ease',
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                        }}>
+                            <Icon size={14} /> {f.label}
+                        </button>
+                    );
+                })}
             </div>
 
             {/* ── Instagram-Style Grid ── */}
             <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 16px 80px' }}>
                 {filteredFeed.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
-                        <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
-                        <p style={{ fontWeight: 600 }}>No content for this filter yet.</p>
+                        <div style={{
+                            width: '64px', height: '64px', borderRadius: '18px', background: '#f1f5f9',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            margin: '0 auto 16px',
+                        }}>
+                            <SearchX size={28} color="#94a3b8" />
+                        </div>
+                        <p style={{ fontWeight: 600, margin: 0 }}>No content for this filter yet.</p>
                     </div>
                 ) : (
                     <div style={{

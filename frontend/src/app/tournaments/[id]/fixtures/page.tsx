@@ -7,6 +7,10 @@ import { api } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
 import { sportIcons, defaultSportConfig, sportConfig, statusColors } from '@/lib/utils';
 import SportIcon from '@/components/SportIcon';
+import {
+    Calendar, Ban, FileDown, Settings, Zap, CalendarClock, Handshake, Clock,
+    ArrowLeft, Loader2, ChevronRight, AlertTriangle, RotateCcw
+} from 'lucide-react';
 
 export default function TournamentFixtures() {
     const { id } = useParams();
@@ -95,18 +99,25 @@ export default function TournamentFixtures() {
     if (loading) return (
         <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0f172a 0%, #020617 100%)' }}>
             <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px', animation: 'pulse 2s infinite' }}>📅</div>
+                <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                    <Loader2 size={28} color="#818cf8" style={{ animation: 'spin 1s linear infinite' }} />
+                </div>
                 <div style={{ color: '#94a3b8', fontSize: '14px' }}>Loading fixtures...</div>
             </div>
+            <style jsx global>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
         </div>
     );
 
     if (!tournament) return (
         <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a' }}>
             <div style={{ textAlign: 'center', color: '#e2e8f0' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>🚫</div>
+                <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                    <Ban size={28} color="#f87171" />
+                </div>
                 <h2>Tournament not found</h2>
-                <Link href="/tournaments" style={{ color: '#6366f1', marginTop: '12px', display: 'inline-block' }}>← Back to tournaments</Link>
+                <Link href="/tournaments" style={{ color: '#6366f1', marginTop: '12px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <ArrowLeft size={14} /> Back to tournaments
+                </Link>
             </div>
         </div>
     );
@@ -144,14 +155,17 @@ export default function TournamentFixtures() {
 
             {/* Header */}
             <nav className="no-print" style={{ padding: '14px 32px', background: 'rgba(15,23,42,0.95)', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', backdropFilter: 'blur(16px)' }}>
-                <Link href={`/tournaments/${id}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: '#e2e8f0', fontSize: '14px' }}>
-                    ← Back to Dashboard
+                <Link href={`/tournaments/${id}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: '#e2e8f0', fontSize: '14px' }}>
+                    <ArrowLeft size={16} /> Back to Dashboard
                 </Link>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <span style={{ fontSize: '20px' }}>{sportEmoji}</span>
                     <span style={{ fontWeight: 800, fontSize: '16px', color: '#fff' }}>{tournament.name}</span>
                 </div>
-                <div style={{ fontSize: '12px', color: '#64748b' }}>Fixtures & Schedule</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Calendar size={16} color="#818cf8" />
+                    <span style={{ fontSize: '12px', color: '#64748b' }}>Fixtures & Schedule</span>
+                </div>
             </nav>
 
             <div className="printable-area" style={{ padding: '32px', maxWidth: '1000px', margin: '0 auto' }}>
@@ -163,10 +177,10 @@ export default function TournamentFixtures() {
                     {isOrganizer && hasFixtures && (
                         <div className="no-print" style={{ display: 'flex', gap: '12px' }}>
                             <button onClick={handleExportPDF} style={{ padding: '10px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                📄 Export PDF
+                                <FileDown size={16} /> Export PDF
                             </button>
                             <button onClick={() => setRegenerateModalOpen(true)} style={{ padding: '10px 16px', background: 'linear-gradient(135deg, #6366f1, #4f46e5)', border: 'none', color: '#fff', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 12px rgba(99,102,241,0.2)' }}>
-                                ⚙️ Format & Regenerate
+                                <Settings size={16} /> Format & Regenerate
                             </button>
                         </div>
                     )}
@@ -174,12 +188,14 @@ export default function TournamentFixtures() {
 
                 {!hasFixtures ? (
                     <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px dashed rgba(255,255,255,0.1)' }}>
-                        <div style={{ fontSize: '48px', marginBottom: '16px' }}>📅</div>
+                        <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: 'rgba(255,255,255,0.03)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                            <Calendar size={28} color="#818cf8" />
+                        </div>
                         <h3 style={{ color: '#f8fafc', fontSize: '20px', fontWeight: 800, margin: '0 0 8px 0' }}>No Fixtures Yet</h3>
                         <p style={{ color: '#94a3b8', fontSize: '15px', marginBottom: '24px' }}>Wait for teams to register, then generate the schedule.</p>
                         {isOrganizer && (
                             <button onClick={handleGenerate} style={{ padding: '12px 24px', background: '#eab308', color: '#422006', border: 'none', borderRadius: '12px', fontSize: '15px', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                                ⚡ Generate Initial Fixtures
+                                <Zap size={16} /> Generate Initial Fixtures
                             </button>
                         )}
                     </div>
@@ -233,7 +249,9 @@ export default function TournamentFixtures() {
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
                     <div style={{ width: '400px', background: '#1e293b', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden' }}>
                         <div style={{ padding: '20px 24px', background: 'rgba(0,0,0,0.2)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                            <h3 style={{ margin: 0, color: '#f8fafc', fontSize: '18px', fontWeight: 800 }}>⚙️ Regenerate Fixtures</h3>
+                            <h3 style={{ margin: 0, color: '#f8fafc', fontSize: '18px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Settings size={18} color="#818cf8" /> Regenerate Fixtures
+                            </h3>
                         </div>
                         <div style={{ padding: '24px' }}>
                             <div style={{ color: '#fbbf24', background: 'rgba(245, 158, 11, 0.1)', padding: '12px', borderRadius: '8px', fontSize: '13px', marginBottom: '20px', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
@@ -269,17 +287,17 @@ export default function TournamentFixtures() {
                         <div style={{ padding: '24px' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                 <button onClick={() => handleMatchAction('POSTPONED')} style={{ padding: '12px', width: '100%', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', color: '#fbbf24', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-                                    <span style={{ fontSize: '15px' }}>🗓 Postpone Match</span>
+                                    <span style={{ fontSize: '15px', display: 'flex', alignItems: 'center', gap: '6px' }}><CalendarClock size={16} /> Postpone Match</span>
                                     <span style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(251, 191, 36, 0.7)' }}>Keep the match but delay it to later.</span>
                                 </button>
 
                                 <button onClick={() => handleMatchAction('ABANDONED', 'DRAW')} style={{ padding: '12px', width: '100%', background: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.3)', color: '#818cf8', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-                                    <span style={{ fontSize: '15px' }}>🤝 Abandon - 1 Point Each</span>
+                                    <span style={{ fontSize: '15px', display: 'flex', alignItems: 'center', gap: '6px' }}><Handshake size={16} /> Abandon - 1 Point Each</span>
                                     <span style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(129, 140, 248, 0.7)' }}>End match as DNF, give teams 1 point each.</span>
                                 </button>
 
                                 <button onClick={() => handleMatchAction('SCHEDULED')} style={{ padding: '12px', width: '100%', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#f8fafc', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-                                    <span style={{ fontSize: '15px' }}>⏱ Reset to Scheduled</span>
+                                    <span style={{ fontSize: '15px', display: 'flex', alignItems: 'center', gap: '6px' }}><Clock size={16} /> Reset to Scheduled</span>
                                     <span style={{ fontSize: '12px', fontWeight: 500, color: '#94a3b8' }}>Clear statuses and mark as scheduled.</span>
                                 </button>
                             </div>
