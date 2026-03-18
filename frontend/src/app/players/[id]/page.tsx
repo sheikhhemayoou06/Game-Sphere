@@ -503,7 +503,9 @@ export default function PlayerProfilePage() {
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px 24px', fontSize: '13px', color: '#cbd5e1', marginTop: '16px' }}>
                             <div><span style={{ color: '#94a3b8' }}>Sport:</span> <strong style={{ color: 'white' }}>{sportName}</strong></div>
                             <div><span style={{ color: '#94a3b8' }}>Role:</span> <strong style={{ color: 'white' }}>{playerRole}</strong></div>
-                            <div><span style={{ color: '#94a3b8' }}>Location:</span> <strong style={{ color: 'white' }}>{profile.city || 'N/A'}, {profile.country || 'India'}</strong></div>
+                            {(profile.city || profile.state || profile.district) && (
+                                <div><span style={{ color: '#94a3b8' }}>Location:</span> <strong style={{ color: 'white' }}>{[profile.city, profile.state, profile.country].filter(Boolean).join(', ') || 'India'}</strong></div>
+                            )}
                             {sportKey === 'cricket' && battingStyle !== '—' && (
                                 <div><span style={{ color: '#94a3b8' }}>Bat:</span> <strong style={{ color: 'white' }}>{battingStyle}</strong></div>
                             )}
@@ -557,23 +559,41 @@ export default function PlayerProfilePage() {
                             ))}
                         </div>
 
-                        {/* Personal Info */}
+                        {/* Current Teams */}
                         <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
-                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px' }}>Personal Info</h3>
-                            <div style={{ display: 'grid', gap: '12px' }}>
-                                {[
-                                    { icon: <Phone size={14} />, label: 'Phone', value: user.phone ? `+${user.countryCode || '91'} ${user.phone}` : '—' },
-                                    { icon: <Mail size={14} />, label: 'Email', value: user.email || '—' },
-                                    { icon: <MapPin size={14} />, label: 'Location', value: `${profile.district || '—'}, ${profile.state || '—'}, ${profile.country || 'India'}` },
-                                    { icon: <Trophy size={14} />, label: 'Primary Sport', value: `${sportName} • ${playerRole}` },
-                                ].map((item, i) => (
-                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 0', borderBottom: i < 3 ? '1px solid #f1f5f9' : 'none' }}>
-                                        <span style={{ color: '#94a3b8' }}>{item.icon}</span>
-                                        <span style={{ fontSize: '13px', color: '#94a3b8', width: '100px' }}>{item.label}</span>
-                                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#0f172a' }}>{item.value}</span>
-                                    </div>
-                                ))}
-                            </div>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Users size={18} color={sportColor} /> Current Teams
+                            </h3>
+                            {(profile.teamPlayers?.length || 0) === 0 ? (
+                                <div style={{ padding: '20px', textAlign: 'center' }}>
+                                    <Users size={36} color="#cbd5e1" />
+                                    <p style={{ color: '#94a3b8', fontSize: '13px', marginTop: '10px' }}>Not part of any team yet</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    {profile.teamPlayers?.map((tp: any, i: number) => (
+                                        <div key={tp.id || i} style={{
+                                            display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px',
+                                            borderRadius: '10px', background: '#f8fafc',
+                                        }}>
+                                            <div style={{
+                                                width: '44px', height: '44px', borderRadius: '12px',
+                                                background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                color: 'white', fontSize: '16px', fontWeight: 800, flexShrink: 0,
+                                            }}>
+                                                {tp.team?.name?.charAt(0) || '⚡'}
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b' }}>{tp.team?.name || 'Unknown'}</div>
+                                                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+                                                    {tp.role || playerRole} {tp.jersey ? `• #${tp.jersey}` : ''} • Joined {new Date(tp.joinedAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         {/* Recent Matches */}
