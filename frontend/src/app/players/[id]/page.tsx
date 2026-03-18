@@ -8,10 +8,11 @@ import PageNavbar from '@/components/PageNavbar';
 import {
     MapPin, Trophy, UserPlus, MessageSquare, BadgeCheck,
     Info, Users, Calendar, BarChart3, Image as ImageIcon,
-    Phone, Mail, MessageCircle, ChevronDown, ChevronUp
+    Phone, Mail, MessageCircle, ChevronDown, ChevronUp,
+    Award, History, ArrowRightLeft, Stethoscope, Star, Medal, Crown
 } from 'lucide-react';
 
-type TabKey = 'overview' | 'stats' | 'teams';
+type TabKey = 'overview' | 'stats' | 'teams' | 'achievements' | 'history';
 
 /* ═══════ DEFAULT EMPTY STATS ═══════ */
 const EMPTY_CRICKET = {
@@ -59,6 +60,12 @@ export default function PlayerProfilePage() {
     });
     const [recentMatches, setRecentMatches] = useState<any[]>([]);
     const [performanceIndex, setPerformanceIndex] = useState(0);
+
+    // Achievements & History state
+    const [certificates, setCertificates] = useState<any[]>([]);
+    const [transfers, setTransfers] = useState<any[]>([]);
+    const [achievements, setAchievements] = useState<any[]>([]);
+    const [injuries] = useState<any[]>([]);
 
     useEffect(() => {
         if (id) {
@@ -167,6 +174,38 @@ export default function PlayerProfilePage() {
         api.getPlayerRankings?.(playerId)?.then?.((rankings: any[]) => {
             if (Array.isArray(rankings) && rankings.length > 0) setPerformanceIndex(Math.round(rankings[0].points || 0));
         }).catch(() => { });
+
+        // Certificates
+        api.getCertificates?.(playerId)?.then?.((certs: any[]) => {
+            if (Array.isArray(certs)) setCertificates(certs.map((c: any) => ({
+                ...c, date: c.issuedAt ? new Date(c.issuedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—',
+                title: c.recipientName ? `${c.type} — ${c.tournamentName || 'Tournament'}` : c.type,
+            })));
+        }).catch(() => { });
+
+        // Transfers
+        api.getTransfers?.(playerId)?.then?.((trs: any[]) => {
+            if (Array.isArray(trs)) setTransfers(trs.map((t: any) => ({
+                ...t, from: t.fromTeam?.name || 'Free Agent', to: t.toTeam?.name || 'Unknown',
+                date: t.requestedAt ? new Date(t.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—',
+            })));
+        }).catch(() => { });
+
+        // Achievements (from certificates of type WINNER/AWARD + custom)
+        api.getCertificates?.(playerId)?.then?.((certs: any[]) => {
+            if (Array.isArray(certs)) {
+                const awards = certs.filter((c: any) => c.type === 'WINNER' || c.type === 'AWARD' || c.type === 'MVP').map((c: any) => ({
+                    title: c.type === 'WINNER' ? `🏆 Champion — ${c.tournamentName || 'Tournament'}` :
+                           c.type === 'MVP' ? `⭐ Player of the Match — ${c.tournamentName || 'Match'}` :
+                           `🏅 ${c.position || 'Award'} — ${c.tournamentName || 'Event'}`,
+                    icon: c.type === 'WINNER' ? '🏆' : c.type === 'MVP' ? '⭐' : '🏅',
+                    date: c.issuedAt ? new Date(c.issuedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—',
+                    type: c.type,
+                    tournament: c.tournamentName || '—',
+                }));
+                setAchievements(awards);
+            }
+        }).catch(() => { });
     }, [player]);
 
     if (loading) {
@@ -199,6 +238,8 @@ export default function PlayerProfilePage() {
         { key: 'overview', label: 'Overview', icon: Info },
         { key: 'stats', label: 'Stats', icon: BarChart3 },
         { key: 'teams', label: 'Teams', icon: Users },
+        { key: 'achievements', label: 'Awards', icon: Award },
+        { key: 'history', label: 'History', icon: History },
     ];
 
     const totalMatches = profile.totalMatches || 0;
@@ -637,6 +678,220 @@ export default function PlayerProfilePage() {
                                 ))}
                             </div>
                         )}
+                    </div>
+                )}
+
+                {/* ═══════ ACHIEVEMENTS & AWARDS TAB ═══════ */}
+                {activeTab === 'achievements' && (
+                    <div style={{ display: 'grid', gap: '16px' }}>
+                        {/* Trophies & Championships */}
+                        <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Crown size={18} color="#f59e0b" /> Trophies & Championships
+                            </h3>
+                            {achievements.filter(a => a.type === 'WINNER').length === 0 ? (
+                                <div style={{ padding: '30px', textAlign: 'center' }}>
+                                    <Trophy size={40} color="#cbd5e1" />
+                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No trophies yet. Keep competing!</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
+                                    {achievements.filter(a => a.type === 'WINNER').map((a, i) => (
+                                        <div key={i} style={{
+                                            padding: '16px', borderRadius: '12px', background: 'linear-gradient(135deg, #fffbeb, #fef3c7)',
+                                            border: '1px solid #fde68a', textAlign: 'center',
+                                        }}>
+                                            <div style={{ fontSize: '32px', marginBottom: '8px' }}>🏆</div>
+                                            <div style={{ fontSize: '13px', fontWeight: 700, color: '#92400e' }}>Champion</div>
+                                            <div style={{ fontSize: '12px', color: '#b45309', marginTop: '4px' }}>{a.tournament}</div>
+                                            <div style={{ fontSize: '10px', color: '#d97706', marginTop: '4px' }}>{a.date}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Player Awards */}
+                        <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Star size={18} color="#6366f1" /> Individual Awards
+                            </h3>
+                            {achievements.filter(a => a.type !== 'WINNER').length === 0 ? (
+                                <div style={{ padding: '30px', textAlign: 'center' }}>
+                                    <Medal size={40} color="#cbd5e1" />
+                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No individual awards yet.</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    {achievements.filter(a => a.type !== 'WINNER').map((a, i) => (
+                                        <div key={i} style={{
+                                            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px',
+                                            borderRadius: '10px', background: '#f8fafc',
+                                        }}>
+                                            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>
+                                                {a.icon}
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b' }}>{a.title}</div>
+                                                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>{a.date}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Certificates */}
+                        <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                📜 Certificates
+                            </h3>
+                            {certificates.length === 0 ? (
+                                <div style={{ padding: '30px', textAlign: 'center' }}>
+                                    <Award size={40} color="#cbd5e1" />
+                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No certificates earned yet.</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    {certificates.map((cert, i) => (
+                                        <div key={i} style={{
+                                            display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 14px',
+                                            borderRadius: '10px', background: '#f8fafc',
+                                        }}>
+                                            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: cert.type === 'WINNER' ? '#fffbeb' : '#f0f0ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>
+                                                {cert.type === 'WINNER' ? '🏆' : cert.type === 'AWARD' ? '🏅' : '📜'}
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{cert.title}</div>
+                                                <div style={{ fontSize: '11px', color: '#94a3b8' }}>{cert.type} • {cert.date}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {/* ═══════ CAREER HISTORY TAB ═══════ */}
+                {activeTab === 'history' && (
+                    <div style={{ display: 'grid', gap: '16px' }}>
+                        {/* Career Timeline */}
+                        <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <History size={18} color="#4f46e5" /> Career Timeline
+                            </h3>
+                            <div style={{ position: 'relative', paddingLeft: '24px' }}>
+                                {/* Timeline line */}
+                                <div style={{ position: 'absolute', left: '7px', top: '4px', bottom: '4px', width: '2px', background: '#e2e8f0' }} />
+
+                                {/* Current Team */}
+                                {(profile.teamPlayers?.length || 0) > 0 && profile.teamPlayers.map((tp: any, i: number) => (
+                                    <div key={`team-${i}`} style={{ position: 'relative', marginBottom: '20px' }}>
+                                        <div style={{ position: 'absolute', left: '-21px', top: '4px', width: '12px', height: '12px', borderRadius: '50%', background: '#4f46e5', border: '2px solid white', boxShadow: '0 0 0 2px #4f46e5' }} />
+                                        <div style={{ padding: '14px 16px', borderRadius: '10px', background: '#eef2ff', border: '1px solid #c7d2fe' }}>
+                                            <div style={{ fontSize: '11px', fontWeight: 700, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Current Team</div>
+                                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', marginTop: '4px' }}>{tp.team?.name || 'Unknown'}</div>
+                                            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>
+                                                {tp.role ? `${tp.role}` : playerRole} {tp.jersey ? `• #${tp.jersey}` : ''} • Joined {new Date(tp.joinedAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {/* Debut Info */}
+                                <div style={{ position: 'relative', marginBottom: '20px' }}>
+                                    <div style={{ position: 'absolute', left: '-21px', top: '4px', width: '12px', height: '12px', borderRadius: '50%', background: '#22c55e', border: '2px solid white', boxShadow: '0 0 0 2px #22c55e' }} />
+                                    <div style={{ padding: '14px 16px', borderRadius: '10px', background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
+                                        <div style={{ fontSize: '11px', fontWeight: 700, color: '#16a34a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Career Debut</div>
+                                        <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', marginTop: '4px' }}>{sportName} {playerRole !== '—' ? `• ${playerRole}` : ''}</div>
+                                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>
+                                            Registered {profile.createdAt ? new Date(profile.createdAt).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' }) : '—'}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Profile Created */}
+                                <div style={{ position: 'relative' }}>
+                                    <div style={{ position: 'absolute', left: '-21px', top: '4px', width: '12px', height: '12px', borderRadius: '50%', background: '#94a3b8', border: '2px solid white', boxShadow: '0 0 0 2px #94a3b8' }} />
+                                    <div style={{ padding: '14px 16px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                                        <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Profile Created</div>
+                                        <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', marginTop: '4px' }}>Joined Game Sphere</div>
+                                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>
+                                            {user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Transfers */}
+                        <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <ArrowRightLeft size={18} color="#3b82f6" /> Transfer History
+                            </h3>
+                            {transfers.length === 0 ? (
+                                <div style={{ padding: '30px', textAlign: 'center' }}>
+                                    <ArrowRightLeft size={40} color="#cbd5e1" />
+                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No transfer history.</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    {transfers.map((tr, i) => (
+                                        <div key={i} style={{
+                                            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px',
+                                            borderRadius: '10px', background: '#f8fafc',
+                                        }}>
+                                            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                                <ArrowRightLeft size={18} color="#3b82f6" />
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b' }}>{tr.from} → {tr.to}</div>
+                                                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>{tr.date} {tr.reason ? `• ${tr.reason}` : ''}</div>
+                                            </div>
+                                            <span style={{
+                                                padding: '4px 10px', borderRadius: '8px', fontSize: '10px', fontWeight: 700,
+                                                background: tr.status === 'APPROVED' ? '#f0fdf4' : tr.status === 'PENDING' ? '#fffbeb' : '#fef2f2',
+                                                color: tr.status === 'APPROVED' ? '#16a34a' : tr.status === 'PENDING' ? '#d97706' : '#dc2626',
+                                                textTransform: 'uppercase',
+                                            }}>{tr.status}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Injury History */}
+                        <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Stethoscope size={18} color="#ef4444" /> Injury History
+                            </h3>
+                            {injuries.length === 0 ? (
+                                <div style={{ padding: '30px', textAlign: 'center' }}>
+                                    <Stethoscope size={40} color="#cbd5e1" />
+                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No injury records. Stay healthy! 💪</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    {injuries.map((inj: any, i: number) => (
+                                        <div key={i} style={{
+                                            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px',
+                                            borderRadius: '10px', background: '#fef2f2', border: '1px solid #fecaca',
+                                        }}>
+                                            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#fee2e2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                                <Stethoscope size={18} color="#ef4444" />
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e1b4b' }}>{inj.type || 'Injury'}</div>
+                                                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+                                                    {inj.date} • Recovery: {inj.recovery || 'Recovered'} {inj.matchesMissed ? `• ${inj.matchesMissed} matches missed` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 )}
             </div>
