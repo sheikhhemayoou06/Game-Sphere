@@ -193,7 +193,7 @@ export default function LiveCricketScore() {
                     borderRadius: '12px', padding: '0 14px', gap: '10px',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.12)', border: '1px solid rgba(255,255,255,0.3)',
                 }}>
-                    <span style={{ color: '#94a3b8', fontSize: '16px', flexShrink: 0 }}>🔍</span>
+                    <span style={{ color: '#94a3b8', fontSize: '14px', flexShrink: 0, fontWeight: 700 }}>Search</span>
                     <input
                         type="text" value={searchQuery}
                         onChange={(e) => { setSearchQuery(e.target.value); setActiveIdx(0); }}
@@ -236,7 +236,6 @@ export default function LiveCricketScore() {
                                 boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.15)' : 'none',
                             }}
                         >
-                            <span style={{ fontSize: '13px' }}>{sport === 'All' ? '🏆' : cfg.icon}</span>
                             {sport === 'All' ? 'All' : sport}
                             <span style={{
                                 fontSize: '9px', background: isActive ? '#e2e8f0' : 'rgba(255,255,255,0.15)',
@@ -261,7 +260,6 @@ export default function LiveCricketScore() {
                                 display: 'flex', alignItems: 'center', gap: '4px',
                             }}>
                             {m.isLive && <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#ef4444' }} />}
-                            <span style={{ fontSize: '11px' }}>{(SPORT_CONFIG[m.sport] || { icon: '🏆' }).icon}</span>
                             {m.team1.shortName} v {m.team2.shortName}
                         </button>
                     ))}
@@ -300,7 +298,6 @@ export default function LiveCricketScore() {
                             fontSize: '10px', fontWeight: 800, padding: '3px 8px',
                             borderRadius: '4px', flexShrink: 0,
                         }}>
-                            <span style={{ fontSize: '12px' }}>{sportCfg.icon}</span>
                             {match.sport}
                         </span>
                         {match.isLive ? (
