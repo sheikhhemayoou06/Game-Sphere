@@ -114,6 +114,7 @@ export default function LiveCricketScore() {
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
 
     /* ── Fetch from CricAPI ── */
     const fetchLiveScores = useCallback(async (isInitial = false) => {
@@ -139,8 +140,8 @@ export default function LiveCricketScore() {
                 return new Date(b.date).getTime() - new Date(a.date).getTime();
             });
 
-            // Show max 6 matches (live first, then recent)
-            setMatches(mapped.slice(0, 6));
+            // Store all matches
+            setMatches(mapped);
             setLastUpdated(new Date());
             setError('');
         } catch (err) {
@@ -195,18 +196,82 @@ export default function LiveCricketScore() {
         );
     }
 
-    const match = matches[activeIdx] || matches[0];
-    const liveCount = matches.filter(m => m.isLive).length;
+    // Filter matches based on search
+    const filteredMatches = searchQuery.trim()
+        ? matches.filter(m => {
+            const q = searchQuery.toLowerCase();
+            return (
+                m.team1.name.toLowerCase().includes(q) ||
+                m.team2.name.toLowerCase().includes(q) ||
+                m.team1.shortName.toLowerCase().includes(q) ||
+                m.team2.shortName.toLowerCase().includes(q) ||
+                m.name.toLowerCase().includes(q) ||
+                m.venue.toLowerCase().includes(q)
+            );
+        })
+        : matches.slice(0, 6); // Show top 6 by default, all when searching
+
+    const safeIdx = activeIdx < filteredMatches.length ? activeIdx : 0;
+    const match = filteredMatches[safeIdx] || filteredMatches[0];
+    const liveCount = filteredMatches.filter(m => m.isLive).length;
 
     return (
         <div style={{ width: '100%', maxWidth: '480px', margin: '0 auto' }}>
+            {/* ── Search Bar ── */}
+            <div style={{
+                marginBottom: '10px',
+                position: 'relative',
+            }}>
+                <div style={{
+                    display: 'flex', alignItems: 'center',
+                    background: 'rgba(255,255,255,0.95)', borderRadius: '12px',
+                    padding: '0 14px', gap: '10px',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+                    border: '1px solid rgba(255,255,255,0.3)',
+                }}>
+                    <span style={{ color: '#94a3b8', fontSize: '16px', flexShrink: 0 }}>🔍</span>
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => { setSearchQuery(e.target.value); setActiveIdx(0); }}
+                        placeholder="Search matches, teams, venues..."
+                        style={{
+                            flex: 1, padding: '12px 0', border: 'none', outline: 'none',
+                            background: 'transparent', fontSize: '13px', fontWeight: 600,
+                            color: '#1e293b',
+                        }}
+                    />
+                    {searchQuery && (
+                        <button
+                            onClick={() => { setSearchQuery(''); setActiveIdx(0); }}
+                            style={{
+                                background: '#e2e8f0', border: 'none', borderRadius: '50%',
+                                width: '20px', height: '20px', display: 'flex',
+                                alignItems: 'center', justifyContent: 'center',
+                                cursor: 'pointer', fontSize: '11px', color: '#64748b',
+                                fontWeight: 800, flexShrink: 0,
+                            }}
+                        >
+                            ✕
+                        </button>
+                    )}
+                </div>
+                {searchQuery && (
+                    <div style={{
+                        fontSize: '10px', color: 'rgba(255,255,255,0.6)',
+                        textAlign: 'center', marginTop: '4px', fontWeight: 600,
+                    }}>
+                        {filteredMatches.length} match{filteredMatches.length !== 1 ? 'es' : ''} found
+                    </div>
+                )}
+            </div>
             {/* ── Match Tab Selector ── */}
-            {matches.length > 1 && (
+            {filteredMatches.length > 1 && (
                 <div style={{
                     display: 'flex', gap: '6px', marginBottom: '8px',
                     justifyContent: 'center', flexWrap: 'wrap',
                 }}>
-                    {matches.map((m, i) => (
+                    {filteredMatches.map((m, i) => (
                         <button
                             key={m.id}
                             onClick={() => setActiveIdx(i)}
@@ -214,11 +279,11 @@ export default function LiveCricketScore() {
                                 padding: '5px 12px', borderRadius: '20px', border: 'none',
                                 fontSize: '10px', fontWeight: 700, cursor: 'pointer',
                                 transition: 'all 0.2s',
-                                background: activeIdx === i
+                                background: safeIdx === i
                                     ? 'rgba(255,255,255,0.95)'
                                     : 'rgba(255,255,255,0.15)',
-                                color: activeIdx === i ? '#1e293b' : 'rgba(255,255,255,0.8)',
-                                boxShadow: activeIdx === i ? '0 2px 8px rgba(0,0,0,0.15)' : 'none',
+                                color: safeIdx === i ? '#1e293b' : 'rgba(255,255,255,0.8)',
+                                boxShadow: safeIdx === i ? '0 2px 8px rgba(0,0,0,0.15)' : 'none',
                                 display: 'flex', alignItems: 'center', gap: '4px',
                             }}
                         >
@@ -229,8 +294,25 @@ export default function LiveCricketScore() {
                 </div>
             )}
 
+            {/* No results message */}
+            {filteredMatches.length === 0 && searchQuery && (
+                <div style={{
+                    background: 'rgba(255,255,255,0.1)', borderRadius: '12px',
+                    padding: '24px', textAlign: 'center',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                }}>
+                    <div style={{ fontSize: '24px', marginBottom: '8px' }}>🏏</div>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+                        No matches found for &quot;{searchQuery}&quot;
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>
+                        Try a different team name or venue
+                    </div>
+                </div>
+            )}
+
             {/* ── Main Score Card ── */}
-            <div style={{
+            {match && <div style={{
                 background: '#ffffff',
                 borderRadius: '16px',
                 overflow: 'hidden',
@@ -335,7 +417,7 @@ export default function LiveCricketScore() {
                         )}
                     </div>
                 </div>
-            </div>
+            </div>}
 
             {/* ── Powered by badge ── */}
             <div style={{ textAlign: 'center', marginTop: '8px' }}>
