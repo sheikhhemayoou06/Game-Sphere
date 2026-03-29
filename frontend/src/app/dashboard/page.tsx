@@ -706,110 +706,17 @@ export default function DashboardPage() {
                                 overflowY: 'auto',
                                 borderRight: '1px solid #f1f5f9',
                             }}>
-                                {/* ── Profile Header ── */}
+                                {/* ── Profile Header (Removed, moved to bottom nav) ── */}
                                 <div style={{
-                                    padding: '32px 24px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center',
+                                    padding: '16px 24px', display: 'flex', justifyContent: 'flex-end',
                                     borderBottom: '1px solid #f1f5f9', position: 'relative',
                                 }}>
                                     <button
                                         onClick={() => setPlayerMenuOpen(false)}
-                                        style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: '4px', display: 'flex', borderRadius: '8px', transition: 'color 0.2s' }}
+                                        style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: '4px', display: 'flex', borderRadius: '8px', transition: 'color 0.2s' }}
                                     >
-                                        <X size={18} />
+                                        <X size={20} />
                                     </button>
-                                    {/* Avatar Circle */}
-                                    <Link href="/profile" onClick={() => setPlayerMenuOpen(false)} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <div style={{
-                                            width: '72px', height: '72px', borderRadius: '50%',
-                                            background: 'linear-gradient(135deg, #6366f1, #a855f7)',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            fontSize: '28px', color: 'white', fontWeight: 800,
-                                            marginBottom: '14px',
-                                            border: '3px solid #e0e7ff',
-                                            boxShadow: '0 4px 16px rgba(99, 102, 241, 0.25)',
-                                        }}>
-                                            {(user?.firstName?.[0] || 'U').toUpperCase()}
-                                        </div>
-                                    </Link>
-                                    <div style={{ fontWeight: 700, fontSize: '17px', color: '#1e1b4b', textAlign: 'center' }}>
-                                        {user?.firstName || 'User'} {user?.lastName || ''}
-                                    </div>
-                                    <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px', textAlign: 'center' }}>
-                                        {user?.email || ''}
-                                    </div>
-                                    <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', background: '#f1f5f9', padding: '4px 8px', borderRadius: '12px', width: 'fit-content', margin: '6px auto 0' }}>
-                                        <IdCard size={12} /> <HighlightID id={user?.player?.sportsId} color="#6366f1" />
-                                    </div>
-
-                                    {/* Sport Dropdown (in profile corner) */}
-                                    {mySports.length > 0 && (
-                                        <div style={{ position: 'relative', marginTop: '12px', width: '100%' }}>
-                                            <button
-                                                onClick={() => setSportDropdownOpen(!sportDropdownOpen)}
-                                                style={{
-                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
-                                                    width: 'auto', padding: '6px 0', borderRadius: '8px',
-                                                    border: 'none', background: 'transparent',
-                                                    cursor: 'pointer', transition: 'all 0.2s',
-                                                }}
-                                            >
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                    <SportIcon sport={selectedSport ? selectedSport.name : 'Athletics'} size={18} color="currentColor" />
-                                                    <span style={{ fontSize: '15px' }}>{selectedSport?.name || 'All Sports'}</span>
-                                                </div>
-                                                <ChevronDown size={14} color="#94a3b8" style={{ transition: 'transform 0.2s', transform: sportDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-                                            </button>
-
-                                            {/* Dropdown list */}
-                                            {sportDropdownOpen && (
-                                                <div style={{
-                                                    position: 'absolute', top: '100%', left: 0, right: 0,
-                                                    background: 'white', borderRadius: '12px',
-                                                    border: '1px solid #e2e8f0',
-                                                    boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-                                                    zIndex: 10, marginTop: '4px',
-                                                    overflow: 'hidden',
-                                                }}>
-                                                    {mySports.map((sp: any) => {
-                                                        const isActive = selectedSport?.id === sp.id;
-                                                        const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
-                                                        return (
-                                                            <button
-                                                                key={sp.id}
-                                                                onClick={() => { setSelectedSport(sp); setSportDropdownOpen(false); }}
-                                                                style={{
-                                                                    display: 'flex', alignItems: 'center', gap: '10px',
-                                                                    width: '100%', padding: '12px 16px',
-                                                                    border: 'none', cursor: 'pointer',
-                                                                    background: isActive ? `${accent}10` : 'white',
-                                                                    borderLeft: isActive ? `3px solid ${accent}` : '3px solid transparent',
-                                                                    transition: 'all 0.15s',
-                                                                }}
-                                                            >
-                                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                                                    <SportIcon sport={sp.name} size={22} color={sp.accentColor || '#64748b'} />
-                                                                    <span style={{ fontWeight: selectedSport?.id === sp.id ? 800 : 600, color: '#1e293b' }}>
-                                                                        {sp.name}
-                                                                    </span>
-                                                                </div>
-                                                                {isActive && <span style={{ marginLeft: 'auto', fontSize: '14px', color: accent }}>✓</span>}
-                                                            </button>
-                                                        );
-                                                    })}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-
-                                    {mySports.length === 0 && (
-                                        <div style={{
-                                            marginTop: '10px', padding: '4px 14px', borderRadius: '20px',
-                                            background: theme.badgeBg, color: theme.badgeText,
-                                            fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase',
-                                        }}>
-                                            {roleGroup === 'team' ? '⚡ Team' : '🏅 Player'}
-                                        </div>
-                                    )}
                                 </div>
 
                                 {/* ── Unified Menu ── */}
@@ -888,6 +795,11 @@ export default function DashboardPage() {
                                     {/* 12. Pro Shop */}
                                     <Link href="/shop" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
                                         <Package size={18} color="#64748b" /> Pro Shop
+                                    </Link>
+
+                                    {/* Payments */}
+                                    <Link href="/payments" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
+                                        <CreditCard size={18} color="#64748b" /> Payments
                                     </Link>
 
                                     {/* 13. Subscription */}
@@ -1141,14 +1053,73 @@ export default function DashboardPage() {
                             padding: '12px 8px', paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
                             zIndex: 900, boxShadow: '0 -4px 16px rgba(0,0,0,0.05)',
                         }}>
-                            {quickCards.map((item) => (
-                                <Link key={item.href} href={`${item.href}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{
-                                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
-                                    textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0',
-                                    transition: 'color 0.2s',
-                                }}>
-                                    <div style={{ color: '#64748b' }}>{item.icon}</div>
-                                    <div style={{ fontSize: '11px', fontWeight: 600 }}>{item.label}</div>
+                            {/* 1. Profile (Long Press -> Sports Menu) */}
+                            <div
+                                onContextMenu={(e) => { e.preventDefault(); setSportDropdownOpen(!sportDropdownOpen); }}
+                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1, padding: '4px 0', position: 'relative' }}
+                            >
+                                <Link href="/profile" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                                    <div style={{
+                                        width: '24px', height: '24px', borderRadius: '50%',
+                                        background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: '11px', color: 'white', fontWeight: 800,
+                                    }}>
+                                        {(user?.firstName?.[0] || 'U').toUpperCase()}
+                                    </div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>Profile</div>
+                                </Link>
+
+                                {/* Sport Dropdown Popup */}
+                                {sportDropdownOpen && (
+                                    <div style={{
+                                        position: 'absolute', bottom: 'calc(100% + 12px)', left: '12px',
+                                        width: '220px', background: 'white', borderRadius: '16px',
+                                        border: '1px solid #e2e8f0', boxShadow: '0 -8px 24px rgba(0,0,0,0.12)',
+                                        zIndex: 1000, overflow: 'hidden', padding: '8px'
+                                    }}>
+                                        <div style={{ padding: '8px 12px', fontSize: '12px', fontWeight: 700, color: '#94a3b8', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between' }}>
+                                            Switch Sport
+                                            <button onClick={() => setSportDropdownOpen(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer' }}><X size={14} /></button>
+                                        </div>
+                                        {mySports.map((sp: any) => {
+                                            const isActive = selectedSport?.id === sp.id;
+                                            const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
+                                            return (
+                                                <button
+                                                    key={sp.id}
+                                                    onClick={() => { setSelectedSport(sp); setSportDropdownOpen(false); }}
+                                                    style={{
+                                                        display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '12px 16px',
+                                                        border: 'none', cursor: 'pointer', background: isActive ? `${accent}10` : 'white',
+                                                        borderLeft: isActive ? `3px solid ${accent}` : '3px solid transparent',
+                                                        transition: 'all 0.15s', textAlign: 'left',
+                                                    }}
+                                                >
+                                                    <SportIcon sport={sp.name} size={20} color={sp.accentColor || '#64748b'} />
+                                                    <span style={{ fontWeight: isActive ? 800 : 600, color: '#1e293b', fontSize: '14px' }}>{sp.name}</span>
+                                                    {isActive && <span style={{ marginLeft: 'auto', fontSize: '14px', color: accent }}>✓</span>}
+                                                </button>
+                                            );
+                                        })}
+                                        <button onClick={() => { setSportDropdownOpen(false); setShowAddSport(true); setPlayerMenuOpen(true); }} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '10px 12px', border: 'none', background: 'transparent', color: '#6366f1', fontWeight: 600, marginTop: '4px', borderRadius: '8px', cursor: 'pointer' }}>
+                                            <Plus size={16} /> Add Sport
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {[
+                                { id: 'tournaments', icon: Trophy, label: 'Tournaments', link: '/tournaments' },
+                                { id: 'teams', icon: Users, label: 'My Team', link: '/teams' },
+                                { id: 'search', icon: Search, label: 'Search', link: '/explore' },
+                                { id: 'messages', icon: MessageSquare, label: 'Messages', link: '/messages' }
+                            ].map(tab => (
+                                <Link key={tab.id} href={`${tab.link}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0', transition: 'color 0.2s' }}>
+                                    <div style={{ color: '#64748b' }}>
+                                        <tab.icon size={22} strokeWidth={2} />
+                                    </div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>{tab.label}</div>
                                 </Link>
                             ))}
                         </div>
@@ -1165,14 +1136,69 @@ export default function DashboardPage() {
                             padding: '12px 8px', paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
                             zIndex: 900, boxShadow: '0 -4px 16px rgba(0,0,0,0.05)',
                         }}>
+                            {/* 1. Profile (Long Press -> Sports Menu) */}
+                            <div
+                                onContextMenu={(e) => { e.preventDefault(); setSportDropdownOpen(!sportDropdownOpen); }}
+                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1, padding: '4px 0', position: 'relative' }}
+                            >
+                                <Link href="/profile" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                                    <div style={{
+                                        width: '24px', height: '24px', borderRadius: '50%',
+                                        background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: '11px', color: 'white', fontWeight: 800,
+                                    }}>
+                                        {(user?.firstName?.[0] || 'T').toUpperCase()}
+                                    </div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>Profile</div>
+                                </Link>
+
+                                {/* Sport Dropdown Popup */}
+                                {sportDropdownOpen && (
+                                    <div style={{
+                                        position: 'absolute', bottom: 'calc(100% + 12px)', left: '12px',
+                                        width: '220px', background: 'white', borderRadius: '16px',
+                                        border: '1px solid #e2e8f0', boxShadow: '0 -8px 24px rgba(0,0,0,0.12)',
+                                        zIndex: 1000, overflow: 'hidden', padding: '8px'
+                                    }}>
+                                        <div style={{ padding: '8px 12px', fontSize: '12px', fontWeight: 700, color: '#94a3b8', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between' }}>
+                                            Switch Sport
+                                            <button onClick={() => setSportDropdownOpen(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer' }}><X size={14} /></button>
+                                        </div>
+                                        {mySports.map((sp: any) => {
+                                            const isActive = selectedSport?.id === sp.id;
+                                            const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
+                                            return (
+                                                <button
+                                                    key={sp.id}
+                                                    onClick={() => { setSelectedSport(sp); setSportDropdownOpen(false); }}
+                                                    style={{
+                                                        display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '12px 16px',
+                                                        border: 'none', cursor: 'pointer', background: isActive ? `${accent}10` : 'white',
+                                                        borderLeft: isActive ? `3px solid ${accent}` : '3px solid transparent',
+                                                        transition: 'all 0.15s', textAlign: 'left',
+                                                    }}
+                                                >
+                                                    <SportIcon sport={sp.name} size={20} color={sp.accentColor || '#64748b'} />
+                                                    <span style={{ fontWeight: isActive ? 800 : 600, color: '#1e293b', fontSize: '14px' }}>{sp.name}</span>
+                                                    {isActive && <span style={{ marginLeft: 'auto', fontSize: '14px', color: accent }}>✓</span>}
+                                                </button>
+                                            );
+                                        })}
+                                        <button onClick={() => { setSportDropdownOpen(false); setShowAddSport(true); setPlayerMenuOpen(true); }} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '10px 12px', border: 'none', background: 'transparent', color: '#6366f1', fontWeight: 600, marginTop: '4px', borderRadius: '8px', cursor: 'pointer' }}>
+                                            <Plus size={16} /> Add Sport
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
                             {[
                                 { id: 'tournaments', icon: Trophy, label: 'Tournaments', link: '/tournaments' },
                                 { id: 'teams', icon: Users, label: 'My Team', link: '/teams' },
                                 { id: 'search', icon: Search, label: 'Search', link: '/explore' },
-                                { id: 'payments', icon: CreditCard, label: 'Payments', link: '/payments' },
                                 { id: 'messages', icon: MessageSquare, label: 'Messages', link: '/messages' }
                             ].map(tab => (
-                                <Link key={tab.id} href={tab.link} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0', transition: 'color 0.2s' }}>
+                                <Link key={tab.id} href={`${tab.link}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0', transition: 'color 0.2s' }}>
                                     <div style={{ color: '#64748b' }}>
                                         <tab.icon size={22} strokeWidth={2} />
                                     </div>
