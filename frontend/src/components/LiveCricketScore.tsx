@@ -3,225 +3,233 @@
 import { useEffect, useState, useCallback } from 'react';
 
 /* ═══════════════════════════════════════════════════════════
-   MOCK IPL DATA — Replace with CricAPI fetch when ready
+   CricAPI — Live Cricket Score (Google-Style)
+   API: https://api.cricapi.com/v1/currentMatches
    ═══════════════════════════════════════════════════════════ */
+
+const CRICAPI_KEY = 'c96e46df-0777-40cf-b456-81bdf44dd874';
+const CRICAPI_URL = `https://api.cricapi.com/v1/currentMatches?apikey=${CRICAPI_KEY}&offset=0`;
+
+/* ── Types ── */
 
 interface TeamInnings {
     name: string;
     shortName: string;
-    logo: string; // emoji/flag placeholder
-    color: string;
+    img: string;
     runs: number;
     wickets: number;
     overs: number;
-    balls: number;
     isBatting: boolean;
 }
 
 interface LiveMatch {
     id: string;
-    series: string;
-    matchNo: string;
+    name: string;
+    matchType: string;
+    status: string;
     venue: string;
-    status: 'live' | 'completed' | 'upcoming';
-    statusText: string;
+    date: string;
+    isLive: boolean;
     team1: TeamInnings;
     team2: TeamInnings;
-    currentRunRate: number;
-    requiredRunRate: number | null;
 }
 
-const MOCK_MATCHES: LiveMatch[] = [
-    {
-        id: '1',
-        series: 'TATA IPL 2026',
-        matchNo: 'Match 24',
-        venue: 'M.A. Chidambaram Stadium, Chennai',
-        status: 'live',
-        statusText: 'CSK need 42 runs in 28 balls',
+/* ── Map CricAPI response to our interface ── */
+
+function mapCricAPIMatch(m: any): LiveMatch | null {
+    if (!m || !m.teamInfo || m.teamInfo.length < 2) return null;
+
+    const t1Info = m.teamInfo[0];
+    const t2Info = m.teamInfo[1];
+
+    // Parse scores — CricAPI returns an array of innings objects
+    const scores = m.score || [];
+
+    // Find innings for each team by matching team name in inning string
+    const findInnings = (teamName: string) => {
+        // Try to match by team name (case-insensitive) at the START of the inning string
+        const found = scores.find((s: any) =>
+            s.inning?.toLowerCase().startsWith(teamName.toLowerCase())
+        );
+        return found || null;
+    };
+
+    const t1Score = findInnings(t1Info.name);
+    const t2Score = findInnings(t2Info.name);
+
+    const isLive = m.matchStarted === true && m.matchEnded === false;
+
+    // Determine who is currently batting for live matches
+    // The team with fewer completed overs is likely batting, OR the second team in the innings order
+    let t1Batting = false;
+    let t2Batting = false;
+    if (isLive) {
+        if (scores.length === 1) {
+            // Only one innings — that team is batting
+            if (t1Score) t1Batting = true;
+            else t2Batting = true;
+        } else if (scores.length >= 2) {
+            // Two innings — the second team is batting (chasing)
+            t2Batting = true;
+        }
+    }
+
+    return {
+        id: m.id,
+        name: m.name || `${t1Info.name} vs ${t2Info.name}`,
+        matchType: (m.matchType || 't20').toUpperCase(),
+        status: m.status || '',
+        venue: m.venue || '',
+        date: m.date || '',
+        isLive,
         team1: {
-            name: 'Royal Challengers Bengaluru',
-            shortName: 'RCB',
-            logo: '🔴',
-            color: '#E4002B',
-            runs: 186,
-            wickets: 5,
-            overs: 20,
-            balls: 0,
-            isBatting: false,
+            name: t1Info.name,
+            shortName: t1Info.shortname || t1Info.name.substring(0, 3).toUpperCase(),
+            img: t1Info.img || '',
+            runs: t1Score?.r ?? 0,
+            wickets: t1Score?.w ?? 0,
+            overs: t1Score?.o ?? 0,
+            isBatting: t1Batting,
         },
         team2: {
-            name: 'Chennai Super Kings',
-            shortName: 'CSK',
-            logo: '🟡',
-            color: '#FCCA0A',
-            runs: 145,
-            wickets: 3,
-            overs: 15,
-            balls: 2,
-            isBatting: true,
+            name: t2Info.name,
+            shortName: t2Info.shortname || t2Info.name.substring(0, 3).toUpperCase(),
+            img: t2Info.img || '',
+            runs: t2Score?.r ?? 0,
+            wickets: t2Score?.w ?? 0,
+            overs: t2Score?.o ?? 0,
+            isBatting: t2Batting,
         },
-        currentRunRate: 9.57,
-        requiredRunRate: 10.5,
-    },
-    {
-        id: '2',
-        series: 'TATA IPL 2026',
-        matchNo: 'Match 25',
-        venue: 'Wankhede Stadium, Mumbai',
-        status: 'live',
-        statusText: 'MI won the toss and chose to bat',
-        team1: {
-            name: 'Mumbai Indians',
-            shortName: 'MI',
-            logo: '🔵',
-            color: '#004BA0',
-            runs: 78,
-            wickets: 2,
-            overs: 8,
-            balls: 4,
-            isBatting: true,
-        },
-        team2: {
-            name: 'Kolkata Knight Riders',
-            shortName: 'KKR',
-            logo: '🟣',
-            color: '#3A225D',
-            runs: 0,
-            wickets: 0,
-            overs: 0,
-            balls: 0,
-            isBatting: false,
-        },
-        currentRunRate: 9.18,
-        requiredRunRate: null,
-    },
-    {
-        id: '3',
-        series: 'TATA IPL 2026',
-        matchNo: 'Match 23',
-        venue: 'Narendra Modi Stadium, Ahmedabad',
-        status: 'completed',
-        statusText: 'GT won by 6 wickets',
-        team1: {
-            name: 'Rajasthan Royals',
-            shortName: 'RR',
-            logo: '🩷',
-            color: '#EA1A85',
-            runs: 158,
-            wickets: 8,
-            overs: 20,
-            balls: 0,
-            isBatting: false,
-        },
-        team2: {
-            name: 'Gujarat Titans',
-            shortName: 'GT',
-            logo: '🔷',
-            color: '#1C1C2B',
-            runs: 162,
-            wickets: 4,
-            overs: 18,
-            balls: 3,
-            isBatting: false,
-        },
-        currentRunRate: 0,
-        requiredRunRate: null,
-    },
-];
+    };
+}
 
 /* ═══════════════════════════════════════════════════════════
    COMPONENT
    ═══════════════════════════════════════════════════════════ */
 
 export default function LiveCricketScore() {
-    const [matches, setMatches] = useState<LiveMatch[]>(MOCK_MATCHES);
+    const [matches, setMatches] = useState<LiveMatch[]>([]);
     const [activeIdx, setActiveIdx] = useState(0);
-    const [lastUpdated, setLastUpdated] = useState(new Date());
+    const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
     const [refreshing, setRefreshing] = useState(false);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
 
-    /* ── CricAPI Fetch (replace MOCK with your real API) ── */
-    const fetchLiveScores = useCallback(async () => {
+    /* ── Fetch from CricAPI ── */
+    const fetchLiveScores = useCallback(async (isInitial = false) => {
+        if (isInitial) setLoading(true);
         setRefreshing(true);
         try {
-            /*
-             * ══ CricAPI Integration Point ══
-             * Uncomment and replace with your actual CricAPI endpoint and key:
-             *
-             * const res = await fetch('https://api.cricapi.com/v1/currentMatches?apikey=YOUR_API_KEY&offset=0');
-             * const data = await res.json();
-             * const mapped = data.data?.map((m: any) => mapCricAPIToLiveMatch(m)).filter(Boolean) || [];
-             * setMatches(mapped.length > 0 ? mapped : MOCK_MATCHES);
-             */
+            const res = await fetch(CRICAPI_URL);
+            const json = await res.json();
 
-            // Simulate slight score randomization for demo
-            setMatches(prev =>
-                prev.map(m => {
-                    if (m.status !== 'live') return m;
-                    const battingTeam = m.team1.isBatting ? 'team1' : 'team2';
-                    const addRuns = Math.floor(Math.random() * 7); // 0-6 runs
-                    const newBall = (m[battingTeam].balls + 1) % 6;
-                    const newOver = newBall === 0 ? m[battingTeam].overs + 1 : m[battingTeam].overs;
-                    return {
-                        ...m,
-                        [battingTeam]: {
-                            ...m[battingTeam],
-                            runs: m[battingTeam].runs + addRuns,
-                            overs: newOver,
-                            balls: newBall,
-                        },
-                    };
-                })
-            );
+            if (json.status !== 'success' || !json.data) {
+                setError('Could not load match data');
+                return;
+            }
+
+            const mapped: LiveMatch[] = json.data
+                .map((m: any) => mapCricAPIMatch(m))
+                .filter(Boolean) as LiveMatch[];
+
+            // Sort: live matches first, then most recent completed
+            mapped.sort((a, b) => {
+                if (a.isLive && !b.isLive) return -1;
+                if (!a.isLive && b.isLive) return 1;
+                return new Date(b.date).getTime() - new Date(a.date).getTime();
+            });
+
+            // Show max 6 matches (live first, then recent)
+            setMatches(mapped.slice(0, 6));
             setLastUpdated(new Date());
+            setError('');
         } catch (err) {
-            console.error('Failed to refresh live scores', err);
+            console.error('CricAPI fetch failed', err);
+            setError('Failed to fetch live scores');
         } finally {
             setRefreshing(false);
+            setLoading(false);
         }
     }, []);
 
-    /* ── Auto-refresh every 10 seconds ── */
+    /* ── Initial fetch + Auto-refresh every 15 seconds ── */
     useEffect(() => {
-        const interval = setInterval(fetchLiveScores, 10000);
+        fetchLiveScores(true);
+        const interval = setInterval(() => fetchLiveScores(false), 15000);
         return () => clearInterval(interval);
     }, [fetchLiveScores]);
 
-    const match = matches[activeIdx] || matches[0];
-    if (!match) return null;
+    /* ── Loading State ── */
+    if (loading) {
+        return (
+            <div style={{
+                background: 'rgba(255,255,255,0.95)', borderRadius: '16px',
+                padding: '32px', textAlign: 'center',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+            }}>
+                <div style={{
+                    width: '28px', height: '28px', borderRadius: '50%',
+                    border: '3px solid #e2e8f0', borderTopColor: '#6366f1',
+                    animation: 'spin 0.8s linear infinite', margin: '0 auto 12px',
+                }} />
+                <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>Loading live scores...</div>
+                <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            </div>
+        );
+    }
 
-    const formatOvers = (t: TeamInnings) =>
-        t.balls === 0 ? `${t.overs}` : `${t.overs}.${t.balls}`;
+    /* ── Error / Empty State ── */
+    if (error || matches.length === 0) {
+        return (
+            <div style={{
+                background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)',
+                borderRadius: '16px', padding: '28px 16px', textAlign: 'center',
+                border: '1px solid rgba(255,255,255,0.2)', color: 'white',
+            }}>
+                <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏏</div>
+                <div style={{ fontSize: '15px', fontWeight: 700, marginBottom: '6px' }}>
+                    {error || 'No matches available right now'}
+                </div>
+                <div style={{ fontSize: '12px', opacity: 0.7 }}>Check back soon for live updates</div>
+            </div>
+        );
+    }
+
+    const match = matches[activeIdx] || matches[0];
+    const liveCount = matches.filter(m => m.isLive).length;
 
     return (
         <div style={{ width: '100%', maxWidth: '480px', margin: '0 auto' }}>
-            {/* ── Tab Selector (Multiple Matches) ── */}
+            {/* ── Match Tab Selector ── */}
             {matches.length > 1 && (
                 <div style={{
-                    display: 'flex', gap: '6px', marginBottom: '8px', justifyContent: 'center',
+                    display: 'flex', gap: '6px', marginBottom: '8px',
+                    justifyContent: 'center', flexWrap: 'wrap',
                 }}>
                     {matches.map((m, i) => (
                         <button
                             key={m.id}
                             onClick={() => setActiveIdx(i)}
                             style={{
-                                padding: '5px 14px', borderRadius: '20px', border: 'none',
-                                fontSize: '11px', fontWeight: 700, cursor: 'pointer',
+                                padding: '5px 12px', borderRadius: '20px', border: 'none',
+                                fontSize: '10px', fontWeight: 700, cursor: 'pointer',
                                 transition: 'all 0.2s',
                                 background: activeIdx === i
                                     ? 'rgba(255,255,255,0.95)'
                                     : 'rgba(255,255,255,0.15)',
                                 color: activeIdx === i ? '#1e293b' : 'rgba(255,255,255,0.8)',
                                 boxShadow: activeIdx === i ? '0 2px 8px rgba(0,0,0,0.15)' : 'none',
+                                display: 'flex', alignItems: 'center', gap: '4px',
                             }}
                         >
-                            {m.team1.shortName} vs {m.team2.shortName}
+                            {m.isLive && <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#ef4444', flexShrink: 0 }} />}
+                            {m.team1.shortName} v {m.team2.shortName}
                         </button>
                     ))}
                 </div>
             )}
 
-            {/* ── Main Card ── */}
+            {/* ── Main Score Card ── */}
             <div style={{
                 background: '#ffffff',
                 borderRadius: '16px',
@@ -231,18 +239,19 @@ export default function LiveCricketScore() {
             }}>
                 {/* ── Card Header ── */}
                 <div style={{
-                    padding: '12px 16px',
+                    padding: '10px 16px',
                     background: '#f8fafc',
                     borderBottom: '1px solid #e2e8f0',
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {match.status === 'live' && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
+                        {match.isLive ? (
                             <span style={{
                                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                                 background: '#fef2f2', color: '#dc2626',
                                 fontSize: '10px', fontWeight: 800, padding: '3px 8px',
                                 borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px',
+                                flexShrink: 0,
                             }}>
                                 <span style={{
                                     width: '6px', height: '6px', borderRadius: '50%',
@@ -251,39 +260,46 @@ export default function LiveCricketScore() {
                                 }} />
                                 LIVE
                             </span>
-                        )}
-                        {match.status === 'completed' && (
+                        ) : (
                             <span style={{
                                 fontSize: '10px', fontWeight: 800, padding: '3px 8px',
                                 borderRadius: '4px', background: '#f0fdf4', color: '#16a34a',
-                                textTransform: 'uppercase', letterSpacing: '0.5px',
+                                textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0,
                             }}>
                                 RESULT
                             </span>
                         )}
-                        <span style={{ fontSize: '12px', fontWeight: 600, color: '#64748b' }}>
-                            {match.series} • {match.matchNo}
+                        <span style={{
+                            fontSize: '11px', fontWeight: 600, color: '#64748b',
+                            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                        }}>
+                            {match.matchType} • {match.name.split(',').slice(1).join(',').trim() || match.name}
                         </span>
                     </div>
-                    {refreshing && (
-                        <div style={{
-                            width: '12px', height: '12px', borderRadius: '50%',
-                            border: '2px solid #e2e8f0', borderTopColor: '#6366f1',
-                            animation: 'spin 0.8s linear infinite',
-                        }} />
-                    )}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                        {refreshing && (
+                            <div style={{
+                                width: '12px', height: '12px', borderRadius: '50%',
+                                border: '2px solid #e2e8f0', borderTopColor: '#6366f1',
+                                animation: 'spin 0.8s linear infinite',
+                            }} />
+                        )}
+                        {liveCount > 0 && (
+                            <span style={{
+                                fontSize: '10px', fontWeight: 700, color: '#dc2626',
+                                background: '#fef2f2', padding: '2px 6px', borderRadius: '4px',
+                            }}>
+                                {liveCount} Live
+                            </span>
+                        )}
+                    </div>
                 </div>
 
                 {/* ── Scoreboard ── */}
-                <div style={{ padding: '16px' }}>
-                    {/* Team 1 Row */}
-                    <TeamRow team={match.team1} formatOvers={formatOvers} />
-
-                    {/* Separator */}
+                <div style={{ padding: '14px 16px' }}>
+                    <TeamRow team={match.team1} />
                     <div style={{ height: '1px', background: '#f1f5f9', margin: '10px 0' }} />
-
-                    {/* Team 2 Row */}
-                    <TeamRow team={match.team2} formatOvers={formatOvers} />
+                    <TeamRow team={match.team2} />
                 </div>
 
                 {/* ── Footer Status ── */}
@@ -294,43 +310,44 @@ export default function LiveCricketScore() {
                 }}>
                     <div style={{
                         fontSize: '12px', fontWeight: 600,
-                        color: match.status === 'live' ? '#dc2626' : '#16a34a',
+                        color: match.isLive ? '#dc2626' : '#16a34a',
                         lineHeight: 1.4,
                     }}>
-                        {match.statusText}
+                        {match.status}
                     </div>
                     <div style={{
                         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                         marginTop: '6px',
                     }}>
-                        <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500 }}>
-                            {match.venue}
-                        </span>
-                        <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500 }}>
-                            Updated {lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
-                        </span>
-                    </div>
-
-                    {/* Run Rate Row */}
-                    {match.status === 'live' && (
-                        <div style={{
-                            display: 'flex', gap: '16px', marginTop: '8px',
-                            paddingTop: '8px', borderTop: '1px solid #e2e8f0',
+                        <span style={{
+                            fontSize: '10px', color: '#94a3b8', fontWeight: 500,
+                            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                            maxWidth: '60%',
                         }}>
-                            <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>
-                                CRR: <span style={{ color: '#1e293b', fontWeight: 800 }}>{match.currentRunRate.toFixed(2)}</span>
+                            📍 {match.venue}
+                        </span>
+                        {lastUpdated && (
+                            <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500, flexShrink: 0 }}>
+                                🔄 {lastUpdated.toLocaleTimeString('en-IN', {
+                                    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true,
+                                })}
                             </span>
-                            {match.requiredRunRate && (
-                                <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>
-                                    RRR: <span style={{ color: '#dc2626', fontWeight: 800 }}>{match.requiredRunRate.toFixed(2)}</span>
-                                </span>
-                            )}
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
 
-            {/* Pulse animation keyframe */}
+            {/* ── Powered by badge ── */}
+            <div style={{ textAlign: 'center', marginTop: '8px' }}>
+                <span style={{
+                    fontSize: '9px', color: 'rgba(255,255,255,0.5)', fontWeight: 600,
+                    letterSpacing: '0.5px',
+                }}>
+                    POWERED BY CRICAPI • AUTO-REFRESHES EVERY 15s
+                </span>
+            </div>
+
+            {/* Animations */}
             <style>{`
                 @keyframes pulse {
                     0%, 100% { opacity: 1; }
@@ -348,34 +365,56 @@ export default function LiveCricketScore() {
    TEAM ROW SUB-COMPONENT
    ═══════════════════════════════════════════════════════════ */
 
-function TeamRow({ team, formatOvers }: { team: TeamInnings; formatOvers: (t: TeamInnings) => string }) {
+function TeamRow({ team }: { team: TeamInnings }) {
+    const isDefaultImg = !team.img || team.img.includes('icon512.png');
+
     return (
         <div style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '6px 0',
+            padding: '4px 0',
         }}>
             {/* Left: Logo + Name */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
-                {/* Team Logo/Emoji */}
+                {/* Team Logo */}
                 <div style={{
                     width: '32px', height: '32px', borderRadius: '8px',
-                    background: `${team.color}15`,
+                    background: '#f1f5f9',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '16px', flexShrink: 0,
-                    border: `1.5px solid ${team.color}30`,
+                    overflow: 'hidden', flexShrink: 0,
+                    border: '1px solid #e2e8f0',
                 }}>
-                    {team.logo}
+                    {isDefaultImg ? (
+                        <span style={{ fontSize: '13px', fontWeight: 900, color: '#6366f1' }}>
+                            {team.shortName.substring(0, 2)}
+                        </span>
+                    ) : (
+                        <img
+                            src={team.img}
+                            alt={team.shortName}
+                            style={{ width: '24px', height: '24px', objectFit: 'contain' }}
+                            onError={(e) => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                        />
+                    )}
                 </div>
                 <div style={{ minWidth: 0 }}>
                     <div style={{
                         fontSize: '14px', fontWeight: 800, color: '#1e293b',
-                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                        display: 'flex', alignItems: 'center', gap: '6px',
                     }}>
                         {team.shortName}
+                        {team.isBatting && (
+                            <span style={{
+                                width: '6px', height: '6px', borderRadius: '50%',
+                                background: '#22c55e', flexShrink: 0,
+                            }} />
+                        )}
                     </div>
                     <div style={{
                         fontSize: '11px', color: '#94a3b8', fontWeight: 500,
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                        maxWidth: '140px',
                     }}>
                         {team.name}
                     </div>
@@ -396,14 +435,8 @@ function TeamRow({ team, formatOvers }: { team: TeamInnings; formatOvers: (t: Te
                             fontSize: '12px', fontWeight: 600, color: '#64748b',
                             marginLeft: '2px',
                         }}>
-                            ({formatOvers(team)})
+                            ({team.overs})
                         </span>
-                        {team.isBatting && (
-                            <span style={{
-                                width: '6px', height: '6px', borderRadius: '50%',
-                                background: '#22c55e', marginLeft: '4px', flexShrink: 0,
-                            }} />
-                        )}
                     </>
                 ) : (
                     <span style={{ fontSize: '14px', color: '#94a3b8', fontWeight: 600 }}>
