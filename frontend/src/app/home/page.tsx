@@ -190,57 +190,28 @@ export default function HomePage() {
         </div>
 
         {/* ── Google-style Live Cricket Score Widget ── */}
-        <div style={{ width: '100%', maxWidth: '520px', position: 'relative', zIndex: 2 }}>
+        <div style={{ width: '100%', maxWidth: '800px', position: 'relative', zIndex: 2, padding: '0 16px' }}>
           <LiveCricketScore />
-        </div>
-
-        {/* Drug Free Society Mission */}
-        <div style={{ position: 'relative', zIndex: 2, marginTop: '40px', textAlign: 'center', width: '100%', maxWidth: '800px' }}>
-          <div style={{
-            background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(12px)',
-            padding: '20px 16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
-          }}>
-            <h3 style={{ color: '#fcd34d', fontSize: '17px', fontWeight: 800, marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '24px' }}>🛡️</span> Promoting a Drug-Free Society
-            </h3>
-            <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '13px', lineHeight: 1.6, fontWeight: 500 }}>
-              Game Sphere India is committed to empowering the youth and building a healthier nation.
-              We believe that actively engaging individuals in sports is the most powerful method to combat substance abuse.
-              By providing professional platforms for everyone to play and compete, we are championing a completely drug-free society.
-            </p>
-          </div>
         </div>
       </section>
 
-      {/* Sports carousel */}
+      {/* Drug Free Society Mission */}
       <section style={{
-        padding: '48px 16px',
+        padding: '64px 16px',
         background: dark ? '#0f0d1a' : '#fafafa',
+        textAlign: 'center'
       }}>
-        <h2 style={{ textAlign: 'center', fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 800, marginBottom: '12px', letterSpacing: '-0.5px' }}>
-          One Platform. <span className="gradient-text">Every Sport.</span>
-        </h2>
-        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '32px', fontSize: '14px' }}>
-          Configure any sport dynamically — the UI adapts automatically
-        </p>
-        <div style={{
-          display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap',
-        }}>
-          {sports.map((sport) => (
-            <div key={sport.name} className="card-hover" style={{
-              padding: '16px 14px', borderRadius: '14px', textAlign: 'center',
-              minWidth: '80px', flex: '1', cursor: 'pointer',
-              background: dark ? 'rgba(255,255,255,0.04)' : 'white',
-              border: `2px solid ${dark ? 'rgba(255,255,255,0.06)' : '#f1f5f9'}`,
-              transition: 'all 0.3s ease',
-            }}>
-              <div style={{ fontSize: '28px', marginBottom: '6px' }}>{sport.icon}</div>
-              <div style={{ fontSize: '13px', fontWeight: 600, color: sport.color }}>{sport.name}</div>
-            </div>
-          ))}
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 900, marginBottom: '24px', letterSpacing: '-0.5px', color: dark ? 'white' : '#1e293b', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '1.2em' }}>🛡️</span> Promoting a Drug-Free Society
+          </h2>
+          <p style={{ color: dark ? 'rgba(255,255,255,0.8)' : '#475569', fontSize: '17px', lineHeight: 1.8, fontWeight: 500 }}>
+            Game Sphere India is committed to empowering the youth and building a healthier nation.
+            We believe that actively engaging individuals in sports is the most powerful method to combat substance abuse.
+            By providing professional platforms for everyone to play and compete, we are championing a completely drug-free society.
+          </p>
         </div>
-      </section >
+      </section>
 
       {/* Removed Features grid via User feedback targeting fan portal explicitly. Info moved to /about */}
 
