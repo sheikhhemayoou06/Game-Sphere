@@ -155,32 +155,62 @@ export default function HomePage() {
       <section className="gradient-bg" style={{
         padding: '100px 16px 40px', position: 'relative', overflow: 'hidden', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
       }}>
-        <div style={{ textAlign: 'center', position: 'relative', zIndex: 2, marginBottom: '40px', maxWidth: '800px', margin: '0 auto', padding: '0 16px' }}>
+        {/* Floating sport orbs */}
+        <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+          {sports.map((sport, i) => (
+            <div key={sport.name} className="float" style={{
+              position: 'absolute',
+              left: `${10 + (i * 10) % 80}%`,
+              top: `${15 + (i * 13) % 70}%`,
+              fontSize: '24px',
+              opacity: 0.15,
+              animationDelay: `${i * 0.5}s`,
+            }}>
+              {sport.icon}
+            </div>
+          ))}
+        </div>
+
+        <div style={{ textAlign: 'center', position: 'relative', zIndex: 2, marginBottom: '40px' }}>
           <h1 style={{
-            fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 900, lineHeight: 1.2,
-            color: '#fcd34d', marginBottom: '16px', letterSpacing: '-1px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', flexWrap: 'wrap'
+            fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 900, lineHeight: 1.1,
+            color: 'white', marginBottom: '16px', letterSpacing: '-1px',
           }}>
-            <span style={{ fontSize: '1.2em' }}>🛡️</span> Promoting a Drug-Free Society
+            Powering <span style={{ color: sports[activeSport].color, transition: 'color 0.5s ease-in-out' }}>Every Game</span>.<br />
+            Everywhere.
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', lineHeight: 1.6, fontWeight: 500, margin: '0 auto' }}>
-            Game Sphere India is committed to empowering the youth and building a healthier nation.
-            We believe that actively engaging individuals in sports is the most powerful method to combat substance abuse.
-            By providing professional platforms for everyone to play and compete, we are championing a completely drug-free society.
+          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '15px', maxWidth: '600px', margin: '0 auto', padding: '0 8px' }}>
+            Follow the latest ongoing matches across India instantly.
           </p>
         </div>
 
         {/* ── Global Search Bar ── */}
-        <div style={{ width: '100%', maxWidth: '800px', position: 'relative', zIndex: 10, marginBottom: '24px', padding: '0 16px' }}>
+        <div style={{ width: '100%', maxWidth: '720px', position: 'relative', zIndex: 10, marginBottom: '24px', padding: '0 16px' }}>
           <SmartSearch placeholder="Search players, teams, tournaments, matches..." dark={false} />
         </div>
 
         {/* ── Google-style Live Cricket Score Widget ── */}
-        <div style={{ width: '100%', maxWidth: '800px', position: 'relative', zIndex: 2, padding: '0 16px' }}>
+        <div style={{ width: '100%', maxWidth: '520px', position: 'relative', zIndex: 2 }}>
           <LiveCricketScore />
         </div>
 
-
+        {/* Drug Free Society Mission */}
+        <div style={{ position: 'relative', zIndex: 2, marginTop: '40px', textAlign: 'center', width: '100%', maxWidth: '800px' }}>
+          <div style={{
+            background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(12px)',
+            padding: '20px 16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+          }}>
+            <h3 style={{ color: '#fcd34d', fontSize: '17px', fontWeight: 800, marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '24px' }}>🛡️</span> Promoting a Drug-Free Society
+            </h3>
+            <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '13px', lineHeight: 1.6, fontWeight: 500 }}>
+              Game Sphere India is committed to empowering the youth and building a healthier nation.
+              We believe that actively engaging individuals in sports is the most powerful method to combat substance abuse.
+              By providing professional platforms for everyone to play and compete, we are championing a completely drug-free society.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Sports carousel */}
