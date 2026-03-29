@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { api } from '@/lib/api';
 import SmartSearch from '@/components/SmartSearch';
+import LiveCricketScore from '@/components/LiveCricketScore';
 import { Sun, Moon, Menu, X, LogIn, UserPlus, Info, History } from 'lucide-react';
 
 const sports = [
@@ -22,7 +22,6 @@ const sports = [
 export default function HomePage() {
   const [dark, setDark] = useState(false);
   const [activeSport, setActiveSport] = useState(0);
-  const [liveMatches, setLiveMatches] = useState<any[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -30,17 +29,6 @@ export default function HomePage() {
     const interval = setInterval(() => {
       setActiveSport((prev) => (prev + 1) % sports.length);
     }, 2500);
-
-    // Fetch live matches for the scorecard
-    const fetchMatches = async () => {
-      try {
-        const matches = await api.getLiveMatches();
-        setLiveMatches(matches);
-      } catch (err) {
-        console.error("Failed to load live matches", err);
-      }
-    };
-    fetchMatches();
 
     return () => clearInterval(interval);
   }, []);
@@ -196,76 +184,9 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Horizontal Scorecard Widget */}
-        <div style={{ width: '100%', maxWidth: '1000px', position: 'relative', zIndex: 2 }}>
-          {liveMatches.length > 0 ? (
-            <Link href="/explore" style={{ textDecoration: 'none', display: 'block' }}>
-              <div className="card-hover" style={{
-                background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)',
-                borderRadius: '16px', padding: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255,255,255,0.2)', color: '#1e1b4b',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap'
-              }}>
-                {/* Match Info */}
-                <div style={{ flex: '1', minWidth: '120px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <span style={{ color: '#ef4444', fontWeight: 700, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 6px', background: '#fef2f2', borderRadius: '4px' }}>
-                      Live
-                    </span>
-                    <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>{liveMatches[0].tournament?.name}</span>
-                  </div>
-                  <div style={{ fontSize: '13px', color: '#94a3b8' }}>{liveMatches[0].tournament?.sport?.name || sports[activeSport].name}</div>
-                </div>
-
-                {/* Score Grid (Horizontal) */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flex: '2', minWidth: '0', width: '100%' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'right' }}>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{liveMatches[0].homeTeam?.name}</div>
-                    <div style={{ fontSize: '24px', backgroundColor: '#f1f5f9', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800, flexShrink: 0 }}>
-                      {liveMatches[0].homeScore || 0}
-                    </div>
-                  </div>
-
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: '#94a3b8' }}>VS</div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left' }}>
-                    <div style={{ fontSize: '24px', backgroundColor: '#f1f5f9', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', fontWeight: 800, flexShrink: 0 }}>
-                      {liveMatches[0].awayScore || 0}
-                    </div>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#1e1b4b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{liveMatches[0].awayTeam?.name}</div>
-                  </div>
-                </div>
-
-                {/* Action */}
-                <div style={{ flex: '1', minWidth: '80px', textAlign: 'right' }}>
-                  <div style={{ fontSize: '14px', color: '#4f46e5', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                    View Details →
-                  </div>
-                  {liveMatches.length > 1 && (
-                    <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px' }}>
-                      +{liveMatches.length - 1} more live
-                    </div>
-                  )}
-                </div>
-              </div>
-            </Link>
-          ) : (
-            <div style={{
-              background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)',
-              borderRadius: '16px', padding: '20px 16px', textAlign: 'center',
-              border: '1px solid rgba(255,255,255,0.2)', color: 'white',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '24px'
-            }}>
-              <div style={{ width: '100%', maxWidth: '600px' }}>
-                <SmartSearch placeholder="Search Live Matches, Players, or Teams..." />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px' }}>
-                <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>
-                  No matches currently live
-                </div>
-              </div>
-            </div>
-          )}
+        {/* ── Google-style Live Cricket Score Widget ── */}
+        <div style={{ width: '100%', maxWidth: '520px', position: 'relative', zIndex: 2 }}>
+          <LiveCricketScore />
         </div>
 
         {/* Drug Free Society Mission */}
