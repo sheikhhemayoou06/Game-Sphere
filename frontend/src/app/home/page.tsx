@@ -197,15 +197,15 @@ export default function HomePage() {
 
       {/* Drug Free Society Mission */}
       <section style={{
-        padding: '64px 16px',
+        padding: '40px 16px',
         background: dark ? '#0f0d1a' : '#fafafa',
         textAlign: 'center'
       }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 900, marginBottom: '24px', letterSpacing: '-0.5px', color: dark ? 'white' : '#1e293b', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: 800, marginBottom: '16px', letterSpacing: '-0.5px', color: dark ? 'white' : '#1e293b', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '1.2em' }}>🛡️</span> Promoting a Drug-Free Society
           </h2>
-          <p style={{ color: dark ? 'rgba(255,255,255,0.8)' : '#475569', fontSize: '17px', lineHeight: 1.8, fontWeight: 500 }}>
+          <p style={{ color: dark ? 'rgba(255,255,255,0.75)' : '#475569', fontSize: '14px', lineHeight: 1.6, fontWeight: 500 }}>
             Game Sphere India is committed to empowering the youth and building a healthier nation.
             We believe that actively engaging individuals in sports is the most powerful method to combat substance abuse.
             By providing professional platforms for everyone to play and compete, we are championing a completely drug-free society.
