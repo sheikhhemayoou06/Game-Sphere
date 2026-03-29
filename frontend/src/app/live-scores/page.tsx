@@ -23,7 +23,18 @@ interface MatchSummary {
     hasSquad: boolean;
 }
 
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+
 export default function LiveScoresPage() {
+    return (
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0f0d1a' }}>Loading Match Center...</div>}>
+            <LiveScoresContent />
+        </Suspense>
+    );
+}
+
+function LiveScoresContent() {
     const [matches, setMatches] = useState<MatchSummary[]>([]);
     const [loading, setLoading] = useState(true);
     const [viewTab, setViewTab] = useState<ViewTab>('live');
@@ -34,6 +45,8 @@ export default function LiveScoresPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [commentaryData, setCommentaryData] = useState<any[]>([]);
     const [commentaryLoading, setCommentaryLoading] = useState(false);
+
+    const searchParams = useSearchParams();
 
     /* ── Fetch all matches ── */
     const fetchMatches = useCallback(async () => {
@@ -56,7 +69,7 @@ export default function LiveScoresPage() {
                         hasSquad: m.hasSquad || false,
                     }));
                 setMatches(mapped);
-                // Auto-select tab with matches
+                // Auto-select tab with matches (only if no specific match is selected yet)
                 const liveCount = mapped.filter(m => m.isLive).length;
                 if (liveCount > 0) setViewTab('live');
                 else if (mapped.filter(m => m.isCompleted).length > 0) setViewTab('completed');
@@ -98,12 +111,20 @@ export default function LiveScoresPage() {
         finally { setCommentaryLoading(false); }
     }, []);
 
-    const openMatch = (matchId: string) => {
+    const openMatch = useCallback((matchId: string) => {
         setSelectedMatch(matchId);
         setDetailTab('scorecard');
         fetchScorecard(matchId);
         fetchCommentary(matchId);
-    };
+    }, [fetchScorecard, fetchCommentary]);
+
+    // Read matchId from query params
+    useEffect(() => {
+        const mid = searchParams.get('matchId');
+        if (mid && mid !== selectedMatch) {
+            openMatch(mid);
+        }
+    }, [searchParams, selectedMatch, openMatch]);
 
     /* ── Filter matches ── */
     const filteredByTab = matches.filter(m =>

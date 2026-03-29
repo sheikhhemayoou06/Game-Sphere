@@ -19,6 +19,45 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
             setIsSearching(true);
             try {
                 const results = await api.globalSearch(searchQuery, activeSportId);
+                
+                // Fetch external CricAPI live matches explicitly and filter
+                if (activeSportId === 'ALL' || activeSportId === '1') {
+                    try {
+                        const extRes = await fetch('/api/cricket?endpoint=currentMatches');
+                        const extJson = await extRes.json();
+                        if (extJson.status === 'success' && extJson.data) {
+                            const queryLower = searchQuery.toLowerCase();
+                            const matchedExt = extJson.data.filter((m: any) => 
+                                m.name?.toLowerCase().includes(queryLower) ||
+                                m.teamInfo?.some((t: any) => 
+                                    t.name?.toLowerCase().includes(queryLower) || 
+                                    t.shortname?.toLowerCase().includes(queryLower)
+                                ) ||
+                                m.teams?.some((t: string) => t.toLowerCase().includes(queryLower))
+                            );
+                            
+                            if (matchedExt.length > 0) {
+                                const mapToInternal = (m: any) => ({
+                                    id: m.id,
+                                    isExternal: true,
+                                    tournament: { name: m.matchType?.toUpperCase() || 'Cricket Match', id: m.id },
+                                    sport: { name: 'Cricket', icon: '🏏' },
+                                    homeTeam: { name: m.teamInfo?.[0]?.name || m.teams?.[0] || 'Team 1' },
+                                    awayTeam: { name: m.teamInfo?.[1]?.name || m.teams?.[1] || 'Team 2' },
+                                });
+                                
+                                const extLive = matchedExt.filter((m: any) => m.matchStarted && !m.matchEnded).map(mapToInternal);
+                                const extCompleted = matchedExt.filter((m: any) => m.matchEnded).map(mapToInternal);
+                                
+                                results.liveMatches = [...extLive, ...(results.liveMatches || [])];
+                                results.completedMatches = [...extCompleted, ...(results.completedMatches || [])];
+                            }
+                        }
+                    } catch (e) {
+                        console.error('External fetch failed for search:', e);
+                    }
+                }
+
                 setSearchResults(results);
             } catch (err) {
                 console.error("Search failed", err);
@@ -74,7 +113,10 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                                 <span className="live-pulse"></span> Live Matches
                             </div>
                             {searchResults.liveMatches.map((m: any) => (
-                                <Link key={m.id} href={`/tournaments/${m.tournament?.id || ''}`} onClick={() => { setSearchQuery(''); setSearchResults(null); }} style={{ padding: '8px', borderRadius: '8px', background: '#f8fafc', marginBottom: '8px', display: 'block', textDecoration: 'none', color: 'inherit' }}>
+                                <Link key={m.id} 
+                                    href={m.isExternal ? `/live-scores?matchId=${m.id}` : `/tournaments/${m.tournament?.id || ''}`} 
+                                    onClick={() => { setSearchQuery(''); setSearchResults(null); }} 
+                                    style={{ padding: '8px', borderRadius: '8px', background: '#f8fafc', marginBottom: '8px', display: 'block', textDecoration: 'none', color: 'inherit' }}>
                                     <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px' }}>{m.tournament?.name} ({m.sport?.name})</div>
                                     <div style={{ fontWeight: 600, fontSize: '14px' }}>{m.homeTeam?.name} vs {m.awayTeam?.name}</div>
                                 </Link>
@@ -145,7 +187,10 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                                 Completed Matches
                             </div>
                             {searchResults.completedMatches.map((m: any) => (
-                                <Link key={m.id} href={`/tournaments/${m.tournament?.id || ''}`} onClick={() => { setSearchQuery(''); setSearchResults(null); }} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px', borderRadius: '8px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
+                                <Link key={m.id} 
+                                    href={m.isExternal ? `/live-scores?matchId=${m.id}` : `/tournaments/${m.tournament?.id || ''}`} 
+                                    onClick={() => { setSearchQuery(''); setSearchResults(null); }} 
+                                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px', borderRadius: '8px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
                                     <div>
                                         <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '2px' }}>{m.tournament?.name}</div>
                                         <div style={{ fontWeight: 600, fontSize: '13px' }}>{m.homeTeam?.name} vs {m.awayTeam?.name}</div>
