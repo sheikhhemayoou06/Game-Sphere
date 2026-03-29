@@ -60,10 +60,10 @@ export class PlayerSportsService {
         const prefix = SPORT_PREFIXES[sport.name] || sport.name.substring(0, 3).toUpperCase();
 
         const universalId = player.sportsId || 'USI-Pending';
-        const dynamicSegment = `${Math.floor(1 + Math.random() * 9)}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
 
         let sportCode = '';
         for (let i = 0; i < 10; i++) {
+            const dynamicSegment = `${Math.floor(1 + Math.random() * 9)}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
             const code = `${rolePrefix}${prefix}${dynamicSegment}-${universalId}`;
             const exists = await this.prisma.playerSport.findUnique({ where: { sportCode: code } });
             if (!exists) {
