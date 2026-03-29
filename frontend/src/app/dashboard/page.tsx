@@ -734,11 +734,24 @@ export default function DashboardPage() {
                                 overflowY: 'auto',
                                 borderRight: '1px solid #f1f5f9',
                             }}>
-                                {/* ── Profile Header (Removed, moved to bottom nav) ── */}
+                                {/* ── Header with Logo ── */}
                                 <div style={{
-                                    padding: '16px 24px', display: 'flex', justifyContent: 'flex-end',
+                                    padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                                     borderBottom: '1px solid #f1f5f9', position: 'relative',
                                 }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <div style={{
+                                            width: '36px', height: '36px', borderRadius: '10px',
+                                            background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            color: 'white', boxShadow: '0 4px 12px rgba(79, 70, 229, 0.3)'
+                                        }}>
+                                            <Gamepad2 size={20} />
+                                        </div>
+                                        <span style={{ fontSize: '18px', fontWeight: 800, color: '#1e293b', letterSpacing: '-0.5px' }}>
+                                            Game Sphere
+                                        </span>
+                                    </div>
                                     <button
                                         onClick={() => setPlayerMenuOpen(false)}
                                         style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: '4px', display: 'flex', borderRadius: '8px', transition: 'color 0.2s' }}
@@ -750,35 +763,7 @@ export default function DashboardPage() {
                                 {/* ── Unified Menu ── */}
                                 <div style={{ padding: '12px 14px 4px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
 
-                                    {/* 1. Add Sport */}
-                                    <button onClick={() => setShowAddSport(!showAddSport)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', border: 'none', background: 'transparent', color: '#334155', fontSize: '14px', fontWeight: 600, cursor: 'pointer', transition: 'background 0.15s', width: '100%', textAlign: 'left' }} className="hover-bg-slate">
-                                        <Plus size={18} color="#64748b" /> Add Sport
-                                    </button>
-                                    {showAddSport && remainingSports.length > 0 && (
-                                        <div style={{ padding: '4px 0 4px 32px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                                            {remainingSports.map((sp: any) => {
-                                                const accent = sp.accentColor || sportColors[sp.name] || '#7c3aed';
-                                                return (
-                                                    <button key={sp.id} onClick={() => { setShowAddSport(false); setPlayerMenuOpen(false); handleSelectNewSport(sp); }} style={{
-                                                        display: 'flex', alignItems: 'center', gap: '10px',
-                                                        padding: '9px 12px', borderRadius: '8px',
-                                                        border: 'none', background: 'transparent',
-                                                        color: '#334155', fontSize: '13px', fontWeight: 600,
-                                                        cursor: 'pointer', transition: 'background 0.15s', width: '100%',
-                                                    }} className="hover-bg-slate">
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                            <SportIcon sport={sp.name} size={18} color={sp.accentColor || '#64748b'} />
-                                                            <span style={{ fontWeight: 600, color: '#1e293b' }}>{sp.name}</span>
-                                                        </div></button>
-                                                );
-                                            })}
-                                        </div>
-                                    )}
-                                    {showAddSport && remainingSports.length === 0 && (
-                                        <div style={{ padding: '8px 14px 8px 46px', fontSize: '13px', color: '#94a3b8', fontStyle: 'italic' }}>
-                                            All sports already added
-                                        </div>
-                                    )}
+                                    {/* 1. Add Sport (Removed) */}
 
                                     {/* 2. Training (Live Score removed — available on explore + live bar) */}
                                     <Link href="/training" onClick={() => setPlayerMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '11px 14px', borderRadius: '10px', textDecoration: 'none', color: '#334155', fontSize: '14px', fontWeight: 600, transition: 'background 0.15s' }} className="hover-bg-slate">
@@ -1081,7 +1066,21 @@ export default function DashboardPage() {
                             padding: '12px 8px', paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
                             zIndex: 900, boxShadow: '0 -4px 16px rgba(0,0,0,0.05)',
                         }}>
-                            {/* 1. Profile (Long Press -> Sports Menu) */}
+                            {[
+                                { id: 'tournaments', icon: Trophy, label: 'Tournaments', link: '/tournaments' },
+                                { id: 'teams', icon: Users, label: 'My Team', link: '/teams' },
+                                { id: 'search', icon: Search, label: 'Search', link: '/explore' },
+                                { id: 'messages', icon: MessageSquare, label: 'Messages', link: '/messages' }
+                            ].map(tab => (
+                                <Link key={tab.id} href={`${tab.link}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0', transition: 'color 0.2s' }}>
+                                    <div style={{ color: '#64748b' }}>
+                                        <tab.icon size={22} strokeWidth={2} />
+                                    </div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>{tab.label}</div>
+                                </Link>
+                            ))}
+
+                            {/* Profile (Moved to Right Corner) */}
                             <div
                                 onContextMenu={(e) => { e.preventDefault(); setSportDropdownOpen(true); }}
                                 onTouchStart={handleProfilePressStart}
@@ -1107,7 +1106,7 @@ export default function DashboardPage() {
                                 {/* Sport Dropdown Popup */}
                                 {sportDropdownOpen && (
                                     <div style={{
-                                        position: 'absolute', bottom: 'calc(100% + 12px)', left: '12px',
+                                        position: 'absolute', bottom: 'calc(100% + 12px)', right: '12px', /* Positioned from RIGHT side */
                                         width: '220px', background: 'white', borderRadius: '16px',
                                         border: '1px solid #e2e8f0', boxShadow: '0 -8px 24px rgba(0,0,0,0.12)',
                                         zIndex: 1000, overflow: 'hidden', padding: '8px'
@@ -1170,7 +1169,21 @@ export default function DashboardPage() {
                             padding: '12px 8px', paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
                             zIndex: 900, boxShadow: '0 -4px 16px rgba(0,0,0,0.05)',
                         }}>
-                            {/* 1. Profile (Long Press -> Sports Menu) */}
+                            {[
+                                { id: 'tournaments', icon: Trophy, label: 'Tournaments', link: '/tournaments' },
+                                { id: 'teams', icon: Users, label: 'My Team', link: '/teams' },
+                                { id: 'search', icon: Search, label: 'Search', link: '/explore' },
+                                { id: 'messages', icon: MessageSquare, label: 'Messages', link: '/messages' }
+                            ].map(tab => (
+                                <Link key={tab.id} href={`${tab.link}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0', transition: 'color 0.2s' }}>
+                                    <div style={{ color: '#64748b' }}>
+                                        <tab.icon size={22} strokeWidth={2} />
+                                    </div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>{tab.label}</div>
+                                </Link>
+                            ))}
+
+                            {/* Profile (Moved to Right Corner) */}
                             <div
                                 onContextMenu={(e) => { e.preventDefault(); setSportDropdownOpen(true); }}
                                 onTouchStart={handleProfilePressStart}
@@ -1196,7 +1209,7 @@ export default function DashboardPage() {
                                 {/* Sport Dropdown Popup */}
                                 {sportDropdownOpen && (
                                     <div style={{
-                                        position: 'absolute', bottom: 'calc(100% + 12px)', left: '12px',
+                                        position: 'absolute', bottom: 'calc(100% + 12px)', right: '12px', /* Positioned from RIGHT side */
                                         width: '220px', background: 'white', borderRadius: '16px',
                                         border: '1px solid #e2e8f0', boxShadow: '0 -8px 24px rgba(0,0,0,0.12)',
                                         zIndex: 1000, overflow: 'hidden', padding: '8px'
@@ -1231,20 +1244,6 @@ export default function DashboardPage() {
                                     </div>
                                 )}
                             </div>
-
-                            {[
-                                { id: 'tournaments', icon: Trophy, label: 'Tournaments', link: '/tournaments' },
-                                { id: 'teams', icon: Users, label: 'My Team', link: '/teams' },
-                                { id: 'search', icon: Search, label: 'Search', link: '/explore' },
-                                { id: 'messages', icon: MessageSquare, label: 'Messages', link: '/messages' }
-                            ].map(tab => (
-                                <Link key={tab.id} href={`${tab.link}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0', transition: 'color 0.2s' }}>
-                                    <div style={{ color: '#64748b' }}>
-                                        <tab.icon size={22} strokeWidth={2} />
-                                    </div>
-                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>{tab.label}</div>
-                                </Link>
-                            ))}
                         </div>
                     )
                 }
