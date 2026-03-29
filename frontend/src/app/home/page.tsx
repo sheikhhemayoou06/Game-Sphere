@@ -184,6 +184,11 @@ export default function HomePage() {
           </p>
         </div>
 
+        {/* ── Global Search Bar ── */}
+        <div style={{ width: '100%', maxWidth: '520px', position: 'relative', zIndex: 10, marginBottom: '24px' }}>
+          <SmartSearch placeholder="Search players, teams, tournaments, matches..." dark={false} />
+        </div>
+
         {/* ── Google-style Live Cricket Score Widget ── */}
         <div style={{ width: '100%', maxWidth: '520px', position: 'relative', zIndex: 2 }}>
           <LiveCricketScore />
