@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 
 /* ═══════════════════════════════════════════════════════════
    Multi-Sport Live Scores (Google-Style)
@@ -350,11 +351,16 @@ export default function LiveCricketScore() {
                 </div>
             </div>}
 
-            {/* Powered by */}
-            <div style={{ textAlign: 'center', marginTop: '8px' }}>
-                <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', fontWeight: 600, letterSpacing: '0.5px' }}>
-                    POWERED BY CRICAPI + GAME SPHERE • AUTO-REFRESHES EVERY 15s
-                </span>
+            {/* View All Link */}
+            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+                <Link href="/live-scores" style={{
+                    fontSize: '12px', color: 'rgba(255,255,255,0.85)', fontWeight: 700,
+                    textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px',
+                    background: 'rgba(255,255,255,0.12)', padding: '8px 18px', borderRadius: '20px',
+                    transition: 'all 0.2s',
+                }}>
+                    View All Matches & Scorecards →
+                </Link>
             </div>
 
             <style>{`
