@@ -73,7 +73,7 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                                 <span className="live-pulse"></span> Live Matches
                             </div>
                             {searchResults.liveMatches.map((m: any) => (
-                                <Link key={m.id} href={`/tournaments/${m.tournament?.id || ''}`} style={{ padding: '8px', borderRadius: '8px', background: '#f8fafc', marginBottom: '8px', display: 'block', textDecoration: 'none', color: 'inherit' }}>
+                                <Link key={m.id} href={`/tournaments/${m.tournament?.id || ''}`} onClick={() => { setSearchQuery(''); setSearchResults(null); }} style={{ padding: '8px', borderRadius: '8px', background: '#f8fafc', marginBottom: '8px', display: 'block', textDecoration: 'none', color: 'inherit' }}>
                                     <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px' }}>{m.tournament?.name} ({m.sport?.name})</div>
                                     <div style={{ fontWeight: 600, fontSize: '14px' }}>{m.homeTeam?.name} vs {m.awayTeam?.name}</div>
                                 </Link>
@@ -88,7 +88,7 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                                 Tournaments
                             </div>
                             {searchResults.tournaments.map((t: any) => (
-                                <Link key={t.id} href={`/tournaments/${t.id}`} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '8px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
+                                <Link key={t.id} href={`/tournaments/${t.id}`} onClick={() => { setSearchQuery(''); setSearchResults(null); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '8px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
                                     <span style={{ fontSize: '20px' }}>{t.sport?.icon}</span>
                                     <div>
                                         <div style={{ fontWeight: 600, fontSize: '14px' }}>{t.name}</div>
@@ -106,13 +106,13 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                                 Teams
                             </div>
                             {searchResults.teams.map((t: any) => (
-                                <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '8px', cursor: 'pointer' }} className="hover-bg-slate">
+                                <Link key={t.id} href={`/teams/${t.id}`} onClick={() => { setSearchQuery(''); setSearchResults(null); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '8px', cursor: 'pointer', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
                                     <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>🛡️</div>
                                     <div>
                                         <div style={{ fontWeight: 600, fontSize: '14px' }}>{t.name}</div>
                                         <div style={{ fontSize: '12px', color: '#64748b' }}>{t.sport?.name}</div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     )}
@@ -124,15 +124,15 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                                 Players
                             </div>
                             {searchResults.players.map((p: any) => (
-                                <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '8px', cursor: 'pointer' }} className="hover-bg-slate">
+                                <Link key={p.id} href={`/players/${p.id}`} onClick={() => { setSearchQuery(''); setSearchResults(null); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '8px', cursor: 'pointer', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
                                     <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#4f46e5', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '14px' }}>
-                                        {p.user?.firstName[0]}{p.user?.lastName[0]}
+                                        {p.user?.firstName?.[0]}{p.user?.lastName?.[0]}
                                     </div>
                                     <div>
                                         <div style={{ fontWeight: 600, fontSize: '14px' }}>{p.user?.firstName} {p.user?.lastName}</div>
                                         <div style={{ fontSize: '12px', color: '#64748b' }}>{p.primarySport}</div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     )}
@@ -144,7 +144,7 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                                 Completed Matches
                             </div>
                             {searchResults.completedMatches.map((m: any) => (
-                                <Link key={m.id} href={`/tournaments/${m.tournament?.id || ''}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px', borderRadius: '8px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
+                                <Link key={m.id} href={`/tournaments/${m.tournament?.id || ''}`} onClick={() => { setSearchQuery(''); setSearchResults(null); }} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px', borderRadius: '8px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
                                     <div>
                                         <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '2px' }}>{m.tournament?.name}</div>
                                         <div style={{ fontWeight: 600, fontSize: '13px' }}>{m.homeTeam?.name} vs {m.awayTeam?.name}</div>
