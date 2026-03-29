@@ -14,6 +14,8 @@ export async function GET(request: Request) {
         url = `https://api.cricapi.com/v1/match_scorecard?apikey=${CRICAPI_KEY}&id=${matchId}`;
     } else if (endpoint === 'match_info' && matchId) {
         url = `https://api.cricapi.com/v1/match_info?apikey=${CRICAPI_KEY}&id=${matchId}`;
+    } else if (endpoint === 'match_bbb' && matchId) {
+        url = `https://api.cricapi.com/v1/match_bbb?apikey=${CRICAPI_KEY}&id=${matchId}`;
     } else {
         return NextResponse.json({ error: 'Invalid endpoint' }, { status: 400 });
     }

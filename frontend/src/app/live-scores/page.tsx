@@ -9,9 +9,10 @@ import PageNavbar from '@/components/PageNavbar';
 
 const CRICAPI_MATCHES = '/api/cricket?endpoint=currentMatches';
 const CRICAPI_SCORECARD = (id: string) => `/api/cricket?endpoint=match_scorecard&id=${id}`;
+const CRICAPI_BBB = (id: string) => `/api/cricket?endpoint=match_bbb&id=${id}`;
 
 type ViewTab = 'live' | 'completed' | 'upcoming';
-type DetailTab = 'scorecard' | 'squads' | 'info';
+type DetailTab = 'scorecard' | 'commentary' | 'run_rate' | 'squads' | 'info';
 
 interface MatchSummary {
     id: string; name: string; matchType: string; status: string; venue: string;
@@ -31,6 +32,8 @@ export default function LiveScoresPage() {
     const [scorecardData, setScorecardData] = useState<any>(null);
     const [scorecardLoading, setScorecardLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [commentaryData, setCommentaryData] = useState<any[]>([]);
+    const [commentaryLoading, setCommentaryLoading] = useState(false);
 
     /* ── Fetch all matches ── */
     const fetchMatches = useCallback(async () => {
@@ -78,10 +81,28 @@ export default function LiveScoresPage() {
         finally { setScorecardLoading(false); }
     }, []);
 
+    /* ── Fetch ball-by-ball commentary ── */
+    const fetchCommentary = useCallback(async (matchId: string) => {
+        setCommentaryLoading(true);
+        setCommentaryData([]);
+        try {
+            const res = await fetch(CRICAPI_BBB(matchId));
+            const json = await res.json();
+            if (json.status === 'success' && json.data?.bpiData) {
+                setCommentaryData(json.data.bpiData);
+            } else if (json.status === 'success' && json.data) {
+                // Fallback: some responses structure differently
+                setCommentaryData(Array.isArray(json.data) ? json.data : []);
+            }
+        } catch (err) { console.error('Commentary fetch failed', err); }
+        finally { setCommentaryLoading(false); }
+    }, []);
+
     const openMatch = (matchId: string) => {
         setSelectedMatch(matchId);
         setDetailTab('scorecard');
         fetchScorecard(matchId);
+        fetchCommentary(matchId);
     };
 
     /* ── Filter matches ── */
@@ -161,20 +182,21 @@ export default function LiveScoresPage() {
                     </div>
 
                     {/* Detail Tabs */}
-                    <div style={{ display: 'flex', gap: '4px', marginBottom: '16px', background: 'white', borderRadius: '12px', padding: '4px', border: '1px solid #e2e8f0' }}>
-                        {(['scorecard', 'squads', 'info'] as DetailTab[]).map(tab => (
+                    <div style={{ display: 'flex', gap: '3px', marginBottom: '16px', background: 'white', borderRadius: '12px', padding: '4px', border: '1px solid #e2e8f0', overflowX: 'auto' }}>
+                        {(['scorecard', 'commentary', 'run_rate', 'squads', 'info'] as DetailTab[]).map(tab => (
                             <button key={tab} onClick={() => setDetailTab(tab)}
                                 style={{
-                                    flex: 1, padding: '10px', borderRadius: '8px', border: 'none',
-                                    fontSize: '12px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s',
+                                    flex: '0 0 auto', padding: '10px 12px', borderRadius: '8px', border: 'none',
+                                    fontSize: '11px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s',
                                     background: detailTab === tab ? '#1e293b' : 'transparent',
                                     color: detailTab === tab ? 'white' : '#64748b',
-                                    textTransform: 'capitalize',
+                                    whiteSpace: 'nowrap',
                                 }}>
-                                {tab}
+                                {tab === 'run_rate' ? 'Run Rate' : tab === 'commentary' ? 'Commentary' : tab.charAt(0).toUpperCase() + tab.slice(1)}
                             </button>
                         ))}
                     </div>
+
 
                     {/* SCORECARD TAB */}
                     {detailTab === 'scorecard' && (
@@ -316,6 +338,168 @@ export default function LiveScoresPage() {
                                     <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b', flex: 1 }}>{item.value || '-'}</span>
                                 </div>
                             ))}
+                        </div>
+                    )}
+
+                    {/* COMMENTARY TAB */}
+                    {detailTab === 'commentary' && (
+                        <div style={{ background: 'white', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                            <div style={{ padding: '14px 16px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', fontSize: '13px', fontWeight: 800, color: '#1e293b' }}>
+                                Ball-by-Ball Commentary
+                            </div>
+                            {commentaryLoading ? (
+                                <div style={{ padding: '40px', textAlign: 'center' }}>
+                                    <div style={{ width: '24px', height: '24px', borderRadius: '50%', border: '3px solid #e2e8f0', borderTopColor: '#6366f1', animation: 'spin 0.8s linear infinite', margin: '0 auto 12px' }} />
+                                    <div style={{ fontSize: '13px', color: '#64748b' }}>Loading commentary...</div>
+                                </div>
+                            ) : commentaryData.length > 0 ? (
+                                <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                                    {commentaryData.map((ball: any, i: number) => (
+                                        <div key={i} style={{ padding: '12px 16px', borderBottom: '1px solid #f1f5f9', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                                            <div style={{
+                                                minWidth: '36px', height: '36px', borderRadius: '8px',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                fontSize: '11px', fontWeight: 800, flexShrink: 0,
+                                                background: ball.six ? '#7c3aed' : ball.four ? '#2563eb' : ball.wicket ? '#dc2626' : '#f1f5f9',
+                                                color: (ball.six || ball.four || ball.wicket) ? 'white' : '#1e293b',
+                                            }}>
+                                                {ball.over || ball.opiData?.over || `${i + 1}`}
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', marginBottom: '2px' }}>
+                                                    {ball.bpiData?.commentary || ball.commentary || ball.text || `Over ${ball.over || i + 1}`}
+                                                </div>
+                                                {(ball.batsman || ball.bowler) && (
+                                                    <div style={{ fontSize: '11px', color: '#94a3b8' }}>
+                                                        {ball.batsman && `${ball.batsman.name} `}
+                                                        {ball.bowler && `to ${ball.bowler.name}`}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            {(ball.six || ball.four || ball.wicket) && (
+                                                <span style={{
+                                                    fontSize: '9px', fontWeight: 800, padding: '2px 6px', borderRadius: '4px',
+                                                    background: ball.six ? '#f3e8ff' : ball.four ? '#dbeafe' : '#fef2f2',
+                                                    color: ball.six ? '#7c3aed' : ball.four ? '#2563eb' : '#dc2626',
+                                                }}>
+                                                    {ball.six ? 'SIX' : ball.four ? 'FOUR' : 'WICKET'}
+                                                </span>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div style={{ padding: '40px', textAlign: 'center' }}>
+                                    <div style={{ fontSize: '32px', marginBottom: '8px' }}>📝</div>
+                                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#64748b' }}>Commentary not available</div>
+                                    <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>Ball-by-ball data may not be available for this match</div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* RUN RATE CHART TAB */}
+                    {detailTab === 'run_rate' && (
+                        <div>
+                            {scorecardData.scorecard && scorecardData.scorecard.length > 0 ? (
+                                scorecardData.scorecard.map((innings: any, idx: number) => {
+                                    // Build per-over run rate from batting data
+                                    const batsmen = innings.batting || [];
+                                    const totalRuns = batsmen.reduce((sum: number, b: any) => sum + (b.r || 0), 0);
+                                    const totalOvers = Math.max(...(scorecardData.score || []).filter((s: any) => s.inning === innings.inning).map((s: any) => s.o || 0), 1);
+                                    const runRate = totalOvers > 0 ? (totalRuns / totalOvers).toFixed(2) : '0.00';
+
+                                    // Generate over-by-over data from bowling figures
+                                    const bowlers = innings.bowling || [];
+                                    const overData: { over: number; runs: number }[] = [];
+                                    let overNum = 1;
+                                    bowlers.forEach((bw: any) => {
+                                        const fullOvers = Math.floor(bw.o || 0);
+                                        const runsPerOver = fullOvers > 0 ? bw.r / fullOvers : bw.r;
+                                        for (let i = 0; i < fullOvers; i++) {
+                                            overData.push({ over: overNum++, runs: Math.round(runsPerOver) });
+                                        }
+                                    });
+
+                                    const maxRuns = Math.max(...overData.map(d => d.runs), 1);
+                                    const teamName = innings.inning?.split('Inning')[0]?.trim() || `Team ${idx + 1}`;
+                                    const scoreInfo = scorecardData.score?.find((s: any) => s.inning === innings.inning);
+
+                                    return (
+                                        <div key={idx} style={{ background: 'white', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0', marginBottom: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                                            <div style={{ padding: '14px 16px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <span style={{ fontSize: '13px', fontWeight: 800, color: '#1e293b', textTransform: 'capitalize' }}>{teamName}</span>
+                                                <div style={{ display: 'flex', gap: '12px' }}>
+                                                    {scoreInfo && <span style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a' }}>{scoreInfo.r}/{scoreInfo.w} ({scoreInfo.o} ov)</span>}
+                                                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#6366f1' }}>RR: {runRate}</span>
+                                                </div>
+                                            </div>
+                                            {/* Bar Chart */}
+                                            {overData.length > 0 ? (
+                                                <div style={{ padding: '20px 16px' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'flex-end', gap: '3px', height: '120px', marginBottom: '8px' }}>
+                                                        {overData.map((d, oi) => (
+                                                            <div key={oi} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
+                                                                <span style={{ fontSize: '8px', fontWeight: 700, color: '#64748b', marginBottom: '2px' }}>{d.runs}</span>
+                                                                <div style={{
+                                                                    width: '100%', borderRadius: '4px 4px 0 0',
+                                                                    height: `${Math.max((d.runs / maxRuns) * 100, 5)}%`,
+                                                                    background: d.runs >= 10 ? 'linear-gradient(180deg, #7c3aed, #a855f7)' :
+                                                                        d.runs >= 7 ? 'linear-gradient(180deg, #2563eb, #3b82f6)' :
+                                                                        'linear-gradient(180deg, #6366f1, #818cf8)',
+                                                                    transition: 'height 0.3s ease',
+                                                                }} />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    {/* X-axis labels */}
+                                                    <div style={{ display: 'flex', gap: '3px', borderTop: '1px solid #e2e8f0', paddingTop: '4px' }}>
+                                                        {overData.map((d, oi) => (
+                                                            <div key={oi} style={{ flex: 1, textAlign: 'center', fontSize: '8px', color: '#94a3b8', fontWeight: 600 }}>
+                                                                {d.over}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <div style={{ textAlign: 'center', fontSize: '10px', color: '#94a3b8', fontWeight: 600, marginTop: '8px' }}>OVERS →</div>
+                                                </div>
+                                            ) : (
+                                                <div style={{ padding: '40px', textAlign: 'center' }}>
+                                                    <div style={{ fontSize: '13px', color: '#94a3b8' }}>Chart data not available for this innings</div>
+                                                </div>
+                                            )}
+
+                                            {/* Stats Row */}
+                                            <div style={{ padding: '12px 16px', background: '#f8fafc', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-around' }}>
+                                                <div style={{ textAlign: 'center' }}>
+                                                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#0f172a' }}>{totalRuns}</div>
+                                                    <div style={{ fontSize: '9px', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase' }}>Total Runs</div>
+                                                </div>
+                                                <div style={{ textAlign: 'center' }}>
+                                                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#0f172a' }}>{totalOvers}</div>
+                                                    <div style={{ fontSize: '9px', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase' }}>Overs</div>
+                                                </div>
+                                                <div style={{ textAlign: 'center' }}>
+                                                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#6366f1' }}>{runRate}</div>
+                                                    <div style={{ fontSize: '9px', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase' }}>Run Rate</div>
+                                                </div>
+                                                <div style={{ textAlign: 'center' }}>
+                                                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#0f172a' }}>{batsmen.reduce((s: number, b: any) => s + (b['6s'] || 0), 0)}</div>
+                                                    <div style={{ fontSize: '9px', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase' }}>Sixes</div>
+                                                </div>
+                                                <div style={{ textAlign: 'center' }}>
+                                                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#0f172a' }}>{batsmen.reduce((s: number, b: any) => s + (b['4s'] || 0), 0)}</div>
+                                                    <div style={{ fontSize: '9px', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase' }}>Fours</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            ) : (
+                                <div style={{ background: 'white', borderRadius: '16px', padding: '40px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+                                    <div style={{ fontSize: '32px', marginBottom: '8px' }}>📊</div>
+                                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#64748b' }}>Run rate data not available</div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
