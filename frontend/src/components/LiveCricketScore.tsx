@@ -9,8 +9,7 @@ import Link from 'next/link';
    — Game Sphere internal API for all sports
    ═══════════════════════════════════════════════════════════ */
 
-const CRICAPI_KEY = 'c96e46df-0777-40cf-b456-81bdf44dd874';
-const CRICAPI_URL = `https://api.cricapi.com/v1/currentMatches?apikey=${CRICAPI_KEY}&offset=0`;
+const CRICAPI_URL = '/api/cricket?endpoint=currentMatches';
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
 
 /* ── Sport config ── */

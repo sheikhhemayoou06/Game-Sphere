@@ -7,9 +7,8 @@ import PageNavbar from '@/components/PageNavbar';
    MATCH CENTER — Google-Style Full Scorecard Page
    ═══════════════════════════════════════════════════════════ */
 
-const CRICAPI_KEY = 'c96e46df-0777-40cf-b456-81bdf44dd874';
-const CRICAPI_MATCHES = `https://api.cricapi.com/v1/currentMatches?apikey=${CRICAPI_KEY}&offset=0`;
-const CRICAPI_SCORECARD = (id: string) => `https://api.cricapi.com/v1/match_scorecard?apikey=${CRICAPI_KEY}&id=${id}`;
+const CRICAPI_MATCHES = '/api/cricket?endpoint=currentMatches';
+const CRICAPI_SCORECARD = (id: string) => `/api/cricket?endpoint=match_scorecard&id=${id}`;
 
 type ViewTab = 'live' | 'completed' | 'upcoming';
 type DetailTab = 'scorecard' | 'squads' | 'info';
