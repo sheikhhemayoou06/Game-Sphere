@@ -185,7 +185,7 @@ export default function HomePage() {
         </div>
 
         {/* ── Global Search Bar ── */}
-        <div style={{ width: '100%', maxWidth: '520px', position: 'relative', zIndex: 10, marginBottom: '24px' }}>
+        <div style={{ width: '100%', maxWidth: '720px', position: 'relative', zIndex: 10, marginBottom: '24px', padding: '0 16px' }}>
           <SmartSearch placeholder="Search players, teams, tournaments, matches..." dark={false} />
         </div>
 
