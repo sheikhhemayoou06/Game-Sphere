@@ -42,14 +42,15 @@ export default function SmartSearch({ activeSportId = 'ALL', placeholder = "Sear
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{
                         width: '100%', padding: '16px 20px 16px 48px', borderRadius: '12px',
-                        border: dark ? '1px solid #e2e8f0' : '1px solid rgba(255,255,255,0.1)',
-                        background: dark ? '#f1f5f9' : 'rgba(255,255,255,0.05)',
-                        color: dark ? '#0f172a' : 'white',
+                        border: dark ? '1px solid #e2e8f0' : '1px solid white',
+                        background: dark ? '#f1f5f9' : 'white',
+                        color: dark ? '#0f172a' : '#0f172a',
                         fontSize: '15px', outline: 'none',
                         transition: 'all 0.2s',
+                        boxShadow: dark ? 'none' : '0 4px 12px rgba(0,0,0,0.1)',
                     }}
-                    onFocus={(e) => e.target.style.background = dark ? '#e2e8f0' : 'rgba(255,255,255,0.1)'}
-                    onBlur={(e) => e.target.style.background = dark ? '#f1f5f9' : 'rgba(255,255,255,0.05)'}
+                    onFocus={(e) => e.target.style.background = dark ? '#e2e8f0' : 'white'}
+                    onBlur={(e) => e.target.style.background = dark ? '#f1f5f9' : 'white'}
                 />
                 {isSearching && (
                     <span style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', fontSize: '14px', color: '#818cf8' }}>
