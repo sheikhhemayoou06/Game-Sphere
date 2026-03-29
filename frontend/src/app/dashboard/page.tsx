@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore, useSportStore } from '@/lib/store';
@@ -224,9 +224,37 @@ export default function DashboardPage() {
     const [sportDropdownOpen, setSportDropdownOpen] = useState(false);
 
     // Rotating Advertisement State
+    // Rotating Advertisement State
     const [adIndex, setAdIndex] = useState(0);
 
     const router = useRouter();
+
+    // Profile Long Press Handlers
+    const pressTimer = useRef<NodeJS.Timeout | null>(null);
+    const [hasLongPressed, setHasLongPressed] = useState(false);
+
+    const handleProfilePressStart = () => {
+        setHasLongPressed(false);
+        if (pressTimer.current) clearTimeout(pressTimer.current);
+        pressTimer.current = setTimeout(() => {
+            setHasLongPressed(true);
+            setSportDropdownOpen(prev => !prev);
+        }, 500);
+    };
+
+    const handleProfilePressEnd = () => {
+        if (pressTimer.current) {
+            clearTimeout(pressTimer.current);
+            pressTimer.current = null;
+        }
+    };
+
+    const handleProfileClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (!hasLongPressed) {
+            router.push('/profile');
+        }
+    };
 
     const handleSelectNewSport = (sp: any) => {
         let formFields = SPORT_FORMS[sp.name];
@@ -1055,10 +1083,16 @@ export default function DashboardPage() {
                         }}>
                             {/* 1. Profile (Long Press -> Sports Menu) */}
                             <div
-                                onContextMenu={(e) => { e.preventDefault(); setSportDropdownOpen(!sportDropdownOpen); }}
-                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1, padding: '4px 0', position: 'relative' }}
+                                onContextMenu={(e) => { e.preventDefault(); setSportDropdownOpen(true); }}
+                                onTouchStart={handleProfilePressStart}
+                                onTouchEnd={handleProfilePressEnd}
+                                onMouseDown={handleProfilePressStart}
+                                onMouseUp={handleProfilePressEnd}
+                                onMouseLeave={handleProfilePressEnd}
+                                onClick={handleProfileClick}
+                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1, padding: '4px 0', position: 'relative', cursor: 'pointer', WebkitUserSelect: 'none', userSelect: 'none' }}
                             >
-                                <Link href="/profile" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                                <div style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
                                     <div style={{
                                         width: '24px', height: '24px', borderRadius: '50%',
                                         background: 'linear-gradient(135deg, #6366f1, #a855f7)',
@@ -1068,7 +1102,7 @@ export default function DashboardPage() {
                                         {(user?.firstName?.[0] || 'U').toUpperCase()}
                                     </div>
                                     <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>Profile</div>
-                                </Link>
+                                </div>
 
                                 {/* Sport Dropdown Popup */}
                                 {sportDropdownOpen && (
@@ -1138,10 +1172,16 @@ export default function DashboardPage() {
                         }}>
                             {/* 1. Profile (Long Press -> Sports Menu) */}
                             <div
-                                onContextMenu={(e) => { e.preventDefault(); setSportDropdownOpen(!sportDropdownOpen); }}
-                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1, padding: '4px 0', position: 'relative' }}
+                                onContextMenu={(e) => { e.preventDefault(); setSportDropdownOpen(true); }}
+                                onTouchStart={handleProfilePressStart}
+                                onTouchEnd={handleProfilePressEnd}
+                                onMouseDown={handleProfilePressStart}
+                                onMouseUp={handleProfilePressEnd}
+                                onMouseLeave={handleProfilePressEnd}
+                                onClick={handleProfileClick}
+                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1, padding: '4px 0', position: 'relative', cursor: 'pointer', WebkitUserSelect: 'none', userSelect: 'none' }}
                             >
-                                <Link href="/profile" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                                <div style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
                                     <div style={{
                                         width: '24px', height: '24px', borderRadius: '50%',
                                         background: 'linear-gradient(135deg, #6366f1, #a855f7)',
@@ -1151,7 +1191,7 @@ export default function DashboardPage() {
                                         {(user?.firstName?.[0] || 'T').toUpperCase()}
                                     </div>
                                     <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>Profile</div>
-                                </Link>
+                                </div>
 
                                 {/* Sport Dropdown Popup */}
                                 {sportDropdownOpen && (
