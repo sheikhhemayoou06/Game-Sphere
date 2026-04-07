@@ -72,6 +72,58 @@ export default function ExplorePage() {
             setIsSearching(true);
             try {
                 const r = await api.globalSearch(searchQuery, activeSportId);
+
+                // Fetch external CricAPI live matches explicitly and filter
+                if (activeSportId === 'ALL' || activeSportId === '1') {
+                    try {
+                        const extRes = await fetch('/api/cricket?endpoint=currentMatches');
+                        const extJson = await extRes.json();
+                        if (extJson.status === 'success' && extJson.data) {
+                            const queryLower = searchQuery.toLowerCase();
+                            
+                            // Check match category heuristics similarly to Match Center
+                            const getExtCategory = (m: any) => {
+                                const type = (m.matchType || '').toLowerCase();
+                                const name = (m.name || '').toLowerCase();
+                                if (type === 'odi' || type === 'test' || type === 't20i' || name.includes('international') || name.includes('world cup')) return 'international';
+                                if (name.includes('ipl') || name.includes('premier') || name.includes('psl') || name.includes('bbl') || name.includes('super league') || name.includes('hundred')) return 'league';
+                                return 'domestic';
+                            };
+
+                            const matchedExt = extJson.data.filter((m: any) => {
+                                const mCategory = getExtCategory(m);
+                                return m.name?.toLowerCase().includes(queryLower) ||
+                                       mCategory.includes(queryLower) ||
+                                       m.matchType?.toLowerCase().includes(queryLower) ||
+                                       m.teamInfo?.some((t: any) => 
+                                          t.name?.toLowerCase().includes(queryLower) || 
+                                          t.shortname?.toLowerCase().includes(queryLower)
+                                       ) ||
+                                       m.teams?.some((t: string) => t.toLowerCase().includes(queryLower));
+                            });
+                            
+                            if (matchedExt.length > 0) {
+                                const mapToInternal = (m: any) => ({
+                                    id: m.id,
+                                    isExternal: true,
+                                    tournament: { name: m.matchType?.toUpperCase() || 'Cricket Match', id: m.id },
+                                    sport: { name: 'Cricket', icon: '🏏' },
+                                    homeTeam: { name: m.teamInfo?.[0]?.name || m.teams?.[0] || 'Team 1' },
+                                    awayTeam: { name: m.teamInfo?.[1]?.name || m.teams?.[1] || 'Team 2' },
+                                });
+                                
+                                const extLive = matchedExt.filter((m: any) => m.matchStarted && !m.matchEnded).map(mapToInternal);
+                                const extCompleted = matchedExt.filter((m: any) => m.matchEnded).map(mapToInternal);
+                                
+                                r.liveMatches = [...extLive, ...(r.liveMatches || [])];
+                                r.completedMatches = [...extCompleted, ...(r.completedMatches || [])];
+                            }
+                        }
+                    } catch (e) {
+                        console.error('External fetch failed for explore search:', e);
+                    }
+                }
+
                 setSearchResults(r);
             } catch { /* noop */ } finally { setIsSearching(false); }
         }, 350);
@@ -150,7 +202,7 @@ export default function ExplorePage() {
                                         <span className="live-pulse"></span> Live Matches
                                     </div>
                                     {searchResults.liveMatches.map((m: any) => (
-                                        <Link key={m.id} href={`/scoring/${m.id}`} onClick={() => setSearchOpen(false)} style={{ display: 'block', padding: '10px 8px', borderRadius: '10px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
+                                        <Link key={m.id} href={m.isExternal ? `/live-scores?matchId=${m.id}` : `/scoring/${m.id}`} onClick={() => setSearchOpen(false)} style={{ display: 'block', padding: '10px 8px', borderRadius: '10px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
                                             <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '2px' }}>{m.tournament?.name} • {m.sport?.name}</div>
                                             <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b' }}>{m.homeTeam?.name} vs {m.awayTeam?.name}</div>
                                         </Link>
@@ -216,7 +268,7 @@ export default function ExplorePage() {
                                 <div style={{ padding: '12px 16px' }}>
                                     <div style={{ fontSize: '11px', fontWeight: 800, color: '#22c55e', textTransform: 'uppercase', marginBottom: '8px' }}>Completed Matches</div>
                                     {searchResults.completedMatches.map((m: any) => (
-                                        <Link key={m.id} href={`/scoring/${m.id}`} onClick={() => setSearchOpen(false)} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 8px', borderRadius: '10px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
+                                        <Link key={m.id} href={m.isExternal ? `/live-scores?matchId=${m.id}` : `/scoring/${m.id}`} onClick={() => setSearchOpen(false)} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 8px', borderRadius: '10px', textDecoration: 'none', color: 'inherit' }} className="hover-bg-slate">
                                             <div>
                                                 <div style={{ fontSize: '11px', color: '#64748b' }}>{m.tournament?.name}</div>
                                                 <div style={{ fontWeight: 700, fontSize: '13px', color: '#1e1b4b' }}>{m.homeTeam?.name} vs {m.awayTeam?.name}</div>
