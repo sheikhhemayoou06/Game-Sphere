@@ -155,8 +155,8 @@ export default function LiveCricketScore() {
         );
     }
 
-    // Get available sports for filter pills
-    const availableSports = ['All', ...Array.from(new Set(matches.map(m => m.sport)))];
+    // Get available sports for filter pills (always show all configured sports)
+    const availableSports = ['All', ...Object.keys(SPORT_CONFIG)];
 
     // Match Category Heuristic
     const getMatchCategory = (m: LiveMatch) => {
