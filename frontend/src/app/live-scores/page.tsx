@@ -43,6 +43,8 @@ function LiveScoresContent() {
     const [scorecardData, setScorecardData] = useState<any>(null);
     const [scorecardLoading, setScorecardLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState<string>('All');
+    const [selectedTeam, setSelectedTeam] = useState<string>('All');
     const [commentaryData, setCommentaryData] = useState<any[]>([]);
     const [commentaryLoading, setCommentaryLoading] = useState(false);
 
@@ -126,10 +128,28 @@ function LiveScoresContent() {
         }
     }, [searchParams, selectedMatch, openMatch]);
 
+    /* ── Match Category Inference ── */
+    const getCategory = (m: MatchSummary) => {
+        const type = m.matchType.toLowerCase();
+        const name = m.name.toLowerCase();
+        if (type === 'odi' || type === 'test' || type === 't20i' || name.includes('international') || name.includes('world cup')) return 'International';
+        if (name.includes('ipl') || name.includes('premier') || name.includes('psl') || name.includes('bbl') || name.includes('super league') || name.includes('hundred')) return 'League';
+        return 'Domestic';
+    };
+
     /* ── Filter matches ── */
-    const filteredByTab = matches.filter(m =>
+    const filteredByCategory = selectedCategory === 'All' 
+        ? matches 
+        : matches.filter(m => getCategory(m) === selectedCategory);
+
+    const filteredByTeam = selectedTeam === 'All'
+        ? filteredByCategory
+        : filteredByCategory.filter(m => m.teams.some(t => t.includes(selectedTeam)) || m.teamInfo.some(t => t.name === selectedTeam));
+
+    const filteredByTab = filteredByTeam.filter(m =>
         viewTab === 'live' ? m.isLive : viewTab === 'completed' ? m.isCompleted : m.isUpcoming
     );
+
     const filtered = searchQuery.trim()
         ? filteredByTab.filter(m => {
             const q = searchQuery.toLowerCase();
@@ -138,10 +158,12 @@ function LiveScoresContent() {
         })
         : filteredByTab;
 
+    const availableTeams = Array.from(new Set(filteredByCategory.flatMap(m => m.teamInfo.map(t => t.name)))).sort();
+
     const tabCounts = {
-        live: matches.filter(m => m.isLive).length,
-        completed: matches.filter(m => m.isCompleted).length,
-        upcoming: matches.filter(m => m.isUpcoming).length,
+        live: filteredByTeam.filter(m => m.isLive).length,
+        completed: filteredByTeam.filter(m => m.isCompleted).length,
+        upcoming: filteredByTeam.filter(m => m.isUpcoming).length,
     };
 
     /* ── DETAIL VIEW ── */
@@ -467,7 +489,7 @@ function LiveScoresContent() {
                                                                     height: `${Math.max((d.runs / maxRuns) * 100, 5)}%`,
                                                                     background: d.runs >= 10 ? 'linear-gradient(180deg, #7c3aed, #a855f7)' :
                                                                         d.runs >= 7 ? 'linear-gradient(180deg, #2563eb, #3b82f6)' :
-                                                                        'linear-gradient(180deg, #6366f1, #818cf8)',
+                                                                            'linear-gradient(180deg, #6366f1, #818cf8)',
                                                                     transition: 'height 0.3s ease',
                                                                 }} />
                                                             </div>
@@ -564,6 +586,42 @@ function LiveScoresContent() {
                             boxShadow: '0 2px 8px rgba(0,0,0,0.04)', boxSizing: 'border-box',
                         }}
                     />
+                </div>
+
+                {/* Advanced Filters */}
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px', scrollbarWidth: 'none' }}>
+                    {/* Category Pills */}
+                    {['All', 'International', 'League', 'Domestic'].map(cat => (
+                        <button key={cat} onClick={() => { setSelectedCategory(cat); setSelectedTeam('All'); }}
+                            style={{
+                                padding: '8px 16px', borderRadius: '20px', border: '1px solid',
+                                fontSize: '12px', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
+                                background: selectedCategory === cat ? '#1e293b' : 'white',
+                                color: selectedCategory === cat ? 'white' : '#64748b',
+                                borderColor: selectedCategory === cat ? '#1e293b' : '#e2e8f0',
+                                transition: 'all 0.2s',
+                            }}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                    
+                    {/* Team Dropdown */}
+                    <select
+                        value={selectedTeam}
+                        onChange={(e) => setSelectedTeam(e.target.value)}
+                        style={{
+                            padding: '8px 16px', borderRadius: '20px', border: '1px solid',
+                            fontSize: '12px', fontWeight: 700, cursor: 'pointer', outline: 'none',
+                            background: selectedTeam !== 'All' ? '#eef2ff' : 'white',
+                            color: selectedTeam !== 'All' ? '#6366f1' : '#64748b',
+                            borderColor: selectedTeam !== 'All' ? '#6366f1' : '#e2e8f0',
+                            marginLeft: 'auto', flexShrink: 0,
+                        }}
+                    >
+                        <option value="All">All Teams</option>
+                        {availableTeams.map(t => <option key={t} value={t}>{t}</option>)}
+                    </select>
                 </div>
 
                 {/* Tab Bar */}
