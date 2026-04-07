@@ -202,17 +202,18 @@ export default function LiveCricketScore() {
                             key={sport}
                             onClick={() => { setActiveSport(sport); setActiveIdx(0); }}
                             style={{
-                                padding: '6px 12px', borderRadius: '20px', border: 'none',
+                                padding: '6px 12px', borderRadius: '20px', border: '1px solid',
                                 fontSize: '11px', fontWeight: 700, cursor: 'pointer',
                                 transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '5px',
-                                background: isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)',
-                                color: isActive ? '#1e293b' : 'rgba(255,255,255,0.8)',
-                                boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.15)' : 'none',
+                                background: isActive ? '#1e293b' : '#f1f5f9',
+                                color: isActive ? '#ffffff' : '#64748b',
+                                borderColor: isActive ? '#1e293b' : '#e2e8f0',
+                                boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
                             }}
                         >
                             {sport === 'All' ? 'All' : sport}
                             <span style={{
-                                fontSize: '9px', background: isActive ? '#e2e8f0' : 'rgba(255,255,255,0.15)',
+                                fontSize: '9px', background: isActive ? 'rgba(255,255,255,0.2)' : '#e2e8f0',
                                 padding: '1px 5px', borderRadius: '8px', fontWeight: 800,
                             }}>{count}</span>
                         </button>
@@ -226,11 +227,12 @@ export default function LiveCricketScore() {
                     {filteredMatches.slice(0, 8).map((m, i) => (
                         <button key={m.id} onClick={() => setActiveIdx(i)}
                             style={{
-                                padding: '4px 10px', borderRadius: '16px', border: 'none',
+                                padding: '4px 10px', borderRadius: '16px', border: '1px solid',
                                 fontSize: '10px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s',
-                                background: safeIdx === i ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.12)',
-                                color: safeIdx === i ? '#1e293b' : 'rgba(255,255,255,0.7)',
-                                boxShadow: safeIdx === i ? '0 2px 6px rgba(0,0,0,0.12)' : 'none',
+                                background: safeIdx === i ? '#4f46e5' : '#ffffff',
+                                color: safeIdx === i ? '#ffffff' : '#64748b',
+                                borderColor: safeIdx === i ? '#4f46e5' : '#e2e8f0',
+                                boxShadow: safeIdx === i ? '0 2px 6px rgba(79,70,229,0.2)' : 'none',
                                 display: 'flex', alignItems: 'center', gap: '4px',
                             }}>
                             {m.isLive && <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#ef4444' }} />}
@@ -242,12 +244,12 @@ export default function LiveCricketScore() {
 
             {/* ── No Results ── */}
             {filteredMatches.length === 0 && (
-                <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: '12px', padding: '24px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.15)' }}>
+                <div style={{ background: '#f8fafc', borderRadius: '12px', padding: '24px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
                     <div style={{ fontSize: '24px', marginBottom: '8px' }}>🏆</div>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#475569' }}>
                         {searchQuery ? `No matches found for "${searchQuery}"` : `No ${activeSport} matches right now`}
                     </div>
-                    <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>
+                    <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>
                         Try a different search or sport filter
                     </div>
                 </div>
@@ -256,12 +258,12 @@ export default function LiveCricketScore() {
             {/* ── Main Score Card ── */}
             {match && <div onClick={() => router.push(`/live-scores?matchId=${match.id}`)} style={{
                 background: '#ffffff', borderRadius: '16px', overflow: 'hidden',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08)',
-                border: '1px solid rgba(255,255,255,0.3)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                border: '1px solid #e2e8f0',
                 cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.25)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08)'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.08)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; }}
             >
                 {/* Card Header */}
                 <div style={{
