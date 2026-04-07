@@ -1070,6 +1070,14 @@ export default function DashboardPage() {
                                     <h2 style={{ fontSize: '18px', fontWeight: 800, color: theme.textPrimary, margin: 0 }}>
                                         Live Matches
                                     </h2>
+                                    {liveMatches.length > 0 && (
+                                        <span style={{
+                                            fontSize: '11px', fontWeight: 800, padding: '2px 8px',
+                                            borderRadius: '6px', background: '#fef2f2', color: '#dc2626',
+                                        }}>
+                                            {liveMatches.length} Live
+                                        </span>
+                                    )}
                                 </div>
                                 <Link href="/live-scores" style={{
                                     fontSize: '13px', fontWeight: 700, color: '#6366f1',
@@ -1078,11 +1086,115 @@ export default function DashboardPage() {
                                     View All <ChevronRight size={14} />
                                 </Link>
                             </div>
+
+                            {/* ── Internal Game Sphere Live Matches ── */}
+                            {liveMatches.length > 0 && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
+                                    {liveMatches.map((m: any) => {
+                                        const sportName = m.tournament?.sport?.name || m.sport?.name || 'Sports';
+                                        const sportColor = sportColors[sportName] || '#6366f1';
+                                        return (
+                                            <Link key={m.id} href={`/matches/${m.id}`} style={{
+                                                background: 'white', borderRadius: '16px', overflow: 'hidden',
+                                                border: '1px solid #e2e8f0', textDecoration: 'none',
+                                                boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'all 0.2s',
+                                                display: 'block',
+                                            }}>
+                                                {/* Header */}
+                                                <div style={{
+                                                    padding: '8px 14px', background: '#f8fafc',
+                                                    borderBottom: '1px solid #e2e8f0',
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                                }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                        <span style={{
+                                                            display: 'inline-flex', alignItems: 'center', gap: '4px',
+                                                            background: '#fef2f2', color: '#dc2626', fontSize: '9px',
+                                                            fontWeight: 800, padding: '2px 6px', borderRadius: '4px',
+                                                        }}>
+                                                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#dc2626', animation: 'pulse 1.5s infinite' }} /> LIVE
+                                                        </span>
+                                                        <span style={{
+                                                            fontSize: '10px', fontWeight: 800, padding: '2px 6px',
+                                                            borderRadius: '4px', background: `${sportColor}15`, color: sportColor,
+                                                        }}>
+                                                            {sportName}
+                                                        </span>
+                                                        {m.tournament?.name && (
+                                                            <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 600 }}>
+                                                                {m.tournament.name}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <span style={{ fontSize: '11px', color: '#6366f1', fontWeight: 700 }}>View →</span>
+                                                </div>
+
+                                                {/* Score */}
+                                                <div style={{ padding: '14px 16px' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                            <div style={{
+                                                                width: '32px', height: '32px', borderRadius: '8px',
+                                                                background: `${sportColor}12`, display: 'flex', alignItems: 'center',
+                                                                justifyContent: 'center', fontSize: '12px', fontWeight: 900, color: sportColor,
+                                                                border: `1px solid ${sportColor}25`,
+                                                            }}>
+                                                                {(m.homeTeam?.name || 'H').substring(0, 2).toUpperCase()}
+                                                            </div>
+                                                            <span style={{ fontSize: '14px', fontWeight: 800, color: '#1e293b' }}>
+                                                                {m.homeTeam?.name || 'Home Team'}
+                                                            </span>
+                                                        </div>
+                                                        <span style={{ fontSize: '22px', fontWeight: 900, color: '#0f172a' }}>
+                                                            {m.homeScore ?? 0}
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ height: '1px', background: '#f1f5f9', margin: '0 0 10px' }} />
+                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                            <div style={{
+                                                                width: '32px', height: '32px', borderRadius: '8px',
+                                                                background: `${sportColor}12`, display: 'flex', alignItems: 'center',
+                                                                justifyContent: 'center', fontSize: '12px', fontWeight: 900, color: sportColor,
+                                                                border: `1px solid ${sportColor}25`,
+                                                            }}>
+                                                                {(m.awayTeam?.name || 'A').substring(0, 2).toUpperCase()}
+                                                            </div>
+                                                            <span style={{ fontSize: '14px', fontWeight: 800, color: '#1e293b' }}>
+                                                                {m.awayTeam?.name || 'Away Team'}
+                                                            </span>
+                                                        </div>
+                                                        <span style={{ fontSize: '22px', fontWeight: 900, color: '#0f172a' }}>
+                                                            {m.awayScore ?? 0}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Footer */}
+                                                {m.venue && (
+                                                    <div style={{
+                                                        padding: '8px 16px', background: '#f8fafc',
+                                                        borderTop: '1px solid #e2e8f0',
+                                                        fontSize: '11px', color: '#94a3b8', fontWeight: 500,
+                                                    }}>
+                                                        📍 {m.venue}
+                                                    </div>
+                                                )}
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
+                            )}
+
+                            {/* ── External Live Scores (CricAPI etc.) ── */}
                             <div style={{
                                 background: 'linear-gradient(135deg, #1e1b4b, #312e81)',
                                 borderRadius: '20px', padding: '24px 16px',
                                 boxShadow: '0 8px 32px rgba(30, 27, 75, 0.3)',
                             }}>
+                                <div style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                    🌐 Global Live Scores
+                                </div>
                                 <LiveCricketScore />
                             </div>
                         </div>
