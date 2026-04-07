@@ -1361,7 +1361,7 @@ export default function DashboardPage() {
                                 </div>
 
                                 {/* ── Internal Game Sphere Live Matches ── */}
-                                {filteredLive.length > 0 ? (
+                                {filteredLive.length > 0 && (
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
                                         {filteredLive.map((m: any) => {
                                             const sportName = m.tournament?.sport?.name || m.sport?.name || 'Sports';
@@ -1456,14 +1456,6 @@ export default function DashboardPage() {
                                                 </Link>
                                             );
                                         })}
-                                    </div>
-                                ) : (
-                                    <div style={{
-                                        padding: '32px', borderRadius: '14px', background: theme.cardBg, border: `1px dashed ${theme.cardBorder}`,
-                                        textAlign: 'center', color: theme.textSecondary, fontSize: '14px', fontWeight: 500, marginBottom: '16px'
-                                    }}>
-                                        <div style={{ fontSize: '32px', marginBottom: '8px', opacity: 0.5 }}>🏟️</div>
-                                        <div>No live matches currently happening for {sportLabel}.</div>
                                     </div>
                                 )}
 
