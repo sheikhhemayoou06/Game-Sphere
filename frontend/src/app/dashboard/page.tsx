@@ -1142,19 +1142,6 @@ export default function DashboardPage() {
                                 )}
                             </div>
 
-                            {[
-                                { id: 'tournaments', icon: Trophy, label: 'Tournaments', link: '/tournaments' },
-                                { id: 'teams', icon: Users, label: 'My Team', link: '/teams' },
-                                { id: 'search', icon: Search, label: 'Search', link: '/explore' },
-                                { id: 'messages', icon: MessageSquare, label: 'Messages', link: '/messages' }
-                            ].map(tab => (
-                                <Link key={tab.id} href={`${tab.link}${selectedSport ? `?sport=${selectedSport.id}` : ''}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textDecoration: 'none', color: '#64748b', flex: 1, padding: '4px 0', transition: 'color 0.2s' }}>
-                                    <div style={{ color: '#64748b' }}>
-                                        <tab.icon size={22} strokeWidth={2} />
-                                    </div>
-                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>{tab.label}</div>
-                                </Link>
-                            ))}
                         </div>
                     )
                 }
