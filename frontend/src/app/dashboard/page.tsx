@@ -10,6 +10,7 @@ import { Award, Bell, Activity, Trophy, ShieldAlert, LayoutDashboard, Target, Us
 import SportIcon from '@/components/SportIcon';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 import SmartSearch from '@/components/SmartSearch';
+import LiveCricketScore from '@/components/LiveCricketScore';
 
 /* ═══════════════════════════════════════════════════════════════
    MOCK DATA HAS BEEN REMOVED FOR PRODUCTION
@@ -1051,6 +1052,38 @@ export default function DashboardPage() {
                                         <div style={{ fontSize: '13px', opacity: 0.8, lineHeight: 1.4 }}>{item.desc}</div>
                                     </Link>
                                 ))}
+                            </div>
+                        </div>
+                    )
+                }
+
+                {/* ─── Player Live Match Updates ─── */}
+                {
+                    roleGroup === 'player' && (
+                        <div style={{ marginBottom: '32px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div style={{
+                                        width: '8px', height: '8px', borderRadius: '50%',
+                                        background: '#ef4444', animation: 'pulse 1.5s infinite',
+                                    }} />
+                                    <h2 style={{ fontSize: '18px', fontWeight: 800, color: theme.textPrimary, margin: 0 }}>
+                                        Live Matches
+                                    </h2>
+                                </div>
+                                <Link href="/live-scores" style={{
+                                    fontSize: '13px', fontWeight: 700, color: '#6366f1',
+                                    textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px',
+                                }}>
+                                    View All <ChevronRight size={14} />
+                                </Link>
+                            </div>
+                            <div style={{
+                                background: 'linear-gradient(135deg, #1e1b4b, #312e81)',
+                                borderRadius: '20px', padding: '24px 16px',
+                                boxShadow: '0 8px 32px rgba(30, 27, 75, 0.3)',
+                            }}>
+                                <LiveCricketScore />
                             </div>
                         </div>
                     )
