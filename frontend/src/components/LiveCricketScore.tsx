@@ -155,17 +155,6 @@ export default function LiveCricketScore() {
         );
     }
 
-    /* ── Error / Empty ── */
-    if (error && matches.length === 0) {
-        return (
-            <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', borderRadius: '16px', padding: '28px 16px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)', color: 'white' }}>
-                <div style={{ fontSize: '32px', marginBottom: '12px' }}>🏆</div>
-                <div style={{ fontSize: '15px', fontWeight: 700, marginBottom: '6px' }}>{error}</div>
-                <div style={{ fontSize: '12px', opacity: 0.7 }}>Check back soon for live updates</div>
-            </div>
-        );
-    }
-
     // Get available sports for filter pills
     const availableSports = ['All', ...Array.from(new Set(matches.map(m => m.sport)))];
 
@@ -294,12 +283,12 @@ export default function LiveCricketScore() {
                 </div>
             )}
 
-            {/* ── No Results ── */}
+            {/* ── No Results / Error ── */}
             {filteredMatches.length === 0 && (
-                <div style={{ background: '#f8fafc', borderRadius: '12px', padding: '24px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
+                <div style={{ background: 'rgba(255,255,255,0.95)', borderRadius: '12px', padding: '24px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
                     <div style={{ fontSize: '24px', marginBottom: '8px' }}>🏆</div>
                     <div style={{ fontSize: '13px', fontWeight: 700, color: '#475569' }}>
-                        {searchQuery ? `No matches found for "${searchQuery}"` : `No ${activeSport} matches right now`}
+                        {error && matches.length === 0 ? error : (searchQuery ? `No matches found for "${searchQuery}"` : `No ${activeSport === 'All' ? 'live' : activeSport} matches right now`)}
                     </div>
                     <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>
                         Try a different search or sport filter
