@@ -42,6 +42,7 @@ function LiveScoresContent() {
     const [detailTab, setDetailTab] = useState<DetailTab>('scorecard');
     const [scorecardData, setScorecardData] = useState<any>(null);
     const [scorecardLoading, setScorecardLoading] = useState(false);
+    const [apiError, setApiError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
     const [selectedTeam, setSelectedTeam] = useState<string>('All');
@@ -75,8 +76,13 @@ function LiveScoresContent() {
                 const liveCount = mapped.filter(m => m.isLive).length;
                 if (liveCount > 0) setViewTab('live');
                 else if (mapped.filter(m => m.isCompleted).length > 0) setViewTab('completed');
+            } else if (json.status === 'failure') {
+                setApiError(json.reason || 'Failed to fetch match data.');
             }
-        } catch (err) { console.error('Failed to fetch matches', err); }
+        } catch (err) { 
+            console.error('Failed to fetch matches', err); 
+            setApiError('Network error while connecting to live score service.');
+        }
         finally { setLoading(false); }
     }, []);
 
@@ -650,14 +656,25 @@ function LiveScoresContent() {
                     </div>
                 )}
 
-                {/* Empty State */}
-                {!loading && filtered.length === 0 && (
+                {/* Empty / Error State */}
+                {!loading && (apiError || filtered.length === 0) && (
                     <div style={{ textAlign: 'center', padding: '60px 20px', background: 'white', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>
-                        <div style={{ fontSize: '40px', marginBottom: '12px' }}>🏏</div>
-                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#334155' }}>No {viewTab} matches</div>
-                        <div style={{ fontSize: '13px', color: '#64748b', marginTop: '6px' }}>
-                            {searchQuery ? `No results for "${searchQuery}"` : `Check back soon for ${viewTab} matches`}
-                        </div>
+                        {apiError ? (
+                            <>
+                                <div style={{ fontSize: '40px', marginBottom: '12px' }}>⚠️</div>
+                                <div style={{ fontSize: '16px', fontWeight: 800, color: '#dc2626' }}>API Unavailable</div>
+                                <div style={{ fontSize: '13px', color: '#64748b', marginTop: '6px' }}>{apiError}</div>
+                                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '12px', background: '#f1f5f9', display: 'inline-block', padding: '6px 12px', borderRadius: '8px' }}>The external cricket service has rate-limited our server. Please try again later.</div>
+                            </>
+                        ) : (
+                            <>
+                                <div style={{ fontSize: '40px', marginBottom: '12px' }}>🏏</div>
+                                <div style={{ fontSize: '16px', fontWeight: 800, color: '#334155' }}>No {viewTab} matches</div>
+                                <div style={{ fontSize: '13px', color: '#64748b', marginTop: '6px' }}>
+                                    {searchQuery ? `No matches found for "${searchQuery}"` : "Try checking other tabs or filters"}
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
 
