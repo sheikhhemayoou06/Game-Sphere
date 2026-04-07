@@ -1460,10 +1460,7 @@ export default function DashboardPage() {
                                 )}
 
                                 {/* ── External Live Scores (CricAPI etc.) ── */}
-                                <div>
-                                    <div style={{ fontSize: '13px', fontWeight: 800, color: theme.textSecondary, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                                        🌐 Global Live Scores
-                                    </div>
+                                <div style={{ marginTop: '8px' }}>
                                     <LiveCricketScore />
                                 </div>
                             </div>
