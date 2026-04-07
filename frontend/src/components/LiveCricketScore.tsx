@@ -188,34 +188,6 @@ export default function LiveCricketScore() {
     return (
         <div style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
 
-            {/* ── Search Bar ── */}
-            <div style={{ marginBottom: '10px' }}>
-                <div style={{
-                    display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.95)',
-                    borderRadius: '12px', padding: '0 14px', gap: '10px',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.12)', border: '1px solid rgba(255,255,255,0.3)',
-                }}>
-                    <span style={{ color: '#94a3b8', fontSize: '14px', flexShrink: 0, fontWeight: 700 }}>Search</span>
-                    <input
-                        type="text" value={searchQuery}
-                        onChange={(e) => { setSearchQuery(e.target.value); setActiveIdx(0); }}
-                        placeholder="Search matches, teams, sports, venues..."
-                        style={{ flex: 1, padding: '12px 0', border: 'none', outline: 'none', background: 'transparent', fontSize: '13px', fontWeight: 600, color: '#1e293b' }}
-                    />
-                    {searchQuery && (
-                        <button onClick={() => { setSearchQuery(''); setActiveIdx(0); }}
-                            style={{ background: '#e2e8f0', border: 'none', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '11px', color: '#64748b', fontWeight: 800, flexShrink: 0 }}>
-                            ✕
-                        </button>
-                    )}
-                </div>
-                {searchQuery && (
-                    <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', textAlign: 'center', marginTop: '4px', fontWeight: 600 }}>
-                        {filteredMatches.length} match{filteredMatches.length !== 1 ? 'es' : ''} found
-                    </div>
-                )}
-            </div>
-
             {/* ── Sport Filter Pills ── */}
             <div style={{
                 display: 'flex', gap: '6px', marginBottom: '10px',
