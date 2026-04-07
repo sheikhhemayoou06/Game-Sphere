@@ -189,53 +189,6 @@ export default function HomePage() {
           <SmartSearch placeholder="Search players, teams, tournaments, matches..." dark={false} />
         </div>
 
-        {/* ── Featured Tournaments ── */}
-        <div style={{ width: '100%', maxWidth: '800px', position: 'relative', zIndex: 3, marginBottom: '20px', padding: '0 16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-            <span style={{ fontSize: '13px', fontWeight: 800, color: 'rgba(255,255,255,0.9)', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-              🏆 Featured Tournaments
-            </span>
-          </div>
-          <div style={{
-            display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '8px',
-            scrollbarWidth: 'none', msOverflowStyle: 'none',
-          }}>
-            {[
-              { name: 'IPL 2026', sport: '🏏', gradient: 'linear-gradient(135deg, #1e3a5f, #2563eb)', border: '#3b82f6' },
-              { name: 'ISL', sport: '⚽', gradient: 'linear-gradient(135deg, #14532d, #16a34a)', border: '#22c55e' },
-              { name: 'PKL', sport: '🤼', gradient: 'linear-gradient(135deg, #7f1d1d, #dc2626)', border: '#ef4444' },
-              { name: 'ICC T20 WC', sport: '🏏', gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)', border: '#8b5cf6' },
-              { name: 'HIL', sport: '🏑', gradient: 'linear-gradient(135deg, #0c4a6e, #0284c7)', border: '#0ea5e9' },
-              { name: 'PBL', sport: '🏸', gradient: 'linear-gradient(135deg, #9f1239, #e11d48)', border: '#f43f5e' },
-              { name: 'I-League', sport: '⚽', gradient: 'linear-gradient(135deg, #854d0e, #ca8a04)', border: '#eab308' },
-              { name: 'WPL', sport: '🏏', gradient: 'linear-gradient(135deg, #831843, #db2777)', border: '#ec4899' },
-            ].map((t) => (
-              <button
-                key={t.name}
-                onClick={() => {
-                  const searchInput = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement;
-                  if (searchInput) {
-                    searchInput.value = t.name;
-                    searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-                    searchInput.focus();
-                  }
-                }}
-                style={{
-                  flex: '0 0 auto', display: 'flex', alignItems: 'center', gap: '8px',
-                  padding: '10px 18px', borderRadius: '12px',
-                  background: t.gradient, border: `1px solid ${t.border}40`,
-                  color: 'white', cursor: 'pointer', transition: 'all 0.2s',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)'; }}
-              >
-                <span style={{ fontSize: '18px' }}>{t.sport}</span>
-                <span style={{ fontSize: '13px', fontWeight: 800, whiteSpace: 'nowrap' }}>{t.name}</span>
-              </button>
-            ))}
-          </div>
-        </div>
 
         {/* ── Google-style Live Cricket Score Widget ── */}
         <div style={{ width: '100%', maxWidth: '800px', position: 'relative', zIndex: 2, padding: '0 16px' }}>

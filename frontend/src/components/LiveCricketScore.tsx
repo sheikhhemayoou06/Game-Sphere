@@ -86,6 +86,8 @@ export default function LiveCricketScore() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeSport, setActiveSport] = useState<string>('All');
+    const [activeCategory, setActiveCategory] = useState<string>('All');
+    const [activeTeam, setActiveTeam] = useState<string>('All');
     const router = useRouter();
 
     /* ── Fetch both sources ── */
@@ -167,18 +169,33 @@ export default function LiveCricketScore() {
     // Get available sports for filter pills
     const availableSports = ['All', ...Array.from(new Set(matches.map(m => m.sport)))];
 
-    // Filter by sport
-    const sportFiltered = activeSport === 'All' ? matches : matches.filter(m => m.sport === activeSport);
+    // Match Category Heuristic
+    const getMatchCategory = (m: LiveMatch) => {
+        const type = m.matchType.toLowerCase();
+        const name = m.name.toLowerCase();
+        if (type === 'odi' || type === 'test' || type === 't20i' || name.includes('international') || name.includes('world cup')) return 'International';
+        if (name.includes('ipl') || name.includes('isl') || name.includes('pkl') || name.includes('premier') || name.includes('psl') || name.includes('bbl') || name.includes('super league') || name.includes('hundred')) return 'League';
+        return 'Domestic';
+    };
 
-    // Then filter by search
+    // Filter Pipeline
+    const sportFiltered = activeSport === 'All' ? matches : matches.filter(m => m.sport === activeSport);
+    const categoryFiltered = activeCategory === 'All' ? sportFiltered : sportFiltered.filter(m => getMatchCategory(m) === activeCategory);
+    const teamFiltered = activeTeam === 'All' ? categoryFiltered : categoryFiltered.filter(m => 
+        m.team1.name === activeTeam || m.team2.name === activeTeam || 
+        m.team1.shortName === activeTeam || m.team2.shortName === activeTeam
+    );
+
     const filteredMatches = searchQuery.trim()
-        ? sportFiltered.filter(m => {
+        ? teamFiltered.filter(m => {
             const q = searchQuery.toLowerCase();
             return m.team1.name.toLowerCase().includes(q) || m.team2.name.toLowerCase().includes(q) ||
                 m.team1.shortName.toLowerCase().includes(q) || m.team2.shortName.toLowerCase().includes(q) ||
                 m.name.toLowerCase().includes(q) || m.venue.toLowerCase().includes(q) || m.sport.toLowerCase().includes(q);
         })
-        : sportFiltered.slice(0, 8);
+        : teamFiltered.slice(0, 8);
+
+    const availableTeams = Array.from(new Set(categoryFiltered.flatMap(m => [m.team1.name, m.team2.name]))).filter(Boolean).sort();
 
     const safeIdx = activeIdx < filteredMatches.length ? activeIdx : 0;
     const match = filteredMatches[safeIdx] || filteredMatches[0];
@@ -188,37 +205,72 @@ export default function LiveCricketScore() {
     return (
         <div style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
 
-            {/* ── Sport Filter Pills ── */}
+            {/* ── Filter Controls ── */}
             <div style={{
-                display: 'flex', gap: '6px', marginBottom: '10px',
-                justifyContent: 'center', flexWrap: 'wrap',
+                display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px',
+                alignItems: 'center'
             }}>
-                {availableSports.map(sport => {
-                    const cfg = SPORT_CONFIG[sport] || { icon: '🏆', color: '#6366f1' };
-                    const isActive = activeSport === sport;
-                    const count = sport === 'All' ? matches.length : matches.filter(m => m.sport === sport).length;
-                    return (
-                        <button
-                            key={sport}
-                            onClick={() => { setActiveSport(sport); setActiveIdx(0); }}
+                {/* ── Category & Team Row ── */}
+                <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap', width: '100%', maxWidth: '100%' }}>
+                    {['All', 'International', 'League', 'Domestic'].map(cat => (
+                        <button key={cat} onClick={() => { setActiveCategory(cat); setActiveTeam('All'); setActiveIdx(0); }}
                             style={{
-                                padding: '6px 12px', borderRadius: '20px', border: '1px solid',
-                                fontSize: '11px', fontWeight: 700, cursor: 'pointer',
-                                transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '5px',
-                                background: isActive ? '#1e293b' : '#f1f5f9',
-                                color: isActive ? '#ffffff' : '#64748b',
-                                borderColor: isActive ? '#1e293b' : '#e2e8f0',
-                                boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
+                                padding: '4px 10px', borderRadius: '16px', border: '1px solid', fontSize: '10px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s',
+                                background: activeCategory === cat ? '#0f172a' : '#ffffff',
+                                color: activeCategory === cat ? '#ffffff' : '#64748b',
+                                borderColor: activeCategory === cat ? '#0f172a' : '#e2e8f0',
                             }}
                         >
-                            {sport === 'All' ? 'All' : sport}
-                            <span style={{
-                                fontSize: '9px', background: isActive ? 'rgba(255,255,255,0.2)' : '#e2e8f0',
-                                padding: '1px 5px', borderRadius: '8px', fontWeight: 800,
-                            }}>{count}</span>
+                            {cat}
                         </button>
-                    );
-                })}
+                    ))}
+                    
+                    {availableTeams.length > 0 && (
+                        <select
+                            value={activeTeam}
+                            onChange={(e) => { setActiveTeam(e.target.value); setActiveIdx(0); }}
+                            style={{
+                                padding: '4px 24px 4px 10px', borderRadius: '16px', border: '1px solid #e2e8f0', background: '#ffffff', color: activeTeam !== 'All' ? '#0f172a' : '#64748b',
+                                fontSize: '10px', fontWeight: 700, outline: 'none', cursor: 'pointer', appearance: 'none',
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11.5l-5-5h10l-5 5z'/%3E%3C/svg%3E")`,
+                                backgroundRepeat: 'no-repeat', backgroundPosition: 'right 6px center',
+                            }}
+                        >
+                            <option value="All">All Teams</option>
+                            {availableTeams.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                    )}
+                </div>
+
+                {/* ── Sport Filter Pills ── */}
+                <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    {availableSports.map(sport => {
+                        const cfg = SPORT_CONFIG[sport] || { icon: '🏆', color: '#6366f1' };
+                        const isActive = activeSport === sport;
+                        const count = sport === 'All' ? matches.length : matches.filter(m => m.sport === sport).length;
+                        return (
+                            <button
+                                key={sport}
+                                onClick={() => { setActiveSport(sport); setActiveIdx(0); }}
+                                style={{
+                                    padding: '6px 12px', borderRadius: '20px', border: '1px solid',
+                                    fontSize: '11px', fontWeight: 700, cursor: 'pointer',
+                                    transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '5px',
+                                    background: isActive ? '#1e293b' : '#f1f5f9',
+                                    color: isActive ? '#ffffff' : '#64748b',
+                                    borderColor: isActive ? '#1e293b' : '#e2e8f0',
+                                    boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
+                                }}
+                            >
+                                {sport === 'All' ? 'All' : sport}
+                                <span style={{
+                                    fontSize: '9px', background: isActive ? 'rgba(255,255,255,0.2)' : '#e2e8f0',
+                                    padding: '1px 5px', borderRadius: '8px', fontWeight: 800,
+                                }}>{count}</span>
+                            </button>
+                        );
+                    })}
+                </div>
             </div>
 
             {/* ── Match Tabs ── */}
