@@ -200,11 +200,11 @@ export default function LiveCricketScore() {
                 alignItems: 'center'
             }}>
                 {/* ── Category & Team Row ── */}
-                <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap', width: '100%', maxWidth: '100%' }}>
+                <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-start', flexWrap: 'nowrap', width: '100%', maxWidth: '100%', overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: '4px' }}>
                     {['All', 'International', 'League', 'Domestic'].map(cat => (
                         <button key={cat} onClick={() => { setActiveCategory(cat); setActiveTeam('All'); setActiveIdx(0); }}
                             style={{
-                                padding: '4px 10px', borderRadius: '16px', border: '1px solid', fontSize: '10px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s',
+                                padding: '4px 10px', borderRadius: '16px', border: '1px solid', fontSize: '10px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0, whiteSpace: 'nowrap',
                                 background: activeCategory === cat ? '#0f172a' : '#ffffff',
                                 color: activeCategory === cat ? '#ffffff' : '#64748b',
                                 borderColor: activeCategory === cat ? '#0f172a' : '#e2e8f0',
@@ -232,7 +232,7 @@ export default function LiveCricketScore() {
                 </div>
 
                 {/* ── Sport Filter Pills ── */}
-                <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-start', flexWrap: 'nowrap', width: '100%', maxWidth: '100%', overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: '4px' }}>
                     {availableSports.map(sport => {
                         const cfg = SPORT_CONFIG[sport] || { icon: '🏆', color: '#6366f1' };
                         const isActive = activeSport === sport;
@@ -243,7 +243,7 @@ export default function LiveCricketScore() {
                                 onClick={() => { setActiveSport(sport); setActiveIdx(0); }}
                                 style={{
                                     padding: '6px 12px', borderRadius: '20px', border: '1px solid',
-                                    fontSize: '11px', fontWeight: 700, cursor: 'pointer',
+                                    fontSize: '11px', fontWeight: 700, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap',
                                     transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '5px',
                                     background: isActive ? '#1e293b' : '#f1f5f9',
                                     color: isActive ? '#ffffff' : '#64748b',
