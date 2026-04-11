@@ -580,16 +580,33 @@ function LiveScoresContent() {
 
             <div style={{ maxWidth: '700px', margin: '0 auto', padding: '16px', paddingBottom: '100px' }}>
 
-
+                {/* Search */}
+                <div style={{ marginBottom: '10px' }}>
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="🔍 Search matches, teams, venues..."
+                        style={{
+                            width: '100%', padding: '10px 14px', borderRadius: '10px',
+                            border: '1px solid #e2e8f0', background: 'white', fontSize: '13px',
+                            fontWeight: 600, color: '#1e293b', outline: 'none', boxSizing: 'border-box',
+                        }}
+                    />
+                </div>
 
                 {/* Filters — single row */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px', scrollbarWidth: 'none', flexWrap: 'nowrap' }}>
-                    {/* Category Pills */}
-                    {['All', 'International', 'League', 'Domestic'].map(cat => (
-                        <button key={cat} onClick={() => { 
-                            setSelectedCategory(cat); 
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px', overflowX: 'auto', scrollbarWidth: 'none' }}>
+                    {[
+                        { key: 'All', label: 'All' },
+                        { key: 'International', label: 'Intl' },
+                        { key: 'League', label: 'League' },
+                        { key: 'Domestic', label: 'Dom' },
+                    ].map(cat => (
+                        <button key={cat.key} onClick={() => { 
+                            setSelectedCategory(cat.key); 
                             setSelectedTeam('All'); 
-                            const newFilteredCat = cat === 'All' ? matches : matches.filter(m => getCategory(m) === cat);
+                            const newFilteredCat = cat.key === 'All' ? matches : matches.filter(m => getCategory(m) === cat.key);
                             const lCount = newFilteredCat.filter(m => m.isLive).length;
                             const cCount = newFilteredCat.filter(m => m.isCompleted).length;
                             const uCount = newFilteredCat.filter(m => m.isUpcoming).length;
@@ -601,15 +618,15 @@ function LiveScoresContent() {
                             }
                         }}
                             style={{
-                                padding: '6px 12px', borderRadius: '16px', border: '1px solid',
-                                fontSize: '11px', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
-                                background: selectedCategory === cat ? '#1e293b' : 'white',
-                                color: selectedCategory === cat ? 'white' : '#64748b',
-                                borderColor: selectedCategory === cat ? '#1e293b' : '#e2e8f0',
+                                padding: '6px 14px', borderRadius: '16px', border: '1px solid',
+                                fontSize: '12px', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
+                                background: selectedCategory === cat.key ? '#1e293b' : 'white',
+                                color: selectedCategory === cat.key ? 'white' : '#64748b',
+                                borderColor: selectedCategory === cat.key ? '#1e293b' : '#e2e8f0',
                                 transition: 'all 0.2s', whiteSpace: 'nowrap',
                             }}
                         >
-                            {cat}
+                            {cat.label}
                         </button>
                     ))}
 
@@ -637,7 +654,7 @@ function LiveScoresContent() {
                         }}
                         style={{
                             padding: '6px 10px', borderRadius: '16px', border: '1px solid',
-                            fontSize: '11px', fontWeight: 700, cursor: 'pointer', outline: 'none',
+                            fontSize: '12px', fontWeight: 700, cursor: 'pointer', outline: 'none',
                             background: selectedTeam !== 'All' ? '#eef2ff' : 'white',
                             color: selectedTeam !== 'All' ? '#6366f1' : '#64748b',
                             borderColor: selectedTeam !== 'All' ? '#6366f1' : '#e2e8f0',
@@ -647,20 +664,6 @@ function LiveScoresContent() {
                         <option value="All">All Teams</option>
                         {availableTeams.map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
-
-                    {/* Search Input */}
-                    <input
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="🔍 Search..."
-                        style={{
-                            padding: '6px 12px', borderRadius: '16px', border: '1px solid #e2e8f0',
-                            fontSize: '11px', fontWeight: 600, color: '#1e293b', outline: 'none',
-                            background: 'white', minWidth: '100px', flexShrink: 1, flex: 1,
-                            maxWidth: '180px', boxSizing: 'border-box',
-                        }}
-                    />
                 </div>
 
                 {/* Tab Bar */}
