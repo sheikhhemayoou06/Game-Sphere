@@ -43,9 +43,9 @@ function LiveScoresContent() {
     const [scorecardData, setScorecardData] = useState<any>(null);
     const [scorecardLoading, setScorecardLoading] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
-    const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
     const [selectedTeam, setSelectedTeam] = useState<string>('All');
+    const [searchQuery, setSearchQuery] = useState('');
     const [commentaryData, setCommentaryData] = useState<any[]>([]);
     const [commentaryLoading, setCommentaryLoading] = useState(false);
 
@@ -580,29 +580,15 @@ function LiveScoresContent() {
 
             <div style={{ maxWidth: '700px', margin: '0 auto', padding: '16px', paddingBottom: '100px' }}>
 
-                {/* Search */}
-                <div style={{ marginBottom: '16px' }}>
-                    <input type="text" value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search matches, teams, venues..."
-                        style={{
-                            width: '100%', padding: '14px 16px', borderRadius: '12px',
-                            border: '1px solid #e2e8f0', background: 'white', fontSize: '14px',
-                            fontWeight: 600, color: '#1e293b', outline: 'none',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.04)', boxSizing: 'border-box',
-                        }}
-                    />
-                </div>
 
-                {/* Advanced Filters */}
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px', scrollbarWidth: 'none' }}>
+
+                {/* Filters — single row */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px', scrollbarWidth: 'none', flexWrap: 'nowrap' }}>
                     {/* Category Pills */}
                     {['All', 'International', 'League', 'Domestic'].map(cat => (
                         <button key={cat} onClick={() => { 
                             setSelectedCategory(cat); 
                             setSelectedTeam('All'); 
-                            
-                            // Auto-switch tab if empty under new category
                             const newFilteredCat = cat === 'All' ? matches : matches.filter(m => getCategory(m) === cat);
                             const lCount = newFilteredCat.filter(m => m.isLive).length;
                             const cCount = newFilteredCat.filter(m => m.isCompleted).length;
@@ -615,30 +601,30 @@ function LiveScoresContent() {
                             }
                         }}
                             style={{
-                                padding: '8px 16px', borderRadius: '20px', border: '1px solid',
-                                fontSize: '12px', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
+                                padding: '6px 12px', borderRadius: '16px', border: '1px solid',
+                                fontSize: '11px', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
                                 background: selectedCategory === cat ? '#1e293b' : 'white',
                                 color: selectedCategory === cat ? 'white' : '#64748b',
                                 borderColor: selectedCategory === cat ? '#1e293b' : '#e2e8f0',
-                                transition: 'all 0.2s',
+                                transition: 'all 0.2s', whiteSpace: 'nowrap',
                             }}
                         >
                             {cat}
                         </button>
                     ))}
-                    
+
+                    {/* Divider */}
+                    <div style={{ width: '1px', height: '20px', background: '#e2e8f0', flexShrink: 0 }} />
+
                     {/* Team Dropdown */}
                     <select
                         value={selectedTeam}
                         onChange={(e) => {
                             const newTeam = e.target.value;
                             setSelectedTeam(newTeam);
-                            
-                            // Auto-switch tab if empty under new team filter
                             const newFilteredTeam = newTeam === 'All'
                                 ? filteredByCategory
                                 : filteredByCategory.filter(m => m.teams.some(t => t.includes(newTeam)) || m.teamInfo.some(t => t.name === newTeam));
-                            
                             const lCount = newFilteredTeam.filter(m => m.isLive).length;
                             const cCount = newFilteredTeam.filter(m => m.isCompleted).length;
                             const uCount = newFilteredTeam.filter(m => m.isUpcoming).length;
@@ -650,17 +636,31 @@ function LiveScoresContent() {
                             }
                         }}
                         style={{
-                            padding: '8px 16px', borderRadius: '20px', border: '1px solid',
-                            fontSize: '12px', fontWeight: 700, cursor: 'pointer', outline: 'none',
+                            padding: '6px 10px', borderRadius: '16px', border: '1px solid',
+                            fontSize: '11px', fontWeight: 700, cursor: 'pointer', outline: 'none',
                             background: selectedTeam !== 'All' ? '#eef2ff' : 'white',
                             color: selectedTeam !== 'All' ? '#6366f1' : '#64748b',
                             borderColor: selectedTeam !== 'All' ? '#6366f1' : '#e2e8f0',
-                            marginLeft: 'auto', flexShrink: 0,
+                            flexShrink: 0,
                         }}
                     >
                         <option value="All">All Teams</option>
                         {availableTeams.map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
+
+                    {/* Search Input */}
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="🔍 Search..."
+                        style={{
+                            padding: '6px 12px', borderRadius: '16px', border: '1px solid #e2e8f0',
+                            fontSize: '11px', fontWeight: 600, color: '#1e293b', outline: 'none',
+                            background: 'white', minWidth: '100px', flexShrink: 1, flex: 1,
+                            maxWidth: '180px', boxSizing: 'border-box',
+                        }}
+                    />
                 </div>
 
                 {/* Tab Bar */}
