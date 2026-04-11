@@ -596,7 +596,7 @@ function LiveScoresContent() {
                 </div>
 
                 {/* Filters — single row */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px', overflowX: 'auto', scrollbarWidth: 'none' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px', overflowX: 'auto', scrollbarWidth: 'none', flexWrap: 'nowrap', paddingBottom: '4px' }}>
                     {[
                         { key: 'All', label: 'All' },
                         { key: 'International', label: 'Intl' },
