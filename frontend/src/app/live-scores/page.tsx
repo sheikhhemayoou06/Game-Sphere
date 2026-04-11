@@ -598,7 +598,22 @@ function LiveScoresContent() {
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px', scrollbarWidth: 'none' }}>
                     {/* Category Pills */}
                     {['All', 'International', 'League', 'Domestic'].map(cat => (
-                        <button key={cat} onClick={() => { setSelectedCategory(cat); setSelectedTeam('All'); }}
+                        <button key={cat} onClick={() => { 
+                            setSelectedCategory(cat); 
+                            setSelectedTeam('All'); 
+                            
+                            // Auto-switch tab if empty under new category
+                            const newFilteredCat = cat === 'All' ? matches : matches.filter(m => getCategory(m) === cat);
+                            const lCount = newFilteredCat.filter(m => m.isLive).length;
+                            const cCount = newFilteredCat.filter(m => m.isCompleted).length;
+                            const uCount = newFilteredCat.filter(m => m.isUpcoming).length;
+                            const currentCount = viewTab === 'live' ? lCount : viewTab === 'completed' ? cCount : uCount;
+                            if (currentCount === 0) {
+                                if (lCount > 0) setViewTab('live');
+                                else if (cCount > 0) setViewTab('completed');
+                                else if (uCount > 0) setViewTab('upcoming');
+                            }
+                        }}
                             style={{
                                 padding: '8px 16px', borderRadius: '20px', border: '1px solid',
                                 fontSize: '12px', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
@@ -615,7 +630,25 @@ function LiveScoresContent() {
                     {/* Team Dropdown */}
                     <select
                         value={selectedTeam}
-                        onChange={(e) => setSelectedTeam(e.target.value)}
+                        onChange={(e) => {
+                            const newTeam = e.target.value;
+                            setSelectedTeam(newTeam);
+                            
+                            // Auto-switch tab if empty under new team filter
+                            const newFilteredTeam = newTeam === 'All'
+                                ? filteredByCategory
+                                : filteredByCategory.filter(m => m.teams.some(t => t.includes(newTeam)) || m.teamInfo.some(t => t.name === newTeam));
+                            
+                            const lCount = newFilteredTeam.filter(m => m.isLive).length;
+                            const cCount = newFilteredTeam.filter(m => m.isCompleted).length;
+                            const uCount = newFilteredTeam.filter(m => m.isUpcoming).length;
+                            const currentCount = viewTab === 'live' ? lCount : viewTab === 'completed' ? cCount : uCount;
+                            if (currentCount === 0) {
+                                if (lCount > 0) setViewTab('live');
+                                else if (cCount > 0) setViewTab('completed');
+                                else if (uCount > 0) setViewTab('upcoming');
+                            }
+                        }}
                         style={{
                             padding: '8px 16px', borderRadius: '20px', border: '1px solid',
                             fontSize: '12px', fontWeight: 700, cursor: 'pointer', outline: 'none',
