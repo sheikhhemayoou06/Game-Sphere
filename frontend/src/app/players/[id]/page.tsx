@@ -642,7 +642,6 @@ export default function PlayerProfilePage() {
                                         display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 0',
                                         borderBottom: i < Math.min(recentMatches.length, 5) - 1 ? '1px solid #f8fafc' : 'none',
                                     }}>
-                                        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: m.result === 'Won' ? '#22c55e' : '#94a3b8' }} />
                                         <div style={{ flex: 1, fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>vs {m.opponent}</div>
                                         <span style={{ fontSize: '11px', color: '#94a3b8' }}>{m.performance}</span>
                                         <span style={{ fontSize: '10px', color: '#cbd5e1' }}>{m.date}</span>

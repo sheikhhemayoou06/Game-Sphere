@@ -276,7 +276,6 @@ export default function LiveCricketScore() {
                                 boxShadow: safeIdx === i ? '0 2px 6px rgba(79,70,229,0.2)' : 'none',
                                 display: 'flex', alignItems: 'center', gap: '4px',
                             }}>
-                            {m.isLive && <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#ef4444' }} />}
                             {m.team1.shortName} v {m.team2.shortName}
                         </button>
                     ))}
@@ -328,7 +327,6 @@ export default function LiveCricketScore() {
                                 fontWeight: 800, padding: '3px 8px', borderRadius: '4px',
                                 textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0,
                             }}>
-                                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#dc2626', animation: 'pulse 1.5s infinite' }} />
                                 LIVE
                             </span>
                         ) : (
@@ -417,7 +415,6 @@ function ScoreRow({ team, sport }: { team: LiveMatch['team1']; sport: string }) 
                 <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: '14px', fontWeight: 800, color: '#1e293b', display: 'flex', alignItems: 'center', gap: '6px' }}>
                         {team.shortName}
-                        {team.isBatting && <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />}
                     </div>
                     <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '140px' }}>
                         {team.name}
