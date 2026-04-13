@@ -18,7 +18,7 @@ export class MatchesService {
                 awayTeam: true,
                 winnerTeam: true,
                 sport: true,
-                tournament: { select: { id: true, name: true } },
+                tournament: { select: { id: true, name: true, level: true } },
             },
             orderBy: { matchNumber: 'asc' },
         });
@@ -32,7 +32,7 @@ export class MatchesService {
                 awayTeam: true,
                 winnerTeam: true,
                 sport: true,
-                tournament: { select: { id: true, name: true, format: true } },
+                tournament: { select: { id: true, name: true, format: true, level: true } },
                 playerStats: {
                     include: {
                         player: {
@@ -121,7 +121,7 @@ export class MatchesService {
                 homeTeam: true,
                 awayTeam: true,
                 sport: true,
-                tournament: { select: { id: true, name: true } },
+                tournament: { select: { id: true, name: true, level: true } },
             },
         });
     }
@@ -133,7 +133,7 @@ export class MatchesService {
                 homeTeam: true,
                 awayTeam: true,
                 sport: true,
-                tournament: { select: { id: true, name: true } },
+                tournament: { select: { id: true, name: true, level: true } },
             },
             orderBy: { scheduledAt: 'asc' },
             take: 20,

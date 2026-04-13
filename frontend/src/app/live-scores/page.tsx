@@ -7,9 +7,7 @@ import PageNavbar from '@/components/PageNavbar';
    MATCH CENTER — Google-Style Full Scorecard Page
    ═══════════════════════════════════════════════════════════ */
 
-const CRICAPI_MATCHES = '/api/cricket?endpoint=currentMatches';
-const CRICAPI_SCORECARD = (id: string) => `/api/cricket?endpoint=match_scorecard&id=${id}`;
-const CRICAPI_BBB = (id: string) => `/api/cricket?endpoint=match_bbb&id=${id}`;
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
 
 type ViewTab = 'live' | 'completed' | 'upcoming';
 type DetailTab = 'scorecard' | 'commentary' | 'run_rate' | 'squads' | 'info';
@@ -17,8 +15,9 @@ type DetailTab = 'scorecard' | 'commentary' | 'run_rate' | 'squads' | 'info';
 interface MatchSummary {
     id: string; name: string; matchType: string; status: string; venue: string;
     date: string; isLive: boolean; isCompleted: boolean; isUpcoming: boolean;
+    level: string;
     teams: string[];
-    teamInfo: { name: string; shortname: string; img: string }[];
+    teamInfo: { name: string; shortname: string; img: string; score: string }[];
     score: { r: number; w: number; o: number; inning: string }[];
     hasSquad: boolean;
 }
@@ -44,6 +43,7 @@ function LiveScoresContent() {
     const [scorecardLoading, setScorecardLoading] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
+    const [selectedTournament, setSelectedTournament] = useState<string>('All');
     const [selectedTeam, setSelectedTeam] = useState<string>('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [commentaryData, setCommentaryData] = useState<any[]>([]);
@@ -51,37 +51,47 @@ function LiveScoresContent() {
 
     const searchParams = useSearchParams();
 
-    /* ── Fetch all matches ── */
+    /* ── Fetch all internal matches ── */
     const fetchMatches = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await fetch(CRICAPI_MATCHES);
+            const res = await fetch(`${API_BASE}/matches`);
             const json = await res.json();
-            if (json.status === 'success' && json.data) {
-                const mapped: MatchSummary[] = json.data
-                    .filter((m: any) => m.teamInfo && m.teamInfo.length >= 2)
-                    .map((m: any) => ({
-                        id: m.id, name: m.name || '', matchType: (m.matchType || 't20').toUpperCase(),
-                        status: m.status || '', venue: m.venue || '', date: m.date || '',
-                        isLive: m.matchStarted && !m.matchEnded,
-                        isCompleted: m.matchStarted && m.matchEnded,
-                        isUpcoming: !m.matchStarted && !m.matchEnded,
-                        teams: m.teams || [],
-                        teamInfo: m.teamInfo || [],
-                        score: m.score || [],
-                        hasSquad: m.hasSquad || false,
-                    }));
+            if (Array.isArray(json)) {
+                const mapped: MatchSummary[] = json
+                    .map((m: any) => {
+                        const sportName = m.tournament?.sport?.name || m.sport?.name || 'Other';
+                        const isLive = m.status === 'LIVE' || m.status === 'IN_PROGRESS';
+                        const isCompleted = m.status === 'COMPLETED';
+                        const isUpcoming = m.status === 'SCHEDULED' || m.status === 'DRAFT';
+                        const level = m.tournament?.level || 'LOCAL';
+                        return {
+                            id: m.id, name: `${m.homeTeam?.name || 'TBD'} vs ${m.awayTeam?.name || 'TBD'}`, matchType: m.tournament?.name || sportName,
+                            status: m.status || 'Scheduled', venue: m.venue || m.tournament?.venue || '', date: m.scheduledAt || m.createdAt || '',
+                            isLive, isCompleted, isUpcoming, level,
+                            teams: [m.homeTeam?.name || 'TBD', m.awayTeam?.name || 'TBD'],
+                            teamInfo: [
+                                { name: m.homeTeam?.name || 'TBD', shortname: (m.homeTeam?.name || 'TBD').substring(0, 3).toUpperCase(), img: '', score: m.homeScore != null ? `${m.homeScore}` : '-' },
+                                { name: m.awayTeam?.name || 'TBD', shortname: (m.awayTeam?.name || 'TBD').substring(0, 3).toUpperCase(), img: '', score: m.awayScore != null ? `${m.awayScore}` : '-' }
+                            ],
+                            score: [
+                                { inning: m.homeTeam?.name || 'TBD', r: m.homeScore ?? 0, w: 0, o: 0 },
+                                { inning: m.awayTeam?.name || 'TBD', r: m.awayScore ?? 0, w: 0, o: 0 }
+                            ],
+                            hasSquad: false,
+                        };
+                    });
                 setMatches(mapped);
-                // Auto-select tab with matches (only if no specific match is selected yet)
+                // Auto-select tab logic
                 const liveCount = mapped.filter(m => m.isLive).length;
                 if (liveCount > 0) setViewTab('live');
                 else if (mapped.filter(m => m.isCompleted).length > 0) setViewTab('completed');
-            } else if (json.status === 'failure') {
-                setApiError(json.reason || 'Failed to fetch match data.');
+            } else {
+                setApiError('Failed to parse match data.');
             }
         } catch (err) { 
-            console.error('Failed to fetch matches', err); 
-            setApiError('Network error while connecting to live score service.');
+            console.error('Failed to fetch internal matches', err); 
+            setApiError('Network error while connecting to data service.');
         }
         finally { setLoading(false); }
     }, []);
@@ -93,30 +103,34 @@ function LiveScoresContent() {
         setScorecardLoading(true);
         setScorecardData(null);
         try {
-            const res = await fetch(CRICAPI_SCORECARD(matchId));
+            const res = await fetch(`${API_BASE}/matches/${matchId}`);
             const json = await res.json();
-            if (json.status === 'success' && json.data) {
-                setScorecardData(json.data);
+            if (json && json.id) {
+                setScorecardData({
+                    name: `${json.homeTeam?.name || 'TBD'} vs ${json.awayTeam?.name || 'TBD'}`,
+                    matchType: json.tournament?.name || json.sport?.name,
+                    status: json.status, venue: json.venue || json.tournament?.venue,
+                    date: json.scheduledAt, matchStarted: json.status === 'LIVE' || json.status === 'COMPLETED',
+                    matchEnded: json.status === 'COMPLETED',
+                    tossWinner: null, tossChoice: null,
+                    teamInfo: [
+                        { name: json.homeTeam?.name, shortname: (json.homeTeam?.name || '').substring(0, 3).toUpperCase() },
+                        { name: json.awayTeam?.name, shortname: (json.awayTeam?.name || '').substring(0, 3).toUpperCase() }
+                    ],
+                    score: [
+                        { inning: json.homeTeam?.name, r: json.homeScore ?? 0, w: 0, o: 0 },
+                        { inning: json.awayTeam?.name, r: json.awayScore ?? 0, w: 0, o: 0 }
+                    ],
+                    scorecard: [] // Empty scorecard array for graceful fallback
+                });
             }
         } catch (err) { console.error('Scorecard fetch failed', err); }
         finally { setScorecardLoading(false); }
     }, []);
 
-    /* ── Fetch ball-by-ball commentary ── */
+    /* ── Fetch ball-by-ball commentary (Not supported for internal matches yet) ── */
     const fetchCommentary = useCallback(async (matchId: string) => {
-        setCommentaryLoading(true);
         setCommentaryData([]);
-        try {
-            const res = await fetch(CRICAPI_BBB(matchId));
-            const json = await res.json();
-            if (json.status === 'success' && json.data?.bpiData) {
-                setCommentaryData(json.data.bpiData);
-            } else if (json.status === 'success' && json.data) {
-                // Fallback: some responses structure differently
-                setCommentaryData(Array.isArray(json.data) ? json.data : []);
-            }
-        } catch (err) { console.error('Commentary fetch failed', err); }
-        finally { setCommentaryLoading(false); }
     }, []);
 
     const openMatch = useCallback((matchId: string) => {
@@ -136,11 +150,9 @@ function LiveScoresContent() {
 
     /* ── Match Category Inference ── */
     const getCategory = (m: MatchSummary) => {
-        const type = m.matchType.toLowerCase();
-        const name = m.name.toLowerCase();
-        if (type === 'odi' || type === 'test' || type === 't20i' || name.includes('international') || name.includes('world cup')) return 'International';
-        if (name.includes('ipl') || name.includes('premier') || name.includes('psl') || name.includes('bbl') || name.includes('super league') || name.includes('hundred')) return 'League';
-        return 'Domestic';
+        const lvl = m.level?.toUpperCase() || '';
+        if (['STATE', 'NATIONAL', 'INTERNATIONAL', 'RECOGNISED'].includes(lvl)) return 'Recognised';
+        return 'Local';
     };
 
     /* ── Filter matches ── */
@@ -148,9 +160,17 @@ function LiveScoresContent() {
         ? matches 
         : matches.filter(m => getCategory(m) === selectedCategory);
 
-    const filteredByTeam = selectedTeam === 'All'
+    const availableTournaments = Array.from(new Set(filteredByCategory.map(m => m.matchType))).filter(Boolean).sort();
+
+    const filteredByTournament = selectedTournament === 'All'
         ? filteredByCategory
-        : filteredByCategory.filter(m => m.teams.some(t => t.includes(selectedTeam)) || m.teamInfo.some(t => t.name === selectedTeam));
+        : filteredByCategory.filter(m => m.matchType === selectedTournament);
+
+    const availableTeams = Array.from(new Set(filteredByTournament.flatMap(m => m.teamInfo.map(t => t.name)))).sort();
+
+    const filteredByTeam = selectedTeam === 'All'
+        ? filteredByTournament
+        : filteredByTournament.filter(m => m.teams.some(t => t.includes(selectedTeam)) || m.teamInfo.some(t => t.name === selectedTeam));
 
     const filteredByTab = filteredByTeam.filter(m =>
         viewTab === 'live' ? m.isLive : viewTab === 'completed' ? m.isCompleted : m.isUpcoming
@@ -163,8 +183,6 @@ function LiveScoresContent() {
                 m.teams.some(t => t.toLowerCase().includes(q));
         })
         : filteredByTab;
-
-    const availableTeams = Array.from(new Set(filteredByCategory.flatMap(m => m.teamInfo.map(t => t.name)))).sort();
 
     const tabCounts = {
         live: filteredByTeam.filter(m => m.isLive).length,
@@ -599,12 +617,12 @@ function LiveScoresContent() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px', overflowX: 'auto', scrollbarWidth: 'none', flexWrap: 'nowrap', paddingBottom: '4px' }}>
                     {[
                         { key: 'All', label: 'All' },
-                        { key: 'International', label: 'Intl' },
-                        { key: 'League', label: 'League' },
-                        { key: 'Domestic', label: 'Dom' },
+                        { key: 'Recognised', label: 'Recognised' },
+                        { key: 'Local', label: 'Local' },
                     ].map(cat => (
                         <button key={cat.key} onClick={() => { 
                             setSelectedCategory(cat.key); 
+                            setSelectedTournament('All');
                             setSelectedTeam('All'); 
                             const newFilteredCat = cat.key === 'All' ? matches : matches.filter(m => getCategory(m) === cat.key);
                             const lCount = newFilteredCat.filter(m => m.isLive).length;
@@ -633,37 +651,74 @@ function LiveScoresContent() {
                     {/* Divider */}
                     <div style={{ width: '1px', height: '20px', background: '#e2e8f0', flexShrink: 0 }} />
 
+                    {/* Tournament Dropdown */}
+                    {availableTournaments.length > 0 && (
+                        <select
+                            value={selectedTournament}
+                            onChange={(e) => {
+                                const newTournament = e.target.value;
+                                setSelectedTournament(newTournament);
+                                setSelectedTeam('All');
+                                const newFilteredTournament = newTournament === 'All'
+                                    ? filteredByCategory
+                                    : filteredByCategory.filter(m => m.matchType === newTournament);
+                                const lCount = newFilteredTournament.filter(m => m.isLive).length;
+                                const cCount = newFilteredTournament.filter(m => m.isCompleted).length;
+                                const uCount = newFilteredTournament.filter(m => m.isUpcoming).length;
+                                const currentCount = viewTab === 'live' ? lCount : viewTab === 'completed' ? cCount : uCount;
+                                if (currentCount === 0) {
+                                    if (lCount > 0) setViewTab('live');
+                                    else if (cCount > 0) setViewTab('completed');
+                                    else if (uCount > 0) setViewTab('upcoming');
+                                }
+                            }}
+                            style={{
+                                padding: '6px 10px', borderRadius: '16px', border: '1px solid',
+                                fontSize: '12px', fontWeight: 700, cursor: 'pointer', outline: 'none',
+                                background: selectedTournament !== 'All' ? '#eef2ff' : 'white',
+                                color: selectedTournament !== 'All' ? '#6366f1' : '#64748b',
+                                borderColor: selectedTournament !== 'All' ? '#6366f1' : '#e2e8f0',
+                                flexShrink: 0, maxWidth: '140px', textOverflow: 'ellipsis'
+                            }}
+                        >
+                            <option value="All">All Tournaments</option>
+                            {availableTournaments.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                    )}
+
                     {/* Team Dropdown */}
-                    <select
-                        value={selectedTeam}
-                        onChange={(e) => {
-                            const newTeam = e.target.value;
-                            setSelectedTeam(newTeam);
-                            const newFilteredTeam = newTeam === 'All'
-                                ? filteredByCategory
-                                : filteredByCategory.filter(m => m.teams.some(t => t.includes(newTeam)) || m.teamInfo.some(t => t.name === newTeam));
-                            const lCount = newFilteredTeam.filter(m => m.isLive).length;
-                            const cCount = newFilteredTeam.filter(m => m.isCompleted).length;
-                            const uCount = newFilteredTeam.filter(m => m.isUpcoming).length;
-                            const currentCount = viewTab === 'live' ? lCount : viewTab === 'completed' ? cCount : uCount;
-                            if (currentCount === 0) {
-                                if (lCount > 0) setViewTab('live');
-                                else if (cCount > 0) setViewTab('completed');
-                                else if (uCount > 0) setViewTab('upcoming');
-                            }
-                        }}
-                        style={{
-                            padding: '6px 10px', borderRadius: '16px', border: '1px solid',
-                            fontSize: '12px', fontWeight: 700, cursor: 'pointer', outline: 'none',
-                            background: selectedTeam !== 'All' ? '#eef2ff' : 'white',
-                            color: selectedTeam !== 'All' ? '#6366f1' : '#64748b',
-                            borderColor: selectedTeam !== 'All' ? '#6366f1' : '#e2e8f0',
-                            flexShrink: 0,
-                        }}
-                    >
-                        <option value="All">All Teams</option>
-                        {availableTeams.map(t => <option key={t} value={t}>{t}</option>)}
-                    </select>
+                    {selectedTournament !== 'All' && availableTeams.length > 0 && (
+                        <select
+                            value={selectedTeam}
+                            onChange={(e) => {
+                                const newTeam = e.target.value;
+                                setSelectedTeam(newTeam);
+                                const newFilteredTeam = newTeam === 'All'
+                                    ? filteredByTournament
+                                    : filteredByTournament.filter(m => m.teams.some(t => t.includes(newTeam)) || m.teamInfo.some(t => t.name === newTeam));
+                                const lCount = newFilteredTeam.filter(m => m.isLive).length;
+                                const cCount = newFilteredTeam.filter(m => m.isCompleted).length;
+                                const uCount = newFilteredTeam.filter(m => m.isUpcoming).length;
+                                const currentCount = viewTab === 'live' ? lCount : viewTab === 'completed' ? cCount : uCount;
+                                if (currentCount === 0) {
+                                    if (lCount > 0) setViewTab('live');
+                                    else if (cCount > 0) setViewTab('completed');
+                                    else if (uCount > 0) setViewTab('upcoming');
+                                }
+                            }}
+                            style={{
+                                padding: '6px 10px', borderRadius: '16px', border: '1px solid',
+                                fontSize: '12px', fontWeight: 700, cursor: 'pointer', outline: 'none',
+                                background: selectedTeam !== 'All' ? '#eef2ff' : 'white',
+                                color: selectedTeam !== 'All' ? '#6366f1' : '#64748b',
+                                borderColor: selectedTeam !== 'All' ? '#6366f1' : '#e2e8f0',
+                                flexShrink: 0, maxWidth: '140px', textOverflow: 'ellipsis'
+                            }}
+                        >
+                            <option value="All">All Teams</option>
+                            {availableTeams.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                    )}
                 </div>
 
                 {/* Tab Bar */}

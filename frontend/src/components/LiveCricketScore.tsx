@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation';
    — Game Sphere internal API for all sports
    ═══════════════════════════════════════════════════════════ */
 
-const CRICAPI_URL = '/api/cricket?endpoint=currentMatches';
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
 
 /* ── Sport config ── */
@@ -35,41 +34,26 @@ interface LiveMatch {
     venue: string;
     date: string;
     isLive: boolean;
-    source: 'cricapi' | 'internal';
+    source: 'internal';
+    level: string;
     team1: { name: string; shortName: string; img: string; score: string; detail: string; isBatting?: boolean };
     team2: { name: string; shortName: string; img: string; score: string; detail: string; isBatting?: boolean };
 }
 
-/* ── Map CricAPI match ── */
-function mapCricAPIMatch(m: any): LiveMatch | null {
-    if (!m || !m.teamInfo || m.teamInfo.length < 2) return null;
-    const t1 = m.teamInfo[0], t2 = m.teamInfo[1];
-    const scores = m.score || [];
-    const findInnings = (name: string) => scores.find((s: any) => s.inning?.toLowerCase().startsWith(name.toLowerCase())) || null;
-    const s1 = findInnings(t1.name), s2 = findInnings(t2.name);
-    const isLive = m.matchStarted === true && m.matchEnded === false;
-    let t1Bat = false, t2Bat = false;
-    if (isLive) { if (scores.length === 1) { if (s1) t1Bat = true; else t2Bat = true; } else if (scores.length >= 2) t2Bat = true; }
-    return {
-        id: m.id, sport: 'Cricket', name: m.name || `${t1.name} vs ${t2.name}`,
-        matchType: (m.matchType || 't20').toUpperCase(), status: m.status || '', venue: m.venue || '',
-        date: m.date || '', isLive, source: 'cricapi',
-        team1: { name: t1.name, shortName: t1.shortname || t1.name.substring(0, 3).toUpperCase(), img: t1.img || '', score: s1 ? `${s1.r}/${s1.w}` : '-', detail: s1 ? `(${s1.o} ov)` : '', isBatting: t1Bat },
-        team2: { name: t2.name, shortName: t2.shortname || t2.name.substring(0, 3).toUpperCase(), img: t2.img || '', score: s2 ? `${s2.r}/${s2.w}` : '-', detail: s2 ? `(${s2.o} ov)` : '', isBatting: t2Bat },
-    };
-}
+
 
 /* ── Map Internal match (any sport) ── */
 function mapInternalMatch(m: any): LiveMatch | null {
     if (!m) return null;
     const sportName = m.tournament?.sport?.name || m.sport?.name || 'Other';
     const isLive = m.status === 'LIVE' || m.status === 'IN_PROGRESS';
+    const level = m.tournament?.level || 'LOCAL';
     return {
         id: m.id, sport: sportName, name: `${m.homeTeam?.name || 'TBD'} vs ${m.awayTeam?.name || 'TBD'}`,
         matchType: m.tournament?.name || sportName, status: m.status || 'Scheduled', venue: m.venue || m.tournament?.venue || '',
-        date: m.scheduledAt || m.date || '', isLive, source: 'internal',
-        team1: { name: m.homeTeam?.name || 'TBD', shortName: (m.homeTeam?.name || 'TBD').substring(0, 3).toUpperCase(), img: '', score: `${m.homeScore ?? 0}`, detail: '', },
-        team2: { name: m.awayTeam?.name || 'TBD', shortName: (m.awayTeam?.name || 'TBD').substring(0, 3).toUpperCase(), img: '', score: `${m.awayScore ?? 0}`, detail: '', },
+        date: m.scheduledAt || m.date || '', isLive, source: 'internal', level,
+        team1: { name: m.homeTeam?.name || 'TBD', shortName: (m.homeTeam?.name || 'TBD').substring(0, 3).toUpperCase(), img: '', score: m.homeScore != null ? `${m.homeScore}` : '-', detail: '', },
+        team2: { name: m.awayTeam?.name || 'TBD', shortName: (m.awayTeam?.name || 'TBD').substring(0, 3).toUpperCase(), img: '', score: m.awayScore != null ? `${m.awayScore}` : '-', detail: '', },
     };
 }
 
@@ -87,6 +71,7 @@ export default function LiveCricketScore() {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeSport, setActiveSport] = useState<string>('All');
     const [activeCategory, setActiveCategory] = useState<string>('All');
+    const [activeTournament, setActiveTournament] = useState<string>('All');
     const [activeTeam, setActiveTeam] = useState<string>('All');
     const router = useRouter();
 
@@ -95,25 +80,13 @@ export default function LiveCricketScore() {
         if (isInitial) setLoading(true);
         setRefreshing(true);
         try {
-            // Fetch both sources in parallel
-            const [cricRes, internalRes] = await Promise.allSettled([
-                fetch(CRICAPI_URL).then(r => r.json()),
-                fetch(`${API_BASE}/matches/live`).then(r => r.json()).catch(() => []),
-            ]);
+            // Fetch internal Game Sphere matches (all sports)
+            const internalRes = await fetch(`${API_BASE}/matches/live`).then(r => r.json()).catch(() => []);
 
             let allMatches: LiveMatch[] = [];
 
-            // CricAPI matches
-            if (cricRes.status === 'fulfilled' && cricRes.value?.data) {
-                const cricMatches = cricRes.value.data
-                    .map((m: any) => mapCricAPIMatch(m))
-                    .filter(Boolean) as LiveMatch[];
-                allMatches.push(...cricMatches);
-            }
-
-            // Internal Game Sphere matches (all sports)
-            if (internalRes.status === 'fulfilled' && Array.isArray(internalRes.value)) {
-                const intMatches = internalRes.value
+            if (Array.isArray(internalRes)) {
+                const intMatches = internalRes
                     .map((m: any) => mapInternalMatch(m))
                     .filter(Boolean) as LiveMatch[];
                 allMatches.push(...intMatches);
@@ -160,17 +133,24 @@ export default function LiveCricketScore() {
 
     // Match Category Heuristic
     const getMatchCategory = (m: LiveMatch) => {
-        const type = m.matchType.toLowerCase();
-        const name = m.name.toLowerCase();
-        if (type === 'odi' || type === 'test' || type === 't20i' || name.includes('international') || name.includes('world cup')) return 'International';
-        if (name.includes('ipl') || name.includes('isl') || name.includes('pkl') || name.includes('premier') || name.includes('psl') || name.includes('bbl') || name.includes('super league') || name.includes('hundred')) return 'League';
-        return 'Domestic';
+        const lvl = m.level?.toUpperCase() || '';
+        if (['STATE', 'NATIONAL', 'INTERNATIONAL', 'RECOGNISED'].includes(lvl)) return 'Recognised';
+        return 'Local';
     };
 
     // Filter Pipeline
     const sportFiltered = activeSport === 'All' ? matches : matches.filter(m => m.sport === activeSport);
     const categoryFiltered = activeCategory === 'All' ? sportFiltered : sportFiltered.filter(m => getMatchCategory(m) === activeCategory);
-    const teamFiltered = activeTeam === 'All' ? categoryFiltered : categoryFiltered.filter(m => 
+    
+    // Derived Tournaments
+    const availableTournaments = Array.from(new Set(categoryFiltered.map(m => m.matchType))).filter(Boolean).sort();
+    
+    const tournamentFiltered = activeTournament === 'All' ? categoryFiltered : categoryFiltered.filter(m => m.matchType === activeTournament);
+
+    // Derived Teams
+    const availableTeams = Array.from(new Set(tournamentFiltered.flatMap(m => [m.team1.name, m.team2.name]))).filter(Boolean).sort();
+
+    const teamFiltered = activeTeam === 'All' ? tournamentFiltered : tournamentFiltered.filter(m => 
         m.team1.name === activeTeam || m.team2.name === activeTeam || 
         m.team1.shortName === activeTeam || m.team2.shortName === activeTeam
     );
@@ -183,8 +163,6 @@ export default function LiveCricketScore() {
                 m.name.toLowerCase().includes(q) || m.venue.toLowerCase().includes(q) || m.sport.toLowerCase().includes(q);
         })
         : teamFiltered.slice(0, 8);
-
-    const availableTeams = Array.from(new Set(categoryFiltered.flatMap(m => [m.team1.name, m.team2.name]))).filter(Boolean).sort();
 
     const safeIdx = activeIdx < filteredMatches.length ? activeIdx : 0;
     const match = filteredMatches[safeIdx] || filteredMatches[0];
@@ -199,10 +177,10 @@ export default function LiveCricketScore() {
                 display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px',
                 alignItems: 'center'
             }}>
-                {/* ── Category & Team Row ── */}
-                <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-start', flexWrap: 'nowrap', width: '100%', maxWidth: '100%', overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: '4px' }}>
-                    {['All', 'International', 'League', 'Domestic'].map(cat => (
-                        <button key={cat} onClick={() => { setActiveCategory(cat); setActiveTeam('All'); setActiveIdx(0); }}
+                {/* Category Filters */}
+                <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '16px', scrollbarWidth: 'none' }}>
+                    {['All', 'Recognised', 'Local'].map(cat => (
+                        <button key={cat} onClick={() => { setActiveCategory(cat); setActiveTournament('All'); setActiveTeam('All'); setActiveIdx(0); }}
                             style={{
                                 padding: '4px 10px', borderRadius: '16px', border: '1px solid', fontSize: '10px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0, whiteSpace: 'nowrap',
                                 background: activeCategory === cat ? '#0f172a' : '#ffffff',
@@ -214,7 +192,23 @@ export default function LiveCricketScore() {
                         </button>
                     ))}
                     
-                    {availableTeams.length > 0 && (
+                    {availableTournaments.length > 0 && (
+                        <select
+                            value={activeTournament}
+                            onChange={(e) => { setActiveTournament(e.target.value); setActiveTeam('All'); setActiveIdx(0); }}
+                            style={{
+                                padding: '4px 24px 4px 10px', borderRadius: '16px', border: '1px solid #e2e8f0', background: '#ffffff', color: activeTournament !== 'All' ? '#0f172a' : '#64748b',
+                                fontSize: '10px', fontWeight: 700, outline: 'none', cursor: 'pointer', appearance: 'none',
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11.5l-5-5h10l-5 5z'/%3E%3C/svg%3E")`,
+                                backgroundRepeat: 'no-repeat', backgroundPosition: 'right 6px center', textOverflow: 'ellipsis', maxWidth: '140px',
+                            }}
+                        >
+                            <option value="All">All Tournaments</option>
+                            {availableTournaments.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                    )}
+
+                    {activeTournament !== 'All' && availableTeams.length > 0 && (
                         <select
                             value={activeTeam}
                             onChange={(e) => { setActiveTeam(e.target.value); setActiveIdx(0); }}
@@ -222,7 +216,7 @@ export default function LiveCricketScore() {
                                 padding: '4px 24px 4px 10px', borderRadius: '16px', border: '1px solid #e2e8f0', background: '#ffffff', color: activeTeam !== 'All' ? '#0f172a' : '#64748b',
                                 fontSize: '10px', fontWeight: 700, outline: 'none', cursor: 'pointer', appearance: 'none',
                                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11.5l-5-5h10l-5 5z'/%3E%3C/svg%3E")`,
-                                backgroundRepeat: 'no-repeat', backgroundPosition: 'right 6px center',
+                                backgroundRepeat: 'no-repeat', backgroundPosition: 'right 6px center', textOverflow: 'ellipsis', maxWidth: '120px',
                             }}
                         >
                             <option value="All">All Teams</option>
@@ -240,7 +234,7 @@ export default function LiveCricketScore() {
                         return (
                             <button
                                 key={sport}
-                                onClick={() => { setActiveSport(sport); setActiveIdx(0); }}
+                                onClick={() => { setActiveSport(sport); setActiveCategory('All'); setActiveTournament('All'); setActiveTeam('All'); setActiveIdx(0); }}
                                 style={{
                                     padding: '6px 12px', borderRadius: '20px', border: '1px solid',
                                     fontSize: '11px', fontWeight: 700, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap',
