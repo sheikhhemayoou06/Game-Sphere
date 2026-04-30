@@ -31,6 +31,7 @@ export default function SettingsPage() {
     const [highContrast, setHighContrast] = useState(false);
     const [textSizing, setTextSizing] = useState('normal');
     const [language, setLanguage] = useState('English');
+    const [darkMode, setDarkMode] = useState(false);
 
     const [cameraPerm, setCameraPerm] = useState(false);
     const [locationPerm, setLocationPerm] = useState(false);
@@ -49,13 +50,14 @@ export default function SettingsPage() {
         if (prefs.cameraPerm !== undefined) setCameraPerm(prefs.cameraPerm);
         if (prefs.locationPerm !== undefined) setLocationPerm(prefs.locationPerm);
         if (prefs.micPerm !== undefined) setMicPerm(prefs.micPerm);
+        if (prefs.darkMode !== undefined) setDarkMode(prefs.darkMode);
     }, []);
 
     // Save preferences to local storage on change
     useEffect(() => {
         if (!loaded) return;
         localStorage.setItem('gameSpherePreferences', JSON.stringify({
-            emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language, cameraPerm, locationPerm, micPerm
+            emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language, cameraPerm, locationPerm, micPerm, darkMode
         }));
         
         // Apply accessibility settings
@@ -69,8 +71,14 @@ export default function SettingsPage() {
             } else {
                 document.documentElement.style.filter = 'none';
             }
+
+            if (darkMode) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
         }
-    }, [emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language, cameraPerm, locationPerm, micPerm, loaded]);
+    }, [emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language, cameraPerm, locationPerm, micPerm, darkMode, loaded]);
 
     // 2FA State
     const [show2FAModal, setShow2FAModal] = useState(false);
@@ -218,13 +226,13 @@ export default function SettingsPage() {
     ];
 
     return (
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' }}>
+        <div style={{ minHeight: '100vh', background: darkMode ? '#0f172a' : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)', color: darkMode ? '#f8fafc' : '#1e1b4b', transition: 'background 0.3s, color 0.3s' }}>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: 900, color: '#1e1b4b', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <h1 style={{ fontSize: '32px', fontWeight: 900, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <Settings size={32} /> Settings
                 </h1>
-                <p style={{ color: '#64748b', fontSize: '15px', marginBottom: '32px' }}>Manage your account, security, and preferences</p>
+                <p style={{ color: darkMode ? '#94a3b8' : '#64748b', fontSize: '15px', marginBottom: '32px' }}>Manage your account, security, and preferences</p>
 
                 {/* User card */}
                 <Link href="/profile" target="_blank" style={{ textDecoration: 'none' }}>
@@ -254,7 +262,8 @@ export default function SettingsPage() {
                         {tabs.map((t) => (
                             <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
                                 padding: '14px 16px', borderRadius: '12px', border: 'none', textAlign: 'left', cursor: 'pointer',
-                                background: activeTab === t.id ? '#4338ca' : '#fff', color: activeTab === t.id ? '#fff' : '#1e1b4b',
+                                background: activeTab === t.id ? '#4338ca' : (darkMode ? '#1e293b' : '#fff'), 
+                                color: activeTab === t.id ? '#fff' : (darkMode ? '#f8fafc' : '#1e1b4b'),
                                 fontWeight: 600, fontSize: '14px', transition: 'all 0.2s',
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -267,10 +276,10 @@ export default function SettingsPage() {
                     </div>
 
                     {/* Content */}
-                    <div style={{ background: '#fff', borderRadius: '16px', padding: '28px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+                    <div style={{ background: darkMode ? '#1e293b' : '#fff', color: darkMode ? '#f8fafc' : '#1e1b4b', borderRadius: '16px', padding: '28px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
                         {activeTab === 'profile' && (
                             <div>
-                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Personal Information</h2>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '20px' }}>Personal Information</h2>
                                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                                     {[
                                         { label: 'First Name', key: 'firstName' as const, type: 'text' },
@@ -442,22 +451,32 @@ export default function SettingsPage() {
 
                         {activeTab === 'accessibility' && (
                             <div>
-                                <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Accessibility</h2>
+                                <h2 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '20px' }}>Accessibility</h2>
                                 
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: '#f8fafc', marginBottom: '10px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: darkMode ? '#0f172a' : '#f8fafc', marginBottom: '10px' }}>
+                                    <div>
+                                        <div style={{ fontWeight: 600, fontSize: '14px' }}>Dark Mode</div>
+                                        <div style={{ fontSize: '12px', color: darkMode ? '#94a3b8' : '#64748b' }}>Switch the app theme to a darker palette</div>
+                                    </div>
+                                    <div onClick={() => setDarkMode(!darkMode)} style={{ width: '48px', height: '26px', borderRadius: '13px', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', background: darkMode ? '#4338ca' : '#334155' }}>
+                                        <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', transition: 'left 0.3s', left: darkMode ? '24px' : '2px', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
+                                    </div>
+                                </div>
+
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: darkMode ? '#0f172a' : '#f8fafc', marginBottom: '10px' }}>
                                     <div>
                                         <div style={{ fontWeight: 600, fontSize: '14px' }}>High Contrast Mode</div>
-                                        <div style={{ fontSize: '12px', color: '#64748b' }}>Increase contrast for better readability across the app</div>
+                                        <div style={{ fontSize: '12px', color: darkMode ? '#94a3b8' : '#64748b' }}>Increase contrast for better readability across the app</div>
                                     </div>
-                                    <div onClick={() => setHighContrast(!highContrast)} style={{ width: '48px', height: '26px', borderRadius: '13px', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', background: highContrast ? '#4338ca' : '#e2e8f0' }}>
+                                    <div onClick={() => setHighContrast(!highContrast)} style={{ width: '48px', height: '26px', borderRadius: '13px', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', background: highContrast ? '#4338ca' : (darkMode ? '#334155' : '#e2e8f0') }}>
                                         <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', transition: 'left 0.3s', left: highContrast ? '24px' : '2px', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
                                     </div>
                                 </div>
 
-                                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', marginBottom: '10px' }}>
+                                <div style={{ padding: '16px', borderRadius: '12px', background: darkMode ? '#0f172a' : '#f8fafc', marginBottom: '10px' }}>
                                     <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>Text Sizing</div>
-                                    <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '12px' }}>Adjust the zoom level of the app for easier reading</div>
-                                    <select value={textSizing} onChange={e => setTextSizing(e.target.value)} style={{ padding: '10px 14px', borderRadius: '8px', border: '2px solid #e2e8f0', fontSize: '14px', width: '100%', maxWidth: '200px' }}>
+                                    <div style={{ fontSize: '12px', color: darkMode ? '#94a3b8' : '#64748b', marginBottom: '12px' }}>Adjust the zoom level of the app for easier reading</div>
+                                    <select value={textSizing} onChange={e => setTextSizing(e.target.value)} style={{ padding: '10px 14px', borderRadius: '8px', border: `2px solid ${darkMode ? '#334155' : '#e2e8f0'}`, fontSize: '14px', width: '100%', maxWidth: '200px', background: darkMode ? '#1e293b' : '#fff', color: darkMode ? '#f8fafc' : '#1e1b4b' }}>
                                         <option value="small">Small (90%)</option>
                                         <option value="normal">Normal (100%)</option>
                                         <option value="large">Large (110%)</option>
