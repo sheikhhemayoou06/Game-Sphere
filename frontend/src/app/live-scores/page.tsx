@@ -15,7 +15,7 @@ type DetailTab = 'scorecard' | 'commentary' | 'run_rate' | 'squads' | 'info';
 interface MatchSummary {
     id: string; name: string; matchType: string; status: string; venue: string;
     date: string; isLive: boolean; isCompleted: boolean; isUpcoming: boolean;
-    level: string;
+    level: string; source: 'cricapi' | 'internal';
     teams: string[];
     teamInfo: { name: string; shortname: string; img: string; score: string }[];
     score: { r: number; w: number; o: number; inning: string }[];
@@ -51,14 +51,55 @@ function LiveScoresContent() {
 
     const searchParams = useSearchParams();
 
-    /* ── Fetch all internal matches ── */
+    /* ── Fetch all matches (CricAPI + internal) ── */
     const fetchMatches = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await fetch(`${API_BASE}/matches`);
-            const json = await res.json();
-            if (Array.isArray(json)) {
-                const mapped: MatchSummary[] = json
+            const [cricRes, internalRes] = await Promise.all([
+                fetch('/api/cricket?endpoint=currentMatches').then(r => r.json()).catch(() => ({ data: [] })),
+                fetch(`${API_BASE}/matches`).then(r => r.json()).catch(() => []),
+            ]);
+
+            let allMapped: MatchSummary[] = [];
+
+            // Map CricAPI matches
+            if (cricRes?.data && Array.isArray(cricRes.data)) {
+                const cricMapped: MatchSummary[] = cricRes.data
+                    .filter((m: any) => m && m.id)
+                    .map((m: any) => {
+                        const t1 = m.teamInfo?.[0] || { name: m.teams?.[0] || 'TBD', shortname: '' };
+                        const t2 = m.teamInfo?.[1] || { name: m.teams?.[1] || 'TBD', shortname: '' };
+                        const scores = m.score || [];
+                        const isLive = m.matchStarted === true && m.matchEnded !== true;
+                        const isCompleted = m.matchEnded === true;
+                        const isUpcoming = !m.matchStarted;
+
+                        const s1 = scores.find((s: any) => s.innings?.toLowerCase().includes(t1.shortname?.toLowerCase() || t1.name?.toLowerCase()));
+                        const s2 = scores.find((s: any) => s.innings?.toLowerCase().includes(t2.shortname?.toLowerCase() || t2.name?.toLowerCase()));
+
+                        return {
+                            id: m.id, name: m.name || `${t1.name} vs ${t2.name}`,
+                            matchType: (m.matchType || 't20').toUpperCase(), status: m.status || '',
+                            venue: m.venue || '', date: m.date || m.dateTimeGMT || '',
+                            isLive, isCompleted, isUpcoming, level: 'INTERNATIONAL', source: 'cricapi' as const,
+                            teams: [t1.name, t2.name],
+                            teamInfo: [
+                                { name: t1.name, shortname: t1.shortname || t1.name.substring(0, 3).toUpperCase(), img: t1.img || '', score: s1 ? `${s1.r}/${s1.w}` : '-' },
+                                { name: t2.name, shortname: t2.shortname || t2.name.substring(0, 3).toUpperCase(), img: t2.img || '', score: s2 ? `${s2.r}/${s2.w}` : '-' },
+                            ],
+                            score: [
+                                { inning: s1?.innings || t1.name, r: s1?.r ?? 0, w: s1?.w ?? 0, o: s1?.o ?? 0 },
+                                { inning: s2?.innings || t2.name, r: s2?.r ?? 0, w: s2?.w ?? 0, o: s2?.o ?? 0 },
+                            ],
+                            hasSquad: true,
+                        };
+                    });
+                allMapped.push(...cricMapped);
+            }
+
+            // Map internal matches
+            if (Array.isArray(internalRes)) {
+                const intMapped: MatchSummary[] = internalRes
                     .map((m: any) => {
                         const sportName = m.tournament?.sport?.name || m.sport?.name || 'Other';
                         const isLive = m.status === 'LIVE' || m.status === 'IN_PROGRESS';
@@ -68,7 +109,7 @@ function LiveScoresContent() {
                         return {
                             id: m.id, name: `${m.homeTeam?.name || 'TBD'} vs ${m.awayTeam?.name || 'TBD'}`, matchType: m.tournament?.name || sportName,
                             status: m.status || 'Scheduled', venue: m.venue || m.tournament?.venue || '', date: m.scheduledAt || m.createdAt || '',
-                            isLive, isCompleted, isUpcoming, level,
+                            isLive, isCompleted, isUpcoming, level, source: 'internal' as const,
                             teams: [m.homeTeam?.name || 'TBD', m.awayTeam?.name || 'TBD'],
                             teamInfo: [
                                 { name: m.homeTeam?.name || 'TBD', shortname: (m.homeTeam?.name || 'TBD').substring(0, 3).toUpperCase(), img: '', score: m.homeScore != null ? `${m.homeScore}` : '-' },
@@ -81,16 +122,22 @@ function LiveScoresContent() {
                             hasSquad: false,
                         };
                     });
-                setMatches(mapped);
-                // Auto-select tab logic
-                const liveCount = mapped.filter(m => m.isLive).length;
-                if (liveCount > 0) setViewTab('live');
-                else if (mapped.filter(m => m.isCompleted).length > 0) setViewTab('completed');
-            } else {
-                setApiError('Failed to parse match data.');
+                allMapped.push(...intMapped);
             }
+
+            // Sort: live first
+            allMapped.sort((a, b) => {
+                if (a.isLive && !b.isLive) return -1;
+                if (!a.isLive && b.isLive) return 1;
+                return new Date(b.date).getTime() - new Date(a.date).getTime();
+            });
+
+            setMatches(allMapped);
+            const liveCount = allMapped.filter(m => m.isLive).length;
+            if (liveCount > 0) setViewTab('live');
+            else if (allMapped.filter(m => m.isCompleted).length > 0) setViewTab('completed');
         } catch (err) { 
-            console.error('Failed to fetch internal matches', err); 
+            console.error('Failed to fetch matches', err); 
             setApiError('Network error while connecting to data service.');
         }
         finally { setLoading(false); }
@@ -103,35 +150,67 @@ function LiveScoresContent() {
         setScorecardLoading(true);
         setScorecardData(null);
         try {
-            const res = await fetch(`${API_BASE}/matches/${matchId}`);
-            const json = await res.json();
-            if (json && json.id) {
-                setScorecardData({
-                    name: `${json.homeTeam?.name || 'TBD'} vs ${json.awayTeam?.name || 'TBD'}`,
-                    matchType: json.tournament?.name || json.sport?.name,
-                    status: json.status, venue: json.venue || json.tournament?.venue,
-                    date: json.scheduledAt, matchStarted: json.status === 'LIVE' || json.status === 'COMPLETED',
-                    matchEnded: json.status === 'COMPLETED',
-                    tossWinner: null, tossChoice: null,
-                    teamInfo: [
-                        { name: json.homeTeam?.name, shortname: (json.homeTeam?.name || '').substring(0, 3).toUpperCase() },
-                        { name: json.awayTeam?.name, shortname: (json.awayTeam?.name || '').substring(0, 3).toUpperCase() }
-                    ],
-                    score: [
-                        { inning: json.homeTeam?.name, r: json.homeScore ?? 0, w: 0, o: 0 },
-                        { inning: json.awayTeam?.name, r: json.awayScore ?? 0, w: 0, o: 0 }
-                    ],
-                    scorecard: [] // Empty scorecard array for graceful fallback
-                });
+            // Check if this is a CricAPI match (UUID format check)
+            const isCricApi = !matchId.includes('-') || matchId.length < 30;
+            const matchMeta = matches.find(m => m.id === matchId);
+            const isExternal = matchMeta?.source === 'cricapi' || isCricApi;
+
+            if (isExternal) {
+                // Fetch from CricAPI proxy
+                const res = await fetch(`/api/cricket?endpoint=match_scorecard&id=${matchId}`);
+                const json = await res.json();
+                if (json?.data) {
+                    setScorecardData(json.data);
+                } else {
+                    // Fallback to match_info
+                    const infoRes = await fetch(`/api/cricket?endpoint=match_info&id=${matchId}`);
+                    const infoJson = await infoRes.json();
+                    if (infoJson?.data) setScorecardData(infoJson.data);
+                }
+            } else {
+                // Fetch from internal API
+                const res = await fetch(`${API_BASE}/matches/${matchId}`);
+                const json = await res.json();
+                if (json && json.id) {
+                    setScorecardData({
+                        name: `${json.homeTeam?.name || 'TBD'} vs ${json.awayTeam?.name || 'TBD'}`,
+                        matchType: json.tournament?.name || json.sport?.name,
+                        status: json.status, venue: json.venue || json.tournament?.venue,
+                        date: json.scheduledAt, matchStarted: json.status === 'LIVE' || json.status === 'COMPLETED',
+                        matchEnded: json.status === 'COMPLETED',
+                        tossWinner: null, tossChoice: null,
+                        teamInfo: [
+                            { name: json.homeTeam?.name, shortname: (json.homeTeam?.name || '').substring(0, 3).toUpperCase() },
+                            { name: json.awayTeam?.name, shortname: (json.awayTeam?.name || '').substring(0, 3).toUpperCase() }
+                        ],
+                        score: [
+                            { inning: json.homeTeam?.name, r: json.homeScore ?? 0, w: 0, o: 0 },
+                            { inning: json.awayTeam?.name, r: json.awayScore ?? 0, w: 0, o: 0 }
+                        ],
+                        scorecard: []
+                    });
+                }
             }
         } catch (err) { console.error('Scorecard fetch failed', err); }
         finally { setScorecardLoading(false); }
-    }, []);
+    }, [matches]);
 
-    /* ── Fetch ball-by-ball commentary (Not supported for internal matches yet) ── */
+    /* ── Fetch ball-by-ball commentary ── */
     const fetchCommentary = useCallback(async (matchId: string) => {
+        setCommentaryLoading(true);
         setCommentaryData([]);
-    }, []);
+        try {
+            const matchMeta = matches.find(m => m.id === matchId);
+            if (matchMeta?.source === 'cricapi') {
+                const res = await fetch(`/api/cricket?endpoint=match_bbb&id=${matchId}`);
+                const json = await res.json();
+                if (json?.data?.bpiData) {
+                    setCommentaryData(json.data.bpiData);
+                }
+            }
+        } catch (err) { console.error('Commentary fetch failed', err); }
+        finally { setCommentaryLoading(false); }
+    }, [matches]);
 
     const openMatch = useCallback((matchId: string) => {
         setSelectedMatch(matchId);

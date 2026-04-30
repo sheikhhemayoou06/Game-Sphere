@@ -34,13 +34,47 @@ interface LiveMatch {
     venue: string;
     date: string;
     isLive: boolean;
-    source: 'internal';
+    source: 'cricapi' | 'internal';
     level: string;
     team1: { name: string; shortName: string; img: string; score: string; detail: string; isBatting?: boolean };
     team2: { name: string; shortName: string; img: string; score: string; detail: string; isBatting?: boolean };
 }
 
+/* ── Map CricAPI match ── */
+function mapCricApiMatch(m: any): LiveMatch | null {
+    if (!m || !m.id) return null;
+    const t1 = m.teamInfo?.[0] || { name: m.teams?.[0] || 'TBD', shortname: '' };
+    const t2 = m.teamInfo?.[1] || { name: m.teams?.[1] || 'TBD', shortname: '' };
+    const scores = m.score || [];
+    const isLive = m.matchStarted === true && m.matchEnded !== true;
 
+    // CricAPI returns scores newest-innings-first; map them to team names
+    const s1 = scores.find((s: any) => s.innings?.toLowerCase().includes(t1.shortname?.toLowerCase() || t1.name?.toLowerCase()));
+    const s2 = scores.find((s: any) => s.innings?.toLowerCase().includes(t2.shortname?.toLowerCase() || t2.name?.toLowerCase()));
+
+    let t1Bat = false, t2Bat = false;
+    if (isLive) {
+        if (scores.length === 1) { if (s1) t1Bat = true; else t2Bat = true; }
+        else if (scores.length >= 2) t2Bat = true;
+    }
+
+    return {
+        id: m.id, sport: 'Cricket', name: m.name || `${t1.name} vs ${t2.name}`,
+        matchType: (m.matchType || 't20').toUpperCase(), status: m.status || '',
+        venue: m.venue || '', date: m.date || m.dateTimeGMT || '', isLive,
+        source: 'cricapi', level: 'INTERNATIONAL',
+        team1: {
+            name: t1.name, shortName: t1.shortname || t1.name.substring(0, 3).toUpperCase(),
+            img: t1.img || '', score: s1 ? `${s1.r}/${s1.w}` : '-',
+            detail: s1 ? `(${s1.o} ov)` : '', isBatting: t1Bat,
+        },
+        team2: {
+            name: t2.name, shortName: t2.shortname || t2.name.substring(0, 3).toUpperCase(),
+            img: t2.img || '', score: s2 ? `${s2.r}/${s2.w}` : '-',
+            detail: s2 ? `(${s2.o} ov)` : '', isBatting: t2Bat,
+        },
+    };
+}
 
 /* ── Map Internal match (any sport) ── */
 function mapInternalMatch(m: any): LiveMatch | null {
@@ -80,11 +114,23 @@ export default function LiveCricketScore() {
         if (isInitial) setLoading(true);
         setRefreshing(true);
         try {
-            // Fetch internal Game Sphere matches (all sports)
-            const internalRes = await fetch(`${API_BASE}/matches/live`).then(r => r.json()).catch(() => []);
+            // Fetch both CricAPI external matches AND internal Game Sphere matches in parallel
+            const [cricRes, internalRes] = await Promise.all([
+                fetch('/api/cricket?endpoint=currentMatches').then(r => r.json()).catch(() => ({ data: [] })),
+                fetch(`${API_BASE}/matches/live`).then(r => r.json()).catch(() => []),
+            ]);
 
             let allMatches: LiveMatch[] = [];
 
+            // Map CricAPI matches
+            if (cricRes?.data && Array.isArray(cricRes.data)) {
+                const cricMatches = cricRes.data
+                    .map((m: any) => mapCricApiMatch(m))
+                    .filter(Boolean) as LiveMatch[];
+                allMatches.push(...cricMatches);
+            }
+
+            // Map internal matches
             if (Array.isArray(internalRes)) {
                 const intMatches = internalRes
                     .map((m: any) => mapInternalMatch(m))
