@@ -110,42 +110,13 @@ export class AuthService {
             },
         });
 
-        // 🚀 HOTFIX: Auto-sync orphaned Supabase accounts
-        // If Supabase authentication succeeded on the frontend but Prisma failed during signup, 
-        // the user's login hits this endpoint and throws 'Invalid Credentials' because they 
-        // don't exist in our custom database. We will auto-create them right here.
         if (!user) {
-            const hashedPassword = await bcrypt.hash(dto.password, 10);
-            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const firstLetter = letters[Math.floor(Math.random() * letters.length)];
-            const lastLetter = letters[Math.floor(Math.random() * letters.length)];
-            const numbers = Math.floor(10000 + Math.random() * 90000);
-            const sportsId = `${firstLetter}${numbers}${lastLetter}`;
-            user = await this.prisma.user.create({
-                data: {
-                    email: dto.email,
-                    password: hashedPassword,
-                    firstName: 'Player',
-                    lastName: '',
-                    role: 'PLAYER',
-                    player: {
-                        create: {
-                            sportsId,
-                            country: 'India'
-                        }
-                    }
-                },
-                include: {
-                    player: {
-                        include: { playerSports: { include: { sport: true } } }
-                    }
-                }
-            });
-        } else {
-            const isPasswordValid = await bcrypt.compare(dto.password, user.password);
-            if (!isPasswordValid) {
-                throw new UnauthorizedException('Invalid credentials');
-            }
+            throw new UnauthorizedException('Invalid credentials');
+        }
+
+        const isPasswordValid = await bcrypt.compare(dto.password, user.password);
+        if (!isPasswordValid) {
+            throw new UnauthorizedException('Invalid credentials');
         }
 
         if (user.isTwoFactorEnabled) {
@@ -489,6 +460,45 @@ export class AuthService {
         });
 
         return { message: 'Password successfully reset' };
+    }
+
+    async updatePassword(userId: string, currentPassword: string, newPassword: string) {
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!user) throw new UnauthorizedException('User not found');
+
+        const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isPasswordValid) throw new UnauthorizedException('Incorrect current password');
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: { password: hashedPassword }
+        });
+
+        return { message: 'Password updated successfully' };
+    }
+
+    async deleteAccount(userId: string) {
+        // Anonymize user to prevent foreign key errors and preserve stats
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!user) throw new NotFoundException('User not found');
+
+        const randomStr = Math.random().toString(36).substring(2, 10);
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                email: `deleted_${userId.substring(0, 8)}_${randomStr}@gamesphere.fan`,
+                firstName: 'Deleted',
+                lastName: 'User',
+                phone: null,
+                avatar: null,
+                password: await bcrypt.hash(Math.random().toString(), 10),
+                isTwoFactorEnabled: false,
+                twoFactorSecret: null
+            }
+        });
+
+        return { message: 'Account deleted successfully' };
     }
 
     private generateToken(user: { id: string; email: string; role: string }, expiresIn?: string) {

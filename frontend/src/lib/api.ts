@@ -88,6 +88,8 @@ export const api = {
     getProfile: () => request<any>('/auth/profile'),
     updateProfile: (data: any) => request<any>('/auth/profile', { method: 'PATCH', body: JSON.stringify(data) }),
     removePlayerSport: (sportId: string) => request<any>(`/auth/profile/sports/${sportId}`, { method: 'DELETE' }),
+    updatePassword: (data: any) => request<any>('/auth/update-password', { method: 'PATCH', body: JSON.stringify(data) }),
+    deleteAccount: () => request<any>('/auth/account', { method: 'DELETE' }),
 
     // Sports
     getSports: () => request<any[]>('/sports').catch(() => [

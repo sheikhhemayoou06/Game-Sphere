@@ -5,9 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
 import { api } from '@/lib/api';
+import { supabase } from '@/lib/supabase';
 import { roleLabels } from '@/lib/utils';
 import RunningAthleteLoader from '@/components/RunningAthleteLoader';
 import PageNavbar from '@/components/PageNavbar';
+
+import { User as UserIcon, Lock, Bell, Smartphone, Accessibility, Globe, Trash2, Settings, ArrowRight } from 'lucide-react';
 
 export default function SettingsPage() {
     const { user, isAuthenticated, loadFromStorage, logout } = useAuthStore();
@@ -20,14 +23,50 @@ export default function SettingsPage() {
         heightCm: '', weight: '', gender: ''
     });
     const [saved, setSaved] = useState(false);
-    const [darkMode, setDarkMode] = useState(false);
     const [emailNotifs, setEmailNotifs] = useState(true);
     const [pushNotifs, setPushNotifs] = useState(true);
     const [pauseNotifs, setPauseNotifs] = useState(false);
     const [sleepMode, setSleepMode] = useState(false);
-    const [themePreference, setThemePreference] = useState<'system' | 'light' | 'dark'>('system');
-    const [emailNotifications, setEmailNotifications] = useState(true);
-    const [smsNotifications, setSmsNotifications] = useState(false);
+    
+    const [highContrast, setHighContrast] = useState(false);
+    const [textSizing, setTextSizing] = useState('normal');
+    const [language, setLanguage] = useState('English');
+
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    // Load preferences from local storage on mount
+    useEffect(() => {
+        const prefs = JSON.parse(localStorage.getItem('gameSpherePreferences') || '{}');
+        if (prefs.emailNotifs !== undefined) setEmailNotifs(prefs.emailNotifs);
+        if (prefs.pushNotifs !== undefined) setPushNotifs(prefs.pushNotifs);
+        if (prefs.pauseNotifs !== undefined) setPauseNotifs(prefs.pauseNotifs);
+        if (prefs.sleepMode !== undefined) setSleepMode(prefs.sleepMode);
+        if (prefs.highContrast !== undefined) setHighContrast(prefs.highContrast);
+        if (prefs.textSizing !== undefined) setTextSizing(prefs.textSizing);
+        if (prefs.language !== undefined) setLanguage(prefs.language);
+    }, []);
+
+    // Save preferences to local storage on change
+    useEffect(() => {
+        if (!loaded) return;
+        localStorage.setItem('gameSpherePreferences', JSON.stringify({
+            emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language
+        }));
+        
+        // Apply accessibility settings directly to document body if running in browser
+        if (typeof window !== 'undefined') {
+            document.documentElement.style.fontSize = textSizing === 'large' ? '110%' : textSizing === 'small' ? '90%' : '100%';
+            if (highContrast) {
+                document.documentElement.classList.add('high-contrast');
+            } else {
+                document.documentElement.classList.remove('high-contrast');
+            }
+        }
+    }, [emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language, loaded]);
 
     // 2FA State
     const [show2FAModal, setShow2FAModal] = useState(false);
@@ -90,7 +129,49 @@ export default function SettingsPage() {
         }
     };
 
+    const handleUpdatePassword = async () => {
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            return alert('Please fill in all password fields.');
+        }
+        if (newPassword !== confirmPassword) {
+            return alert('New passwords do not match.');
+        }
+        setIsUpdatingPassword(true);
+        try {
+            // Update in Prisma
+            await api.updatePassword({ currentPassword, newPassword });
+            
+            // Sync with Supabase if the user has a Supabase session
+            const { data } = await supabase.auth.getSession();
+            if (data?.session) {
+                await supabase.auth.updateUser({ password: newPassword });
+            }
 
+            alert('Password updated successfully!');
+            setCurrentPassword('');
+            setNewPassword('');
+            setConfirmPassword('');
+        } catch (err: any) {
+            alert(err.message || 'Failed to update password');
+        } finally {
+            setIsUpdatingPassword(false);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        if (confirm("Are you absolutely sure you want to delete your account? This action cannot be undone.")) {
+            setIsDeleting(true);
+            try {
+                await api.deleteAccount();
+                alert('Your account has been deleted.');
+                logout();
+                router.push('/');
+            } catch (err: any) {
+                alert(err.message || 'Failed to delete account');
+                setIsDeleting(false);
+            }
+        }
+    };
 
     const handleGenerate2FA = async () => {
         if (user?.isTwoFactorEnabled) {
@@ -129,36 +210,45 @@ export default function SettingsPage() {
     };
 
     const tabs = [
-        { id: 'profile' as const, label: '👤 My Profile', desc: 'Manage your personal info' },
-        { id: 'security' as const, label: '🔒 Security and Password', desc: 'Password & authentication' },
-        { id: 'notifications' as const, label: '🔔 Notification', desc: 'Email & push alerts' },
-        { id: 'device' as const, label: '📱 Device Permission', desc: 'Camera, location, etc.' },
-        { id: 'accessibility' as const, label: '♿ Accessibility', desc: 'Display & sizing text' },
-        { id: 'language' as const, label: '🌐 Language', desc: 'App language settings' },
-        { id: 'delete' as const, label: '🗑️ Delete Account', desc: 'Permanently remove account' },
+        { id: 'profile' as const, label: 'My Profile', icon: UserIcon, desc: 'Manage your personal info' },
+        { id: 'security' as const, label: 'Security and Password', icon: Lock, desc: 'Password & authentication' },
+        { id: 'notifications' as const, label: 'Notification', icon: Bell, desc: 'Email & push alerts' },
+        { id: 'device' as const, label: 'Device Permission', icon: Smartphone, desc: 'Camera, location, etc.' },
+        { id: 'accessibility' as const, label: 'Accessibility', icon: Accessibility, desc: 'Display & sizing text' },
+        { id: 'language' as const, label: 'Language', icon: Globe, desc: 'App language settings' },
+        { id: 'delete' as const, label: 'Delete Account', icon: Trash2, desc: 'Permanently remove account' },
     ];
 
     return (
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' }}>
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: 900, color: '#1e1b4b', marginBottom: '8px' }}>⚙️ Settings</h1>
+                <h1 style={{ fontSize: '32px', fontWeight: 900, color: '#1e1b4b', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <Settings size={32} /> Settings
+                </h1>
                 <p style={{ color: '#64748b', fontSize: '15px', marginBottom: '32px' }}>Manage your account, security, and preferences</p>
 
                 {/* User card */}
-                <div style={{ background: 'linear-gradient(135deg, #1e1b4b, #4338ca)', borderRadius: '20px', padding: '28px', color: '#fff', marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '20px' }}>
-                    <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', fontWeight: 800 }}>
-                        {user?.firstName?.[0]}{user?.lastName?.[0]}
-                    </div>
-                    <div>
-                        <div style={{ fontSize: '22px', fontWeight: 800 }}>{user?.firstName} {user?.lastName}</div>
-                        <div style={{ fontSize: '14px', opacity: 0.8 }}>{user?.email}</div>
-                        <div style={{ fontSize: '12px', marginTop: '4px' }}>
-                            <span style={{ padding: '3px 10px', borderRadius: '6px', background: 'rgba(255,255,255,0.15)', fontWeight: 600 }}>{roleLabels[user?.role || ''] || user?.role}</span>
-                            {user?.player?.sportsId && <span style={{ marginLeft: '10px', opacity: 0.7 }}>USI: {user.player.sportsId}</span>}
+                <Link href="/profile" target="_blank" style={{ textDecoration: 'none' }}>
+                    <div style={{ background: 'linear-gradient(135deg, #1e1b4b, #4338ca)', borderRadius: '20px', padding: '28px', color: '#fff', marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '20px', transition: 'transform 0.2s', cursor: 'pointer' }}
+                         onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+                         onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                        <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', fontWeight: 800 }}>
+                            {user?.firstName?.[0]}{user?.lastName?.[0]}
+                        </div>
+                        <div>
+                            <div style={{ fontSize: '22px', fontWeight: 800 }}>{user?.firstName} {user?.lastName}</div>
+                            <div style={{ fontSize: '14px', opacity: 0.8 }}>{user?.email}</div>
+                            <div style={{ fontSize: '12px', marginTop: '4px' }}>
+                                <span style={{ padding: '3px 10px', borderRadius: '6px', background: 'rgba(255,255,255,0.15)', fontWeight: 600 }}>{roleLabels[user?.role || ''] || user?.role}</span>
+                                {user?.player?.sportsId && <span style={{ marginLeft: '10px', opacity: 0.7 }}>USI: {user.player.sportsId}</span>}
+                            </div>
+                        </div>
+                        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.8, fontSize: '14px', fontWeight: 600 }}>
+                            View Profile <ArrowRight size={16} />
                         </div>
                     </div>
-                </div>
+                </Link>
 
                 <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '24px' }}>
                     {/* Sidebar tabs */}
@@ -169,8 +259,11 @@ export default function SettingsPage() {
                                 background: activeTab === t.id ? '#4338ca' : '#fff', color: activeTab === t.id ? '#fff' : '#1e1b4b',
                                 fontWeight: 600, fontSize: '14px', transition: 'all 0.2s',
                             }}>
-                                <div>{t.label}</div>
-                                <div style={{ fontSize: '11px', opacity: 0.7, marginTop: '2px' }}>{t.desc}</div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <t.icon size={16} />
+                                    <span>{t.label}</span>
+                                </div>
+                                <div style={{ fontSize: '11px', opacity: 0.7, marginTop: '2px', paddingLeft: '24px' }}>{t.desc}</div>
                             </button>
                         ))}
                     </div>
@@ -228,16 +321,24 @@ export default function SettingsPage() {
                             <div>
                                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Security and Password</h2>
                                 <div style={{ display: 'grid', gap: '16px' }}>
-                                    {['Current Password', 'New Password', 'Confirm New Password'].map((label) => (
-                                        <div key={label}>
-                                            <label style={{ fontSize: '13px', fontWeight: 600, color: '#64748b', display: 'block', marginBottom: '6px' }}>{label}</label>
-                                            <input type="password" placeholder="••••••••"
-                                                style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', boxSizing: 'border-box' }} />
-                                        </div>
-                                    ))}
+                                    <div>
+                                        <label style={{ fontSize: '13px', fontWeight: 600, color: '#64748b', display: 'block', marginBottom: '6px' }}>Current Password</label>
+                                        <input type="password" placeholder="••••••••" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)}
+                                            style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', boxSizing: 'border-box' }} />
+                                    </div>
+                                    <div>
+                                        <label style={{ fontSize: '13px', fontWeight: 600, color: '#64748b', display: 'block', marginBottom: '6px' }}>New Password</label>
+                                        <input type="password" placeholder="••••••••" value={newPassword} onChange={e => setNewPassword(e.target.value)}
+                                            style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', boxSizing: 'border-box' }} />
+                                    </div>
+                                    <div>
+                                        <label style={{ fontSize: '13px', fontWeight: 600, color: '#64748b', display: 'block', marginBottom: '6px' }}>Confirm New Password</label>
+                                        <input type="password" placeholder="••••••••" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
+                                            style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', boxSizing: 'border-box' }} />
+                                    </div>
                                 </div>
-                                <button onClick={handleSave} style={{ marginTop: '20px', padding: '12px 28px', borderRadius: '10px', border: 'none', background: '#4338ca', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '14px' }}>
-                                    Update Password
+                                <button onClick={handleUpdatePassword} disabled={isUpdatingPassword} style={{ marginTop: '20px', padding: '12px 28px', borderRadius: '10px', border: 'none', background: isUpdatingPassword ? '#9ca3af' : '#4338ca', color: '#fff', fontWeight: 700, cursor: isUpdatingPassword ? 'not-allowed' : 'pointer', fontSize: '14px' }}>
+                                    {isUpdatingPassword ? 'Updating...' : 'Update Password'}
                                 </button>
                                 <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid #e2e8f0' }}>
                                     <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#1e1b4b', marginBottom: '12px' }}>Two-Factor Authentication</h3>
@@ -323,8 +424,25 @@ export default function SettingsPage() {
                         {activeTab === 'accessibility' && (
                             <div>
                                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Accessibility</h2>
-                                <div style={{ color: '#64748b', fontSize: '14px', background: '#f8fafc', padding: '16px', borderRadius: '12px' }}>
-                                    Custom text sizing, reduced motion, and high contrast options will be available here soon.
+                                
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: '#f8fafc', marginBottom: '10px' }}>
+                                    <div>
+                                        <div style={{ fontWeight: 600, fontSize: '14px' }}>High Contrast Mode</div>
+                                        <div style={{ fontSize: '12px', color: '#64748b' }}>Increase contrast for better readability</div>
+                                    </div>
+                                    <div onClick={() => setHighContrast(!highContrast)} style={{ width: '48px', height: '26px', borderRadius: '13px', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', background: highContrast ? '#4338ca' : '#e2e8f0' }}>
+                                        <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', transition: 'left 0.3s', left: highContrast ? '24px' : '2px', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
+                                    </div>
+                                </div>
+
+                                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', marginBottom: '10px' }}>
+                                    <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>Text Sizing</div>
+                                    <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '12px' }}>Adjust the size of text throughout the app</div>
+                                    <select value={textSizing} onChange={e => setTextSizing(e.target.value)} style={{ padding: '10px 14px', borderRadius: '8px', border: '2px solid #e2e8f0', fontSize: '14px', width: '100%', maxWidth: '200px' }}>
+                                        <option value="small">Small</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="large">Large</option>
+                                    </select>
                                 </div>
                             </div>
                         )}
@@ -332,12 +450,12 @@ export default function SettingsPage() {
                         {activeTab === 'language' && (
                             <div>
                                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Language</h2>
-                                <select style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', fontWeight: 600, width: '100%', maxWidth: '300px' }}>
-                                    <option>English</option>
-                                    <option>हिन्दी (Hindi)</option>
-                                    <option>தமிழ் (Tamil)</option>
-                                    <option>తెలుగు (Telugu)</option>
-                                    <option>ಕನ್ನಡ (Kannada)</option>
+                                <select value={language} onChange={e => setLanguage(e.target.value)} style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', fontWeight: 600, width: '100%', maxWidth: '300px' }}>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">हिन्दी (Hindi)</option>
+                                    <option value="Tamil">தமிழ் (Tamil)</option>
+                                    <option value="Telugu">తెలుగు (Telugu)</option>
+                                    <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
                                 </select>
                             </div>
                         )}
@@ -347,8 +465,8 @@ export default function SettingsPage() {
                                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#dc2626', marginBottom: '20px' }}>Delete Account</h2>
                                 <div style={{ color: '#64748b', fontSize: '14px', background: '#fef2f2', padding: '16px', borderRadius: '12px', border: '1px solid #fecaca' }}>
                                     <p style={{ margin: '0 0 12px 0' }}>Once you delete your account, there is no going back. Please be certain.</p>
-                                    <button onClick={() => { alert('Please contact support to delete your account.'); }} style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: '#dc2626', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>
-                                        Delete My Account
+                                    <button disabled={isDeleting} onClick={handleDeleteAccount} style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: isDeleting ? '#fca5a5' : '#dc2626', color: '#fff', fontWeight: 700, cursor: isDeleting ? 'not-allowed' : 'pointer' }}>
+                                        {isDeleting ? 'Deleting...' : 'Delete My Account'}
                                     </button>
                                 </div>
                             </div>

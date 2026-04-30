@@ -58,7 +58,13 @@ export default function LoginPage() {
             const currentApiUrl = process.env.NODE_ENV === 'development' && typeof window !== 'undefined'
                 ? `http://${window.location.hostname}:4000/api` : 'production or unresolved';
             console.error(`[DEBUG] Error: ${err.message}\nSupabase URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL}\nAPI URL: ${currentApiUrl}`);
-            setError(err.message || 'Login failed');
+            
+            let errorMessage = err.message || 'Login failed';
+            if (errorMessage === 'Failed to fetch') {
+                errorMessage = 'Unable to connect to authentication server. Please check your network or ensure the service is active.';
+            }
+            
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }

@@ -110,4 +110,15 @@ export class AuthController {
     async deletePlayerSport(@Request() req: any, @Param('sportId') sportId: string) {
         return this.authService.deletePlayerSport(req.user.sub, sportId);
     }
+    @UseGuards(JwtAuthGuard)
+    @Patch('update-password')
+    async updatePassword(@Request() req: any, @Body() dto: any) {
+        return this.authService.updatePassword(req.user.sub, dto.currentPassword, dto.newPassword);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('account')
+    async deleteAccount(@Request() req: any) {
+        return this.authService.deleteAccount(req.user.sub);
+    }
 }
