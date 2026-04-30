@@ -32,11 +32,9 @@ export default function SettingsPage() {
     const [textSizing, setTextSizing] = useState('normal');
     const [language, setLanguage] = useState('English');
 
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
+    const [cameraPerm, setCameraPerm] = useState(false);
+    const [locationPerm, setLocationPerm] = useState(false);
+    const [micPerm, setMicPerm] = useState(false);
 
     // Load preferences from local storage on mount
     useEffect(() => {
@@ -48,25 +46,31 @@ export default function SettingsPage() {
         if (prefs.highContrast !== undefined) setHighContrast(prefs.highContrast);
         if (prefs.textSizing !== undefined) setTextSizing(prefs.textSizing);
         if (prefs.language !== undefined) setLanguage(prefs.language);
+        if (prefs.cameraPerm !== undefined) setCameraPerm(prefs.cameraPerm);
+        if (prefs.locationPerm !== undefined) setLocationPerm(prefs.locationPerm);
+        if (prefs.micPerm !== undefined) setMicPerm(prefs.micPerm);
     }, []);
 
     // Save preferences to local storage on change
     useEffect(() => {
         if (!loaded) return;
         localStorage.setItem('gameSpherePreferences', JSON.stringify({
-            emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language
+            emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language, cameraPerm, locationPerm, micPerm
         }));
         
-        // Apply accessibility settings directly to document body if running in browser
+        // Apply accessibility settings
         if (typeof window !== 'undefined') {
-            document.documentElement.style.fontSize = textSizing === 'large' ? '110%' : textSizing === 'small' ? '90%' : '100%';
+            const scale = textSizing === 'large' ? '1.1' : textSizing === 'small' ? '0.9' : '1';
+            // Use zoom for a quick robust scaling effect across the app if using px
+            (document.body.style as any).zoom = scale;
+            
             if (highContrast) {
-                document.documentElement.classList.add('high-contrast');
+                document.documentElement.style.filter = 'contrast(1.2) saturate(1.2)';
             } else {
-                document.documentElement.classList.remove('high-contrast');
+                document.documentElement.style.filter = 'none';
             }
         }
-    }, [emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language, loaded]);
+    }, [emailNotifs, pushNotifs, pauseNotifs, sleepMode, highContrast, textSizing, language, cameraPerm, locationPerm, micPerm, loaded]);
 
     // 2FA State
     const [show2FAModal, setShow2FAModal] = useState(false);
@@ -98,10 +102,6 @@ export default function SettingsPage() {
                 weight: user.player?.weight || '',
                 gender: user.player?.gender || ''
             });
-
-            if (user.player) {
-                // Additional player specific states can be configured here if necessary in the future
-            }
         }
     }, [loaded, isAuthenticated, user]);
 
@@ -138,10 +138,8 @@ export default function SettingsPage() {
         }
         setIsUpdatingPassword(true);
         try {
-            // Update in Prisma
             await api.updatePassword({ currentPassword, newPassword });
             
-            // Sync with Supabase if the user has a Supabase session
             const { data } = await supabase.auth.getSession();
             if (data?.session) {
                 await supabase.auth.updateUser({ password: newPassword });
@@ -415,9 +413,30 @@ export default function SettingsPage() {
                         {activeTab === 'device' && (
                             <div>
                                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Device Permission</h2>
-                                <div style={{ color: '#64748b', fontSize: '14px', background: '#f8fafc', padding: '16px', borderRadius: '12px' }}>
-                                    Manage app access to your camera, location, and other device features in your device settings.
-                                </div>
+                                <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px' }}>
+                                    Manage app access to your device features. These settings sync locally and adjust browser prompts.
+                                </p>
+                                {[
+                                    { label: 'Camera Access', desc: 'Allow app to use camera for scanning QR codes and uploading avatars', value: cameraPerm, toggle: () => setCameraPerm(!cameraPerm) },
+                                    { label: 'Location Services', desc: 'Allow app to recommend nearby local tournaments', value: locationPerm, toggle: () => setLocationPerm(!locationPerm) },
+                                    { label: 'Microphone', desc: 'Allow voice search and audio features', value: micPerm, toggle: () => setMicPerm(!micPerm) },
+                                ].map((pref) => (
+                                    <div key={pref.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: '#f8fafc', marginBottom: '10px' }}>
+                                        <div>
+                                            <div style={{ fontWeight: 600, fontSize: '14px' }}>{pref.label}</div>
+                                            <div style={{ fontSize: '12px', color: '#64748b' }}>{pref.desc}</div>
+                                        </div>
+                                        <div onClick={pref.toggle} style={{
+                                            width: '48px', height: '26px', borderRadius: '13px', cursor: 'pointer', position: 'relative', transition: 'background 0.3s',
+                                            background: pref.value ? '#4338ca' : '#e2e8f0',
+                                        }}>
+                                            <div style={{
+                                                width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', transition: 'left 0.3s',
+                                                left: pref.value ? '24px' : '2px', boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+                                            }} />
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         )}
 
@@ -428,7 +447,7 @@ export default function SettingsPage() {
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '12px', background: '#f8fafc', marginBottom: '10px' }}>
                                     <div>
                                         <div style={{ fontWeight: 600, fontSize: '14px' }}>High Contrast Mode</div>
-                                        <div style={{ fontSize: '12px', color: '#64748b' }}>Increase contrast for better readability</div>
+                                        <div style={{ fontSize: '12px', color: '#64748b' }}>Increase contrast for better readability across the app</div>
                                     </div>
                                     <div onClick={() => setHighContrast(!highContrast)} style={{ width: '48px', height: '26px', borderRadius: '13px', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', background: highContrast ? '#4338ca' : '#e2e8f0' }}>
                                         <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', transition: 'left 0.3s', left: highContrast ? '24px' : '2px', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
@@ -437,11 +456,11 @@ export default function SettingsPage() {
 
                                 <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', marginBottom: '10px' }}>
                                     <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>Text Sizing</div>
-                                    <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '12px' }}>Adjust the size of text throughout the app</div>
+                                    <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '12px' }}>Adjust the zoom level of the app for easier reading</div>
                                     <select value={textSizing} onChange={e => setTextSizing(e.target.value)} style={{ padding: '10px 14px', borderRadius: '8px', border: '2px solid #e2e8f0', fontSize: '14px', width: '100%', maxWidth: '200px' }}>
-                                        <option value="small">Small</option>
-                                        <option value="normal">Normal</option>
-                                        <option value="large">Large</option>
+                                        <option value="small">Small (90%)</option>
+                                        <option value="normal">Normal (100%)</option>
+                                        <option value="large">Large (110%)</option>
                                     </select>
                                 </div>
                             </div>
@@ -450,7 +469,11 @@ export default function SettingsPage() {
                         {activeTab === 'language' && (
                             <div>
                                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#1e1b4b', marginBottom: '20px' }}>Language</h2>
-                                <select value={language} onChange={e => setLanguage(e.target.value)} style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', fontWeight: 600, width: '100%', maxWidth: '300px' }}>
+                                <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '16px' }}>Select your preferred language. Changing this will reload the app to apply translations.</p>
+                                <select value={language} onChange={e => {
+                                    setLanguage(e.target.value);
+                                    setTimeout(() => window.location.reload(), 300);
+                                }} style={{ padding: '12px 16px', borderRadius: '10px', border: '2px solid #e2e8f0', fontSize: '14px', fontWeight: 600, width: '100%', maxWidth: '300px', cursor: 'pointer' }}>
                                     <option value="English">English</option>
                                     <option value="Hindi">हिन्दी (Hindi)</option>
                                     <option value="Tamil">தமிழ் (Tamil)</option>
