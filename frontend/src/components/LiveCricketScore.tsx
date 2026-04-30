@@ -170,7 +170,7 @@ export default function LiveCricketScore() {
     const sportCfg = match ? (SPORT_CONFIG[match.sport] || { icon: '🏆', color: '#6366f1' }) : { icon: '🏆', color: '#6366f1' };
 
     return (
-        <div style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+        <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
 
             {/* ── Filter Controls ── */}
             <div style={{
@@ -178,7 +178,7 @@ export default function LiveCricketScore() {
                 alignItems: 'center'
             }}>
                 {/* Category Filters */}
-                <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '16px', scrollbarWidth: 'none' }}>
+                <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '16px', scrollbarWidth: 'none', maxWidth: '100%' }}>
                     {['All', 'Recognised', 'Local'].map(cat => (
                         <button key={cat} onClick={() => { setActiveCategory(cat); setActiveTournament('All'); setActiveTeam('All'); setActiveIdx(0); }}
                             style={{
@@ -226,7 +226,7 @@ export default function LiveCricketScore() {
                 </div>
 
                 {/* ── Sport Filter Pills ── */}
-                <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-start', flexWrap: 'nowrap', width: '100%', maxWidth: '100%', overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: '4px' }}>
+                <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'nowrap', width: '100%', maxWidth: '100%', overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: '4px' }}>
                     {availableSports.map(sport => {
                         const cfg = SPORT_CONFIG[sport] || { icon: '🏆', color: '#6366f1' };
                         const isActive = activeSport === sport;
@@ -256,29 +256,9 @@ export default function LiveCricketScore() {
                 </div>
             </div>
 
-            {/* ── Match Tabs ── */}
-            {filteredMatches.length > 1 && (
-                <div style={{ display: 'flex', gap: '5px', marginBottom: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                    {filteredMatches.slice(0, 8).map((m, i) => (
-                        <button key={m.id} onClick={() => setActiveIdx(i)}
-                            style={{
-                                padding: '4px 10px', borderRadius: '16px', border: '1px solid',
-                                fontSize: '10px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s',
-                                background: safeIdx === i ? '#4f46e5' : '#ffffff',
-                                color: safeIdx === i ? '#ffffff' : '#64748b',
-                                borderColor: safeIdx === i ? '#4f46e5' : '#e2e8f0',
-                                boxShadow: safeIdx === i ? '0 2px 6px rgba(79,70,229,0.2)' : 'none',
-                                display: 'flex', alignItems: 'center', gap: '4px',
-                            }}>
-                            {m.team1.shortName} v {m.team2.shortName}
-                        </button>
-                    ))}
-                </div>
-            )}
-
             {/* ── No Results / Error ── */}
             {filteredMatches.length === 0 && (
-                <div style={{ background: 'rgba(255,255,255,0.95)', borderRadius: '12px', padding: '24px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
+                <div style={{ background: 'rgba(255,255,255,0.95)', borderRadius: '12px', padding: '24px', textAlign: 'center', border: '1px dashed #cbd5e1', maxWidth: '500px', margin: '0 auto' }}>
                     <div style={{ fontSize: '24px', marginBottom: '8px' }}>🏆</div>
                     <div style={{ fontSize: '13px', fontWeight: 700, color: '#475569' }}>
                         {error && matches.length === 0 ? error : (searchQuery ? `No matches found for "${searchQuery}"` : `No ${activeSport === 'All' ? 'live' : activeSport} matches right now`)}
@@ -289,79 +269,93 @@ export default function LiveCricketScore() {
                 </div>
             )}
 
-            {/* ── Main Score Card ── */}
-            {match && <div onClick={() => router.push(`/live-scores?matchId=${match.id}`)} style={{
-                background: '#ffffff', borderRadius: '16px', overflow: 'hidden',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                border: '1px solid #e2e8f0',
-                cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.08)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; }}
-            >
-                {/* Card Header */}
-                <div style={{
-                    padding: '10px 16px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0',
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            {/* ── Match Cards Carousel (Cricbuzz Style) ── */}
+            {filteredMatches.length > 0 && (
+                <div className="match-carousel" style={{ 
+                    display: 'flex', gap: '16px', overflowX: 'auto', padding: '8px 4px 16px', 
+                    scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none',
+                    justifyContent: filteredMatches.length === 1 ? 'center' : 'flex-start'
                 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
-                        {/* Sport Badge */}
-                        <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: '4px',
-                            background: `${sportCfg.color}12`, color: sportCfg.color,
-                            fontSize: '10px', fontWeight: 800, padding: '3px 8px',
-                            borderRadius: '4px', flexShrink: 0,
-                        }}>
-                            {match.sport}
-                        </span>
-                        {match.isLive ? (
-                            <span style={{
-                                display: 'inline-flex', alignItems: 'center', gap: '5px',
-                                background: '#fef2f2', color: '#dc2626', fontSize: '10px',
-                                fontWeight: 800, padding: '3px 8px', borderRadius: '4px',
-                                textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0,
-                            }}>
-                                LIVE
-                            </span>
-                        ) : (
-                            <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 8px', borderRadius: '4px', background: '#f0fdf4', color: '#16a34a', textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>
-                                RESULT
-                            </span>
-                        )}
-                        <span style={{ fontSize: '11px', fontWeight: 600, color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            {match.matchType}
-                        </span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
-                        {refreshing && <div style={{ width: '12px', height: '12px', borderRadius: '50%', border: '2px solid #e2e8f0', borderTopColor: '#6366f1', animation: 'spin 0.8s linear infinite' }} />}
-                        {liveCount > 0 && <span style={{ fontSize: '10px', fontWeight: 700, color: '#dc2626', background: '#fef2f2', padding: '2px 6px', borderRadius: '4px' }}>{liveCount} Live</span>}
-                    </div>
-                </div>
+                    {filteredMatches.map(m => {
+                        const mSportCfg = SPORT_CONFIG[m.sport] || { icon: '🏆', color: '#6366f1' };
+                        return (
+                            <div key={m.id} onClick={() => router.push(`/live-scores?matchId=${m.id}`)} style={{
+                                background: '#ffffff', borderRadius: '16px', overflow: 'hidden',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
+                                border: '1px solid #e2e8f0', flexShrink: 0,
+                                width: '320px', scrollSnapAlign: 'start',
+                                cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s',
+                                display: 'flex', flexDirection: 'column'
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.12)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.06)'; }}
+                            >
+                                {/* Card Header */}
+                                <div style={{
+                                    padding: '10px 16px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
+                                        {/* Sport Badge */}
+                                        <span style={{
+                                            display: 'inline-flex', alignItems: 'center', gap: '4px',
+                                            background: `${mSportCfg.color}12`, color: mSportCfg.color,
+                                            fontSize: '10px', fontWeight: 800, padding: '3px 8px',
+                                            borderRadius: '4px', flexShrink: 0,
+                                        }}>
+                                            {m.sport}
+                                        </span>
+                                        {m.isLive ? (
+                                            <span style={{
+                                                display: 'inline-flex', alignItems: 'center', gap: '5px',
+                                                background: '#fef2f2', color: '#dc2626', fontSize: '10px',
+                                                fontWeight: 800, padding: '3px 8px', borderRadius: '4px',
+                                                textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0,
+                                            }}>
+                                                LIVE
+                                            </span>
+                                        ) : (
+                                            <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 8px', borderRadius: '4px', background: '#f0fdf4', color: '#16a34a', textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0 }}>
+                                                RESULT
+                                            </span>
+                                        )}
+                                        <span style={{ fontSize: '11px', fontWeight: 600, color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                            {m.matchType}
+                                        </span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+                                        {refreshing && <div style={{ width: '12px', height: '12px', borderRadius: '50%', border: '2px solid #e2e8f0', borderTopColor: '#6366f1', animation: 'spin 0.8s linear infinite' }} />}
+                                    </div>
+                                </div>
 
-                {/* Scoreboard */}
-                <div style={{ padding: '14px 16px' }}>
-                    <ScoreRow team={match.team1} sport={match.sport} />
-                    <div style={{ height: '1px', background: '#f1f5f9', margin: '10px 0' }} />
-                    <ScoreRow team={match.team2} sport={match.sport} />
-                </div>
+                                {/* Scoreboard */}
+                                <div style={{ padding: '14px 16px', flex: 1 }}>
+                                    <ScoreRow team={m.team1} sport={m.sport} />
+                                    <div style={{ height: '1px', background: '#f1f5f9', margin: '10px 0' }} />
+                                    <ScoreRow team={m.team2} sport={m.sport} />
+                                </div>
 
-                {/* Footer */}
-                <div style={{ padding: '10px 16px', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
-                    <div style={{ fontSize: '12px', fontWeight: 600, color: match.isLive ? '#dc2626' : '#16a34a', lineHeight: 1.4 }}>
-                        {match.status}
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
-                        <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '60%' }}>
-                            {match.venue && `📍 ${match.venue}`}
-                        </span>
-                        {lastUpdated && (
-                            <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500, flexShrink: 0 }}>
-                                🔄 {lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
-                            </span>
-                        )}
-                    </div>
+                                {/* Footer */}
+                                <div style={{ padding: '10px 16px', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+                                    <div style={{ fontSize: '12px', fontWeight: 600, color: m.isLive ? '#dc2626' : '#16a34a', lineHeight: 1.4 }}>
+                                        {m.status}
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
+                                        <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '60%' }}>
+                                            {m.venue && `📍 ${m.venue}`}
+                                        </span>
+                                        {lastUpdated && (
+                                            <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 500, flexShrink: 0 }}>
+                                                🔄 {lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
-            </div>}
+            )}
 
             {/* View All Link */}
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
