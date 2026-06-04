@@ -72,6 +72,8 @@ export default function TeamsPage() {
 
     const activeTeam = myTeams[activeTeamIdx] || null;
     const roster: any[] = activeTeam?.players || activeTeam?.roster || [];
+    const sportName = activeTeam?.sport?.name || 'Cricket';
+    const sportColor = activeTeam?.sport?.accentColor || '#1e3a8a';
     
     // Determine permissions
     const isManager = activeTeam?.managerId === user?.id;
@@ -304,6 +306,39 @@ export default function TeamsPage() {
                         {/* ═════════ TAB: SQUAD ═════════ */}
                         {activeTab === 'squad' && (
                             <>
+                                {/* Ground Pitch UI */}
+                                <div style={{
+                                    position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto 40px',
+                                    aspectRatio: '3/4', background: sportName.toLowerCase().includes('foot') ? '#22c55e' : '#4ade80',
+                                    borderRadius: '16px', border: '4px solid white', overflow: 'hidden',
+                                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                                }}>
+                                    {/* Ground markings */}
+                                    <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', background: 'rgba(255,255,255,0.5)' }}></div>
+                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80px', height: '80px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.5)' }}></div>
+                                    {/* Pitch for cricket */}
+                                    {!sportName.toLowerCase().includes('foot') && (
+                                        <div style={{ position: 'absolute', top: '30%', bottom: '30%', left: '40%', right: '40%', background: '#d1cebd', borderRadius: '4px' }}></div>
+                                    )}
+                                    {/* Players */}
+                                    <div style={{ position: 'absolute', inset: '10%', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'space-around', gap: '20px' }}>
+                                        {roster.slice(0, 11).map((p: any, i: number) => {
+                                            const name = p.player?.user?.firstName ? `${p.player.user.firstName} ${p.player.user.lastName}` : (p.name || 'Unknown');
+                                            const shortName = name.split(' ').map((n: string) => n[0]).join('').substring(0, 2);
+                                            return (
+                                                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'white', border: `2px solid ${sportColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, color: sportColor, boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
+                                                        {shortName}
+                                                    </div>
+                                                    <div style={{ background: 'rgba(0,0,0,0.6)', color: 'white', fontSize: '10px', padding: '2px 6px', borderRadius: '4px', marginTop: '4px', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                                                        {name.split(' ')[0]}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
                                 {/* Search */}
                                 <div style={{ position: 'relative', width: '100%', maxWidth: '400px', marginBottom: '24px' }}>
                                     <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
