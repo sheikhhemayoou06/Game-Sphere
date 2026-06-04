@@ -30,12 +30,10 @@ export default function TeamsPage() {
 
     const fetchTeams = async () => {
         try {
-            if (selectedSport?.id) {
-                const teams = await api.getMyTeams(selectedSport.id);
-                setMyTeams(teams);
-            } else {
-                setMyTeams([]);
-            }
+            // TEAM role users may not have a selectedSport set (they skip the sport picker).
+            // Fetch with sportId if available, otherwise fetch ALL teams for this user.
+            const teams = await api.getMyTeams(selectedSport?.id || undefined);
+            setMyTeams(Array.isArray(teams) ? teams : []);
         } catch {
             setMyTeams([]);
         } finally {
