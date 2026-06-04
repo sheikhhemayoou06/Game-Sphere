@@ -383,15 +383,19 @@ export default function DashboardPage() {
                     }
                 }
 
-                if (myIds.length > 0) {
-                    // User already has chosen sports — restore selection
+                const restoreSelection = (ids: string[]) => {
                     const savedId = loadSelectedSport();
                     const saved = allSports.find((s: any) => s.id === savedId);
                     if (saved) setSelectedSport(saved);
                     else {
-                        const firstMy = allSports.find((s: any) => myIds.includes(s.id));
+                        const firstMy = allSports.find((s: any) => ids.includes(s.id));
                         if (firstMy) setSelectedSport(firstMy);
                     }
+                };
+
+                if (myIds.length > 0) {
+                    // User already has chosen sports — restore selection
+                    restoreSelection(myIds);
                     setHydratingSports(false);
                 } else if (isOwnerRole) {
                     // Try hydrating from owner's governed sports
@@ -399,13 +403,24 @@ export default function DashboardPage() {
                         if (ownerSports && ownerSports.length > 0) {
                             const newIds = ownerSports.map((s: any) => s.id);
                             newIds.forEach((id: string) => addMySport(id));
-                            const firstMy = allSports.find((s: any) => newIds.includes(s.id));
-                            if (firstMy) setSelectedSport(firstMy);
+                            restoreSelection(newIds);
                         }
                     }).catch(() => { })
                         .finally(() => setHydratingSports(false));
                 } else {
-                    setHydratingSports(false);
+                    // LAST RESORT: Fetch fresh profile from API to check if user has sports registered
+                    api.getProfile().then((freshUser: any) => {
+                        const ps = freshUser?.player?.playerSports;
+                        if (ps && ps.length > 0) {
+                            const freshIds = ps.map((s: any) => s.sportId);
+                            freshIds.forEach((id: string) => addMySport(id));
+                            restoreSelection(freshIds);
+                            // Also refresh auth store with the latest user data
+                            const token = localStorage.getItem('token');
+                            if (freshUser && token) useAuthStore.getState().setAuth(freshUser, token);
+                        }
+                    }).catch(() => { })
+                        .finally(() => setHydratingSports(false));
                 }
             }).catch(() => {
                 setHydratingSports(false);
@@ -440,8 +455,8 @@ export default function DashboardPage() {
     }, []);
 
     // Show sport picker overlay when user hasn't chosen any sports yet
-    // Skip this overlay completely for Admin and Organizer roles
-    const showSportPicker = availableSports.length > 0 && mySportIds.length === 0 && roleGroup !== 'organizer' && roleGroup !== 'admin';
+    // Skip this overlay completely for Admin, Organizer, and Team roles
+    const showSportPicker = availableSports.length > 0 && mySportIds.length === 0 && roleGroup !== 'organizer' && roleGroup !== 'admin' && roleGroup !== 'team';
 
     // User's chosen sports (filtered from all available)
     const mySports = availableSports.filter((s: any) => mySportIds.includes(s.id));
@@ -449,7 +464,7 @@ export default function DashboardPage() {
     const remainingSports = availableSports.filter((s: any) => !mySportIds.includes(s.id));
 
     // Do not block dashboard rendering on sports hydration for users who don't need to pick a sport
-    if (!loaded || !isAuthenticated || (hydratingSports && roleGroup !== 'organizer' && roleGroup !== 'admin')) {
+    if (!loaded || !isAuthenticated || (hydratingSports && roleGroup !== 'organizer' && roleGroup !== 'admin' && roleGroup !== 'team')) {
         return (
             <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
                 <RunningAthleteLoader />
