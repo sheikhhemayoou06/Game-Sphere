@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 type TabKey = 'overview' | 'stats' | 'teams' | 'achievements' | 'history';
+type TeamTabKey = 'overview' | 'squad' | 'tournaments' | 'transfers' | 'achievements';
 
 /* ═══════ DEFAULT EMPTY STATS ═══════ */
 const EMPTY_CRICKET = {
@@ -51,6 +52,7 @@ export default function PlayerProfilePage() {
     const router = useRouter();
 
     const [activeTab, setActiveTab] = useState<TabKey>('overview');
+    const [teamTab, setTeamTab] = useState<TeamTabKey>('overview');
     const [showSecondaryStats, setShowSecondaryStats] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -66,14 +68,35 @@ export default function PlayerProfilePage() {
     const [achievements, setAchievements] = useState<any[]>([]);
     const [injuries] = useState<any[]>([]);
 
-    /* ── Redirect TEAM role users ── */
+    /* ── Team Portal Data ── */
+    const [myTeams, setMyTeams] = useState<any[]>([]);
+    const [teamMatches, setTeamMatches] = useState<any[]>([]);
+    const [teamTournaments, setTeamTournaments] = useState<any[]>([]);
+    const [teamTransfers, setTeamTransfers] = useState<any[]>([]);
+    const [activeTeam, setActiveTeam] = useState<any>(null);
+    const isTeamRole = user?.role === 'TEAM';
+
+    /* ── Fetch team data for TEAM role users ── */
     useEffect(() => {
-        if (user?.role === 'TEAM') {
-            api.getMyTeams?.()?.then?.((teams: any[]) => {
-                if (Array.isArray(teams) && teams.length > 0) router.replace(`/teams/${teams[0].id}`);
-            }).catch(() => { });
-        }
-    }, [user, router]);
+        if (!isTeamRole) return;
+        const fetchTeamData = async () => {
+            try {
+                const teams = await api.getMyTeams?.();
+                if (Array.isArray(teams) && teams.length > 0) {
+                    setMyTeams(teams);
+                    // Fetch full details for the first team
+                    const fullTeam = await api.getTeam(teams[0].id);
+                    setActiveTeam(fullTeam);
+                    // Fetch matches
+                    const allMatches = await api.getMatches?.().catch(() => []) || [];
+                    const tMatches = allMatches.filter((m: any) => m.homeTeamId === teams[0].id || m.awayTeamId === teams[0].id);
+                    setTeamMatches(tMatches);
+                    setTeamTournaments(fullTeam?.tournaments || []);
+                }
+            } catch (err) { console.error('Team data fetch error:', err); }
+        };
+        fetchTeamData();
+    }, [isTeamRole]);
 
     /* ── Force refresh profile ── */
     useEffect(() => {
@@ -216,6 +239,25 @@ export default function PlayerProfilePage() {
         { key: 'history', label: 'History', icon: History },
     ];
 
+    const TEAM_TAB_CONFIG: { key: TeamTabKey; label: string; icon: any }[] = [
+        { key: 'overview', label: 'Overview', icon: Info },
+        { key: 'squad', label: 'Squad', icon: Users },
+        { key: 'tournaments', label: 'Tournaments', icon: Trophy },
+        { key: 'transfers', label: 'Transfers', icon: ArrowRightLeft },
+        { key: 'achievements', label: 'Awards', icon: Award },
+    ];
+
+    /* ── Team Portal derived stats ── */
+    const teamRoster = activeTeam?.players || [];
+    const teamCompletedMatches = teamMatches.filter((m: any) => m.winnerTeamId || m.status === 'COMPLETED');
+    const teamWins = teamCompletedMatches.filter((m: any) => m.winnerTeamId === activeTeam?.id).length;
+    const teamLosses = teamCompletedMatches.filter((m: any) => m.winnerTeamId && m.winnerTeamId !== activeTeam?.id).length;
+    const teamRecentForm = teamCompletedMatches.slice(0, 5).map((m: any) => {
+        if (m.winnerTeamId === activeTeam?.id) return 'W';
+        if (m.winnerTeamId) return 'L';
+        return 'D';
+    });
+
     const totalMatches = profile.totalMatches || 0;
     const totalWins = profile.totalWins || 0;
     const winRate = totalMatches > 0 ? Math.round((totalWins / totalMatches) * 100) : 0;
@@ -319,6 +361,229 @@ export default function PlayerProfilePage() {
         return null;
     };
 
+    /* ═══════════════════════════════════════════════════════════════
+       TEAM PORTAL RENDER — completely different layout for TEAM role
+       ═══════════════════════════════════════════════════════════════ */
+    if (isTeamRole && activeTeam) {
+        const sportName2 = activeTeam.sport?.name || 'Sports';
+        const sportColor2 = activeTeam.sport?.accentColor || '#1e3a8a';
+        const captainObj = teamRoster.find((p: any) => (p.position || p.role || '').toLowerCase().includes('captain'));
+        const captainName = captainObj ? (captainObj.user ? `${captainObj.user.firstName} ${captainObj.user.lastName}` : captainObj.name) : 'Not Assigned';
+        const coachStr = activeTeam.coach || 'Not Assigned';
+
+        return (
+            <div style={{ minHeight: '100vh', background: '#f1f5f9', paddingBottom: '80px', fontFamily: 'Inter, sans-serif' }}>
+                <style>{`
+                    .team-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+                    .team-content { max-width: 1000px; margin: 20px auto 0; padding: 0 20px; }
+                    .team-tab-bar { display: flex; justify-content: center; min-width: max-content; gap: 4px; max-width: 1000px; margin: 0 auto; }
+                    .team-tab-btn { padding: 14px 20px; border: none; background: none; cursor: pointer; font-size: 13px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+                    @media (max-width: 640px) {
+                        .team-stat-grid { grid-template-columns: repeat(2, 1fr); }
+                        .team-tab-btn { padding: 12px 12px; font-size: 11px; gap: 4px; }
+                        .team-content { padding: 0 12px; margin-top: 14px; }
+                    }
+                `}</style>
+                <PageNavbar title="The Team" />
+
+                {/* ── Team Hero Header ── */}
+                <div style={{ background: 'linear-gradient(135deg, #4c1d95, #7c3aed)', padding: '30px 20px', color: 'white' }}>
+                    <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                        <div style={{ width: '100px', height: '100px', borderRadius: '16px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '36px', fontWeight: 900, color: sportColor2, boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>
+                            {activeTeam.logo && activeTeam.logo.startsWith('http') ? (
+                                <img src={activeTeam.logo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} />
+                            ) : activeTeam.name?.charAt(0) || '⚡'}
+                        </div>
+                        <div style={{ flex: 1, minWidth: '200px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+                                <div>
+                                    <h2 style={{ fontSize: '28px', fontWeight: 900, margin: '0 0 4px', letterSpacing: '-0.5px' }}>{activeTeam.name}</h2>
+                                    {activeTeam.teamCode && <div style={{ fontSize: '12px', color: '#c4b5fd', fontWeight: 600, letterSpacing: '0.5px', marginBottom: '8px' }}>UID: {activeTeam.teamCode}</div>}
+                                    <p style={{ fontSize: '13px', color: '#ddd6fe', margin: '0 0 12px', maxWidth: '400px', lineHeight: 1.4 }}>
+                                        {activeTeam.description || `The official profile of ${activeTeam.name}. Competing fiercely to bring glory home.`}
+                                    </p>
+                                </div>
+                                <Link href="/settings" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 16px', borderRadius: '8px', fontWeight: 700, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}>
+                                    <Settings size={14} /> Manage
+                                </Link>
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px 24px', fontSize: '13px', color: '#ddd6fe', marginTop: '16px' }}>
+                                <div><span style={{ color: '#a78bfa' }}>Sport:</span> <strong style={{ color: 'white' }}>{sportName2}</strong></div>
+                                <div><span style={{ color: '#a78bfa' }}>Captain:</span> <strong style={{ color: 'white' }}>{captainName}</strong></div>
+                                <div><span style={{ color: '#a78bfa' }}>Coach:</span> <strong style={{ color: 'white' }}>{coachStr}</strong></div>
+                                <div><span style={{ color: '#a78bfa' }}>Squad:</span> <strong style={{ color: 'white' }}>{teamRoster.length} Players</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ── Team Tab Navigation ── */}
+                <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: '53px', zIndex: 90, overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                    <div className="team-tab-bar">
+                        {TEAM_TAB_CONFIG.map(({ key, label, icon: Icon }) => (
+                            <button key={key} onClick={() => setTeamTab(key)} className="team-tab-btn" style={{
+                                fontWeight: teamTab === key ? 800 : 600,
+                                color: teamTab === key ? '#7c3aed' : '#64748b',
+                                borderBottom: teamTab === key ? '3px solid #7c3aed' : '3px solid transparent',
+                            }}>
+                                <Icon size={16} /> {label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* ── Team Content Area ── */}
+                <div className="team-content">
+
+                    {/* ═══ OVERVIEW ═══ */}
+                    {teamTab === 'overview' && (
+                        <div style={{ display: 'grid', gap: '16px' }}>
+                            <div className="team-stat-grid">
+                                {[
+                                    { label: 'Matches', val: teamCompletedMatches.length },
+                                    { label: 'Won', val: teamWins, color: '#16a34a' },
+                                    { label: 'Lost', val: teamLosses, color: '#dc2626' },
+                                    { label: 'Squad', val: teamRoster.length, color: '#7c3aed' },
+                                ].map((s, i) => (
+                                    <div key={i} style={{ background: 'white', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
+                                        <div style={{ fontSize: '24px', fontWeight: 900, color: s.color || '#0f172a', lineHeight: 1 }}>{s.val}</div>
+                                        <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginTop: '6px' }}>{s.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Recent Form */}
+                            <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px' }}>Recent Form</h3>
+                                {teamRecentForm.length > 0 ? (
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        {teamRecentForm.map((result, i) => (
+                                            <div key={i} style={{ width: '32px', height: '32px', borderRadius: '8px', background: result === 'W' ? '#16a34a' : result === 'L' ? '#dc2626' : '#94a3b8', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>{result}</div>
+                                        ))}
+                                    </div>
+                                ) : <div style={{ fontSize: '13px', color: '#64748b' }}>No recent matches played.</div>}
+                            </div>
+
+                            {/* Quick Actions */}
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
+                                {[
+                                    { label: 'Browse Tournaments', href: '/tournaments', icon: <Trophy size={20} />, gradient: 'linear-gradient(135deg, #4c1d95, #7c3aed)' },
+                                    { label: 'Player Auction', href: '/auction', icon: <Crown size={20} />, gradient: 'linear-gradient(135deg, #92400e, #f59e0b)' },
+                                    { label: 'Transfers', href: '/transfers', icon: <ArrowRightLeft size={20} />, gradient: 'linear-gradient(135deg, #14532d, #166534)' },
+                                    { label: 'Payments', href: '/payments', icon: <Star size={20} />, gradient: 'linear-gradient(135deg, #0c4a6e, #0ea5e9)' },
+                                ].map((card, i) => (
+                                    <Link key={i} href={card.href} style={{ textDecoration: 'none', padding: '18px', borderRadius: '14px', background: card.gradient, display: 'flex', alignItems: 'center', gap: '12px', color: 'white', transition: 'transform 0.2s' }}>
+                                        {card.icon}
+                                        <span style={{ fontWeight: 700, fontSize: '14px' }}>{card.label}</span>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* ═══ SQUAD ═══ */}
+                    {teamTab === 'squad' && (
+                        <div>
+                            {teamRoster.length === 0 ? (
+                                <div style={{ padding: '60px', textAlign: 'center', background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                                    <Users size={40} color="#cbd5e1" style={{ margin: '0 auto 16px', display: 'block' }} />
+                                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a' }}>No players yet</div>
+                                    <div style={{ fontSize: '14px', color: '#64748b', marginTop: '4px' }}>Start building your squad by adding players.</div>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+                                    {teamRoster.map((p: any, i: number) => {
+                                        const name = p.user ? `${p.user.firstName} ${p.user.lastName}` : (p.name || 'Unknown');
+                                        const initials = p.user ? `${p.user.firstName?.[0] || ''}${p.user.lastName?.[0] || ''}` : (p.name?.[0] || '?');
+                                        const position = p.position || p.role || 'Player';
+                                        const isCaptain = position.toLowerCase().includes('captain');
+                                        return (
+                                            <div key={p.id || i} style={{ padding: '16px', borderRadius: '12px', background: 'white', border: `1px solid ${isCaptain ? '#fde68a' : '#e2e8f0'}`, display: 'flex', alignItems: 'center', gap: '14px' }}>
+                                                <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: isCaptain ? 'linear-gradient(135deg, #f59e0b, #d97706)' : 'linear-gradient(135deg, #7c3aed, #a855f7)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '15px', flexShrink: 0 }}>{initials}</div>
+                                                <div style={{ flex: 1 }}>
+                                                    <div style={{ fontWeight: 700, fontSize: '14px', color: '#1e1b4b', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                        {name}
+                                                        {isCaptain && <span style={{ fontSize: '10px', background: '#f59e0b', color: 'white', padding: '2px 6px', borderRadius: '4px' }}>C</span>}
+                                                    </div>
+                                                    <div style={{ fontSize: '12px', color: '#64748b' }}>{position}{p.jersey ? ` • #${p.jersey}` : ''}</div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* ═══ TOURNAMENTS ═══ */}
+                    {teamTab === 'tournaments' && (
+                        <div style={{ display: 'grid', gap: '12px' }}>
+                            {teamTournaments.length === 0 ? (
+                                <div style={{ padding: '60px', textAlign: 'center', background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                                    <Trophy size={40} color="#cbd5e1" style={{ margin: '0 auto 16px', display: 'block' }} />
+                                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a' }}>No tournaments yet</div>
+                                    <div style={{ fontSize: '14px', color: '#64748b', marginTop: '4px', marginBottom: '20px' }}>Browse and apply for tournaments to get started.</div>
+                                    <Link href="/tournaments" style={{ padding: '10px 24px', background: '#7c3aed', color: 'white', borderRadius: '10px', fontWeight: 700, fontSize: '14px', textDecoration: 'none' }}>Browse Tournaments</Link>
+                                </div>
+                            ) : teamTournaments.map((tt: any, i: number) => (
+                                <Link key={i} href={`/tournaments/${tt.tournament?.id || tt.tournamentId}`} style={{ textDecoration: 'none', background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                    <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #4c1d95, #7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0 }}><Trophy size={22} /></div>
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e1b4b' }}>{tt.tournament?.name || 'Tournament'}</div>
+                                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>{tt.tournament?.status || 'Active'}</div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* ═══ TRANSFERS ═══ */}
+                    {teamTab === 'transfers' && (
+                        <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}><ArrowRightLeft size={18} color="#7c3aed" /> Transfer Activity</h3>
+                            {teamTransfers.length === 0 ? (
+                                <div style={{ padding: '30px', textAlign: 'center' }}>
+                                    <ArrowRightLeft size={40} color="#cbd5e1" />
+                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No transfer activity yet.</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    {teamTransfers.map((tr: any, i: number) => (
+                                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '10px', background: '#f8fafc' }}>
+                                            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ArrowRightLeft size={16} color="#16a34a" /></div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e1b4b' }}>{tr.fromTeam?.name || 'Free Agent'} → {tr.toTeam?.name || 'Unknown'}</div>
+                                                <div style={{ fontSize: '11px', color: '#94a3b8' }}>{tr.requestedAt ? new Date(tr.requestedAt).toLocaleDateString() : '—'}</div>
+                                            </div>
+                                            <span style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 700, background: tr.status === 'APPROVED' ? '#f0fdf4' : tr.status === 'PENDING' ? '#fffbeb' : '#fef2f2', color: tr.status === 'APPROVED' ? '#16a34a' : tr.status === 'PENDING' ? '#d97706' : '#dc2626' }}>{tr.status}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* ═══ ACHIEVEMENTS ═══ */}
+                    {teamTab === 'achievements' && (
+                        <div style={{ display: 'grid', gap: '16px' }}>
+                            <div style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px' }}>
+                                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}><Crown size={18} color="#f59e0b" /> Team Trophies</h3>
+                                <div style={{ padding: '30px', textAlign: 'center' }}>
+                                    <Trophy size={40} color="#cbd5e1" />
+                                    <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '12px' }}>No trophies yet. Keep competing!</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                </div>
+            </div>
+        );
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PLAYER / OTHER ROLE PROFILE RENDER
+       ═══════════════════════════════════════════════════════════════ */
     return (
         <div style={{ minHeight: '100vh', background: '#f1f5f9', paddingBottom: '80px', fontFamily: 'Inter, sans-serif' }}>
             <style>{`

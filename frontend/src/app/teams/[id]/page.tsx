@@ -159,7 +159,7 @@ export default function PublicTeamProfilePage() {
         <div style={{ minHeight: '100vh', background: '#f1f5f9', paddingBottom: '80px', fontFamily: 'Inter, sans-serif' }}>
             {/* Header / Navbar */}
             <PageNavbar 
-                title={isOwner ? "My Profile" : "Team Profile"} 
+                title={isOwner ? "The Team" : "Team Profile"} 
                 rightContent={isOwner && (
                     <button onClick={() => {
                         setEditForm({ description: team.description || '', coachName: coachStr !== 'Not Assigned' ? coachStr : '', captainName: captainName !== 'Not Assigned' ? captainName : '' });

@@ -1193,7 +1193,7 @@ export default function DashboardPage() {
                                     }}>
                                         {(user?.firstName?.[0] || 'T').toUpperCase()}
                                     </div>
-                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>Profile</div>
+                                    <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b' }}>The Team</div>
                                 </div>
 
                                 {/* Sport Dropdown Popup */}
