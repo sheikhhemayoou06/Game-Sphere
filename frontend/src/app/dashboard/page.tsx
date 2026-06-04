@@ -318,7 +318,7 @@ export default function DashboardPage() {
             // Refresh the user session in local storage to hydrate the newly added sport metadata
             try {
                 const updatedUser = await api.getProfile();
-                const token = localStorage.getItem('token');
+                const token = sessionStorage.getItem('token');
                 if (updatedUser && token) {
                     useAuthStore.getState().setAuth(updatedUser, token);
                 }
@@ -352,7 +352,7 @@ export default function DashboardPage() {
     useEffect(() => {
         if (loaded && isAuthenticated) {
             api.getProfile().then((userData) => {
-                const currentToken = localStorage.getItem('token');
+                const currentToken = sessionStorage.getItem('token');
                 if (userData && currentToken) {
                     useAuthStore.getState().setAuth(userData, currentToken);
                 }
@@ -416,7 +416,7 @@ export default function DashboardPage() {
                             freshIds.forEach((id: string) => addMySport(id));
                             restoreSelection(freshIds);
                             // Also refresh auth store with the latest user data
-                            const token = localStorage.getItem('token');
+                            const token = sessionStorage.getItem('token');
                             if (freshUser && token) useAuthStore.getState().setAuth(freshUser, token);
                         }
                     }).catch(() => { })

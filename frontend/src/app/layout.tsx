@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import SessionSync from "@/components/SessionSync";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -23,7 +22,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <SessionSync />
         {children}
       </body>
     </html>

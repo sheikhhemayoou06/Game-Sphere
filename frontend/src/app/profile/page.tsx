@@ -78,7 +78,7 @@ export default function PlayerProfilePage() {
     /* ── Force refresh profile ── */
     useEffect(() => {
         api.getProfile().then((updatedUser: any) => {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (updatedUser && token) useAuthStore.getState().setAuth(updatedUser, token);
         }).catch(() => { }).finally(() => setLoading(false));
     }, []);

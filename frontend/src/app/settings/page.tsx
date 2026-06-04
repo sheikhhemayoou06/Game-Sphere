@@ -125,7 +125,7 @@ export default function SettingsPage() {
     const handleSave = async () => {
         try {
             const updatedUser = await api.updateProfile(form);
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (updatedUser && token) {
                 useAuthStore.getState().setAuth(updatedUser, token);
             }
@@ -204,7 +204,7 @@ export default function SettingsPage() {
         try {
             await api.turnOnTwoFactorAuth({ token: twoFactorCode });
             setShow2FAModal(false);
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const updatedProfile = await api.getProfile();
             if (token) {
                 useAuthStore.getState().setAuth(updatedProfile, token);

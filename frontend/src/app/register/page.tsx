@@ -174,8 +174,8 @@ export default function RegisterWizard() {
                 const res = await api.register(finalPayload) as any;
                 
                 // Add token exactly as it's returned to ensure api calls work seamlessly right away
-                localStorage.setItem('token', res.accessToken); 
-                localStorage.setItem('user', JSON.stringify(res.user));
+                sessionStorage.setItem('token', res.accessToken); 
+                sessionStorage.setItem('user', JSON.stringify(res.user));
                 setAuth(res.user, res.accessToken);
                 
                 // Add Selected Sports
@@ -228,8 +228,8 @@ export default function RegisterWizard() {
             const res = await api.register(finalPayload) as any;
             
             // Temporary token placement here as well to be certain addMySport passes through
-            localStorage.setItem('token', res.accessToken); 
-            localStorage.setItem('user', JSON.stringify(res.user));
+            sessionStorage.setItem('token', res.accessToken); 
+            sessionStorage.setItem('user', JSON.stringify(res.user));
             setAuth(res.user, res.accessToken);
             
             // Add Selected Sports

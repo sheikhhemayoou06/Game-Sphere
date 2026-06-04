@@ -29,30 +29,30 @@ export const useAuthStore = create<AuthState>((set) => ({
     token: null,
     isAuthenticated: false,
     setAuth: (user, token) => {
-        const currentUserStr = localStorage.getItem('user');
+        const currentUserStr = sessionStorage.getItem('user');
         const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null;
         
         // Clear any old session state ONLY if logging in as a completely different user
         if (!currentUser || currentUser.id !== user.id) {
-            localStorage.removeItem('selectedSportId');
-            localStorage.removeItem('mySportIds');
-            localStorage.removeItem('activeTournament');
+            sessionStorage.removeItem('selectedSportId');
+            sessionStorage.removeItem('mySportIds');
+            sessionStorage.removeItem('activeTournament');
         }
 
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('user', JSON.stringify(user));
         set({ user, token, isAuthenticated: true });
     },
     logout: () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('selectedSportId');
-        localStorage.removeItem('mySportIds');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('selectedSportId');
+        sessionStorage.removeItem('mySportIds');
         set({ user: null, token: null, isAuthenticated: false });
     },
     loadFromStorage: () => {
-        const token = localStorage.getItem('token');
-        const userStr = localStorage.getItem('user');
+        const token = sessionStorage.getItem('token');
+        const userStr = sessionStorage.getItem('user');
         if (token && userStr) {
             try {
                 const user = JSON.parse(userStr);
@@ -97,31 +97,31 @@ export const useSportStore = create<SportSelectionState>((set, get) => ({
     mySportIds: [],
     activeTournament: null,
     setSelectedSport: (sport) => {
-        localStorage.setItem('selectedSportId', sport.id);
+        sessionStorage.setItem('selectedSportId', sport.id);
         set({ selectedSport: sport, activeTournament: null }); // Clearing tournament when sport changes
     },
     setAvailableSports: (sports) => {
         set({ availableSports: sports });
     },
     loadSelectedSport: () => {
-        return localStorage.getItem('selectedSportId');
+        return sessionStorage.getItem('selectedSportId');
     },
     addMySport: (sportId) => {
         const current = get().mySportIds;
         if (!current.includes(sportId)) {
             const updated = [...current, sportId];
-            localStorage.setItem('mySportIds', JSON.stringify(updated));
+            sessionStorage.setItem('mySportIds', JSON.stringify(updated));
             set({ mySportIds: updated });
         }
     },
     removeMySport: (sportId) => {
         const updated = get().mySportIds.filter(id => id !== sportId);
-        localStorage.setItem('mySportIds', JSON.stringify(updated));
+        sessionStorage.setItem('mySportIds', JSON.stringify(updated));
         set({ mySportIds: updated });
     },
     loadMySportIds: () => {
         try {
-            const saved = localStorage.getItem('mySportIds');
+            const saved = sessionStorage.getItem('mySportIds');
             const ids = saved ? JSON.parse(saved) : [];
             set({ mySportIds: ids });
             return ids;
@@ -130,16 +130,16 @@ export const useSportStore = create<SportSelectionState>((set, get) => ({
         }
     },
     setActiveTournament: (tournament) => {
-        localStorage.setItem('activeTournament', JSON.stringify(tournament));
+        sessionStorage.setItem('activeTournament', JSON.stringify(tournament));
         set({ activeTournament: tournament });
     },
     clearActiveTournament: () => {
-        localStorage.removeItem('activeTournament');
+        sessionStorage.removeItem('activeTournament');
         set({ activeTournament: null });
     },
     loadActiveTournament: () => {
         try {
-            const saved = localStorage.getItem('activeTournament');
+            const saved = sessionStorage.getItem('activeTournament');
             const tournament = saved ? JSON.parse(saved) : null;
             set({ activeTournament: tournament });
             return tournament;

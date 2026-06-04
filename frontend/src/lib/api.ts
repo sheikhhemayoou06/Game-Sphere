@@ -18,7 +18,7 @@ const getApiUrl = () => {
 };
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const token = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
 
     const headers: Record<string, string> = {
         'Content-Type': 'application/json',
@@ -268,7 +268,7 @@ export const api = {
     registerPlayerSport: (playerId: string, sportId: string) =>
         request<any>(`/players/${playerId}/sports`, { method: 'POST', body: JSON.stringify({ sportId }) }),
     addMySport: (sportId: string, metadata?: any) => {
-        const userStr = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+        const userStr = typeof window !== 'undefined' ? sessionStorage.getItem('user') : null;
         const user = userStr ? JSON.parse(userStr) : null;
         if (!user || (!user.id && !user.player?.id)) throw new Error("User not found");
         const playerId = user.player?.id || user.id; // Ensure we hit the right endpoint

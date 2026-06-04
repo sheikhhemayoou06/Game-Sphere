@@ -74,7 +74,7 @@ export default function PlayerProfilePage() {
                 ? `http://${window.location.hostname}:4000/api` : (process.env.NEXT_PUBLIC_API_URL || '/api');
 
             fetch(`${apiUrl}/auth/user/${id}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
             })
                 .then((r) => r.json())
                 .then((data) => setPlayer(data))

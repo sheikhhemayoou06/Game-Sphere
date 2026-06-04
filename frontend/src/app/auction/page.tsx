@@ -70,7 +70,7 @@ export default function AuctionPage() {
         let currentUserId = user?.id;
         if (!currentUserId) {
             try {
-                const stored = localStorage.getItem('user');
+                const stored = sessionStorage.getItem('user');
                 if (stored) currentUserId = JSON.parse(stored).id;
             } catch { }
         }
