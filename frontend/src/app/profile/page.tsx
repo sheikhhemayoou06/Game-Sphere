@@ -362,7 +362,7 @@ export default function PlayerProfilePage() {
                     .prof-trophy-grid { grid-template-columns: 1fr; }
                 }
             `}</style>
-            <PageNavbar title={user?.role === 'TEAM' ? "Team Portal" : user?.role === 'ORGANIZER' ? "Organizer Portal" : user?.role === 'OFFICIAL' ? "Official Portal" : "My Profile"} />
+            <PageNavbar title={user?.role === 'TEAM' ? "The Team" : user?.role === 'ORGANIZER' ? "Organizer Portal" : user?.role === 'OFFICIAL' ? "Official Portal" : "My Profile"} />
 
             {/* ── Cricbuzz-Style Hero Header ── */}
             <div className="prof-header" style={{ background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', color: 'white' }}>
