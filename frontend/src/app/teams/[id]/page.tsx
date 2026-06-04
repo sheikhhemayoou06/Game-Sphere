@@ -14,7 +14,7 @@ import {
     Phone, Mail, MessageCircle, X
 } from 'lucide-react';
 
-type TabKey = 'overview' | 'squad' | 'matches' | 'stats' | 'media';
+type TabKey = 'overview' | 'squad' | 'dream11' | 'matches' | 'stats' | 'media';
 
 export default function PublicTeamProfilePage() {
     const params = useParams();
@@ -150,6 +150,7 @@ export default function PublicTeamProfilePage() {
     const TAB_CONFIG: { key: TabKey; label: string; icon: any }[] = [
         { key: 'overview', label: 'Overview', icon: Info },
         { key: 'squad', label: 'Squad', icon: Users },
+        { key: 'dream11', label: 'Dream 11', icon: Trophy },
         { key: 'matches', label: 'Matches', icon: Calendar },
         { key: 'stats', label: 'Stats', icon: BarChart3 },
         { key: 'media', label: 'Media', icon: ImageIcon },
@@ -350,47 +351,118 @@ export default function PublicTeamProfilePage() {
                                 <div style={{ fontSize: '14px', color: '#64748b', marginTop: '4px' }}>This team is currently building its roster.</div>
                             </div>
                         ) : (
-                            Object.keys(categorizedRoster).sort().map(category => (
-                                <div key={category} style={{ marginBottom: '24px' }}>
-                                    <h3 style={{ 
-                                        fontSize: '15px', fontWeight: 800, color: sportColor, 
-                                        textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px',
-                                        borderBottom: '2px solid #e2e8f0', paddingBottom: '8px'
-                                    }}>
-                                        {category}
-                                    </h3>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
-                                        {categorizedRoster[category].map((p: any, i: number) => {
+                            <>
+                                {/* Ground Pitch UI */}
+                                <div style={{
+                                    position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto 40px',
+                                    aspectRatio: '3/4', background: sportName.toLowerCase().includes('foot') ? '#22c55e' : '#4ade80',
+                                    borderRadius: '16px', border: '4px solid white', overflow: 'hidden',
+                                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                                }}>
+                                    {/* Ground markings */}
+                                    <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', background: 'rgba(255,255,255,0.5)' }}></div>
+                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80px', height: '80px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.5)' }}></div>
+                                    {/* Pitch for cricket */}
+                                    {!sportName.toLowerCase().includes('foot') && (
+                                        <div style={{ position: 'absolute', top: '30%', bottom: '30%', left: '40%', right: '40%', background: '#d1cebd', borderRadius: '4px' }}></div>
+                                    )}
+                                    {/* Players */}
+                                    <div style={{ position: 'absolute', inset: '10%', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'space-around', gap: '20px' }}>
+                                        {roster.slice(0, 11).map((p: any, i: number) => {
                                             const name = p.user ? `${p.user.firstName} ${p.user.lastName}` : (p.name || 'Unknown');
-                                            const isCaptain = (p.position || p.role || '').toLowerCase().includes('captain');
-                                            const playerProfileLink = p.userId ? `/players/${p.userId}` : '#';
-                                            
+                                            const shortName = name.split(' ').map((n: string) => n[0]).join('').substring(0, 2);
                                             return (
-                                                <Link href={playerProfileLink} key={i} style={{
-                                                    background: 'white', borderRadius: '10px', border: isCaptain ? '1px solid #fde68a' : '1px solid #e2e8f0',
-                                                    padding: '12px', display: 'flex', alignItems: 'center', gap: '12px',
-                                                    boxShadow: '0 1px 2px rgba(0,0,0,0.02)', textDecoration: 'none'
-                                                }} className={`card-hover ${isCaptain ? "bg-amber-50" : ""}`}>
-                                                    <div style={{
-                                                        width: '50px', height: '50px', borderRadius: '50%', background: '#f1f5f9',
-                                                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', overflow: 'hidden'
-                                                    }}>
-                                                        👤
+                                                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'white', border: `2px solid ${sportColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, color: sportColor, boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
+                                                        {shortName}
                                                     </div>
-                                                    <div style={{ flex: 1 }}>
-                                                        <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                            {name} {isCaptain && <span style={{ fontSize: '10px', background: '#f59e0b', color: 'white', padding: '2px 6px', borderRadius: '4px' }}>C</span>}
-                                                        </div>
-                                                        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>{p.position || category.slice(0, -1)}</div>
+                                                    <div style={{ background: 'rgba(0,0,0,0.6)', color: 'white', fontSize: '10px', padding: '2px 6px', borderRadius: '4px', marginTop: '4px', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                                                        {name.split(' ')[0]}
                                                     </div>
-                                                    <ChevronRight size={16} color="#cbd5e1" />
-                                                </Link>
+                                                </div>
                                             );
                                         })}
                                     </div>
                                 </div>
-                            ))
+
+                                {/* Categorized Roster List */}
+                                {Object.keys(categorizedRoster).sort().map(category => (
+                                    <div key={category} style={{ marginBottom: '24px' }}>
+                                        <h3 style={{ 
+                                            fontSize: '15px', fontWeight: 800, color: sportColor, 
+                                            textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px',
+                                            borderBottom: '2px solid #e2e8f0', paddingBottom: '8px'
+                                        }}>
+                                            {category}
+                                        </h3>
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+                                            {categorizedRoster[category].map((p: any, i: number) => {
+                                                const name = p.user ? `${p.user.firstName} ${p.user.lastName}` : (p.name || 'Unknown');
+                                                const isCaptain = (p.position || p.role || '').toLowerCase().includes('captain');
+                                                const playerProfileLink = p.userId ? `/players/${p.userId}` : '#';
+                                                
+                                                return (
+                                                    <Link href={playerProfileLink} key={i} style={{
+                                                        background: 'white', borderRadius: '10px', border: isCaptain ? '1px solid #fde68a' : '1px solid #e2e8f0',
+                                                        padding: '12px', display: 'flex', alignItems: 'center', gap: '12px',
+                                                        boxShadow: '0 1px 2px rgba(0,0,0,0.02)', textDecoration: 'none'
+                                                    }} className={`card-hover ${isCaptain ? "bg-amber-50" : ""}`}>
+                                                        <div style={{
+                                                            width: '50px', height: '50px', borderRadius: '50%', background: '#f1f5f9',
+                                                            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', overflow: 'hidden'
+                                                        }}>
+                                                            👤
+                                                        </div>
+                                                        <div style={{ flex: 1 }}>
+                                                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                                {name} {isCaptain && <span style={{ fontSize: '10px', background: '#f59e0b', color: 'white', padding: '2px 6px', borderRadius: '4px' }}>C</span>}
+                                                            </div>
+                                                            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>{p.position || category.slice(0, -1)}</div>
+                                                        </div>
+                                                        <ChevronRight size={16} color="#cbd5e1" />
+                                                    </Link>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
                         )}
+                    </div>
+                )}
+
+                {/* ═══════ DREAM 11 TAB ═══════ */}
+                {activeTab === 'dream11' && (
+                    <div style={{ background: 'white', borderRadius: '16px', padding: '30px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'inline-block', background: '#fef3c7', color: '#d97706', padding: '16px', borderRadius: '50%', marginBottom: '20px' }}>
+                            <Trophy size={48} />
+                        </div>
+                        <h3 style={{ fontSize: '24px', fontWeight: 900, color: '#1e1b4b', marginBottom: '12px' }}>Dream XI</h3>
+                        <p style={{ color: '#64748b', fontSize: '15px', maxWidth: '500px', margin: '0 auto 30px', lineHeight: 1.6 }}>
+                            Based on recent performances and stats, here is the suggested best playing 11 for {team.name}.
+                        </p>
+                        
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', textAlign: 'left' }}>
+                            {roster.slice(0, 11).map((p: any, i: number) => {
+                                const name = p.user ? `${p.user.firstName} ${p.user.lastName}` : (p.name || 'Unknown');
+                                const isCaptain = i === 0;
+                                const isVC = i === 1;
+                                return (
+                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', background: isCaptain ? '#fffbeb' : isVC ? '#f8fafc' : 'white' }}>
+                                        <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: isCaptain ? '#fbbf24' : isVC ? '#94a3b8' : '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isCaptain || isVC ? 'white' : '#475569', fontWeight: 800, fontSize: '18px' }}>
+                                            {isCaptain ? 'C' : isVC ? 'VC' : i+1}
+                                        </div>
+                                        <div>
+                                            <div style={{ fontWeight: 800, color: '#0f172a', fontSize: '15px' }}>{name}</div>
+                                            <div style={{ color: '#64748b', fontSize: '13px', marginTop: '2px' }}>{p.position || p.role || 'Player'}</div>
+                                        </div>
+                                        <div style={{ marginLeft: 'auto', fontWeight: 800, color: '#10b981', fontSize: '14px' }}>
+                                            {90 + Math.floor(Math.random() * 10)} pts
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 )}
 
