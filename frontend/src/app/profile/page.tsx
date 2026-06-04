@@ -189,9 +189,20 @@ export default function PlayerProfilePage() {
 
     const primaryPlayerSport = playerSports.find((ps: any) => ps.sport?.name?.toLowerCase() === sportName.toLowerCase()) || playerSports[0];
     const metadata = primaryPlayerSport?.metadata ? (typeof primaryPlayerSport.metadata === 'string' ? JSON.parse(primaryPlayerSport.metadata) : primaryPlayerSport.metadata) : {};
-    const playerRole = metadata.role || metadata.position || '—';
+    
+    // Override Role for Non-Players
+    let playerRole = metadata.role || metadata.position || '—';
+    if (user?.role === 'TEAM') playerRole = 'Team Manager';
+    else if (user?.role === 'ORGANIZER') playerRole = 'Tournament Organizer';
+    else if (user?.role === 'OFFICIAL') playerRole = 'Match Official';
+
     const battingStyle = metadata.battingStyle || '—';
     const bowlingStyle = metadata.bowlingStyle || 'None';
+
+    const defaultBio = user?.role === 'TEAM' ? `${sportName} Team Manager. Ready to lead the squad to victory.` :
+                       user?.role === 'ORGANIZER' ? `${sportName} Tournament Organizer. Managing top-tier events.` :
+                       user?.role === 'OFFICIAL' ? `${sportName} Match Official. Ensuring fair play.` :
+                       `${sportName} ${playerRole !== '—' ? playerRole : 'player'}. Passionate about sports and always ready for a challenge.`;
 
     const cs = careerStats.cricket;
     const fs = careerStats.football;
@@ -351,7 +362,7 @@ export default function PlayerProfilePage() {
                     .prof-trophy-grid { grid-template-columns: 1fr; }
                 }
             `}</style>
-            <PageNavbar title="My Profile" />
+            <PageNavbar title={user?.role === 'TEAM' ? "Team Portal" : user?.role === 'ORGANIZER' ? "Organizer Portal" : user?.role === 'OFFICIAL' ? "Official Portal" : "My Profile"} />
 
             {/* ── Cricbuzz-Style Hero Header ── */}
             <div className="prof-header" style={{ background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', color: 'white' }}>
@@ -366,7 +377,7 @@ export default function PlayerProfilePage() {
                             <div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
                                     <h2 className="prof-name">
-                                        {user?.firstName || 'Player'} {user?.lastName || ''}
+                                        {user?.firstName || (user?.role === 'TEAM' ? 'Team' : 'Player')} {user?.lastName || ''}
                                     </h2>
                                     {user?.isVerified && (
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '3px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: 700, border: '1px solid rgba(56, 189, 248, 0.3)' }}>
@@ -380,7 +391,7 @@ export default function PlayerProfilePage() {
                                     </div>
                                 )}
                                 <p className="prof-bio" style={{ fontSize: '13px', color: '#cbd5e1', margin: '0 0 12px 0', maxWidth: '400px', lineHeight: 1.4 }}>
-                                    {profile.bio || `${sportName} ${playerRole !== '—' ? playerRole : 'player'}. Passionate about sports and always ready for a challenge.`}
+                                    {profile.bio || defaultBio}
                                 </p>
                             </div>
                             <Link href="/settings" className="prof-edit-btn" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 16px', borderRadius: '8px', fontWeight: 700, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}>
