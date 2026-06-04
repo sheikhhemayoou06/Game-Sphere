@@ -96,20 +96,77 @@ export class TeamsService {
         });
     }
 
-    async removePlayer(teamId: string, playerId: string) {
+    async removePlayer(teamId: string, playerId: string, userId: string) {
+        const team = await this.prisma.team.findUnique({
+            where: { id: teamId },
+            include: {
+                players: {
+                    include: { player: true }
+                }
+            }
+        });
+        
+        if (!team) throw new NotFoundException('Team not found');
+
+        // Check if user is manager, or is the player being removed, or is a captain
+        const isManager = team.managerId === userId;
+        const playerBeingRemoved = team.players.find(p => p.playerId === playerId);
+        const isSelf = playerBeingRemoved?.player.userId === userId;
+        const currentUserAsPlayer = team.players.find(p => p.player.userId === userId);
+        const isCaptain = currentUserAsPlayer?.role?.toLowerCase().includes('captain');
+
+        if (!isManager && !isSelf && !isCaptain) {
+            throw new ForbiddenException('Only the team manager or captain can remove players');
+        }
+
         return this.prisma.teamPlayer.delete({
             where: { teamId_playerId: { teamId, playerId } },
         });
     }
 
+    async updatePlayerRole(teamId: string, playerId: string, userId: string, role: string) {
+        const team = await this.prisma.team.findUnique({
+            where: { id: teamId },
+            include: { players: { include: { player: true } } }
+        });
+
+        if (!team) throw new NotFoundException('Team not found');
+
+        const isManager = team.managerId === userId;
+        const currentUserAsPlayer = team.players.find(p => p.player.userId === userId);
+        const isCaptain = currentUserAsPlayer?.role?.toLowerCase().includes('captain');
+
+        if (!isManager && !isCaptain) {
+            throw new ForbiddenException('Only the team manager or captain can update roles');
+        }
+
+        return this.prisma.teamPlayer.update({
+            where: { teamId_playerId: { teamId, playerId } },
+            data: { role },
+        });
+    }
+
     async getMyTeams(userId: string, sportId?: string) {
-        const where: any = { managerId: userId };
+        const where: any = {
+            OR: [
+                { managerId: userId },
+                { players: { some: { player: { userId } } } }
+            ]
+        };
         if (sportId) where.sportId = sportId;
 
         return this.prisma.team.findMany({
             where,
             include: {
+                manager: { select: { id: true, firstName: true, lastName: true } },
                 sport: true,
+                players: {
+                    include: {
+                        player: {
+                            include: { user: { select: { id: true, firstName: true, lastName: true, avatar: true } } },
+                        },
+                    },
+                },
                 _count: { select: { players: true, tournaments: true } },
             },
         });

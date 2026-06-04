@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Query, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Put, Patch, Delete, Param, Body, Query, UseGuards, Request } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { OwnerDashboardService } from './owner-dashboard.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -61,7 +61,18 @@ export class TeamsController {
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id/players/:playerId')
-    removePlayer(@Param('id') teamId: string, @Param('playerId') playerId: string) {
-        return this.teamsService.removePlayer(teamId, playerId);
+    removePlayer(@Param('id') teamId: string, @Param('playerId') playerId: string, @Request() req: any) {
+        return this.teamsService.removePlayer(teamId, playerId, req.user.sub);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch(':id/players/:playerId/role')
+    updatePlayerRole(
+        @Param('id') teamId: string,
+        @Param('playerId') playerId: string,
+        @Body() data: { role: string },
+        @Request() req: any
+    ) {
+        return this.teamsService.updatePlayerRole(teamId, playerId, req.user.sub, data.role);
     }
 }

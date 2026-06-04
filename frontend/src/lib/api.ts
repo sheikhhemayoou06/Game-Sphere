@@ -163,6 +163,8 @@ export const api = {
         request<any>(`/teams/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     leaveTeam: (teamId: string, playerId: string) =>
         request<any>(`/teams/${teamId}/players/${playerId}`, { method: 'DELETE' }),
+    updatePlayerRole: (teamId: string, playerId: string, role: string) =>
+        request<any>(`/teams/${teamId}/players/${playerId}/role`, { method: 'PATCH', body: JSON.stringify({ role }) }),
 
     // Rankings
     getRankings: (params?: Record<string, string>) => {
